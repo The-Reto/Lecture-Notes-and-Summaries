@@ -1,0 +1,346 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[ngerman]{babel}
+\usepackage{siunitx}
+\usepackage{amsmath}   
+\usepackage[version=3]{mhchem}
+\usepackage[
+    backend=biber,
+    style=numeric,
+  ]{biblatex}
+\usepackage{physics}
+\usepackage{amssymb}
+\usepackage{tcolorbox}
+\usepackage{mathtools}
+\usepackage[margin=2cm]{geometry}
+
+\newtcolorbox{redbox}[1]{colback=red!5!white,colframe=red!75!black,fonttitle=\bfseries,title=#1}
+\newtcolorbox{greenbox}[1]{colback=green!5!white,colframe=green!75!black,fonttitle=\bfseries,title=#1}
+\newtcolorbox{bluebox}[1]{colback=blue!5!white,colframe=blue!75!black,fonttitle=\bfseries,title=#1}
+\newtcolorbox{graybox}[1]{colback=black!5!white,colframe=black!75!black,fonttitle=\bfseries,title=#1}
+\addbibresource{sources.bib}
+\graphicspath{ {/} }
+\DeclareSIUnit \parsec {pc}
+\DeclareSIUnit \lightyear {ly}
+\DeclareSIUnit \year {yr}
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+\title{10878 Physik der Kondensierten Materie\\
+        \large Summary
+        }
+\author{Reto Flütsch}
+\date{HS 2020}
+
+\begin{document}
+
+\maketitle
+    
+\chapter*{Introduction}
+\section*{On this document}
+I type this document \emph{during} the lectures with minimal editing between lectures - there \emph{are A LOT of errors}, spelling mistakes and typos. 
+\section*{Information about this Course}
+all lectures online, exercises online Tue 8:15 to 10:00 in two groups\\
+nanophononics.physik.unibas.ch/pages/teaching.htm and adam will hold the presentations\\
+Exercises 30 points per sheet 60\% of points required, hand in on thursday till 12am before lectures. Released on Friday. Links for exercise class will be sent by assistants.\\
+
+Written exam on 20.01.2021 10:00 - 12:00, 5 pages double a4 handwritten notes and non-programmable calculator. Exam is based on exercise sheets. \\
+
+Course mostly based on The Oxford Solid State Basics, Steven H. Simon. Some parts based on other books.
+
+
+\tableofcontents
+\newpage
+\chapter{Heat in Solids}
+\section{Introduction}
+What is condensed Matter physics and why is it important? \\
+We deal in solids and liquids Condensed: interactions between atoms win over entropy. Key question is how to reproduce the properties of matter which is a many body problem. Currently the largest subfield of Physics.\\
+
+Intro question: \emph{Which keeps coffee warmest?}
+\begin{itemize}
+	\item Steel Cup \\
+	\item Ceramic Cup \\
+	\item Glass Cup 
+\end{itemize}
+The Steel cup looses, electrical conducters are also good thermal conductors. Glass acctually has the lowest thermal conductivity, yet the ceramic cup still wins. Why? \\
+It's not only the thermal conductivity that matters, it's also the heat capacity that matters, and in this regard ceramics are almost unbeatable.\\
+\section{Heat Capacity - Definitions}
+Heat Capacity is how much heat can you store in a material per change in temperature. \[
+C = \frac{\partial U}{\partial T}
+.\] Specific heat $c_v$ is the heat capacity per unit volume. $C_{N_a}$ is the heat capacity per mole, as it's otherwise per atom. \\
+We will only deal with the Heat Capacity at constant presure and volume. \[
+C_P \approx C_V = C
+.\] We will now derive the Heat Capacity in a solid from the Heat Capacity in a Gas \[
+\frac{C_V}{N} = \frac{3}{2} K_B \text{ for a momo-atomic gas}
+.\]
+Multiplying by $N_A$ yields: $C_V = \frac{3}{2} R$.
+\section{Dulong-Petit}
+Purely observational law for many solids: \[
+C = 3 K_B \text{ per atom}
+\] \[
+C = 3 R
+.\] Works pretty well for many materials at room temperature (notable exception is Diamond).\\
+Where did the law for Gas come from? Equipartition system, each degree of freedom gets equal amount of the internal energy $\frac{1}{2} K_B T$. In a Gas there are $3$ degrees of Freedom (three elements of momentum). \\
+For solids there are an additional $3$ degrees of freedom from the potential energy (positional degrees of freedom) \[
+3 \text{ degrees of freedom from kinetic energy} + 3 \text{ degrees of freedom from potential energy}= 6 \text{ degrees of freedom}
+.\] \[
+U = \frac{3+3}{2} K_B T
+.\] \[
+C = \frac{\partial U}{\partial T} = 3 K_B \text{ per atom}
+.\]  \[
+\implies C = 3 R \text{ per mole}
+.\] 
+This 'law' fails for very low temperatures for all materials, and for some (notably diamond) it even fails completely.
+\section{Einstein Model}
+Assumes the particles are oscilating around their positional groundstate, and uses the expectation value of the potential energy instead of its' groundstate energy.\\
+We assume the atoms are in a harmonic potential well and behave like harmonic oscilators with energy eigenstaten $E_m = \hbar \omega \left( n + \frac{1}{2} \right) $. (Einstein did not include the factor $+ \frac{1}{2}$ as QM was not yet dicovered). \\
+We introduce the \emph{Partition Function} $Z$, which describes the distribution among all possible microstates of a system. This function is extremly important in statistical mechanics and can be used to derive most macroscopic properties. It is given by: \[
+	Z = \sum_{n=0}^{\infty} \exp\left( -\beta E_n \right) 
+.\] With $\beta = \frac{1}{K_BT}$. \\
+We can use the partition function for example to calculate the probability to find a system in a certain microstate as $P(E_n) = \frac{\exp\left( -\beta E_n \right)}{Z} $. We can thus write the expectation value of the energy as \[
+	<E> = \sum_{n=0}^{\infty} P\left( E_n \right) E_n = \frac{1}{Z} \sum_{n=0}^{\infty} E_n \exp\left( -\beta E_n \right) 
+.\] Looking at this result we realize that \[
+\frac{\partial Z}{\partial \beta} = \sum_{n=0}^{\infty} -E_n \exp\left( -\beta E_n \right) 
+\] \[
+\implies <E> = -\frac{1}{Z} \frac{\partial Z}{\partial \beta}
+.\] This is the more general form of the energy expectation in terms of the partition function. \\
+For the harmonic oscilator where $E_n = \hbar \omega \left( n + \frac{1}{2} \right) $ we therefore get: \[
+	Z = \sum_{n=0}^{\infty} \exp\left( -\beta \hbar \omega \left( n + \frac{1}{2} \right)  \right) 
+\] \[
+= \exp\left( -\frac{\beta \hbar \omega}{2} \right) * \sum_{n=0}^{\infty} \exp\left( -\beta \hbar \omega n \right) = \exp\left( \frac{-\beta \hbar \omega}{2} \right) * \sum_{n=0}^{\infty} \exp\left( -\beta \hbar \omega \right) ^n
+\] we recognize a geometric series and rewrite \[
+Z = \exp\left( -\frac{\beta \hbar \omega}{2} \right) * \frac{1}{1- \exp\left( -\beta \hbar \omega \right) } = \frac{1}{\exp\left( \frac{\beta \hbar \omega}{2} \right) + \exp\left(-  \frac{\beta \hbar \omega}{2} \right) } = \frac{1}{2 \sinh\left( \frac{\beta \hbar \omega}{2} \right) }
+.\] For the energy expectatation value we thus get \[
+<E> = -\frac{1}{Z} \frac{\partial Z}{\partial \beta} = - \frac{\hbar \omega}{2} \coth\left( -\frac{\beta \hbar \omega}{2} \right) 
+.\] Introducing the \emph{Bose occupation factor} $n_B(x) = \frac{1}{\exp\left( x \right) -1}$ we get \[
+<E> = \hbar \omega \left( n_B\left( \beta \hbar \omega \right) + \frac{1}{2} \right) 
+.\] In this calculation we have only considered a one-dimensional harmonic oscilator, in reality we have to consider the three-dimensional case. In three dimensions the expectation value for the energy is three times higher \[
+<E_{3d}> = 3 <E_{1d}> = 3 \hbar \omega \left( n_B\left( \beta \hbar \omega \right) + \frac{1}{2} \right) 
+.\] According to definition the Heat capacity is given by \[
+c = \frac{\partial <E>}{\partial T} = K_B \left( \beta \hbar \omega \right) ^2 \frac{\exp\left( \beta \hbar \omega \right) }{\left[ \exp\left( \beta \hbar \omega \right) -1  \right] ^2}
+.\] We will now investigate this new expression in the limit for very big and very small temperatures: \[
+\lim_{T \to \infty} c = \lim_{\beta \to 0} c = 3K_B \text{ for big temperatures we recover the Dulong-Petit Law as expected}
+\]  \[
+\lim_{T \to 0} c = \lim_{\beta \to \infty} c = 0 \text{ for very small Temperatures the model predicts an exponential decay.}
+\] 
+This approximation models all materials at high and low temperatures, but still fails at very low temperatures, where it predicts a exponential decay, where in experimets a decay $\propto T^3$ is measured.
+\section{Debye Model of Solids}
+Assumes that atoms at the bottom of their potential well oscillate not independently from each other, but are coppeled in a collective motion. Simmilar to sound waves. \\
+QM was not yot discovered, but the quantisation of light was known, Debye thus applied that same line of thinking to sound waves. It's important to note, that soundwaves, contrary to lightwaves can also have a longitudional part.\\
+We will treat waves in a finite solid with periodic boundary conditions. We define a periodic space onwhich there is a periodicity such that all waves are same at $x=0$ and $x=L$. Thus only wavelength of the foarm \[
+\lambda_m = \frac{2L}{m} \text{ are allowed}
+.\] The Wavelengths of the 'allowed' waves are given by \[
+K = \frac{2\pi m}{L}
+.\] Whenever we want to treat the sum over 'all possible' values of $k$ we can replace the sum over all $k$ with an integral (provwided that $L$ is big) \[
+\sum_{k} \to \frac{L}{2\pi} \int_{-\infty}^{\infty}dk
+.\] In three dimensions this integral is over the three dimensional $k$-space \[
+\sum_{k} \to \left( \frac{L}{2\pi}^3 \right) \int d^3k
+.\] \\
+Debye assumed that the oscillation modes in a solid behave like sound waves, and therefor have a linear dispersion relation \[
+	\omega(k) = v \abs{k}
+.\] The only adaptation to Einstein we have to do, is to integrate over all possible $k$.
+\[
+	<E> = 3 \sum_{k} \hbar \omega(\vec{k}) \left( n_B(\beta \hbar \omega(\vec{k})) + \frac{1}{2} \right) 
+.\] \[
+\implies <E> = 3 \frac{L^3}{\left( 2\pi \right) ^3} \int \hbar \omega(\vec{k}) \left( n_B(\beta \hbar \omega(\vec{k})) + \frac{1}{2} \right) d\vec{k}
+.\] By switching to spherical coordinates we get $\int d\vec{k} \to 4\pi \int_0^{\infty} k^2 dk$ \[
+\implies <E> = \frac{3(4\pi)L^3}{(2\pi)^3} \int_0^{\infty} k^2 \hbar \omega \left( n_B(\beta \hbar \omega) +\frac{1}{2} \right) 
+.\] We now use the dispersion relation and insert $\omega = vk$ \[
+\implies v dk = d\omega \text{ and } k^2 = \frac{\omega^2}{v^2}
+.\] \[
+\implies <E> = 3 \frac{4 \pi L^3}{(2\pi)^3} \int_0^{\infty} \omega^2 \frac{1}{v^3} \hbar \omega \left( n_B(\beta \hbar \omega) + \frac{1}{2} \right) d\omega
+.\] If a solid has $n$-atoms per unit volume then a cube of side $L$ has a total of $N$ atoms. $\to N = n L^3 \implies L^3 = \frac{N}{n}$. \[
+\implies <E> = \int_0^{\infty} \left( \frac{12 \pi \omega^2 N}{ (2 \pi)^3 n} \right) \frac{1}{v^3} \hbar \omega \left( n_B(\beta \hbar \omega) + \frac{1}{2} \right) d\omega 
+.\] 
+ If we define the density of States as \[
+	 g(\omega) = N \left( \frac{12 \pi \omega^2}{\left( 2 \pi \right) ^3 n v^3} \right) 
+ .\] We can rewrite the energy expectation as \[
+ <E> = \int_0^{\infty} g(\omega) \hbar \omega \left( n_B(\beta \hbar \omega) + \frac{1}{2} \right) 
+ .\] The density of states $g(\omega)$ is a factor weighing ow many states that there are at a given frequency. The Integral is thus just equal to the density of the states times the energy of the states at a given frequencyp.\\
+ If we further define a Debye frequency $\omega_D = 6 \pi^2 n v^3$ we can further simplify the density $g(\omega) = N \frac{9 \omega^2}{\omega_D^3}$. \\
+ The final result for the energy expectation is thus: \[
+	 <E>_{tot} = \frac{9 N \hbar}{\omega_D^3} \int_0^{\infty} \frac{\omega^3}{\exp\left( \beta \hbar \omega \right) - 1} d\omega
+ .\] Note: we have left out the factor of $\frac{1}{2}$, because we will differentiate later and it'd fall out anyway (also leaving it in creates unnecessary mathematical difficulties).\\
+ To solve the integral we make a change of variables \[
+ x = \beta \hbar \omega \to \frac{dx}{\beta \hbar} = d\omega
+ .\] The solution is still very tedious, the final result is given by \[
+ <E> = 9N \frac{(K_BT)^4}{(\hbar \omega_D)^3} \left( \frac{\pi^4}{15} \right) 
+ .\] We therefore get \[
+ C = \frac{\partial <E>}{\partial T} = \ldots \propto T^3
+ .\] Debye thus correctly models the low temperature regime ($T^3$ dependence) but fails for high temperatures, and does not converge to the Dulang-Petit. \\
+ The problem of the Debye model is that we were integrating over an infinite number of modes, but in reality there can never be an infinite amount of modes. \[
+	 \text{No. of modes} = \int_0^{\infty} g(\omega) \to \infty
+ .\] Debye thus introduced a 'cutoff frequency' such that the total number of modes are equal to the total number of degrees of freedom \[
+ 3N = \int_0^{\omega_{cutoff}} g(\omega)d\omega
+ .\] With this correction we get \[
+ <E> = \int_0^{\omega_c} g(\omega) \hbar \omega n_B(\beta \hbar \omega) d\omega
+ .\] At high temperatures we thus get: \[
+ T \to \infty \implies n_B(\beta \hbar \omega) \to K_B \frac{T}{\hbar \omega}
+ .\] \[
+ \implies <E> = K_B T \int_0^{\omega_c} g(\omega) d\omega = 2 K_B T N 
+ .\] \[
+ \implies C = 3NK_B = 3R \text{ (Dulang-Petit!)}
+ .\] It's a bi tad-hoc, but it works.\\
+ We acctually find that the cutoff frequency is equal to the Debye frequency \[
+	 \omega_{cutoff} = \omega_D
+ .\] 
+The final result of Debye is thus: \[
+	<E>_{tot} = \int_0^{\omega_c} g(\omega) \left( n_B(\beta \hbar \omega) + \frac{1}{2} \right) 
+.\] 
+The Debye model is the first model that does not feature a fitting parameter. Unfortunatelly there are still some problems:
+\begin{itemize}
+	\item $\omega_{cutoff}$ is an unexplained ad hoc correction
+	\item The dispersion relation used $\omega = vk$ does not hold at high temperature
+	\item There are still some exotic material that are not modelled cerrectly
+	\item For metals the heat capacity $c$ at low temperatures is different: $c \propto \alpha T^3 + \gamma T$. \\
+		Only the $T^3$ dependence is moddeled correctly by the Debye model.
+\end{itemize}
+
+\chapter{Drude Theory}
+Developed three years after the discovery of electrons. To accurately describe metals we have to take the electron $e^-$ into account. \\
+Drude applies the kinetic theory of Bolzman to electrons, a few assumptions are neccesary: 
+\begin{itemize}
+	\item There are collisions among electrons with a scattering time $\tau$. The probability of scattering is given by $\frac{dt}{\tau}$
+	\item After scattering the momentum $\vec{p}_{final} = 0$. This obviously only holds on average across many collisions
+	\item If there are electric and magnetic fields $\vec{E}$ $\vec{M}$ the electrons will interact with them
+\end{itemize}
+While assumptions 1 and 3 are also valid in gasses, the third assumption obviously only holds for electrons.
+\section{Relaxation Time Approximation}
+We consider a electron traveling through a cristal with momentum $\vec{p}$. After some time a scattering event occures, after this event it has a new momentum $\vec{p}\left( t + \delta t \right) $.
+We first consider all the electrons that collide in the time $\delta t$. The probability is given as $\frac{\delta t}{\tau}$, according to the second assumption, those electrons will end up with $\vec{p}=0$.\\
+Electrons that don't collide. The probability of no collision is given as $1 - \frac{\delta t}{\tau}$. When an electron does not collide, it will accelerate due to the force acting on it $\vec{F} = m_e a = \frac{d \vec{p}}{dt}$. The force can naturally vary with time $\to \vec{F} + O(t)$. \[
+	\implies \delta\vec{p} = \vec{F} \delta t + O\left( \delta t^2 \right) 
+.\] What we search is $\vec{p}\left( t + \delta t \right) $. \[
+\vec{p}\left( t+ \delta t \right) = \frac{\delta t}{\tau} \vec{p}_{final} + \left( 1-\frac{\delta t}{\tau} \right) \left[ \vec{p}(t) + \vec{F}(t)\delta t + O\left( \delta t^2 \right)  \right]
+.\] The first term is $0$ because of assumption 2 \[
+\implies \vec{p}\left( t + \delta t \right) = \left( 1- \frac{\delta t}{\tau} \right) \left[ \vec{p}(t) + \vec{F}(t) \delta t \right) = \vec{p}(t) + \vec{F}(t) \delta t - \frac{\delta t}{\tau}\vec{p}(t)
+.\] \[
+\implies \frac{d\vec{p}(t)}{dt} = \vec{F} - \frac{\vec{p}(t)}{\tau}
+.\] This result is called the relaxation time equation of the drude model. We know that \[
+\vec{F} = -e\left( \vec{E} + \vec{v} \cross \vec{B} \right) 
+.\] The other term $\vec{p}/\tau$ can be understood as a kind of drag on the electrons.\\
+As an example we consider $\vec{F} = 0$ and get \[
+	\frac{d\vec{p}(t)}{dt} = - \frac{\vec{p}(t)}{\tau} \implies \vec{p}(t) = \vec{p_0} \exp\left( - \frac{t}{\tau} \right) 
+.\] 
+On average the momentum $\vec{p}$ tends to zero (due to scattering) in absence of no external force $\vec{F}$.\\
+\section{$e^-$ in electric fields - Drude conductivity}
+We recall ohm's law $\vec{j} = \sigma \vec{E}$. We assume that we have $\vec{E} \neq 0$ but $\vec{B} = 0$ $\implies \vec{F} = -e\vec{E}$. We thus get \[
+	\frac{d\vec{p}}{dt} = -e \vec{E} - \frac{\vec{p}}{\tau}
+.\] We are interested in a steady state $\frac{d\vec{p}}{dt}=0$ \[
+\implies \vec{p} = -e \tau \vec{E} = m \vec{v}
+.\] \[
+\implies \vec{v} = -\frac{e\tau}{m_e}\vec{E}
+.\] We now use ohm's law with current density $\vec{J} = -ne\vec{v}$, with the electron density $n$. \[
+\vec{J} = -ne\vec{v} = -ne\left( - \frac{e\tau}{m_e} \vec{E} \right) = \frac{n e^2 \tau}{m_e} \vec{E} = \sigma \vec{E}
+.\] \[
+\implies \sigma_{drude} = \frac{ne^2\tau}{m_e}
+.\] 
+The conclusion of this part, is that if you can measure $\sigma_{drude}$ you can use it to measure the electron density in a material.
+\section{$e^-$ in $\vec{E}$ and $\vec{B}$ - Hall effect in the Drude model}
+\[
+	\vec{F} = -e\left( \vec{E} + \vec{v} \cross \vec{B} \right) 
+.\] \[
+\implies \frac{d\vec{p}}{dt} = - e\left( \vec{E} + \vec{v} \cross \vec{B} \right) - \frac{\vec{p}}{\tau}
+.\] Again we are interested in the steady state. \[
+-e\vec{E} - e \vec{v}\cross \vec{B} - \frac{\vec{p}}{\tau} = 0
+.\] \[
+\implies -e\vec{E} + \frac{\vec{J} \cross \vec{B}}{n} + \frac{m_e}{ne\tau}\vec{J} = 0
+	.\] We assume that $\vec{B} = -B_z \vec{e_z}$. We then take a piece of metal with dimensions $L_x$, $L_y$, and $L_z$, and run a current trough the metal aleng the $X$-axis a $\implies \vec{J} = J_x \vec{e_x}$, thus we also know that $\vec{E} = E_x \vec{e_x} + E_y \vec{e_y}$ will only have components in the X/Y-Plane.
+\[
+	\text{X component: } eE_x = 0 + \frac{m_e}{ne\tau}J_x \implies E_x = \frac{m_e}{ne^2\tau}J_x				
+\] \[
+\text{y component: } eE_y = \frac{J_x B_z}{n} + 0 \implies E_y = \frac{B_z J_x}{n e}
+.\] \[
+\text{z component: } 0 = 0 + 0
+.\] We know that $\vec{J} = \sigma \vec{E} = \frac{1}{\rho} \vec{E}$ but we now see that the restance $\rho $ depends on the direction (aka. is a matrix). \[
+\rho_{x x} = \frac{E_x}{J_x} = \frac{ne^2 \tau }{m_e}
+\]\[
+\rho_{x y} = \frac{E_y}{J_x} = - \frac{B}{n e}
+\] The really important coefficient is $\rho_{x y}$ (the longitudinal resistivity $\rho_{x x}$ is expected). We call $\rho_{x y}$ the Hall resistivity, which means that there is a voltage along Y that we call Hall voltage. \\
+The Hall effect thus is the effect, that when applying a magnetic field pependicular to a current density we suddenly measure a voltage perpendicular to both. This effect is used for a variety of measurements.\\
+We define the Hall coefficient:  \[
+	R_H = \frac{\rho_{xy}}{ |B| } = - \frac{1}{ne}
+.\] How can the Hall effect can acctually be used? 
+\begin{itemize}
+	\item Hall sensors to measure magnetic fields $\vec{B}$.\\
+		If $n$, $e$ and $\vec{J}$ are known we can use the Hall effect to measure a magnetic field. Note: High Hall voltages are easier to measure, for such sensors we want to choose materials with a big Hall coefficient $R_H = -\frac{1}{ne}$, aka. with small $n$ (semiconductors).
+	\item If we know $\vec{B}$ and $\vec{J}$ we can measure the electron density.
+\end{itemize}
+\section{Heat Capacity due to $e^-$}
+We study a cylinder that we are heating on one end. There will be a heat flow $\vec{Q}$ and a heat flux, or heat current density, $\vec{J}_Q = \frac{\text{energy}}{\text{time} * \text{area}}$.\[
+J_Q = - \kappa \grad T
+.\] Druede assuemes that the heat in metals is only transported by the electorns, and he describes electrons with the kinetic theory of gasses. \[
+\kappa = \frac{1}{3} n C <v> \lambda = \frac{1}{2} n c <v>^2 \tau
+.\] With $\lambda = <v> \tau$ the distance an electron will travel before scattering. From the last Lecture we know that $\frac{C}{N}= \frac{3}{2} K_B$. We also know an expression for the velocity $<v^2> = \frac{3K_BT}{m_e}$ \[
+\implies \kappa = n \frac{3}{2} \frac{K_B^2T}{m_e} \tau
+.\] Note: we assumed $<v^2> = <v>^2$ which does not hold generally and will lead to problems later on. The question now is: how do we find $\tau$?\\
+From earlier we know $\sigma_{Drude} = \frac{ne^2\tau}{me}$ we thus consider \[
+	\text{Lorenz number: } L_{Drude} = \frac{\kappa}{\sigma T} = \frac{3}{2} \left( \frac{K_B}{e} \right)^2 \frac{1}{T}
+.\] We call the ratio between $\kappa$ and $\sigma$ the Wiedeman-Franz ratio \[
+\frac{\kappa}{\sigma} = \frac{3}{2} \left( \frac{K_B}{e} \right) ^2
+.\] The Wiedeman-Franz law states that \[
+LT = \frac{\kappa}{\sigma}
+.\] Thus we know that in metals thermal conductivity $\kappa$ and electircal conductivity $\sigma$ are proportional to each other. The interisting thing is that the Lorenz number has another definition \[
+L = \frac{\pi^2 K_B^2}{3 e^2} \approx 2*L_{Drude}
+.\] Even with the factor of $2$ the Drude model is still a success because previously it was unexplained why the Wiedeman-Franz law even holds (previously it was only known experimentaly). The exact value of the Lorenz number given above comes from modern quantum mechanical calculations.
+\section{Thermoelectric Properties - how the Drude model fails}
+Conversion of Heat into electricity.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
