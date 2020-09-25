@@ -38,7 +38,8 @@
     
 \chapter*{Introduction}
 \section*{On this document}
-I type this document \emph{during} the lectures with minimal editing between lectures - there \emph{are A LOT of errors}, spelling mistakes and typos. 
+This document are my personal notes on the lecture 01878 Physik der Kondensierten Materie at Uni Basel in the Fall semester 2020.
+I type this document \emph{during} the lectures (while the Proffesors speak) with minimal editing between lectures - there \emph{are A LOT of errors}, spelling mistakes and typos. 
 \section*{Information about this Course}
 all lectures online, exercises online Tue 8:15 to 10:00 in two groups\\
 nanophononics.physik.unibas.ch/pages/teaching.htm and adam will hold the presentations\\
@@ -284,11 +285,71 @@ LT = \frac{\kappa}{\sigma}
 L = \frac{\pi^2 K_B^2}{3 e^2} \approx 2*L_{Drude}
 .\] Even with the factor of $2$ the Drude model is still a success because previously it was unexplained why the Wiedeman-Franz law even holds (previously it was only known experimentaly). The exact value of the Lorenz number given above comes from modern quantum mechanical calculations.
 \section{Thermoelectric Properties - how the Drude model fails}
-Conversion of Heat into electricity.
+Conversion of Heat into electricity. Electrical currents always carry heat. But an electrical current is always heating the conducter via Joule heating $I^2R$, for use in thermoelectric devices one wants to minimize $R$.\\
+\[
+\Delta V=S \Delta T  \text{  with $S$ the Seekech coefficient}
+.\] \[
+Q = \Pi I \text{  with $\Pi$ the Peltier coefficient}
+.\] We get the relationship \[
+\vec{J_q} = \Pi \vec{J}
+.\] With $\vec{J_q}$ the heat current density and $\vec{J}$ the electrical current density. We already know: \[
+\vec{J} = -e n \vec{v}
+\] \[
+\implies \Pi = \frac{J_q}{J} = - \frac{1}{3} \frac{C_v T}{e} = - \frac{C_v T}{3e} = - \frac{K_B T}{2 e}
+.\]  There is also an expression for $S$ the Seebeck coefficient \[
+S= \frac{\Pi}{T} = - \frac{K_B}{2e} = -4.3 * 10^{-4} \frac{\text{V}}{\text{K}}
+.\] But the real values of $S$ are on the order of $\propto 10^{-6} \frac{\text{V}}{\text{K}}$. We now found a significant failure of the Drude system. But why did it work so well for the heat capacity but fails so badly for thermoelectircal effects?\\
+Drude commited two errors, that cancelled eachother out in the case of the heat capacity.
+\begin{itemize}
+	\item He assumed $<v>^2 = \text{missing} \gg \text{ acctual } <v>^2$ 
+	\item He assumed $\frac{C_v}{N} = \frac{3}{2} K_B \gg $ the acctual heat capacity
+\end{itemize}
+\section{Success and Failures of the Drude model}
+\subsection{Mean free path of $e^{-}$ - $\lambda$ }
+\[
+\lambda = <v> * \tau
+.\] \[
+\sigma = \frac{ne^2\tau}{m_e}\text{ ,  } \rho = \frac{1}{\sigma}
+.\] $\rho$ can be measured in materials and can thus be used to measure $\tau$.  \[
+\implies \tau = \frac{m_e}{ne^2\rho} \approx 1 \text{ - } 10 \text{fs}
+\] \[
+<v> \approx \sqrt{\frac{2K_B T}{m_e}} 
+\] \[
+\implies \lambda = <v> \tau \approx 0.1 \text{ - } 1 \text{nm}
+.\]  Close to the lattice constants in materials $\to $ success of Drude.
+\subsection{Measured Values}
+With the Hall effect we can measure the electron density \[
+n = -\frac{1}{eR_H}
+.\] We can now compare the values measured electron density to the theoretical values for the electron density. We call the density of atoms in a solid $n_a$. For monovalent atoms (with only one atom in the valence shell) we find  \[
+n_a = n
+.\] We can infere a general quantity $\alpha = \frac{n}{n_a}$. For Valence $= 1 \implies \alpha = 1$, for valence $V \implies \alpha = V$.\\
+When we compare the known valence of various Metals to the theoretically measured $\alpha$ 's we find a good match for Li or Ne (with a valence of $V = 1$ ), but fails for elements with $V > 1$.\\
+The Drude model works pretty well for monovalent atoms, but fails for higher valence atoms (sometimes even getting the sign of $\alpha$ wrong).\\
+Other successes: 
+\begin{itemize}
+	\item $\delta T$ respects the Wiedemann-Franz law (with only an error factor of $2$ )
+\end{itemize}
+Other failures:
+\begin{itemize}
+	\item Seebeck coefficient is too big (by two orders of magnitude).
+\end{itemize}
 
+\chapter{Sommerfeld Theory for free electrons in metals}
+The mistake of Drude, was that he applied the kinetic theory of gasses (based on Bose-Einstein statistics) to electrons. He thus implicitly assumed electrons to be bosons, bu they are fermions.\\
+\section{Fermi-Dirac Statistics}
+Historical context
+\begin{itemize}
+	\item 1925: Pauli exclusion principle (two $e^{-}$ cannot be in the exact same state)
+	\item 1926: Schroedinger Equation and Fermi-Dirac statistics
+	\item 1927: Sommerfeld applies FD statistics to metals
+\end{itemize}
 
-
-
+We have to define a Fermi occupation function $n_F\left( \beta(\epsilon - \mu \right) = \frac{1}{\exp\left( \beta(\epsilon - \mu) \right) + 1 } $. It's the probability that the fermion occupies a state with energy $\epsilon$. $\mu$ is the chemical potential, is defined by the Fermi occupation function.\\
+We use this Fermi occupation function $n_F$ instead of the Bose-Einstein occupation function $n_B$.\[
+	n_B = \frac{g_i}{\exp\left( \frac{\left( \epsilon_i - \mu \right) }{K_BT} \right) -1} \text{ with $g_i$ the states degeneracy}
+.\] \[
+n_F = \frac{1}{\exp\left( \frac{\epsilon_i - \mu}{K_B T} \right) +1}
+.\] Fermi Statistics cannot allow for degeneracy, since fermions can \emph{never} be in the exact same state. We have to differentiate Bosons (indistinguishable quantum particles) and Fermions (distinguishable quantum particles).
 
 
 
