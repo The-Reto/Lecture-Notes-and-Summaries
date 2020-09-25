@@ -301,7 +301,7 @@ S= \frac{\Pi}{T} = - \frac{K_B}{2e} = -4.3 * 10^{-4} \frac{\text{V}}{\text{K}}
 .\] But the real values of $S$ are on the order of $\propto 10^{-6} \frac{\text{V}}{\text{K}}$. We now found a significant failure of the Drude system. But why did it work so well for the heat capacity but fails so badly for thermoelectircal effects?\\
 Drude commited two errors, that cancelled eachother out in the case of the heat capacity.
 \begin{itemize}
-	\item He assumed $<v>^2 = \text{missing} \gg \text{ acctual } <v>^2$ 
+	\item He assumed $<v>^2 = 3 \frac{K_B T}{m_e} \gg \text{ acctual } <v>^2$ 
 	\item He assumed $\frac{C_v}{N} = \frac{3}{2} K_B \gg $ the acctual heat capacity
 \end{itemize}
 \section{Success and Failures of the Drude model}
@@ -350,15 +350,54 @@ We use this Fermi occupation function $n_F$ instead of the Bose-Einstein occupat
 .\] \[
 n_F = \frac{1}{\exp\left( \frac{\epsilon_i - \mu}{K_B T} \right) +1}
 .\] Fermi Statistics cannot allow for degeneracy, since fermions can \emph{never} be in the exact same state. We have to differentiate Bosons (indistinguishable quantum particles) and Fermions (distinguishable quantum particles).
+Sommerfeld used FD and quantum mechanics to desciribe the electrons in a metal as a "Fermi-Gas". He does two upgrades to the Drude Model:
+\begin{itemize}
+	\item calculates the energy quantum mechanically
+	\item usese FD statistics
+\end{itemize}
+\section{Quantum States of $e^{-}$ in solids}
+We consider a solid with regularly spaced atoms and look at the potential. The real potential is complicated so Sommerfeld made some approximations
+\begin{itemize}
+	\item He neglected core electrons and considered only valence electrons.
+	\item He replaced the true coulomb-potential with a constant, average, potential $V_0$.
+	\item He ignored interactions between electrons.
+	\item He assumes that the surface of the solid act like a barrier of height $\infty$.
+\end{itemize}
 
-
-
-
-
-
-
-
-
+With these approximations we can write the Schroedinger Equation in 1d: \[
+	\frac{\hbar^2}{2m_e} \frac{\partial^2}{\partial x^2} \psi(x) = V \psi(x)
+\] Because of the assumption that the surface of the solid has a potential of $V_{boundary} = \infty$ we get the boundary conditions  \[
+\psi(0) = \psi(L) = 0
+\] \[
+\implies \psi(x) = A \sin\left( k_x x \right) 
+.\] We get standing waves with $k_x = \frac{2\pi}{L} n_x$ with $n_x \in \mathbb{Z}$.  
+We get the Energy of a state as \[
+	E_n = \frac{\hbar^2 k_{x\text{,}n}^2}{2 m_e} = \frac{\hbar^2 4 \pi^2 n_x^2}{2 m_e L}
+.\] 
+We have a discrete, quadratic potential. The energy entierly determined by the quantum number $n_x$.\\
+According to the Pauli exclusion principle each electron has to have unique quantum numbers. There are multiple quantum numbers, they are
+\begin{itemize}
+	\item $n_x$, $n_y$, and $n_z$ 
+	\item spin number $n_s = \pm \frac{1}{2}$
+\end{itemize}
+We know that if two electrons have the same energystate (given by $\vec{n}$ ) must have opposite spin.
+Every value of the three energy state numbers ($\vec{n}$ ) can hold two electrons (one with spin 'up' and one with spin 'down'). \\
+\section{Density of States - $g_{\omega}$}
+We now consider the $K$-space, in which only discrete values are allowed. We know that the spacing between the allowed values in the $i$-axis is given by $\frac{2\pi}{L_i}$, with $L_i$ the length of the solid in the $i$-axis.\\
+The area of a discrete value in a two dimensional $K$-space is given by \[
+	A = \frac{2\pi}{L_x} \frac{2\pi}{L_y} = \frac{\left( 2\pi \right) }{L_x L_y}
+\] In 3d we get a volume \[
+V = \frac{\left( 2\pi \right) ^3}{L_x L_y L_z}
+.\] We consider a two dimensional system and lable the $K$-states \[
+K_x = \left( \frac{2\pi}{L_x} \right) n_x \text{        } K_y = \left( \frac{2\pi}{L_y} \right) n_y
+\] \[
+E = \frac{\hbar \vec{K}^2}{2 m_e} = \frac{\hbar^2}{2 m_e} \left( K_x^2 + K_y^2 \right) = \frac{\hbar^2 \left( 2\pi \right) ^2}{2 m_e} \left( \frac{n_x^2}{L_x^2} + \frac{n_y^2}{L_y^2} \right) 
+.\] We thus have to fill the K-space from the center outwards, up to a certain maximum $\vec{K_F}$, that we call Fermi $K$-Vector. We have to choose $\vec{K_F}$ such that we can fill the sphere in the $K$-space with radius $|\vec{K_F}|$ with all of our electrons. \[
+E= \frac{\hbar^2 K^2}{2m_e} \implies E_F = \frac{\hbar^2 \vec{K_F}^2}{2m_e} \text{ Fermi energy}
+.\] We thus get a sphere containing allowed energy states, we call this sphere \emph{Fermi Sphere}, the maximum allowed energy in this Fermi Sphere is the Fermi Energy $E_F = \frac{\hbar^2 \vec{K_F}^2}{2 m_e}$. \\
+No matter what dimensionality our problem has, we can define the Fermi Sphere and get the occupation probability \[
+	n_F = \frac{1}{\exp\left( \frac{E - E_F}{K_B T} \right) + 1}
+.\] At $T =0$ this probability is a step-function with $n_F = 1 \forall E < E_F$ and $n_F = 0 \forall E > E_F$. For any other temperatures the step function is 'smoothed' out and we get $n_F = \frac{1}{2} $ at $E = E_F$.
 
 
 
