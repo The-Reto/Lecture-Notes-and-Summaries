@@ -381,7 +381,7 @@ According to the Pauli exclusion principle each electron has to have unique quan
 \end{itemize}
 We know that if two electrons have the same energystate (given by $\vec{n}$ ) must have opposite spin.
 Every value of the three energy state numbers ($\vec{n}$ ) can hold two electrons (one with spin 'up' and one with spin 'down'). \\
-\section{Density of States - $g_{\omega}$}
+\section{Filling the $k$-space with electrons}
 We now consider the $K$-space, in which only discrete values are allowed. We know that the spacing between the allowed values in the $i$-axis is given by $\frac{2\pi}{L_i}$, with $L_i$ the length of the solid in the $i$-axis.\\
 The area of a discrete value in a two dimensional $K$-space is given by \[
 	A = \frac{2\pi}{L_x} \frac{2\pi}{L_y} = \frac{\left( 2\pi \right) }{L_x L_y}
@@ -397,39 +397,539 @@ E= \frac{\hbar^2 K^2}{2m_e} \implies E_F = \frac{\hbar^2 \vec{K_F}^2}{2m_e} \tex
 No matter what dimensionality our problem has, we can define the Fermi Sphere and get the occupation probability \[
 	n_F = \frac{1}{\exp\left( \frac{E - E_F}{K_B T} \right) + 1}
 .\] At $T =0$ this probability is a step-function with $n_F = 1 \forall E < E_F$ and $n_F = 0 \forall E > E_F$. For any other temperatures the step function is 'smoothed' out and we get $n_F = \frac{1}{2} $ at $E = E_F$.
+\subsection{Fermi-Energy, -Wavevector and -surface}
+We assume that there are $N$ electrons in our system. \[
+	N = 2* \sum_{\vec{k}} n_{FD}\left( E \right) = 2 \frac{V}{\left( 2 \pi \right) ^3} \int n_{FD} d\vec{k}
+.\] We know that at $T = 0 \text{K}$ the Fermi-Drirac function is a step function \[
+n_{FD} \left( E \right) = 1 \forall E \le E_F \text{, } 0 \text{ otherwise}
+.\] \[
+\implies N = 2 \frac{V}{\left( 2 \pi \right)^3} \int_0^{K \le K_F} dK
+\] \[
+= \frac{2V}{\left( 2 \pi \right) ^3} * \frac{4}{3} \pi K_F^3
+.\] We would like to know the electron density $n = \frac{N}{V}$ \[
+\implies n = \frac{N}{V} = \frac{K_F^3}{3 \pi^2}
+.\] We can use this fact to easily calculate $K_F$ and thus the Fermi-Energy from the electron density. 
+\[
+	K_F = \left( 3 \pi^2 n \right) ^{\frac{1}{3}}
+.\] 
+\subsection{Fermi-Momentum and Velocity}
+We define the Fermi-velocity via:
+\[
+	\vec{P} = \hbar \vec{K_f} = m_e \vec{v_F}
+\]\[
+V_f = \frac{\hbar}{m_e} \left( 3 \pi^2 n \right) ^{\frac{1}{3}}
+.\] For typical electron densities we find $v_F \approx 0.5 \text{ to } 1\% C$ with $C$ the speed of light. 
+We know \[
+	E_F = \frac{\hbar^2 K_F^2}{2m_e} = \frac{\hbar^2}{2 m_e} \left( 3 \pi^2 n \right) ^{\frac{2}{3}}
+.\] from this we find the Fermi-Temperature \[
+T_F = \frac{E_F}{K_B}
+.\] For typical metals the Fermi-Temperatures we find is somwhere between $6*10^4$ K and $10^5$ K.
+\subsection{Average Energy of an electron in a Fermi-Gas}
+To get the average energy we first calculate the total energy of our system: \[
+	E_{tot} = 2 \int_0^{K\le K_F} \frac{V}{(2\pi)^3} \frac{\hbar^2 k^2}{2 m_e} d^3k
+\] \[
+= \frac{\hbar^2 V}{\left( 2 \pi \right) ^3 m_e} \int_{06}{K_f} k^2 d\vec{K}		
+.\] Substituting $d\vec{K} = 4\pi k^2 dk$ (our $\vec{K}$ are packed in a sphere, over which we integrate) \[
+= \frac{\hbar^2 V}{\left( 2 \pi \right) ^3 m_e} 4\pi \int k^4 dk = \frac{\hbar^2 V}{2 \pi^2 m_e} \frac{1}{5} K_F^5
+\] \[
+E_{tot} = \frac{\hbar^2 V}{10\pi^2 m_e}K_F^5
+.\]  
 
+Using \[
+N = \frac{2V}{\left( 2\pi \right) ^3} \frac{4}{3} K_F^3
+\] 
+the average energy $E_{avg}$ is given by \[
+	\frac{E_{tot}}{N} = \frac{3}{5} \frac{\hbar^2}{m_e}K_F^2 = \frac{3}{5}E_F
+.\] 
+\section{Density of States}
+$g$ is the number of (quantum) states for electrons per unit volume and per unit energy. We can define the density of electrons at a porticular energy and temperature as \[
+	n\left( E\text{, }T \right) = \frac{g(E)}{V} f\left( E_F\text{, }T \right) 
+.\] With $f\left( E\text{, }T \right) $ the Fermi-Dicrac distribution. \\
+As defined above $g(k)$ is the number of $k$-states per total volume. We can now write \[
+	g(E)dE = g(k)d^3k = \left( \frac{L}{2\pi} \right) ^3 d^3k
+\] We also know already \[
+E = \frac{\hbar^2 k^2}{2 m_e} \implies k = \sqrt{\frac{2m_e}{\hbar^2}E} \implies dk = \sqrt{\frac{2m_e}{\hbar^2}E} \frac{1}{2} dE
+.\] \[
+\implies g(E) dE = \left( \frac{L}{2\pi} \right) ^3 4\pi k^2 dk
+\] \[
+= \left( \frac{L}{2\pi} \right) ^3 4\pi \frac{2m_e E}{\hbar^2} \sqrt{\frac{2m_e}{\hbar^2} E} \frac{1}{2} dE
+\] \[
+\implies g(E) = \frac{V}{\left( 2\pi \right) ^2} \left( \frac{2 m_e}{\hbar^2} \right) ^{\frac{3}{2}} \sqrt{E} 
+.\] $g(E)$ per volume is thus given by \[
+\frac{g(E)}{V} = \frac{1}{\left( 2\pi \right) ^2} \left( \frac{2m_e}{\hbar^2} \right) ^{\frac{3}{2}} \sqrt{E} = \frac{3}{2} \frac{n}{E_F} \sqrt{\frac{E}{E_F}}  
+.\] The key takeaways here are that $g(E) \propto \sqrt{E} $ and that \[
+g(E_F) = \frac{3}{2} \frac{n}{E_F}
+.\]   
+\section{Electronic Heat Capacity}
+We now want to calculate the contribution of the electrons to the Heat Capacity. In a gas of electorns we wauld expect $U_{el} = 3 * \frac{1}{2} K_B T \implies c_{el} = \frac{3}{2}K_B$ per electron. But in a fermi-gas only the electrons close to the Fermi-surface can acctualy "gain" internal energy and contribute to the heat capacity. \\
+A fermigas will thus "accept" heat in a very different way. We consider the number of electrons \[
+	N = V \int_0^{\infty} g(E) n_F\left( \beta\left( E - \mu \right)  \right) dE
+\] \[
+E(T) = V \int_0^{\infty} g(E) E n_F\left( \beta \left( E - \mu \right)  \right) dE
+\] \[
+C(T) = \frac{\partial E(T)}{\partial T}
+.\] This integarl for $E(T)$ is very hard and usually solved numerically. To solve it analytically we make a few assumptions:
+\begin{itemize}
+	\item $\mu$ is independent from $T$. This only holds as long as we consider small Temperature changes
+	\item $E(T) = E(T=0) + $ number of electrons that can be excided times amount of energy absorbed
+\end{itemize}These assumptions yield \[
+E(T) = E(T=0) + \frac{\gamma}{2}V g(E_F) K_B T * K_B T
+\] \[
+\implies c = \frac{\partial E}{\partial T} = \frac{\gamma}{2}V g(E_F) K_B^2 2 T
+\] Using $g(E_F) = \frac{3}{2} \frac{n}{E_F}$ and $V = \frac{N}{n}$ \[
+c = \gamma N \frac{3}{2} K_B \left( \frac{K_b T}{E_F} \right) 
+.\] An accurate calculation yields $\gamma = \frac{\pi}{3}$. The final result of the heat capacity of the electrons is thus \[
+c = \frac{\pi}{2} N K_B \left( \frac{K_B T}{E_F} \right) 
+.\] The factor $\frac{K_B T}{E_F}$ is usually extremly small, as the Fermi-Energy is usually high. \\
+For the total internal energy of the Fermi-Gas we gut \[
+	U_{el} = \int_0^{\infty} E n_F\left( E\text{, }T \right) g(E) dE
+.\] 
 
+\chapter{The form of solids}
+\section{LCAO - Linear Combination of Atomic Orbitals}
+Is a quantum mechanical theory, also refered to as molecular orbital theory.\\
+We consider two atoms, atom $A$ and atom $B$. We look that there's a electron orbiting the two atoms, in a molecule it will certainly interact with both atoms. For now we only consider a single electron.\\
+We define the distance between the atoms $\vec{R}$ and the distance between the atoms and the electrons $\vec{R}_A$ and $\vec{R}_B$ respectively.\\
+We assume that there is only one type of orbital. We will now try to write the hamiltonian of this system and deduce the Schroedinger Equation. \[
+	\hat{H} = \hat{H}_{core} + \hat{H}_{valence}
+.\] Where $\hat{H}_{core}$ only describes the nuclei and the core electrons and $\hat{H}_{valence}$ only describes the valence electrons.\\
+We introduce a common assumption in Condensed Matter Physics called the Born-Oppenheimer approximation. It assumes:
+\begin{itemize}
+	\item nuclei in fixed positions
+	\item kinetic energy of the nuclei $E_{kin,nuc} = 0$
+\end{itemize}
+These assumptions are valid, as the nuclei are much much heavier and move much slower than the electrons.\\
+For the valence hamiltonian we get: \[
+	H_{valence} = -\frac{\hbar^2}{2 m_e} \left( \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2} + \frac{\partial^2}{\partial z^2} \right) - \frac{e^2}{4 \pi \epsilon_0} \left( \frac{1}{R_A} + \frac{1}{R_B} \right) 
+.\] With the first term the kinetic energy of the electron and the second term it's coulomb energy. Since we assume that the nuclear kinetic energy is zero our hamiltanian only consists of this valence hamiltonian.\\
+In LCAO we only search for solutions of the form \[
+\ket{\psi} =  c_A \ket{\phi_A} +  c_B \ket{\phi_B}  
+.\] With $\ket{\phi_{A\text{, }B}} $ the single atom orbitals. \\
+To find the coefficients $c_A$ and $c_B$ we use a variational approach. \[
+	\bra{\psi} H_{val} \ket{\psi }  = E \bra{\psi } \ket{\psi}  
+.\] We want to minimize the Energy $E$. \[
+E = \frac{\bra{ \psi } H_{val} \ket{\psi } }{\bra{\psi } \ket{\psi } } = \frac{\bra{c_A \phi_A + c_B \phi_B} H_{val} \ket{c_A \phi_A + c_B \phi_B} }{\bra{c_A \phi_A + c_B \phi_B} \ket{c_A \phi_A + c_B \phi_B} }
+\] \[
+\implies E = \frac{(c_A^2 \bra{\phi_A} H_v \ket{\phi_A} + c_B^2 \bra{\phi_B} H_v \ket{\phi_B} + 2c_Ac_B \bra{\phi_B} H_v \ket{\phi_A})} {c_A^2 \bra{\phi_A} \ket{\phi_B} + 2c_Ac_B \bra{\phi_B} \ket{\phi_A} +c_B^2 \bra{\phi_B} \ket{\phi_B}  }
+.\]  
+We introduce the binding integrals $H_{ij}$ as \[
+	H_{ij} = \bra{\phi_i} H_v \ket{\phi_j}  = \int \phi_i^*\left( \vec{r} \right) \hat{H}_v \phi_j\left( \vec{r} \right) d\vec{r}
+.\] For example $H_{A A}$ describes the energy of the energy of an electron around atom $A$ that still feels the precence of atom $B$.\\
+We further introduce the overlap integrals \[
+	S_{ij} = \bra{\phi_i} \ket{\phi_j} = \int \phi_i^*\left( \vec{r} \right) \phi_j\left( \vec{r} \right) d\vec{r}
+.\] For all of these $0 \le S_{i j} \le 1 $. With $S_{ij} = 0$ meaning that the two orbitals do not overlap at all and $S_{ij} = 1$ meaning that the orbitals overlap perfectly.\\
+These definitions help with our goal to minimize $E$.\[
+E = \frac{\bra{\psi } H_v \ket{\psi } }{\bra{\psi } \ket{\psi } }
+.\] To find the mimimum we set de derivative to $0$ \[
+\frac{\partial E}{\partial c_A} = \frac{\partial E}{\partial c_B} = 0
+\] \[
+E = \frac{(c_A^2 \bra{\phi_A} H_v \ket{\phi_A} + c_B^2 \bra{\phi_B} H_v \ket{\phi_B} + 2c_Ac_B \bra{\phi_B} H_v \ket{\phi_A})}{c_A^2 \bra{\phi_A} \ket{\phi_B} + 2c_Ac_B \bra{\phi_B} \ket{\phi_A} +c_B^2 \bra{\phi_B} \ket{\phi_B}}
+\]  \[
+= \frac{c_A^2 H_{A A} + 2c_Ac_B + c_B^2 H_{BB}}{c_A^2 + 2 c_Ac_B + c_B^2}
+\] \[
+\implies \frac{\partial E}{\partial c_A} = 0 = \text{\ldots}
+\] \[
+\implies E = \frac{c_A H_{A A} + c_B H{AB}}{c_A + c_B S_{AB}}
+\]If we also consider the deriviative with respect to $c_B$ we get: \[
+c_A\left( H_{A A } - E \right) + c_B\left( H_{AB} - S_{AB}E \right) = c_A\left( H_{AB} - ES_{AB} \right) + c_B\left( H_{BB} - E \right) =0
+.\] If we assume $H_{ii} = E_0$ (which holds as long as atom $A$ and $B$ are of the same type) we get two equations \[
+c_A\left( H_{A A} - E \right) + c_B \left( H_{AB} - S_{AB}E \right) = 0 
+\]\[
+c_A\left( H_{AB} - S_{AB}E \right) + c_B \left( H_{BB} - E \right) = 0
+\] \[
+\implies \left( E_0 - E \right) ^2 - \left( H_{AB} - S_{AB}E \right) ^2 = 0
+.\]   \[
+\implies E_{\pm} = \frac{E_0 \pm H_{AB}}{1 \pm S_{AB}}
+.\] Bonding thus introduces new energy eigenstates $E_+$ and $E_-$, one above and one below the original level $E_0$. We call the lower level $E_+$ the bonding energy and the higher level  $E_-$ the antibonding energy. (since $H_AB \ll 0$ we get $E_+$ as the lower level). We define  $V_1 = E_0 - E_+$ and $V_2 = E_0 - E_-$. In general we find  \[
+\abs{V_1} < \abs{V_2}
+.\] 
+The antibonding level is thus always enough to 'counteract' the bonding level.\\
+We can thus define the binding energy $E_B^{molecule}$. If only the bonding level is occupied we get \[
+	E_B^{molecule} = 2 \abs{V_1} = 2\left( E_0 - E_+ \right) 
+.\] With the factor of $2$ comming from two electrons occupying the level. \[
+S_{AB} \ll 1 \implies E_+ = \frac{E_0 + H_{AB}}{1 + S_{AB}} \approx E_0 + H_{AB}
+\] \[
+\implies E_B \approx 2\left( E_0 - \left( E_0 + H_{AB} \right)  \right) = -2 H_{AB}
+.\]  
+We consider the splitting energy $E_- - E_+ = -2H_{AB}$. \\
+Untill now we have not included the coulomb repulsion of the nuclei, for a correct approach we would have to include this.\\
+We now want to determine $c_A$ and $c_B$. For this we now assume $S_{AB} \approx 0$. \[
+	c_A\left( E_0-E \right) +c_BH_{AB} = 0
+.\] We find:
+\begin{itemize}
+	\item For $E = E_+$ : $c_A = c_B = \frac{1}{\sqrt{2} } $ 
+	\item For $E = E_-$ : $c_A = -c_B = \frac{1}{\sqrt{2} }$
+\end{itemize} We therefore write \[
+\text{Bonding Wavefunction: }\ket{\psi_+} = \frac{1}{\sqrt{2} } \left( \ket{\phi_A} + \ket{\phi_B}  \right) 
+\] \[
+\text{Antibonding Wavefunction: }\ket{\psi_-} = \frac{1}{\sqrt{2} } \left( \ket{\phi_A} - \ket{\phi_B}  \right) 
+.\]  
+We call this kind of bonding $\sigma$-bonding. A $\sigma$-bond is defined as any bond where only one orbital-lobe from each atom contributes (the types of lobes interacting does not matter, it could be S type orbital-lobes or P type orbital-lobes). If two lobes are contributing to the bond, we call it a $\pi$-bonding.
 
+\section{Crystal Structures and Symmetries}
+In Crystals we get Periodic Potentials \[
+	V(\vec{r}) = V(\vec{r} + \vec{R})
+.\] 
+\chapter{Vibrations of a 1D-Atomic Chain}
+If you assume stationary atoms, you cannot explain certain physical properties:
+\begin{itemize}
+	\item Thermal Expansion
+	\item thermal conductivity and specific heat (can be modelled but not correctly)
+\end{itemize}
+We call a quantum of the atomic vibration a \emph{Phonon}. In classical mechanics this would be called a normal mode.\\
+We have seen, that the interantomic potential has a asymmetric shape, with the attraction being less steep than the repulsion. As an approximation we assume that the potential is well approximated by a parabola, at least around the equilibrium posistion. \[
+	V(x) = V\left( x_{eq} \right) + \frac{c}{2} \left( x -x_{eq} \right)^2 + \frac{c}{3!}O(x^3)
+.\] In the harmonic approximation we now only consider the first two terms: \[
+V_{Harm} = V\left( x_{Eq} \right) + \frac{2}{2} \left( x - x_{Eq} \right)^2
+.\] At high temperatures the harmonic approximation fails.\\
+In the asymmetrical potential we can already see an intuitive explanation for the thermal expansion: \[
+\overline{x_{Eq}}\left( T \right) = \frac{x_{min} + x_{max}}{2} > x_{Eq}
+.\] This effect however is not modelled in the harmonic approximation, which is symmetrical.
+\section{Monoatomic Chain (Harmonic)}
+We model a chain of identical Atoms (same mass, charge etc.) in a harmonic potential. This situation is analogous to a chain of mass points connected by springs. As long as we are in the harmonic approximation, we can imagine the atoms connected by springs.\\
+We call the atom in 'the center' of the chain $n$, its' left neighbour $n-1$ and its' right neigbour $n+1$. We call the equilibrium distance between two of the atoms $x_{Eq} = a$ the lattice constant. We call the position of atom $i$ $x_i$. We thus know the equilibrium position of atom $i$; it is given by \[
+x_i^0 = i*a
+.\] We now consider vibrations (for example due to temperatures) \[
+\delta x_i = x_i - x_i^0
+.\] We can now apply Hooke's law: $\vec{F} = -c \Delta x$ \[
+\implies \vec{F} = m \vec{a} = -c \Delta x
+\] \[
+\implies m \delta \ddot{x_n} = - c \delta x_n = - c\left( [\delta x_n - \delta x_{n+1}] + [\delta x_n - \delta x_{n-1}] \right) = c \left( \delta x_{n+1} + \delta x_{n-1} - 2 \delta x_n \right) 
+.\] We only cosidered atoms moving alnog the chain, we only consider longitudinal waves for now. \\
+As an ansatz for a solution we take: \[
+	\delta x_i = A \exp{i \omega t - i k \dot{x_n}}
+.\] With the frequency $\omega \ge  0$; note there's only one $\omega$, as in a normal mode all atoms vibrate with the same frequency. With the wavevector $k$ and $x_n = n*a$ as before.
+To find $\omega$ we write \[
+	m \delta \ddot{x_n} = A m \left( i \omega \right)^2 \exp{i\omega t - i k n a} = C A \exp{i\omega t} \left( \exp{- i k a\left( n+1 \right) } + \exp{-ixa\left( n-1 \right) }- 2 \exp{-ikan} \right) 
+\] \[
+= C \exp{-ikna} \left( 2 \cos{k a} - 2 \right) 
+\] \[
+\implies -m\omega^2 \exp{-ikna} = C \exp{-ikna} \left( 2 \cos{ka} - 2 \right) 
+\] \[
+\implies \omega^2 = \frac{4C}{m}\sin^2{\frac{ka}{2}}
+.\] We thus find the frequency $\omega$ as: \[
+\omega(k) = 2 \sqrt{\frac{C}{m}} * \abs{\sin{\frac{ka}{2}}}
+.\] We call the relation between $\omega$ and the wavevector $k$ a dispersion relation. We have this found above the dispersion relation of a 1-D Monoatomic Chain.\\
+We see that this function is periodic with $k \to k \pm \frac{2 \pi}{a}$.\\
+In general we know that: If a system is periodic in real space ($x$, $y$, $z$) then it is also periodic in the recipcocal space ($k_x$, $k_y$, $k_z$).\\
+This is a usefull fact that will come in handy many times.\\
+We call one of the periodic zones in the repciprocal space a Brillouin zone (BZ). The first Brillouin zone reaches from $-\frac{\pi}{a}$ to $\frac{\pi}{a}$. It is usually sufficient to plot any function within the first BZ.\\
+We thus find that $\delta x_n(k) = \delta x_n(k+\frac{2 \pi}{a}) $. \[
+	\delta x_n(k) = A * \exp{i\omega t - i k na}
+\] \[
+\delta x_n(k \pm \frac{2\pi}{a}) = A \exp{i \omega t - i \left( k \pm \frac{2 \pi}{a} \right) n a} = A \exp{i\omega t - i kna} * \exp{-i 2 \pi n}
+.\] \[
+\implies n \in \mathbb{Z}
+.\]  We say that $\vec{k}$ is defined up to any lattice vector. In our case the lattice vector is $\frac{2\pi}{a}$. We thus define the reciprecal lattice vector $G_m$ \[
+G_m = \frac{2\pi}{a}*m \text{, } \forall m \in \mathbb{Z}
+.\] We get \[
+\exp{i \vec{Gm} \vec{x_m}} = 1
+.\] We can thus turn the definition around and say that this exponential gives the definition of the reciprocal lattice. 
+\subsection{}
+We found the dispersion relation \[
+	\omega = 2 \sqrt{\frac{C}{m}}  * abs{\sin{\frac{ka}{2}}}
+.\] We now think about this relation
+\begin{itemize}
+	\item $k \to  0$ we find: $\implies \omega = 2 \sqrt{\frac{C}{m}} \frac{ka}{2} = \sqrt{\frac{C}{m}} *ka$ \\
+		We thus find a linear dispersion relation $\omega \propto k$ with a constant called the speed of sound: $\omega = k * v_{sound}$. Any time we find a linear dispersion we call it a sound like dispersion. \\
+\end{itemize}
+We define certain velocities: 
+\begin{itemize}
+	\item Sound Velocity $V_s = a \sqrt{\frac{C}{m}} $ is the velocity of the wave at $k = 0$.
+	\item Phase Velocity $v_{phase} = \frac{\omega}{k}$ speed at wich the maxima and minima travel 
+	\item Group Velocity $v_{group} = \frac{d\omega}{dk}$ speed of the wave packet
+\end{itemize}
+For materials with linear dispersion we find $v_p = \frac{\alpha k}{k} = \alpha = \frac{d\left( \alpha k \right) }{k} = v_g$. Phase and group velocities ore equal only for linear dispersion. \\
+For example we find in the case of the monoatomic chain, that the group velecity $v_g = 0$ for $k = \frac{\pi}{a}$. \\
+How do we count the number of normal modes? \[
+\text{\#modes} = \frac{\text{\#all possible }k}{\text{spacing between neighbouring }k} = \frac{\frac{2\pi}{a}}{\text{?}}
+\] 
+To find the spacing between the possible $k$, we use periodic boundary condition: $x_i = x_{i+N}$.\\
+Meaning that we assume the monoatomic chain to be a closed loop. We get that: \[
+	A \exp{i \omega t - iKna} = A \exp{i\omega t - iK\left( n+N \right) a)}
+\]\[
+\implies \exp{-iKNa} = 1
+\]\[
+\implies K = P\frac{2\pi}{Na}\text{ , } \forall P \in \mathbb{Z}
+.\] We thus know the number of modes as: \[
+\text{\#modes} = \frac{\frac{2\pi}{a}}{\frac{2\pi}{Na}} = N
+.\] We find that the total number of modes is equal to the number of atoms, since we are considering only longitudinal waves in our 1D system this is also the number of degrees of freedom. While Debye had to introduce a cutoff frequency to get this result, we now found it generally.
+\subsection{Types of Vibrations}
+Up to now we only considered longitudinal waves in our 1D system. In addition to the $\delta x$ we already considered there are also $\delta y$ and $\delta z$ to consider. Since $\delta y$, $\delta z \bot \vec{K}$ these waves are Transverse modes. In general we find \[
+	\omega\left( \text{Tronsverse mode} \right) < \omega\left( \text{longitudinal mode} \right) 
+.\] 
+\section{Diatomic linear chain}
+We sitll assume a harmonic potential, but now we assume that we have two different types of atoms, repeating in a ABABABA manner. We thus get different spring constants $C_1$ and $C_2$ and different masses $m_1$ and $m_2$. 
+The first step to solve such a problem, is to select a periodic unit cell.  We thus select a unit cell of length $a$ that includes one atom pair AB.\\
+The next step is to identify a reference point, since the unit cell is no longer symmetrical the center of the unit cell is no longer the center of mass. Instead of describing the position of an atom like before, we now call the coordinate of that reference point $\delta x_n$. We thus get the position of the unit cell as $r_n = n*a$.\\
+The third step is to describe the position of the atoms in relation to the reference point. We call the positions of the Atoms \[
+	x_n^{eq} = an - \alpha a
+\]\[
+y_n^{eq} = an + \beta a
+.\]  For simplicity we assume $m_1=m_2$ and $c_1 \neq c_2$, without loss of generality we assume $c_2 > c_1$.\\
+We now solve the problem simmilar as before. We consider the force on one of the atoms \[
+	F_1 = m \delta \ddot{x_n} = c_2 \left(\delta y_n - \delta x_n  \right) + c_1 \left( \delta y_{n-1} - \delta x_n \right)  
+\] \[
+	F_2 = m \delta \ddot{x_n} = c_2 \left(\delta x_n - \delta y_n  \right) + c_1 \left( \delta x_{n+1} - \delta y_n \right)  
+.\] We choose the ansatz \[
+\delta x_n = A_x \exp{i \omega t - i Kna}
+\]\[
+\delta y_n = A_y \exp{i \omega - iKna}
+.\] We get two different amplitudes, but the same frequency. As the definition of a normal mode is per its' frequency. \\
+As befor we get $\omega > 0$, $K$ positive or negative and the number of  $K$ values $= \frac{\text{range of }K}{\text{spacing of }k} = \frac{\frac{2\pi}{a}}{\frac{2\pi}{Na}} = N$.\\
+We have to remember that $N$ here is the number of unit cells, not the number of atoms. \\
+By inserting the ansatz into the equation of motion we get: \[
+	-\omega^2 m A_x \exp{i\omega t - i Kna} = c_2 A_y \exp{i\omega t - i Kna} + c_1 Ay \exp{i\omega t - i Kna} - \left( c_1+c_2 \right) A_x \exp{i\omega t - iKa}
+\] \[
+\implies \omega^2 m \begin{bmatrix} A_x \\ A_y \end{bmatrix} = \begin{bmatrix} c_1+c_2 & -c_2-c_1\exp{ika}\\ -c_1 \exp{-ika}-c_2 &  c_1+c_2 \end{bmatrix} \begin{bmatrix} Ax \\ Ay \end{bmatrix} 
+.\] We thus get an  Eigenvalue problem the solution yields: \[
+m\omega^2 = c_1+c_2 \mp \sqrt{c_1^2 + c_2^2 + 2c_1c_2 \cos\left( ka \right) } 
+\] \[
+\omega_{\pm} = \sqrt{\frac{c_1+c_2}{m} \mp \frac{1}{m} \sqrt{c_1^2 + c_2^2 + 2c_1c_2\cos\left( ka \right) } } 
+\]  For each $K$ we thus get two possible $\omega$. We therefore have two dispersion relations $\omega_+\left( K \right) $ and $\omega_-\left( K \right) $. We call these two dispertion relations \emph{phonon branches}. \\
+In this case the two phonon branches have fomous names:
+\begin{itemize}
+	\item $\omega_-$ is called the \emph{acoustic branch}\\
+		$\lim_{K \to 0} \omega_-(K) = \sqrt{\frac{c_1c_2 a^2}{2\left( c_1+c_2 \right) }} \abs{K}$\\
+		We see that $\omega_-$ has a linear dispersion (acoustic dispersion) at small $K$.
+	\item $\omega_+$ is called the \emph{optical branch}\\
+		$\lim_{K \to 0} \omega{K} = \sqrt{\frac{2 \left( c_1+c_2 \right) }{m}} $\\
+		The optical branch has a group velocity of $v_g = \frac{d\omega_+}{dK} = 0$.\\
+		The reason that this branch is called the optical branch is, that we can measure it by using light as a pertubation.
+\end{itemize}
+We thus see that for $K \to 0$ we get two different values. We get \[
+	\omega_-(K ->0)
+\]\[
+\implies \begin{bmatrix} 0 \\ 0 \end{bmatrix} = \frac{c_1 + c_2}{m} \begin{bmatrix} A_x - A_y \\ -A_x + A_y \end{bmatrix} 
+\] \[
+\implies A_x = A_y
+.\] In acoustic branches tho atoms vibrate in phase.\\
+For the optical branch we get:
+\[
+\text{\ldots} \implies A_x = -A_y
+.\] 
+In optical branches the atoms vibrate out of phase.\\
+Because the energy requirement of vibrating out of phase is much higher we find: \[
+	\omega\left( \text{optical branches} \right) > \omega\left( \text{acoustical branches} \right) 
+.\] (We have demonstarted this only at $K = 0$ but it holds in general).\\
+We will now also demonstarte it ot the BZ boundaries $K = \pm \frac{\pi}{a}$ : \[
+	\omega_+\left( k = \frac{\pi}{a} \right) = \sqrt{\frac{2c_2}{m}} 
+\]\[
+\omega_-\left( k = \frac{\pi}{a} \right) = \sqrt{\frac{2c_1}{m}} 
+.\]  Since we know $c_2 > c_1 \implies \omega_- < \omega_+$.\\
+In summary
+\begin{itemize}
+	\item For the monoatomic Chain we got:\\
+		\begin{itemize}
+			\item 
+		\end{itemize}
+	\item For the diatomic chain we got ($2N$ atoms):
+		\begin{itemize}
+			\item 2N Branches
+		\end{itemize}
+	\item in general:\\
+		If there are $M$ atoms in a unit cell we will get $M$ modes at each $K$.\\
+		We always get $1$ acoustic mode and $M-1$ optical modes.\\
+		In $d$ dimensions we get $d*M$ modes at each $\vec{K}$. We find $d$ acoustic modes and $d\left( M-1 \right) $ optical modes.
+\end{itemize}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\section{Quantum Correspondence}
+Discrete quantum vibrations of phonons with energy $\hbar \omega$. We utilize the Bose occupation factor again, as phonons are bosons \[
+	n_B\left( \hbar \omega \beta \right) = \frac{1}{\exp\left( \hbar \omega \beta \right) - 1}
+.\] We thus find the energy expectation of a single phonon as \[
+<E_n> = \hbar \omega_k \left( n_B + \frac{1}{2} \right) 
+.\] For the total enerrgy we have to sum over the first BZ \[
+U_{tot} = \sum_{k=-\frac{\pi}{a}}^{\frac{\pi}{a}} \hbar \omega_k\left( n_B + \frac{1}{2} \right) 
+.\] For example in the case of a mono-atomic chain we found: \[
+\omega_k = 2 \sqrt{\frac{c}{m}} \abs{\sin\left( \frac{ka}{2} \right) }
+.\] For many atoms $N \to \infty$ we get $\sum_{k} \to \frac{L}{2\pi} \int_{-\frac{\pi}{a}}^{\frac{\pi}{a}}dK$.\\
+This is a more general expression for the total energy, as for example we found in the Einstein or Debye models:
+\begin{itemize}
+	\item Einstein: $\omega_k = \omega_{einstein}$ 
+	\item Debye: $\omega_k = v_s * k$
+\end{itemize} But now we can correctly describe $\omega_k$ without using these approximations. \\
+As before we can introduce the density of states $g(\omega)$. \[
+	\frac{L}{2\pi} \int dK = \int g(\omega) d\omega
+\] \[
+g(\omega) = 2 \frac{Na}{2\pi} \abs{\frac{dK}{d\omega}} \propto \frac{1}{\abs{\frac{d\omega}{dK}}}
+\] For mono atomic chains we thus find \[
+g(\omega) = \frac{1}{\cos(\frac{ka}{2})}
+.\] 
+\section{Crystal Momentum}
+$K$ is fully equivalent to $K \pm G_m$, as defined before. \\
+We define crystal momentum as \[
+	\hbar \left( K \mod \frac{2\pi}{a} \right) 
+.\] We thus get that the conservation of momentum is still valid, but is not absolute, instead it occures modulo $\frac{2\pi}{a}$. This basically means, that the momentum is always defined by the equivalent $K$ in the first BZ.\\
+\chapter{Thight binding chain}
+We consider electrons in periodic potentials. We assume equally spaced atoms, each with only one available orbital.\\
+We define $\ket{n} $ as the orbital of the $e^-$ on the atom $n$. We also assume $\bra{n} \ket{m} = \delta_{mn}$. As before we have LCAO with $S_{AB} = \bra{\phi_A} \ket{\phi_B} = \delta_{mn} $, this is only an approximation, but holds in this toy model. We write the (Born-Oppenheimer) hamiltonian as \[
+	\hat{H} = \frac{\vec{p}^2}{2m} + \sum_{j} V \left( \vec{r}- \vec{R}_j \right) = K + \sum_{j} V_j
+.\] We make an Ansatz for a trial wavefunction as \[
+\ket{\psi} = \sum_{n} \phi_n \ket{n} 
+.\] To find the factors $\phi_n$ we solve the Schroedinger Equations: \[
+\sum_{m} H_{nm} \phi_m = E \phi_n
+.\] Proof: \[
+E = \frac{\bra{\psi } H \ket{\psi } }{\bra{\psi } \ket{\psi } }
+\] Missing\\
+We can define the energy of one atom as \[
+	E_m \ket{m} = H \ket{m} = \left( K + V_m \right) \ket{m} 
+.\] 
+In the case where we have many nuclei we get \[
+H = K + V_m + \sum_{j \neq m} V_j	
+.\]\[
+\implies E \ket{m}  = E_m \ket{m} + \sum_{j \neq m} V_j \ket{m} 
+.\] \[
+\implies H_{nm} = \bra{n} H \ket{m} = E_{atomic} \bra{n} \ket{m} + \bra{n} \sum_{j \neq m} V_j \ket{m} 
+.\] 
+\begin{itemize}
+	\item $n = m \implies \bra{n} \sum_{j} V_j \ket{m} = \bra{m} \sum_{j} V_j \ket{n} = V_0$
+	\item $n \neq m \implies \bra{n} \sum_{j \neq n} V_j \ket{m} = -t$ "Hopping energy"\\
+		if $\abs{n - m} > 1 \implies $ "Hopping" $\approx 0$, we assume that only direct neighbours interact with each other.
+	\item $\abs{n-m} > 1 \implies \sum_{j \neq n} \bra{n} V_j\ket{m} = 0 $
+\end{itemize}
+\[
+	\implies H_{nm} = E_{atomic} \delta_{nm} + \bra{n} \sum_{j} V_j \ket{m} = (E_a + V_0) \delta_{nm} + (-t) * \left( \delta_{n\text{,}m+1} + \delta_{n\text{,}m-1} \right) 
+\] \[
+\implies H_{nm} = E_0 \delta_{nm} - t \left( \delta_{n\text{,}m+1} + \delta_{n\text{,}m-1} \right) 
+\]  We make the ansatz $\phi_n = \frac{\exp(-ikna)}{\sqrt{N} }$. \[
+\sum_{m} H_{nm} \phi_m = E \phi_n
+\] \[
+\frac{E_0 \exp(-ikna)}{\sqrt{N} }= \frac{t}{\sqrt{N} } \left( \exp(-ik(n-1)a) + \exp(-ik(n+1)a) \right) = E \frac{1}{\sqrt{N} } \exp(-ikna)
+\] \[
+\implies E = E_0 - 2t \cos{(ka)}
+.\]   
+We call this relation between $E$ and $K$ the electric dispersion. This gives us an energy band, aka. the possible energies for the electrons. \\
+We have found $\phi_n = \frac{\exp\left( -ikna \right) }{\sqrt{N} }$. The wavefunction of an electron is therefore delocalized over the whole cristal.\\
+If we expand $E$ around $K \approx 0$ we get: \[
+	E \approx E_0 - 2t\left( 1 - \frac{\left( ka \right) ^2}{2} \right) = \text{const.} + t k^2a^2
+.\] Quadratic dependence!\\
+For free electrons we know $E = C + \hbar \frac{K^2}{2m}$, at $K \approx 0$ we therefor get a simmilar behaivour as for free electrons. We find that \[
+\frac{\hbar^2}{2m^*} = a^2 t
+\] \[
+E = \text{const.} + \frac{\hbar^2 K^2}{2m^*}
+.\] With the 'effective mass' $m^*$ which depends on $t$. For now this effective mass is only a mathematical constant with a dimension of a mass, later we will see that it also has a physical meaning. The effective mass has no relation with the real mass of the electron.\\
+Above we spoke of an energy band, but is this justified, the $K$ vectors are discrete, shouldn't we get discrete energy levels from this?\\
+Tchnically we do, but there are many states in a relatively small interval of energy, we can therefore assume a continous energy band.
+We now want to count the states \[
+\text{\# of states} = 2 * 2 * \frac{dN}{dE}
+\] $K$ can be $\pm$ and there are two electrons per level $\to 2 * 2$. Rewriting \[
+\frac{dN}{dE} = \frac{dN}{dK} \frac{dK}{dE}
+.\] We know that $\frac{dK}{dN} = \frac{2\pi}{L}$ and we also know the dispersion relation between $K$ and $E$.
+\section{Monovalent Atoms}
+Monovalent Atoms have only $1$ electron in the outer most shell. $N \text{atoms} \to N e^-$.\\
+But the energy Band can host $2N$ electrons, it will thus only be half filled. The band will be filled from the bottom up, since there are free electron bands, there can be an exitation this results in the kristal being able to conduct electricity and heat really well.
+\section{Divalent Atoms}
+$N \text{atoms} \to 2N$ electrons. All bands are filled, diatomic crystals are insulators and their electrons don't contribute to the heat capacity.
+\section{N orbitals in the unit Cell}
+There are either more than one atoms per unit cells or each atom has more than one orbital. This is the most common situation.\\
+This situation is analougous to the phonos in a diatomic chain. We also get two dispersion branches.\\
+Example: 3 electrons in each unit cell. $N$ atoms $\to 2N$ possible energies in the first energy band but $3N$ electrons. We completely fill the lower band and then fill the remaining electrons into the higher band.\\
+The filled lower band does, as above, not contribute to thermal or electrical conduction. However the higher band is not completely filled and thus exitations are possible, this higher band contributes to the thermal and electrical conductivity. The smallest distance between the two bands is called a 'band gap'.
+\chapter{Crystaline Structures}
+A crystal is an arrangement of material, which is periodic in space. This can mean a periodic arrangement of atoms or whole molecules.
+\section{Important definitions}
+\begin{itemize}
+	\item A crystal is a PERIODIC arrangements of atoms
+	\item A lattice is a set of points defined as integer sums of \emph{primitive lattice vectors}
+\end{itemize}
+A lattice has three main characteristics:
+\begin{enumerate}
+	\item A lattice is a set of points defined as integer sums of \emph{primitive lattice vectors}
+	\item A lattice is a set of vectors such that addition of two valid lattice vectors gives a third valid vector
+	\item A lattice looks the same from every lattice point.
+\end{enumerate}
+Any lattice describes a crystal, but not every crystal can be described by a lattice.\\
+Any periodic structure can be transformed in a lattice by carefully choosing a unit cell. If we have a periodic structure we can choose a unit cell as a \emph{basis} such that these cells form a lattice.\\
+We can thus describe each crystal by choosing a suitable basis and it's corresponding lattice. The choice of the unit cell is not unique. We can therefore choose unitcells such that it's mathematically convinient.\\
+A famous example of a unit cell are the so called Wigner-Seitz unit cell. It is defined as the region of space around a given lattice point, that is closer to this lattice point than to any other.\\
+To fully describe a crystal we have to specify the basis and the positions of the atoms within these unit cells.
+\section{Symmetry Operations}
+Symmetry operations can be used to classify lattices.
+\begin{itemize}
+	\item Translational Symmetry:\\
+		There always exists a vector $\vec{R}$ such that a translation by $\vec{R}$ leaves the system unchanged. ALL CRYSTALS HAVE TRANSLATIONAL SYMMETRY
+	\item Rotational Symmetry:\\
+		We can rotate the system by an angle $\sigma$ such that the system remains unchanged. Not all crystals have rotational symmetry.
+	\item Reflection\\
+		There can be one or many mirror planes such that a reflection across these planes leaves the system unchanged. Not all crystals have a Symmetry in reflextion.
+	\item Inversion\\
+		$\left( x, y, z \right) \to \left( -x, -y, -z \right) $. Not all crystals have a Inversion symmetry.
+\end{itemize}
+Some parts missing here\\
+\subsection{Summary of the proporties of the recprocal lattice}
+\begin{itemize}
+	\item For every direct lattice $\exists$ a recprocal lattice
+	\item The recprocal of a reciprocal lattice is the original direct lattice\\
+		if we have a set of reciprocal lattices $\{\vec{G}\}$ and  it's reciprocal is $\{\vec{M}\}$\\
+		$\implies e^{i \vec{G} \cdot \vec{M}} = 1$ i.e. $\{\vec{M}\} = \{\vec{R}\}$
+		\item $\vec{R} \cdot \vec{G} = 2 \pi m$ with $m \in \mathbb{Z}$
+	\item  $\vec{G}\left( h,k,l \right) = h \vec{b_1} + k \vec{b_2} + l \vec{b_3}$, where $h,k,l$ are the miller indecies. $\vec{G} \perp \left( k \text{ } k \text{ } l \right) $ lattice plane.
+\item The separation between lattice planes of the direct lattice ($h$ $k$ $l$) \\
+		$d(h,k,l) = \frac{2\pi}{\abs{\vec{G}(h,k,l)}} = \frac{a}{\sqrt{h^2 + k^2 + l^2} }$
+\end{itemize}
+\section{Brillouin Zone}
+We want to study waves in crystals (eg. electrons or phonons). \\
+We define the Brillouin Zone (BZ) as the unit cell of the reciprocal lattice. \\
+We call the N$^{\text{th}}$ BZ: points in $\vec{k}$ space where $\vec{k} = 0$ is the N$^{\text{th}}$ closest reciprocal lattice point are the N$^{\text{th}}$ BZ. This corresponds to the Wigner Seitz unit cell of the reciprocal lattice.
+The number of $\vec{k}$ states in a BZ is equal to the number of unitacells in the system. \\
+We consider some examples in 3d:\\
+\begin{itemize}
+	\item Lattice		| Rep. Lattice 	| First BZ
+	\item Simple cubic 	| Simple cubic 	| Cube
+	\item BCC		| FCC		| WS cell for FCC
+	\item FCC		| BCC		| WS cell for BCC
+\end{itemize}
+\chapter{Reciprocal Space}
+\chapter{Scattering Experiments}
+By sending a known wave with $\vec{k}$ into a sample we usually get a scattered part $\vec{k'}$ and an unscattered part $\vec{k}$. By studying the scattered wave $\vec{k'}$ we can infere the structure.\\
+The wave should be comparable in size to the structure you want to investigate.  In CoMa we want to invesitgate crystal structures of solids, we thus need waves with a wavelength on the order of a few Angstroms. In particular we consider X-Rays and Neutrons. (In theory electrons are also feasable, but physically much more complex - in this lecture we only consider X-Rays and Neutrons).\\
+The atoms in a crystal are producing a periodic potential. Our wave is interacting  with this potential $V(\vec{R})$ that is scattering the wave.\\
+\section{Fermi's Golden Rule}
+We look ath the Scattering Rate $\Gamma$: \[
+	\Gamma(k, k') = \frac{2\pi}{\hbar} \abs{\bra{\vec{k'}} V \ket{\vec{k}} }^2 \delta\left( E_{k'} - E_k \right)  
+.\] 
+We assume ELASTIC Scattering; this means we assume $E =E'$ and $\abs{\vec{k}} = \abs{\vec{k'}}$ \\
+This is a reasonable assumtion as the majority of a scattered signal results from elastic scattering and only a negligable part of the signal results from inelastic scattering.\\
+We now investigate the matrix element  \[
+	\bra{k'} V \ket{k} = \int d\vec{r} e^{-i \vec{k'} \cdot \vec{r}} V(\vec{r}) e^{i \vec{k}\cdot\vec{r}} = \int d\vec{r} e_6{-i\left( \vec{k'} - \vec{k} \right) \cdot \vec{r}} V(\vec{r})
+\] \[
+= FT[V(\vec{r})]
+.\]  
+If we consider a periodic scattering potential we find \[
+	FT[V(\vec{r})] = \frac{\left( 2\pi \right) ^3}{V_{unit cell}} \sum_{\vec{G}} \delta^3\left( \vec{k} - \vec{k'} - \vec{G} \right) S\left( \vec{G} \right) 	
+.\] With the structure factor $S(\vec{G})$ given as \[
+S(\vec{G})  \int_{unit cell} d^3\vec{r} e^{i \vec{G} \cdot \vec{r}} V(\vec{r})
+.\] ANy periodiic potential has a FT with non-zero values only at the positions of the RECPROCAL LATTICE VECTORS and its values are weighted by the structure factor. We thus find:
+\begin{enumerate}
+	\item Scattering is non-zero onlf if $\vec{k} - \vec{k'} = \vec{G}$ \\
+		this realtion which expresses the conservation of crystal momentum is called the Laue condition.
+	\item Intensity of Scattering is proportional to $\abs{S(\vec{G})}^2$
+\end{enumerate}
+\section{Equivalence of Laue and Bragg Conditions}
+The Laue condition is equivalent to imposing constructive interference between waves scattered on different lattice planes. \\
+We assume a wave incident on a lattice plane with an angle of $\theta$. Note: the wave is thus deflected by $2\theta$.\\
+A wave reflected on the second lattice plane has to travel an additional distance equal to $2 d \sin\left( \theta \right) $. To get constructive interference we need \[
+	2 d \sin\left( \theta \right) = n \lambda
+.\] 
+We know that our $\vec{G}$ is perpendicular on the lattice plane. Since we only consider elastic scattering we have $\abs{k} = \abs{k'}$. We define $\hat{k}$, $\hat{k'}$, $\hat{G}$ as the unit vectors in the directons of the corresponding vectors. We find \[
+	\hat{k'} \cdot \hat{G} = -\sin\left( \theta \right) 
+\] \[
+\hat{k} \cdot \hat{G} = \sin\left( \theta \right) 
+.\] We rewrite the Laune condition \[
+\frac{2\pi}{\lambda} \left( \hat{k} -  \hat{k'} \right) = \vec{G}
+\] \[
+\frac{2\pi}{\lambda} \left( \hat{G}\cdot \hat{k} - \hat{G}\cdot \hat{k'} \right) = \hat{G} \cdot \vec{G}
+\]\[
+\frac{2\pi}{\lambda} \left( \sin(\theta) - \left( -\sin(\theta) \right)  \right) = \abs{\vec{G}}
+.\]  \[
+\frac{2p}{\abs{\vec{G}}} 2 \sin(\theta) = \lambda
+\] \[
+2d\sin(\theta) = n*d \text{  with } n \in \mathbb{Z} 
+.\]  We have now recavered the Bragg condition from the Laue condition. We have thus found that the conservation of momontum corresponds to constructive interference.\\
+\section{Intensity of Scattering}
+\[
+	I \propto \abs{S\left( \vec{G} = \vec{k} - \vec{k'} \right) }^2
+\] With $S = FT[V(\vec{r})]$.
 
 
 
