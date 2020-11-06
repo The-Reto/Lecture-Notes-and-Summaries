@@ -64,7 +64,7 @@ Intro question: \emph{Which keeps coffee warmest?}
 \end{itemize}
 The Steel cup looses, electrical conducters are also good thermal conductors. Glass acctually has the lowest thermal conductivity, yet the ceramic cup still wins. Why? \\
 It's not only the thermal conductivity that matters, it's also the heat capacity that matters, and in this regard ceramics are almost unbeatable.\\
-\section{Heat Capacity - Definitions}
+\subsection{Heat Capacity - Definitions}
 Heat Capacity is how much heat can you store in a material per change in temperature. \[
 C = \frac{\partial U}{\partial T}
 .\] Specific heat $c_v$ is the heat capacity per unit volume. $C_{N_a}$ is the heat capacity per mole, as it's otherwise per atom. \\
@@ -880,10 +880,11 @@ We consider some examples in 3d:\\
 	\item FCC		| BCC		| WS cell for BCC
 \end{itemize}
 \chapter{Reciprocal Space}
+Missing TODO
 \chapter{Scattering Experiments}
 By sending a known wave with $\vec{k}$ into a sample we usually get a scattered part $\vec{k'}$ and an unscattered part $\vec{k}$. By studying the scattered wave $\vec{k'}$ we can infere the structure.\\
 The wave should be comparable in size to the structure you want to investigate.  In CoMa we want to invesitgate crystal structures of solids, we thus need waves with a wavelength on the order of a few Angstroms. In particular we consider X-Rays and Neutrons. (In theory electrons are also feasable, but physically much more complex - in this lecture we only consider X-Rays and Neutrons).\\
-The atoms in a crystal are producing a periodic potential. Our wave is interacting  with this potential $V(\vec{R})$ that is scattering the wave.\\
+The atoms in a crystal are producing a periodic potential. Our wave is interacting  with this potential $V(\vec{R})$ that is scattering the wave. $\implies$ we acctually probe this periodic potential.\\
 \section{Fermi's Golden Rule}
 We look ath the Scattering Rate $\Gamma$: \[
 	\Gamma(k, k') = \frac{2\pi}{\hbar} \abs{\bra{\vec{k'}} V \ket{\vec{k}} }^2 \delta\left( E_{k'} - E_k \right)  
@@ -929,11 +930,80 @@ We know that our $\vec{G}$ is perpendicular on the lattice plane. Since we only 
 \section{Intensity of Scattering}
 \[
 	I \propto \abs{S\left( \vec{G} = \vec{k} - \vec{k'} \right) }^2
-\] With $S = FT[V(\vec{r})]$.
-
-
-
-
+\] With $S = FT[V(\vec{r})]$. \\
+\subsection{Neutron Scattering}
+Neutrons interact mostly via short range nuclear forces. They only 'see' a short range potential of only the nucleus. \[
+	V(\vec{r}) \propto \sum_{\text{atoms }\alpha} b_{\alpha} \delta^3(\vec{r} - \vec{r}_{\alpha})
+\] With the scattering length $b_{\alpha}$, which can be both positive or negative. For positive $b_{\alpha}$ the nuclei and neutrons experience repulsive interaction, for negative $b_{\alpha}$ an attcactive interaction.\\
+We'll now investigate the form of the structure factor $S(\vec{G})$ : \[
+	S(\vec{G}) = \int_{\text{unit cell}} dr^3 e^{i \vec{G}\cdot\vec{r}} V(\vec{r}) = \int_{\text{unit cell}} e^{i \vec{G} \cdot \vec{r}} \sum_{\alpha} b_{\alpha} \delta^3\left( \vec{r} - \vec{r}_{\alpha} \right) 
+\] \[
+\implies S(\vec{G}) = \sum_{\text{atoms in unit cell}} b_{\alpha} e^{i \vec{G} \cdot \vec{r}_{\alpha}}
+\]
+\subsection{X-Rays}
+As electron magnetic waves the X-Rays interact mostly with the electrons, which are delocalized. Our potential is thus proportional to the electron density. \[
+	V(\vec{r}) \propto e^- \text{ density}
+\] \[
+V(\vec{r}) \propto \sum_{\alpha} Z_{\alpha} g\left( \vec{r} - \vec{r}_{\alpha} \right) 
+\] With $Z_{\alpha}$ the atomic number of the atom in question, and the SHAPE FUNCTION $g(\vec{r} - \vec{r}_{\alpha}$ (behaves like a 'fat' delta function).\\
+For this situation we find the structure factor as: \[
+	S(\vec{G}) = \sum_{\alpha} \int_{\text{unit cell}} d^3r e^{i \vec{G} \cdot \vec{r}} Z_{\alpha} g_{\alpha}\left( \vec{r} - \vec{r}_{\alpha} \right) 
+\] \[
+= \sum_{\alpha} e^{i \vec{G} \cdot \vec{r}_{\alpha}} f_{\alpha}\left( \vec{G} \right) 
+.\] With the atomic form factor $f_{\alpha}\left( \vec{G} \right) $ it is given as the FT of the shape function: \[
+f_{\alpha}\left( \vec{G} \right)  = \int_{\text{all space}} d^3r e^{i \vec{G} \cdot \vec{r}} Z_{\alpha} g_{\alpha}(\vec{r})
+\] Note: for the atomic form factor we are integrating over all space, not just the unit cell. This is neccesary because $g_{\alpha}(\vec{r})$ have long, non-zero, tails that 'bleed into' all unit cells. \\
+In general we can say: \[
+	S\left( \vec{G} \right) = \sum_{\text{atoms in unit cell }\alpha} e^{i \vec{G} \cdot \vec{r}_{\alpha}} \begin{cases}
+			f_{\alpha}( \vec{G}) \\
+			b_{\alpha}
+	\end{cases}
+\] We re-write the structure factor using the Miller indecies: \[
+S\left( \vec{G} \right) = \sum_{\alpha} e^{2\pi i \left( h u_a + k v_a + l w_a  \right) } f_{\alpha}(\vec{G})
+\] with ($h$, $k$, $l$ ) the Miller indicies and [$u_{\alpha}$, $v_{\alpha}$, $w_{\alpha}$ ] the position of the atom $\alpha$ in the unit cell.  
+\section{Examples}
+\subsection{Caesium Chloride}
+CsCl is has a simple cubic lattice with basis [$0, 0, 0$ ] for the Cs, and [$\frac{1}{2}, \frac{1}{2}, \frac{1}{2}$ ] for the Cl.\\
+What is the structure factor of CsCl? \[
+			S\left( h, k, l \right) = f_{\text{Cs}}+ f_{\text{Cl}} e^{2\pi i \left( \frac{h}{2} + \frac{k}{2} + \frac{l}{2}  \right) }
+	\] \[
+	= f_{\text{Cs}} + f_{\text{Cl}} \left( -1 \right) ^{h+k+l} = \begin{cases}
+		f_{\text{Cs}} + f_{\text{Cl}} , & \text{ for } h + k + l  \text{ even}\\
+		f_{\text{Cs}} - f_{\text{Cl}} , & \text{ for } h + k + l \text{ odd}
+	\end{cases}
+	\]  
+\subsection{Caesium}
+Same lattice and basis as for CsCl, but both atoms are equal. (In principle this is a BCC, but it can also be described as a simple cubic with two basis) \[
+	S_{h,k,l} = f_{\text{Cs}} + f_{\text{Cs}} \left( -1 \right) ^{h+k+l} = \begin{cases}
+		0 , & \text{ for } h+k+l \text{ odd}\\
+		2 f_{\text{Cs}} , & \text{ for } h+k+l \text{ even}
+	\end{cases}
+\] This result is not only true for Caesium, but for \emph{all} BCC lattices. This behaviour is called Selection Rule or Systematic Absence. 
+\subsection{FCC Lattice}
+FCC, like BCC, can be described as a simple cubic and a basis: $[0,0,0], [\frac{1}{2}, \frac{1}{2}, 0], [\frac{1}{2}, 0, \frac{1}{2}], [0, \frac{1}{2}, \frac{1}{2}]$. \[
+	S = \sum_{\alpha = 0}^{4} e^{2\pi i (h,k,l) \cdot (u,v,w)_{\alpha}} = 1 + \left( -1 \right) ^{(h+k)} + \left( -1 \right) ^{(h+l)} + \left( -1 \right) ^{(k+l)}
+\] \[
+\implies S_{\text{FCC}} = 0, \text{ unless } h,k,l \text{ are all odd or all even}
+.\]
+\subsection{TiC}
+FCC with basis: Ti $[0,0,0]$, C $[u,v,w]$. \[
+	\abs{S_{\text{basis}}}^2 = \abs{b_{\text{Ti}} + b_{\text{C}} e^{2 \pi i \left( h, k, l \right) \cdot \left( u,v,w \right) }}^2
+\] In an FCC crystial we only have two options for a second atom \[
+[u,v,w] = \begin{cases}
+	[\frac{1}{4}, \frac{1}{4}, \frac{1}{4}] & \text{as in }\\
+	[\frac{1}{2}, \frac{1}{2},\frac{1}{2}] & \text{as in NaCl}
+\end{cases}
+\] We can simply try to insert both options and see which one matches the data, thus determining the basis of the inserted Atom.
+\section{Independence of Selection Rules and Basis}
+Selection Rules are independent of the Basis: \[
+	S = S_{\text{lattice}} \cdot S_{\text{basis}}
+	\] If $S_{\text{lattice}}$ goes to $0$ so does $S$. \[
+S = \sum_{\alpha} f_{\alpha} e^{i \vec{G} \cdot \vec{r}_{\alpha}}
+\] We now write $\vec{r}_{\alpha} = \vec{R}_{\alpha} + \vec{x}_{\alpha}$ the sum of the position of the lattice point and the basis. \[
+S = \sum_{R \text{ in lattice}} \sum_{x \text{ in basis}} f_{\vec{x}} e^{i\vec{G} \cdot \left( \vec{R} + \vec{x} \right) } = \sum_{R \text{in lattice}} e^{i \vec{G}\cdot\vec{R}} \cdot \sum_{x \text{ in basis}} e^{i \vec{G}\cdot\vec{x}}
+\]   \[
+\implies S = S_{\text{lattice}} \cdot S_{\text{Basis}}
+\] 
 
 
 
