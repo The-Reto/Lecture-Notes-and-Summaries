@@ -899,7 +899,7 @@ We now investigate the matrix element  \[
 If we consider a periodic scattering potential we find \[
 	FT[V(\vec{r})] = \frac{\left( 2\pi \right) ^3}{V_{unit cell}} \sum_{\vec{G}} \delta^3\left( \vec{k} - \vec{k'} - \vec{G} \right) S\left( \vec{G} \right) 	
 .\] With the structure factor $S(\vec{G})$ given as \[
-S(\vec{G})  \int_{unit cell} d^3\vec{r} e^{i \vec{G} \cdot \vec{r}} V(\vec{r})
+S(\vec{G}) =  \int_{unit cell} d^3\vec{r} e^{i \vec{G} \cdot \vec{r}} V(\vec{r})
 .\] ANy periodiic potential has a FT with non-zero values only at the positions of the RECPROCAL LATTICE VECTORS and its values are weighted by the structure factor. We thus find:
 \begin{enumerate}
 	\item Scattering is non-zero onlf if $\vec{k} - \vec{k'} = \vec{G}$ \\
@@ -1004,6 +1004,78 @@ S = \sum_{R \text{ in lattice}} \sum_{x \text{ in basis}} f_{\vec{x}} e^{i\vec{G
 \]   \[
 \implies S = S_{\text{lattice}} \cdot S_{\text{Basis}}
 \] 
+\section{How to realize X-RAY \& Neutron Scattering Experiments}
+\begin{itemize}
+	\item X-Rays from an X-rays tube\\
+		High energy electrons are used to kick out core electrons from the material in the target. Electrons from the higher orbitals are then 'filling' the resulting holes in the core orbitals - as they do that, there is X-ray emission from this electronic emission. Since the energies of these transitions are extremly sharp (very well defined value) we get a very 'pure' wavelength X-ray source - ideal for scattering experiments.\\
+		Unfortunatelly the amount of photons that can be produced with this technique is relatively limited.
+	\item Synchrotron X-ray Sources\\
+		Are $~10^10$ times more luminous than an X-ray tube. But requires huge equipment (there's one at PSI). In a synchrotron electrons are accelerated in a circular loop to big energies (GeV) and are then 'undulated' in undulators resulting in an oszilating motion, the electron oscilation in turn results in X-Ray emission. Unfortunatelly the resulting X-rays are not as well defined as in the method above, but one can filter for the wanted wavelength(s).
+	\item Neutron Sources\\
+		We need neutrons with wavelengths on the order of about $1$ Angstrom. We therefore know the needed momentum $p = \frac{1\pi \hbar}{\lambda} \implies E = \frac{p^2}{2m} \approx 80 meV$ which corresponds to about $800$ K.\\
+		The problem is that common neutron sources (Nuclear reactors, or so called spalletion) emmit Neutrons with a much higher energy. We therefore have to cool down the neutrons using so called moderators. Moderators are materials in which the neutrons, when moving through them, loose velocity. To make the neutrons monochromatic we can either let them diffract with known crystals or use the Time of Flight (ToF) method. ToF works by letting the Neutrons fly through a known cavity with a shutter, allowing us to filter for a specific speed and thus a specific wavelength.
+\end{itemize}
+\chapter{Electrons in a periodic potential}
+Is the fact that an axcitation at $\vec{k} + \vec{G}$ is the same as at $\vec{k}$ a general property or was it a result from the simplified tight binding model?
+\section{Bloch Theorem}
+An electron in a periodic potential $V(\vec{r}) = V(\vec{r} + \vec{R})$ has eigenstates of the form: \[
+	\psi_k^{\alpha}(\vec{r}) = e^{i \vec{k}\cdot \vec{r}} \mu_R^{\alpha}(\vec{r})
+\] With $\mu_k$ a periodic function with the same periodicity as the potential. These are modified plane waves, where $\vec{k}$ can be chosen to be in the first BZ. $\alpha$ is called the bound index, the eigenenergies are $E^{\alpha}(\vec{k})$.\\
+Proof:\\
+Consider the hamiltonian of our system: \[
+H = H_0 + V
+\] $H_0 = \frac{\vec{p}^2}{2m}$ the hamiltanian of the free electron and $V$ our periodic potential. We know that if $V = 0$ : \[
+H_0\ket{\vec{k}} = E_k^0 \ket{\vec{k}} \text{  ,  } E_k^0= \frac{\hbar^2 \vec{k}^2}{2m}
+.\] If $V \neq 0$ the electrons scatter from $\vec{k}$ to $\vec{k'}$ via a matrix element $\bra{k'} V \ket{\vec{k}} $. We know from before \[
+\bra{\vec{k}'} V \ket{\vec{k}} = FT[V(\vec{r})]_{\vec{k} - \vec{k'}} =  \begin{cases}
+	0 \text{ if } \vec{k} - \vec{k'} \neq \vec{G} \\
+	V_{\vec{G}} \text{ if } \vec{k} - \vec{k'} = \vec{G}
+\end{cases}
+.\]  $\psi_k$ must have the form: \[
+\psi_k = \sum_{\vec{G}} A_{\vec{G}+\vec{k}} e^{i\left( \vec{G} + \vec{k} \right) \cdot \vec{r}} = e^{i\vec{k}\cdot \vec{r}} \sum_{\vec{G}} A_{\vec{G} + \vec{k}} e^{i\vec{G}\cdot\vec{k}}
+\]\[
+\mu(\vec{r}) = \sum_{\vec{G}} A_{\vec{G} + \vec{k}} e^{i\vec{G}\cdot\vec{r}}
+.\] We find the eigenstates $\psi_k$ as \[
+\psi_{\vec{k} + \vec{G'}} = \sum_{\vec{G}} A_{\vec{G} + \vec{k} + \vec{G'}} e^{i\vec{G}\cdot \vec{r}} 
+.\]  We can define $\vec{\hat{G}} = \vec{G} + \vec{G'}$ \[
+= \sum_{\vec{\hat{G}}} A_{\vec{\hat{G}} + \vec{k}} e^{i \vec{\hat{G}} \cdot \vec{r}}
+.\] Consequenses: 
+\begin{itemize}
+	\item All exxictations can be described within the first BZ
+	\item A periodic potential does not scatter the crystal momentum
+\end{itemize}
+\section{Nearly Free Electron Mode}
+We want to solve the SEq with a periodic potential $V(\vec{r}) = V(\vec{r} + \vec{R})$.
+Approaches:
+\begin{enumerate}
+	\item Thight binding models: Atomic orbitals + weak hopping
+	\item Nearly Free Electrons: plane waves + 'weak' periodic potential
+\end{enumerate}
+\[
+H_0 \ket{\vec{k}} = E_k^0 \ket{\vec{k}} 
+.\] How can we add a 'weak' potential? We assume the potential is a perturbation -> Pertubation theory.\\
+First order pertubation theory: \[
+E_k \approx E_k^0 + \bra{k} V \ket{k} = E_k^0 + V_0 
+\] If we also consider the second order perturbation term we find: \[
+E_k \approx E_K^0 + V_0 + \sum_{\vec{k'} \neq \vec{k}} \frac{\abs{\bra{k'} V \ket{k} }^2}{E_k^0 - E_{k'}^0}
+\] \[
+\sum_{k' \neq k} \frac{\abs{\bra{k'} V \ket{k} }^2}{E_k^0 - E_{k'}^0} = \sum_{\vec{G}} \frac{\abs{V_G}^2}{E_k^0 - E_{\vec{k}+\vec{G}}^0}
+\] Problem: We get a divergence at $E_k = E_{k + G}$, this specifically happens at the BZ Boundaries.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
