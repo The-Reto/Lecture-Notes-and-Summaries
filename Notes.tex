@@ -1060,17 +1060,137 @@ E_k \approx E_k^0 + \bra{k} V \ket{k} = E_k^0 + V_0
 E_k \approx E_K^0 + V_0 + \sum_{\vec{k'} \neq \vec{k}} \frac{\abs{\bra{k'} V \ket{k} }^2}{E_k^0 - E_{k'}^0}
 \] \[
 \sum_{k' \neq k} \frac{\abs{\bra{k'} V \ket{k} }^2}{E_k^0 - E_{k'}^0} = \sum_{\vec{G}} \frac{\abs{V_G}^2}{E_k^0 - E_{\vec{k}+\vec{G}}^0}
-\] Problem: We get a divergence at $E_k = E_{k + G}$, this specifically happens at the BZ Boundaries.  
-
-
-
-
-
-
-
-
-
-
+\] Problem: We get a divergence at $E_k = E_{k + G}$, this specifically happens at the BZ Boundaries (since at the BZ boundary $\abs{\vec{k}} = \abs{\vec{k} + \vec{G}} \implies E_k^0 = E_{k+G}^0$).
+How do we treat the boundaries of the BZ? The answer is
+\subsection{Degenerate Perturbation Theory}
+The problematic points are the BZ boundaries and their immediate proximity ($\vec{k}$ and $\vec{k} + \vec{G}$). We specifically search for solutions around these problematic states.\\
+We assume we are near the BZ boundary and look for an eigenstate of the form: \[
+	\text{Trial wave function:  }\ket{\psi} = \psi_k \ket{\vec{k}} + \psi_{k+G} \ket{\vec{k} + \vec{G}}  
+\] We now diagonalize the effective hamiltonian: \[
+\sum_{m} H_\text{m,n} \phi_m = E \phi_n
+\] We have to find the best linear combination of the "problematic" states to find the lowest energy state within the considered space. \[
+\bra{\vec{k}} H \ket{\vec{k}} = \bra{\vec{k}} H_0\ket{\vec{k}} + \bra{\vec{k}} V \ket{\vec{k}} = E_k^0 + V_0
+\]\[
+\bra{\vec{k} + \vec{G}} H \ket{\vec{k} + \vec{G}} = E_{k+G}^0 + V_0
+\]\[
+\bra{\vec{k} + \vec{G}} H \ket{\vec{k}} = \bra{\vec{k} + \vec{G}} H_0 \ket{\vec{k}} + \bra{\vec{k} + \vec{G}} V \ket{\vec{k}} = E_k^0 \bra{\vec{k} + \vec{G}}\ket{\vec{k}} + V_{\vec{G}} = V_{\vec{G}} 
+\]\[
+\bra{\vec{k}} H \ket{\vec{k} + \vec{G}} = V_{-\vec{G}} = V_{\vec{G}}^*
+.\] since $\ket{\vec{k}} $ and $\ket{\vec{k} + \vec{G}} $ are orthogonal. And with $V_{\vec{G}}$ the Fourier Transform of the potential. \[
+\implies H = \begin{bmatrix} E_k^0 + V_0 & V_G^* \\ V_G & E_{k+G}^0 + V_0 \end{bmatrix} 
+\] Assume $\vec{k}$ and $\vec{k} + \vec{G}$ are of the BZ boundaries: \[
+\implies E_k^0 = E_{k+G}^0
+\]\[
+\implies E = E_k^0 + V_0 \pm \abs{V_{\vec{G}}}
+\] We note that a periodic potential therefore affects the free electron wavefunction mainly at the BZ boundaries. A periodic potential opents up a gap in the dispersion of size $2 \abs{V_{\vec{G}}}$ at the BZ boundaries.\\
+\section{Origin of the Energy Gaps}
+Suppose in 1D to have a periodic potential of the form: \[
+	V(x) = 2 \hat{V} \cos\left( \frac{2\pi}{a} x \right) 
+\] This potential has the interesting characteristic of having only two fourier modes: \[
+V_{\frac{2\pi}{a}} = V_{-\frac{2\pi}{a}} = \hat{V} \text{ and all the other } V_{\vec{G}} = 0
+\] This makes the treatment of this potential mathematically simple, but the results we find are general for periodic potentitals.\\
+The BZ boundaries in this case are: $\ket{k = -\frac{\pi}{a}} $ and $\ket{k = \frac{\pi}{a}} $\[
+	\bra{x} \ket{k}  \to e^{\pm i\frac{\pi}{a}x}
+\] We can diagonalize the hamiltonian to get two eigenfunctions: \[
+\psi_\pm = e^{i\frac{\pi}{a}a} \pm e^{-i \frac{\pi}{a}x}
+\] With the eigen energies \[
+E_\pm = E_{\frac{\pi}{a}}^0 \pm \hat{V}
+\] If we look at the probability density we find: \[
+\abs{\psi_+}^2 \propto \cos^2\left( \frac{\pi}{a} x \right) \text{ , } \abs{\psi_-}^2 \propto \sin^2\left( \frac{\pi}{a}x \right)  
+.\]   
+The probability density $\abs{\psi_+}^2$ has it's maxima at the same positions as the potential, while the probability density $\abs{\psi_-}^2$ has it's maxima at the positions where the potential has it's minima. Therefore $\psi_+$ "sees" the potential very strongly and it's energy gets shifted up, while $\psi_-$ only "sees" the places where the potential is negative and therefore it's energy is shifted down.\\
+\chapter{Band Theory}
+From the bloch theorem we know that the eigenstates of an electron in a periodic potential take the form of a modified plane wave $\psi(\vec{r}) = e^{i\vec{k}\vec{r}} \mu_R(\vec{r})$. Using perturbation theory (and degenerate perturbation theory) we found that there exist gaps in the energy dispersion at the BZ boundaries. These gaps are proportional to the periodic potential.\\
+We know so far from differet chapers:
+\begin{enumerate}
+	\item Filled band + Energy Gap ($\ge 4 \text{eV}$ ) $\to $ insulator
+	\item Highest filled band: Valence band
+	\item lowest empty band: conduction band
+	\item Insulators for energy gaps $\ge 4$ eV
+	\item Semiconductors are insulators with small energy gaps ( $\ll 4$ eV )
+	\item We can count the states to know if the band is filled.\\
+		$N$ unit cells $\to $ $N$ $k$-states, in each $k$-state we can put $2$ electrons (opposite spin) $\implies 2N$ electorns will fill a band. Any even number of electrons per unit cell can fill an integer number of bands.
+	\item Metals have partially filled bands $\to$ usually (but not generally) odd numbers of electrons per unit cells is a metal.
+\end{enumerate}
+We call the highest filled band the \emph{valence band}, while the lowest empty band is called \emph{conduction band}. Depending on the energy gap between the valence and the conduction band we can classify materials as insulators, semiconductors and conductors in the way outlined above.\\
+For monovalent atoms, each primitive unitcell only contributes one electron. See the slides for the bulk of content of this chapter.
+\chapter{Semiconductors}
+Within the previous chapter we saw that we have different energy bands. We called the highest filled band, the valence band and the lowest (partially) empty band the conductance band. In semiconductors we can exite an electron from the valence band to the conductance band, it leaves behind a \emph{hole}.\\
+A \emph{hole} is an absence of an electron in an otherwise filled VB, it corresponds to an "empty orbital". A hole and an electron can recombine to give us a photon. \\
+One can obtain an electorn + hole in a system by providing some additional energy. Another way of having holes in a system (without external excitations) is having partially overlapping bands. Electons and holes can move about within the respective bands.\\
+We define \[
+n = \text{ density of electrons in CB}
+\] \[
+p = \text{ density of electrons in VB}
+\]  
+In intrinsic (aka. pure) materials we always get: $n = p$ (Eg. pure silicon crystal)\\
+In the precence of impurities: $n \neq p$ (Eg. dotted Silicon crystal)\\
+Pure Si has a completely filled VB. For simplicity we consider a 2d-square lattice of Si-Atoms with one added Phosphor atom. We can think of the P atom as a Si atom with an additional electron, that has to occupy the conduction band.\\
+If we instead replace one of the Si-Atoms with a Boron atom. We can think of this B-atom as a Si-Atom with one electron missing - this thus provides a hole in the VB. \\
+We call these foreign atoms in the crystal \emph{Dopants}. Dopants are introduced in a pure substance to change it's properties. 
+We call dopants that provide extra electrons n-dopants or donor impurity, while we call dopants that provide holes p-dopant or acceptor impurity.\\
+\section{Electrons \& Holes in the Bands}
+How do electrons in the CB and holes in the VB move?\\
+We consider the dispersion of the CB around a minimum at $k_\text{min}$ and aproximate by tayloring. \[
+	E = E_0 + \frac{1}{2} \frac{\partial^2 E}{\partial k^2}\left( k - k_\text{min} \right)^2 + \ldots
+.\] We can define the electron effective mass $m_e^*$ as \[
+\frac{1}{m_e^*} = \frac{1}{\hbar^2} \frac{\partial^2 E}{\partial k}
+.\] such that the energy is given by \[
+E = E_0 + \frac{\hbar^2 \left( k- k_\text{min} \right)^2}{2m_e^*}
+.\] 
+We can also define a group velocity \[
+V_\text{group} = \frac{\partial \omega}{\partial k}
+\] with $E = \hbar \omega \implies \omega = \frac{E}{\hbar}$ we find \[
+V_\text{group} = \frac{1}{\hbar} \frac{\partial E}{\partial k} = \frac{\hbar \left( k - k_\text{min} \right) }{m_e^*}
+.\] Note: 
+\begin{enumerate}
+	\item Effective mass can be anisotropic, meaning they can be different depending on the direction of the crystaline direction.
+	\item There might be specific directions in which there are more than one minima in the dispersion. In this case we speak valleys at $k_i$.
+	\item Since the effective mass is proportional to the curvature of the dispersion it can assume positive or negative values.
+\end{enumerate}
+\subsection{Mass of a Hole}
+We consider a hole on top of the VB ("sitting at a maximum of the dispersion"), the curvature and thus the effective mass will be $< 0$. We define the mass of the hole, such that \[
+\frac{\hbar^2}{m_h^*} = - \frac{\partial^2 E}{\partial k^2}
+\] the mass of the hole is positive.\\
+Note that the definition of the mass of a hole is exactly negative the effective mass of the electron.\[
+m_h^* = - m_e^*
+.\] 
+Using this definition we can also define the energy of a hole \[
+E_h = E_0 + \frac{\hbar^2}{2 m_h^*}k^2
+.\] Moving a hole away from a maximum of the VB will increase the energy of the system.
+\subsubsection{Momentum of a Hole}
+We know that completely filled bands are inert $\implies$ they have no crystal momentum. If we now picture a band with a hole at a position and another band with an electron at the same position and 'add' them together we get an inert band. We therefore reason \[
+\hbar k_h + \hbar k_e = \hbar k_\text{inert} = 0
+\] \[
+\implies \hbar k_h = -\hbar k_e
+.\]  
+\subsubsection{Velocity of a Hole}
+For the electrons we have \[
+E_e = E_0 - \frac{\hbar^2 k_e^2}{2m_h^*}
+\] \[
+v_g^e = \frac{1}{\hbar } \frac{\partial E_e}{\partial k_e} = - \frac{\hbar k_e}{m_h^*} = \frac{\hbar k_e}{m_e^*}
+.\] The group velocity has opposite directions to the wave vectors.\\
+For the Hole we thus find \[
+E_h = E_0 + \frac{\hbar^2 k_h^2}{2m_h^*}
+\] \[
+\implies v_g^h = \frac{1}{\hbar } \frac{\partial E_h}{\partial k_h} = \frac{\hbar k_h}{m_h^*} = -\frac{\hbar k_e^2}{m_h^*}
+.\]  The group velocity is the same for holes and electorns.
+\section{Dynamics of Electors and Holes in the Bands}
+We recall the equation of motion we used in the Drude model: \[
+	\dot{\vec{p}} = \vec{F} - \frac{\vec{p}}{\tau}
+\] 
+For the electrons: $m_e^* \dot{\vec{v}_e} = -e\left( \vec{E} + \vec{v} \cross \vec{B} \right) - \frac{m_e^* \vec{v}}{\tau_e}$.\\
+Fro holes we find: $m_h^* \dot{\vec{v}_h} = +e\left( \vec{E} + \vec{v} \cross \vec{B} \right) - \frac{m_h^* \vec{v}}{\tau_h}$ \\
+If we substitude $m_h^* = - m_e^*$ we get the same equation of motion up to a sign. We can recall that the Drude model had trouble with the sign of the Hall coefficient and now we can see why - the sign of the Hall coefficient depends on wether the electronic transport takes place mainly by the electorns or by holes.\\
+\section{Doping \& Temperature}
+Let's consider the example of a Phosphorus atom in Si (as an example of a donor in a pure material). We saw that we can think of a P-atom as \[
+	\text{"P"} = \text{"Si"} + 1 \text{ proton} + 1 \text{e}^{-1}
+.\] We call P an "Hydrogenic" atom, adding one electron and one proton. \\
+For a H atom we can calculate the binding energy to it's atom as: \[
+E_\text{binding}= \frac{m_e e^4}{3 \epsilon_0^2 h^2} = Ry = 13.6 \text{eV}
+.\] In a semiconductor we find instead \[
+E_\text{binding} = \frac{m_e^* e^4}{8\left( \epsilon_0 \epsilon_r \right)^2 h^2} = \left( \frac{m_e^*}{m_e} \right) \left( \frac{1}{\epsilon_r^2} \right) Ry
+.\] The binding energy is smaller in semiconductors. Since the binding energy is very small the donated electron is relatively "free", it therefore can jump to the conductance band at room temperatures (aka. we can ignore additional proton). Note: this is not true at very low temperatures.
 
 
 
