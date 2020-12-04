@@ -1191,7 +1191,152 @@ E_\text{binding}= \frac{m_e e^4}{3 \epsilon_0^2 h^2} = Ry = 13.6 \text{eV}
 .\] In a semiconductor we find instead \[
 E_\text{binding} = \frac{m_e^* e^4}{8\left( \epsilon_0 \epsilon_r \right)^2 h^2} = \left( \frac{m_e^*}{m_e} \right) \left( \frac{1}{\epsilon_r^2} \right) Ry
 .\] The binding energy is smaller in semiconductors. Since the binding energy is very small the donated electron is relatively "free", it therefore can jump to the conductance band at room temperatures (aka. we can ignore additional proton). Note: this is not true at very low temperatures.
-
+\section{Statistical Mechanics - How many electorns/holes are there?}
+We look at a band structure with a gap energy of $E_\text{gap} = E_c - E_v$ and the Fermi energy located somewhere within the gap.\\
+Recall
+\begin{itemize}
+	\item the curvature of the CB and VB do not neccesary be the same.
+	\item the minimum of the CB and maximum of VB can be displaced in momentum $k$.
+\end{itemize}
+For $E>E_c$ we find $E_k = E_c + \hbar^2 \frac{\left( \vec{k} - \vec{k}_\text{min} \right) }{2 m_e^*}$. \\
+Fro $E < E_c$ we find instead $E_k = E_v - \hbar^2 \frac{\left( \vec{k} - \vec{k}_\text{max} \right) }{2 m_e^*}$\\
+Compare with a free electorn: $E = \frac{\hbar^2 \vec{k}^2}{2m_e}$ \\
+We now want to count the states in the VB and CB. We want to find the respective density of states. \[
+	g_c\left( E > E_c \right) = \frac{\left( 2m_e^2 \right) ^{\frac{3}{2}} }{2 \pi^2 \hbar^3} \left( E - E_c \right) ^{\frac{1}{2}} 
+\] Simmilarly we find \[
+	g_v\left( E > E_c \right) = \frac{\left( 2m_e^2 \right) ^{\frac{3}{2}} }{2 \pi^2 \hbar^3} \left( E_v - E \right) ^{\frac{1}{2}} 
+.\]  
+We see that we have an increasing number of states in $g_v$ if we decrease the energy, which is exactly the reverrse of what we find in $g_c$.\\
+In the CB, the density of electrons $n$ : \[
+	n_c(T) = \int_{E_c}^\infty g(E) n_F\left( \beta\left( E - \mu \right)  \right) dE
+.\] 
+We can now think about what happens, if $\beta \left( E - -mu \right) \gg 1$ (if $\mu$ is well below the edge of the CB) \[
+	\implies n_c(T) = \int_{E_c}^\infty g_c(E) e^{-\beta \left( E - \mu \right) } = \frac{\left( 2 m_e^* \right) ^{\frac{3}{2}}}{\pi^2 \hbar^2} \int_{E_c}^\infty \left( E - E_c \right) ^\frac{1}{2} e^{-\beta \left( E - \mu \right) } dE
+.\] The integral is solvable when approximating $\mu = E_c$, in which case we get \[
+n(T) = \frac{1}{4} \left( \frac{2 m_e^* K_b T}{\pi \hbar^2} \right) ^{\frac{3}{2}} e^{-\beta \left( E_c - \mu \right) }
+.\] We can use this same reasoning for the density of the holes in the VB $p(T)$, we find \[
+p(T) = \int_{-\infty}^{E_v} g_v(E) \left( 1 - n_F\left( \beta\left( E- \mu \right)  \right)  \right) dE
+.\] If $\mu$ is not too close to the VB edge we can approximate \[
+1- n_F\left( \beta \left( E - \mu \right)  \right) \approx e^{\beta \left( E - \mu \right) } \ll 1
+.\] We find \[
+P(T) = \frac{\left( 2 m_h^* \right)^{\frac{3}{2}}}{2 \pi^2 \hbar^3} \int_{-\infty}^{E_v} \left( E_v - E \right) ^{\frac{1}{2}} e^{-\beta \left( \mu - E_v \right) } = \frac{1}{4} \left( \frac{2m_h* K_B T}{\pi \hbar^2} \right) ^{\frac{3}{2}}  e^{-\beta\left( \mu - E_v \right) }
+.\] 
+We find the Law of Mass Action: \[
+	n(T) p(T) = \frac{1}{2} \left(\frac{K_B T}{\pi \hbar^2}  \right)^3 \left( m_e^* m_h^* \right) ^{\frac{3}{2}} e^{-\beta \left(E_c - E_v  \right) }
+.\] For intrinsic (undoped) we have $n = p \implies \sqrt{np} $.\\
+For doped systems we instead have: $n - p = \text{\#donors} - \text{\#acceptors}$.\\
+Note: 
+\begin{itemize}
+	\item adding donors is equivalent to moving the chemical potential up, and adding acceptors is equivalent to moving the chemical potential down.
+\end{itemize}
+\chapter{Semiconductor Devices}
+This chapter is not relevant to the exam.
+\section{Quatum Well}
+We consider a "Sandwich" of materials, a sliver of Material A squezed between two pieces of Material B. The two materials will have different band structures.\\
+A technologically relevant example is a piece of GaAs in between two pieces of AlAs. The bandgap of AlAs is significantly bigger than the gap in GaAs. The electorns and holes will therefore behave like our modell of a particle in a box, with the "box-potential" $V(x)$ provided by the difference in the gap energies.\\
+By variing the thikness of the GaAs layer we can vary the size of our box and thus the energy levels. When an electron and hole recombine we get a photon of defined wavelength. By finetuning the thikness of GaAs we can thus get finetuned photons.\\
+We can also use various different materials to reach different ranges of possible energies.
+\section{p-n junction}
+We recall: \[
+	n(T) = \left( \ldots \right) e^{-\beta \left( E_c - \mu \right)}
+\] \[
+p(T) = \left( \ldots \right) e^{-\beta \left( \mu - E_v \right) }
+\] \[
+n(T) p(T) = \left( \ldots \right) e^{-\beta\left( E_c - E_v \right)} 
+.\]   
+What happens at the interface of one heavily n-doped side and one heavily p-doped side. (We assume the same material, just doped differently).\\
+We thus get one side with many electrons in the CB (n-doped) and one side with many holes in the VB (p-doped). The electrons and holes close to the interface will recombine up to a certain depth from the interface - this regions is called the depletion region. This recombination will result in a net electric field resulting from the surplus protons on the n-doped side.\\
+How deep is the depletion width? \[
+E_\text{gap} = e \Delta \phi = e \int \vec{E} d\vec{l}
+.\] 
+If we consider the electro-chemical potential we find that it has to be alligned across the junction (once we have found the equlibrium situation). The electro chemical potential is given by $\mu - e \phi$.
+\subsection{Solar-Cell}
+The first application of a p-n junction we consider is a solar cell.\\
+If we provide the junction with a photon we can exite an electron from the VB to the CB leaving bhind a hole. The electron will then move to the n-doped side, while the hole will move towards the p-doped side due to the electric field. Effectively producing a charge difference.
+\subsection{Rectification - Diode}
+If we instead apply a bias we can shift the band edges. We consider the probability of four different processes
+\begin{enumerate}
+	\item an electron moving from the p-doped side to the n-doped side
+	\item a hole moving from the n-doped side to the p-doped side
+	\item an electron woving from the n-doped side to the p-doped side
+	\item a hole moving from the p-doped side to the n-doped side
+\end{enumerate}
+We find: \[
+	I_\text{tot} = A_\text{1,2} e^{-\beta E_\text{gap}} - A_\text{3,4} e^{\beta\left( E_\text{gap} - eV \right) }
+	.\] In the equilibrium state we have $I(v=0) = 0$ since $A_\text{1,2} \approx A_\text{3,4}$. We find the DIODE EQUATION \[
+I_\text{tot} = e^{-\beta E_\text{gap}} \left( 1 - e^{\beta eV} \right)
+.\] 
+If we plot this equation we find that the current is $0$ for one sign of voltage and linear with voltage for the other sign. Thus acting in the known way for a diode.
+\subsection{Transistor}
+We only consider so called MOSFET (Metal Oxide Semiconductor Field Effect Transistor). We start with a p-doped semiconductor with two n-doped islands within, with a source and a drain attached to each of the islands. Basically we get two diodes facing each other. We then further connect the source and drain with an metal oxide with an island of metal in the middle. We will then apply an electic field across the metal island, inducing a seperation of charges in the oxide. Thus opening a chanell for a current from one n-doped island to the other.\\
+\chapter{Magnetism}
+Magnetic phenomenon are known since antiquity, but only explaiend in the last century.
+The Bohr-Van Leeuwen theorem expresses the need for quantum mechaincs to adequately explain magnetism:
+\begin{itemize}
+	\item If we consider classical mechanics, even regarding statistical mechanics, we'll always find a magnetisation of $0$
+\end{itemize}
+In a way magnetism is thus a failure of Band theory, as it's an effect that is not predicted by band theory. \\
+Magnetism is also a test bed for various different \emph{Phase transistions}.\\
+\section{Different Types of Magnetism}
+We consider the magnetisaiton $\vec{M}$ in relation to the suscptibility $\chi$ the permeability $\mu_0$ and the magnetic field $\vec{B}$. \[
+\vec{M} = \frac{\chi}{\mu_0}\vec{B}
+\]
+We differentiate:
+\begin{itemize}
+	\item \emph{Paramagnetism}: if $\chi > 0$, in this case the Magnetisation aligns with an externally applied magnetic field.
+	\item \emph{Diamagnetism}: if $\chi < 0$, in this case the Magnetisation is opposite of an extarnal magnetic field.
+	\item \emph{Ferromagnetism}:  if $\vec{M} \neq 0$ even for $\vec{B} = 0$.
+\end{itemize}
+\section{Atomic Magnetism}
+We ignore the magnetism of the nuclei, this is reasonable because: \[
+\text{Magnetic moment: } \mu_B = \frac{e\hbar }{2m}
+\] Obviously the magnetic moment of an electron is therefore much bigger than the one of a nucleus.\\
+The Hamiltonian for a system of electrons in an atom is: \[
+	\hat{H} = \frac{\left( \vec{p} + e \vec{A} \right)^2 }{2m} + V_\text{coulomb}(\vec{r}) + g\mu_B \vec{B} \cdot \vec{\sigma} 
+\] With the Zeeman Term $g\mu_B \vec{B} \cdot \vec{\sigma}$, and the vector potential $\vec{A}$, the Bohr magnetron $\mu_B$ and the spin angular momentum $\vec{\sigma}$ and the "g"-factor which we'll not explain in detail here ($g \approx 2)$. Recall $\vec{\nabla} \cross \vec{A} = \vec{B}$.\\
+We now rewrite the Hamiltonian by collecting all the terms relating to the free electron and the ones relating to the magnetic field; \[
+	\hat{H} = \frac{\vec{p}^2}{2m} + V(\vec{r}) + \frac{e}{2m}\left( \vec{p}\cdot\vec{A} + \vec{A} \cdot \vec{p} \right) + \frac{e^2 \vec{A}^2}{2m} + g\mu_B \vec{B}\cdot \vec{\sigma}
+.\] We choose the gauge such that \[
+\vec{A} = \frac{1}{2} \vec{B} \cross \vec{r}
+\] This gauge has the nice property, that $A_x$ commutes with $p_x$; $[\vec{A}; \vec{p}] = 0$.\\
+We can thus write the hamiltonian as: \[
+\hat{H} = \hat{H}_0 + \frac{e}{2m} 2 \vec{A} \cdot \vec{p} +g \mu_B \vec{B} \cdot \vec{\sigma} + \frac{e^2}{2m} \vec{A}^2
+\] 
+With the Hamiltonian of the free electron $\hat{H}_0 = \frac{\vec{p}^2}{2m} + V(\vec{r})$.\\
+Inserting our chosen gauge in the second term we find \[
+\hat{H} = \hat{H}_0 + \mu_B \vec{B} \cdot \vec{l} + g \mu_B \vec{B} \cdot \vec{\sigma} + \frac{e^2}{2m} \vec{A}^2
+\] With $\vec{l}$ the orbital angular momentum.
+We finally find the hamiltonian as \[
+\hat{H} = \hat{H}_0 + \mu_B \vec{B} \cdot \left( \vec{l} + g \vec{\sigma} \right) + \frac{e^2}{2m} \vec{A}^2
+\] With the first magnetic term ($\mu_B \vec{B}\cdot\left( \vec{l} + g \vec{\sigma} \right) $) called the Paramagnetic Term and the second magnetic term ($\frac{e^2}{2m} \vec{A}^2$) is called the Diamagnetic Term. \\
+If we considet the total angular momentum $\vec{j} = \vec{l} + \vec{\sigma}$ we can rewrite the paramagnetic term further as \[
+g_\text{eff} \mu_B \vec{B} \cdot \vec{j}
+\] This can only be done if we know $\vec{l}$, $\vec{\sigma}$ and $g$. In an Atom with many electronswe get \[
+\vec{L} = \sum_{i=1} \vec{l}_i\\
+\vec{S} = \sum_{i=1} \vec{\sigma}_i\\
+\implies \vec{J} = \vec{L} + \vec{S}
+.\]  How do we assign the angular momenta?
+\begin{itemize}
+	\item Aufbau principle
+	\item Madelung's rule
+\end{itemize}
+For a filled shell:  $L = S = J = 0$ \\
+For a partially filled shell we have to invoke \emph{Hund's rule}, which states: 
+\begin{enumerate}
+	\item Electron spin align if they can $\implies$ Maximises $\vec{S}$.\\
+		This is a consequence of the coulomb interaction; we write the wave function of 2 electrons: \[
+			\psi = \phi_\text{orbital}(\vec{r}_1, \vec{r}_2) \cdot \chi_\text{sipn}\left( 1,2 \right) 
+		.\] We know that $\psi $ is antisymmetric, this means that either $\phi$ or $\chi$ has to be antisymmetric.\\
+		Therefore $\lim_{\vec{r}_1 \to \vec{r}_2} \phi_\text{orbital} = 0 $ if the spin $\chi$ is symmetric. While this is consistent with coloumb interaction of twe electrons, it is also consistent with coulomb interaction with the nuclei.
+	\item $\vec{L}$ is maximized, within the bounds of the first Hund's rule. \\
+		As an example we consider the Pr atom with atomic number 59. 56 electrons fill the shells up to 6s, and we have 3 electrons in the f shell (L = 3). \\
+		As per rule 1 all the spins will align, and per rule two the highest possible $L_z$ (1,2,3) are occupied first. We get $L = 6$ and $S = \frac{3}{2}$.
+	\item $\vec{L}$ is either parallel to  $\vec{S}$, or anti-parallel to $\vec{S}$.\\
+		$\abs{J} = \abs{L} \pm \abs{S}$ with $+$ for shells that are more than half filled,  and $-$ for less than half filled shells.\\
+		If we consider the spin orbit term: \[
+			\delta H = \alpha \sum_{i} \vec{l}_i \vec{\sigma}_i
+		\], we see that it's always minimized by the third Hund's rule.
+\end{enumerate}
 
 
 
