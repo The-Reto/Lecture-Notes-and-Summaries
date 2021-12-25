@@ -1,0 +1,1245 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{siunitx}
+\usepackage{amsmath}   
+\usepackage[version=3]{mhchem}
+\usepackage[
+    backend=biber,
+    style=numeric,
+  ]{biblatex}
+\usepackage{physics}
+\usepackage{amssymb}
+\usepackage{tcolorbox}
+\usepackage{mathtools}
+\usepackage[margin=2cm]{geometry}
+
+\newtcolorbox{redbox}[1]{colback=red!5!white,colframe=red!75!black,fonttitle=\bfseries,title=#1}
+\newtcolorbox{greenbox}[1]{colback=green!5!white,colframe=green!75!black,fonttitle=\bfseries,title=#1}
+\newtcolorbox{bluebox}[1]{colback=blue!5!white,colframe=blue!75!black,fonttitle=\bfseries,title=#1}
+\newtcolorbox{graybox}[1]{colback=black!5!white,colframe=black!75!black,fonttitle=\bfseries,title=#1}
+\addbibresource{sources.bib}
+\graphicspath{ {/} }
+\DeclareSIUnit \parsec {pc}
+\DeclareSIUnit \lightyear {ly}
+\DeclareSIUnit \year {yr}
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+\title{ Quantenmechanik \\
+        \large Zusammenfassung
+        }
+\author{The\_Reto}
+\date{HS 2019}
+
+\begin{document}
+
+    \maketitle
+    Diese Zusammenfassung entstand als meine persönliche Prüfungsvorbereitung für die Prüfung zur Vorlesung \emph{Quantenmechanik} an der Universität Basel, gehalten wurde die Vorlesung von \emph{Prof. Christoph Bruderer} im Herbstsemester 2019. Die Quellen für diese Zusammenfassung sind, wo nicht andres angegeben, die Vorlesungsmaterialien von Prof. Christoph Bruderer sowie meine eigenen Vorlesungsnotizen. Bildquellen sind jeweils direkt am Bild angegeben.
+
+Diese Zusammenfassung ist \emph{nicht} fehlerfrei.
+
+\tableofcontents
+\newpage
+\chapter{Formalismus der Quantenmechanik}
+\section{Postulate der Quantenmechanik}
+Die Quantenmechanik basiert auf sechs Postulaten, die im Folgenden eingeführt werden.
+\begin{greenbox}{1. Postulat}
+	Zu jedem Quantenmechanischem System gehört ein komplexer Vektorraum mit Skalarprodukt (ein sog. Hilbertraum). Die Zustände des Systems werden durch normierte Vektoren in diesem Raum beschrieben.
+\end{greenbox}
+
+Bemerkungen:
+\begin{enumerate}
+	\item Ein Vektor in diesem Hilbertraum wird gegeben als: $\ket{\psi}$
+	\item Der duale Vekter ist gegeben als: $\bra{\psi} = (\ket{\psi})^\dagger$
+	\item In der Basis  ${\ket{k_i}, i = 0, \ldots n}$ kann ein Zustand geschrieben werden als: $\ket{\psi} = \sum_{i=0}^{n} \psi_i \ket{k_i}, \psi_i \in \mathbb{C}$
+	\item Der duale Vektor ist dann gegeben als: $\bra{\psi} = \sum_{i=0}^{n} \psi_i^* \bra{k_i}$
+	\item Das Skalarprodukt ist also gegeben durch: $\braket{\phi}{\psi}$
+	\item Aus der Normierungsbedingung ergibt sich:  \[
+			\braket{\psi}{\psi}=\sum_{i=0}^{n} \psi_i^* \psi_i\overset{!}{=}1
+	.\] 
+\end{enumerate}
+\begin{greenbox}{2. Postulat}
+	Jede messbare physikalische Grösse (Observable) $\mathcal{A}$ wird durch einen selbstadjunktierten Operator $A$ beschrieben, der auf den Hilbertraub wirkt.
+\end{greenbox}
+
+Bemerkung:\\
+In der beliebigen Basis ${\ket{k_i}; i = 0 \ldots n}$ kann der allgemeine Zustand $\ket{\psi}=\sum_{i=0}^{n} \psi_i \ket{k_i}$ mit $\psi_i = \braket{k_i}{\psi}$ geschrieben werden als: \[
+	\ket{\psi} = \sum_{n=0}^{n} \braket{k_i}{\psi}\ket{k_i}
+	= \sum_{n=0}^{n} \ket{k_i}\braket{k_i}{\psi}
+	\implies \sum_{n=0}^{n} \ket{k_i}\bra{k_i} = \mathbb{I}
+.\] 
+Diese Relation heisst \emph{Vollständigkeitsrelation}.\\
+Man nennt $\ket{k_i}\bra{k_i} = P_{k_i}$ den Projektor auf $\ket{k_i}$. Dieser Projeziert $\ket{\psi}$ auf $\ket{k_i}$, extrahiert also den zu $\ket{k_i}$ parallelen Anteil.
+\\
+Ein Operator $A$ besitzt eine Matrixdahrstellung, die gegeben ist durch: \[
+A = \mathbb{I}A\mathbb{I}=\sum_{i,j}^{} \ket{k_i}\bra{k_i}A\ket{k_j}\bra{k_j} 
+.\]
+\[
+	\bra{k_i}A\ket{k_j} = A_{i,j}
+.\]
+\begin{greenbox}{3. Postulat}
+	Bei einer Messung der Observablen $\mathcal{A}$ können nur Eigenwerte des zugehörigen Operators $A$ als Messergebnisse auftreten.
+\end{greenbox}
+
+Bemerkungen:
+\begin{enumerate}
+	\item Ein Operator $A$ muss Hermitesch sein, da dies garantiert, dass die Eigenwerte reell sind. \[
+			A\ket{n} = \lambda_n\ket{n}
+	.\] 
+	\item Die Eigenvektoren ${\ket{n}}$ eines solchen Operators bilden eine Orthogonale Basis (die zu einer Orthonormalbasis normiert werden kann.\\
+		Die Matrixdahrstellung des Operators $A$ in dieser Basis ist diagonal und wird Spektraldahrstellung genannt.
+	\item $P_{\ket{n}} = \ket{n}\bra{n}$ ist der Projektor auf den Eigenraum zu $\lambda_n$.\\
+		Im entarteten Fall: \[
+			A\ket{n_i} = \lambda_n\ket{n_i}, \forall i \in {0 \ldots m}
+		\] 
+		gilt: \[
+			P_{\ket{n}} = \sum_{i}^{} \ket{n_i}\bra{n_i}
+		.\] 
+\end{enumerate}
+\begin{greenbox}{4. Postulat}
+	Wenn die Observable $\mathcal{A}$ in einem im Zustand $\ket{\psi}$ präparierten System gemessen wird, so ist die Wahrscheinlichkeit das für Messergebniss $\lambda_n$ gegeben durch: \[
+		P_{\lambda_n} = \abs{\braket{n}{\psi}}^2 = \braket{\psi}{n}\braket{n}{\psi} = \bra{\psi}P_{\ket{n}}\ket{\psi}
+	\] 
+\end{greenbox}
+
+Bemerkung:\\
+Der Erwartungswert von $\mathcal{A}$ ist gegeben durch: \[
+<\mathcal{A}> = \sum_{n}^{} \lambda_n \braket{\psi}{n}\braket{n}{\psi}\] \[ 
+= \bra{\psi} (\sum_{n}^{} \lambda_n \ket{n}\bra{n}) \ket{\psi} \]\[
+	= \bra{\psi} A \ket{\psi}
+\] 
+Alternativ kann die erste Zeile auch umgeschrieben werden zu: \[
+<\mathcal{A}> = \sum_{n}^{} \lambda_n \braket{n}{\psi}\braket{n}{\psi}
+\] \[
+= \sum_{n}^{} \bra{n} A P_{\ket{\psi}} \ket{n}
+\] \[
+<\mathcal{A}> = Tr[AP_{\ket{\psi}}]
+\]  
+\begin{greenbox}{5. Postulat}
+	Ein System sei im Zustand $\ket{\psi}$ präpariert und $\mathcal{A}$ wird gemessen;\\
+	Der Zustand des Systems unmittelbar nach der Messung ist gegeben durch: \[
+		\ket{\psi}_{after} = \frac{P_{\ket{n}}\ket{\psi}}{\sqrt{\bra{\psi} P_{\ket{n}} \ket{\psi}} }
+	\] Wobei der Nenner die Normierung des neuen Zustands sicherstellt.
+\end{greenbox}
+\begin{greenbox}{6. Postulat}
+	Die Zeitliche Entwichklung des Zustands $\ket{\psi}$ wird gegeben durch die Schrödingergleichung. \[
+		i \overline{h} \frac{d}{dt} \ket{\psi} = H\ket{\psi}
+	\] Wobei $H$ der Hamiltonian Operator ist, also der zur Gesamtenergie des Systems gehörende Operator.
+\end{greenbox}
+\section{Dichteoperator \& gemischte Zustände}
+Um ein System im Zustand $\ket{\psi}$ schreiben zu können, müssen wir den Zustand vollständig kennen.Wenn dies nicht der Fall ist, so müssen Dichteoperatoren verwendet werden. Diese wiederspiegeln die "Klassische Unsicherheit" die zum Beispiel in der Präparation eines Zustands auftreten kann.
+\subsection{Herleitung}
+Wir hatten den Erwartungswert einer Observablen $\mathcal{A}$ geschrieben als: \[
+	<\mathcal{A}> = Tr(AP_{\ket{\psi}}) = Tr(A * \ket{\psi}\bra{\psi})
+.\] Dem entsprechend können wir den Erwartungswert bei Unsicherheit bezüglich des Zustands schreiben als: \[
+<\mathcal{A}> = Tr(A * \sum_{i=1}^{n} p_i \ket{\psi_i}\bra{\psi_i}) = Tr(A * \rho) 
+.\] 
+\begin{redbox}{Definition Dichteoperator}
+	Wir definieren also den Dichteoperator $\rho$ als:  \[
+	\rho = \sum_{i=1}^{n} p_i*\ket{\psi_i}\bra{\psi_i}  
+	.\]
+\end{redbox}
+Bemerkungen:
+\begin{enumerate}
+	\item Reine \& gemichte Zustände
+		Wenn wir den Zustand eines Systems mit Sicherheit kennen (System in Zustand $\ket{\psi} $ ) so wird der Dichteoperator zu: \[
+		\rho = \ket{\psi}\bra{\psi}  
+	.\]  einen solchen Zustand nennt man "Rein". Besteht eine Unsichereit ($\rho = \sum_{i=1}^{n} p_i \ket{\psi_i} \bra{\psi_i}$) so nennt man den Zustand "Gemischt".
+\item Eigenschaften von $\rho$ 
+	\begin{enumerate}
+		\item $\rho = \rho^\dagger$
+		\item $Tr(\rho) = 1$ 
+		\item $Tr(\rho^2) = 1 \implies $ Reiner Zustand \\
+			$Tr(\rho^2) < 1 \implies $ Gemischter Zustand
+		\item $\rho$ reiner Zustand $\implies \rho = \rho^2$
+	\end{enumerate}
+\end{enumerate}
+\subsection{Aufbau der Quantenmechanik mit Dichteoperatoren}
+Die Postulate 1 - 3 bleiben für Dichteoperatoren unverändert. Die anderen Postulate bedürfen einer Anpassung.
+\begin{redbox}{4. Postulat für Dichteoperatoren}
+	Sei $\mathcal{A}$ mit $A$ so dass $A\ket{n} = \lambda_n \ket{n} $ gegeben, dann ist die Wahrscheinlichkeit $\lambda_n$ zu messen gegeben durch: \[
+		P_A(\lambda_n)=Tr(\rho P_{\ket{n} })=\bra{n} \rho\ket{n} 
+	.\] 
+\end{redbox}
+Bemerkung:\\
+Der Erwartungswert $<\mathcal{A}>$ ist gegeben durch: \[
+	<\mathcal{A}> = Tr(\rho A)
+.\] 
+\begin{redbox}{5. Postulat für Dichteoperatoren}
+	Der Zustand unmittelbar nach der Messung von $\lambda_n$ ist gegeben durch: \[
+		\frac{P_{\ket{n} }\rho P_{\ket{n} }}{Tr(P_{\ket{n} }\rho P_{\ket{n}} )}
+	.\] Wobei der Nenner wiederum nur die Normierung garantiert.
+\end{redbox}
+\begin{redbox}{6. Postulat für Dichteoperatoren}
+	Die Zustandsentwicklung für $\rho$ ist gegeben durch \[
+		i\hbar \frac{d}{dt}\rho_(t) = [H(t), \rho(t)]
+	.\] 
+\end{redbox}
+Begründung: \\
+\[
+\rho = \sum_{n=1}^{\infty} p_n \ket{\psi_n} \bra{\psi_n}
+\]
+\[
+	\frac{d}{dt}\rho = \sum_{n=1}^{\infty} p_n (\dot{\ket{\psi_n}} \bra{\psi_n} + \ket{\psi_n} \dot{\bra{\psi_n} }) 
+\] mit $i\hbar H \ket{\psi} = \dot{\ket{\psi}}  \Leftrightarrow -\frac{1}{i\hbar} \bra{\psi} H = \dot{\bra{\psi}} $ folgt \[
+\frac{d}{dt}\rho = \sum_{n=1}^{\infty} p_n (H \ket{\psi_n} \bra{\psi_n} - \ket{\psi_n} \bra{\psi_n} H)
+\]\[
+\frac{d}{dt} \rho = \dot{\rho} = i\hbar [H, \rho]
+.\] 
+Beispiel (gemischte Zustände):\\ 
+Nehmen wir an wir haben zwei verschiedene Dichteoperatoren. Der erste beschreibt eine Situation in der ein System entweder im Zustand $\ket{\uparrow}$ oder im Zustand $\ket{\downarrow}$ (jeweils mit Wahrscheinlichkeit $50\%$.\[
+	\rho_1 = \frac{1}{2} (\ket{\uparrow} \bra{\uparrow} + \ket{\downarrow} \bra{\downarrow} = \frac{1}{2} \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}  
+.\] Offensichtlich gilt: \[
+Tr(\rho_1) = 1
+\] \[
+Tr(\rho_1^2) = Tr(\begin{bmatrix} \frac{1}{4} & 0 \\ 0 & \frac{1}{4} \end{bmatrix} = \frac{1}{2} \neq 1
+.\] Der Zustand ist also gemischt (logischerweise, denn er ist so konstruiert). \\
+Der zweite Zustand sei $\ket{\psi} = \frac{1}{\sqrt{2}} (\ket{\uparrow} + \ket{\downarrow} ) $. Der Dichteoperator ist also; \[
+	\rho_2 = \ket{\psi}\bra{\psi} = \frac{1}{2} (\ket{\uparrow} \bra{\uparrow} + \ket{\uparrow} \bra{\downarrow} + \ket{\downarrow} \bra{\uparrow} + \ket{\downarrow} \bra{\downarrow}) = \frac{1}{2} \begin{bmatrix} 1 & 1 \\ 1 & 1 \end{bmatrix} 
+.\] Für diesen Zustand gilt \[
+Tr(\rho_2) = 1
+\] \[
+Tr(\rho_2^2) = Tr(\frac{1}{2} \begin{bmatrix} 1 & 1 \\ 1 & 1 \end{bmatrix}) = 1 
+.\] Der zweite Zustand ist also (erneut durch konstruktion) rein. //
+Betrachten wir nun das Verhalten unter einer Messung in der z-Achse:
+\[
+	P_z(\frac{\hbar}{2}, \rho_1) = \bra{\uparrow} \rho_1 \ket{\uparrow} = \frac{1}{2}  
+\] \[
+P_z(\frac{\hbar}{2}, \rho_2) = \bra{\uparrow} \rho_2 \ket{\uparrow} = \frac{1}{2}
+.\] Werden die selben zwei Zustände aber in der x-Achse gemessen, ergibt sich ein anderes Bild: \[
+P_x(\frac{\hbar}{2}, \rho_1) = \bra{x^+} \rho_1 \ket{x^+} = \frac{1}{2} 
+\] \[
+P_x(\frac{\hbar}{2}, \rho_2) = \bra{x^+}  \rho_2 \ket{x^+} = 1 
+.\] Die beiden Zustände lassen sich in der z-Achse nicht unterscheiden, aber in der x-Achse verhalten sie sich völlig unterschiedlich. Die Erwartungswerte sind: 
+\begin{center}
+	\begin{tabular}{c c}
+		$\rho_1$ & $\rho_2$ \\
+		\hline
+		$<S_z> = 0$ &  $<S_z> = 0$ \\
+		$<S_x> = 0$ &  $<S_x> = \frac{\hbar}{2}$ 
+	\end{tabular}
+\end{center}
+\section{Kontinuierliche Spektren}
+Wie passen Observablen mit kentinuierlichen Spektren und Operatoren mit kontinuierlichen Eigenwerten in dieses Spektrum? \\
+Beispiele: \\
+Impulsoperator: $\hat{p} = -i \hbar \frac{\partial}{\partial x} $ \\
+Ortsoperator: $\hat{x} = \mathbb{I}$ \\
+In diesen Fällen tragen auch die Zustände kontinuierliche Index: $\ket{\xi'}$.
+Orthogonalität sieht in diesem Fall folgender maasen aus: \[
+	\bra{\xi''} \ket{\xi'} = \delta(\xi'' - \xi')
+.\] Die zerlegung nach einer Basis wird zum Integral: \[
+\ket{\psi} =  \int_{-\infty}^{\infty} \ket{\xi'}\bra{\xi'} \ket{\psi} d\xi'  
+.\] 
+Die Zerlegung der $\mathbb{I}$ wird damit zu:  \[
+	\mathbb{I} = \int_{-\infty}^{\infty} \ket{\xi'}\bra{\xi'} d\xi'  
+.\] 
+Auch die Postulate müssen angepasst werden. Postulat 1 bis Postulat 3 bleiben unverändert. \\
+\begin{redbox}{Postulat 4 für kontinuierliche Spektren}
+	Die Wahrscheinlichkeits\emph{dichte} für das Messergebsniss $\xi'$ ist gegeben durch: \[
+	|\bra{\xi'} \ket{\psi}|^2 
+.\] Das heisst, die Wahrscheinlichkeit $P$, dass das Messergebniss $x$ im Interval $[\xi', \xi' + d\xi']$ liegt, ist gegeben durch $|\bra{\xi'} \ket{\psi}|^2d\xi' $. \[
+P(x \in [\xi', \xi' + d\xi']) =  | \bra{\xi'} \ket{\psi}|^2 d\xi'  
+.\] 
+\end{redbox}
+Anwendung auf den Ortsoperator: \\
+Die Egenwertgleichung für den Ortsoperator $\hat{x}$ lautet: \[
+\hat{x}\ket{x} = x \ket{x} 
+.\] Laut Postulat 4 ist die Wahrscheinlichkeit das Messergebniss $x$ zu kriegen gegeben durch: \[
+| \bra{x} \ket{\psi}|^2 
+.\] Aber wir wissen (vgl. Physik III) das die Wahrscheinlichkeit einen Ort  $x$ zu messen gegeben ist durch $|\psi(x)|^2$, mit $\psi(x)$ der Ortsabhängigen Wellenfunktion. \\
+Also entspricht $\bra{x} \ket{\psi} $ gerade der Wellenfunktion $\psi(x)$. \[
+	\bra{x}  \ket{\psi} = \psi(x) 
+.\] \\
+\subsection{Wechsel zwischen Impuls- und Orstdahrstellung}
+Betrachten wir hier zwei wichtige spezial Fälle: \\
+$\ket{\psi} = \ket{x'} $: Den Eigenzustand von $\hat{x}$ zum Eigenwert $x'$.\\
+Die Wellenfunktion ist also gegeben durch:  \[
+	\bra{x} \ket{\psi} = \bra{x} \ket{x'} = \delta(x - x') 
+.\] Für beliebige $x$ gilt: \[
+\ket{\psi} = \int\ket{x} \bra{x} \ket{\psi} dx = \int \psi(x) \ket{x} dx   
+.\] \\
+Betrachten wir nun die Impulsdahrstellung: \\
+Der Impulsoperator  $\hat{p}$ hat die Eigenwertgleichung \[
+\hat{p} \ket{p'} = p' \ket{p'} 
+.\] Ausserdem gilt für die Impulseigenzustände $\ket{p'} $ \[
+\bra{p'} \ket{p''} = \delta(p' - p'')
+.\] Es gilt: 
+\[
+	\bra{x} \ket{p} = \frac{1}{\sqrt{2 \pi \hbar} } \exp(\frac{ixp}{\hbar})
+.\] 
+Herleitung: \\
+\[
+	\delta(x - x') = \bra{x} \ket{x'} = \int \bra{x} \ket{p} \bra{p} \ket{x'} dp \\
+	= \frac{1}{2 \pi \hbar} \int \exp(\frac{i}{\hbar} p (x-x'))
+\] Mit der Zerlegung nach $p$ : \[
+\ket{\psi} = \int \ket{p} \bra{p} \ket{\psi} dp  
+.\] Wird darauf nun $\bra{x} $ angewendet erhält man: \[
+\bra{x} \ket{\psi} = \int \bra{x} \ket{p}  \bra{p} \ket{\psi} dp \\
+\implies \psi(x) = \int \frac{1}{\sqrt{2 \pi \hbar} } \exp(\frac{ipx}{\hbar}) \Phi(p)
+.\] Wobei $\Phi(p)$ der Wellenfunktion im Impulsraum entspricht. Dies erlaubt den wechsel zwischen Impuls- und Ortsraumdahrstellung. \\
+\subsection{Matrixdahrstellung des Impulsoperators}
+Man kann auch Matrix Elemente für den Impulsoperator $\hat{p}$ definieren. Betrachten wir dazu \[
+\bra{x} \hat{p} \ket{x'} 
+.\] Und setzen dann die Zerlegung der $\mathbb{I}$ ein $\mathbb{I} = \int \ket{p} \bra{p} dp$ \[
+\bra{x} \hat{p} \ket{x'} = \int \bra{x} \hat{p} \ket{p} \bra{p} \ket{x'} 
+\] \[
+= \int p \bra{x} \ket{p} \bra{p} \ket{x'} = \frac{1}{2 \pi \hbar} \int p \exp(i p \frac{x - x'}{\hbar}) dp
+\] \[
+= -i \hbar \frac{\partial}{\partial x} \delta(x - x')
+.\]   Dadurch folgt, für $\ket{\psi} $ : \[
+\bra{x} \hat{p} \ket{\psi} = \int \bra{x} \hat{p} \ket{x'} \bra{x'} \ket{\psi} dx' = \int \bra{x} \hat{p} \ket{x'} \psi(x') dx'    
+\] \[
+= -i \hbar \frac{\partial}{\partial x} \psi(x)
+.\] 
+ Wobei $-i \hbar \frac{\partial}{\partial x}$ die Ortsdahrstellung des Impulsoperators ist.
+ \subsection{Bemerkungen}
+ \begin{itemize}
+ 	\item Bisher haben wir nur 1-dimensionale Systeme betrachtet, die Verallgemeinerung auf drei Dimensionen ist allerdings klar. \\
+		$\hat{p} \to \hat{\vec{p}} $ und $\hat{x} \to \hat{\vec{x}}$ \\
+		$\bra{x} \ket{p} = \frac{1}{\sqrt{2 \pi \hbar} } \exp(\frac{ipx}{\hbar}) \to \bra{\vec{x}} \ket{\vec{p}} = \frac{1}{\sqrt{2 \pi \hbar} }^3 \exp(\frac{i\vec{p}\vec{x}}{\hbar}) $ 
+	\item Ein Teilchen in einer endlichen Box der Länge $L$ hat die Eigenzustände $\ket{x}_L $ und $\ket{p}_L$.
+ \end{itemize}
+ \section{(Nicht) kommutierende Operatoren und gemeinsame Messbarkeit}
+Notation: hier bezeichnen $\hat{A}$, $\hat{B}$, etc. allgemeine Operatoren. Ihre eigenzustände seien: $\hat{A} \ket{a} = a \ket{a} $ und $\hat{B} \ket{b} = b \ket{b} $ etc. \\
+Nehmen wir nun an dass zwei Operatoren kommutieren, $[\hat{A}, \hat{B}] = 0$, so ergibt sich daraus, dass es gemeinsame Eigenzustände $\ket{a, b} $ gibt. \\
+Beweis \[
+	[\hat{A}, \hat{B}] = 0 \implies \bra{a} [\hat{A}, \hat{B}] \ket{a'} = 0
+\] \[
+\bra{a} \hat{A}\hat{B} \ket{a'} - \bra{a} \hat{B}\hat{A} \ket{a'} = 0 
+\] \[
+a \bra{a} \hat{B} \ket{a'}  - a' \bra{a} \hat{B} \ket{a'} = 0
+\] \[
+(a - a') \bra{a} \hat{B} \ket{a'} = 0
+\] \[
+\implies \bra{a} \hat{B} \ket{a'} = \delta_{a,a'} \bra{a} \hat{B} \ket{a} 
+.\] Also ist $\hat{B}$ in der Basis $\ket{a} $ Diagonal und es gilt \[
+\hat{B} \ket{a} = b \ket{a} 
+.\] Aus symmetriegründen schreiben wir $\ket{a, b} $. \\
+Die Zustände $\ket{a, b} $ haben die folgenden Eigenschaften: \[
+\hat{A} \ket{a, b}  = a \ket{a, b} 
+\] \[
+\hat{B} \ket{a, b} =  b \ket{a,b} 
+.\]  \emph{Bemerkung:} Dieser Beweis funktioniert nur im nicht entarteten Fall, im entarteten Fall lassen sich aber linearkombinationen der $\ket{a} $ finden, die alle obigen Bedingungen erfüllen. \\
+Man kann das so verstehen: Die Messungen der Observabeln $\mathcal{A}$ und $\mathcal{B}$ stören einander nicht.
+Sie können also ohne einschränkungen nacheinander gemessen werden. Betrachten wir ein System im beliebigen Zustand $\ket{\psi} $, und messen zuerst $\mathcal{A}$, dann $\mathcal{B}$ und schliesslich wieder $\mathcal{A}$. \[
+	\ket{\psi} \xrightarrow{\mathcal{A} \implies a} \ket{a,b} \xrightarrow{\mathcal{B} \implies b} \ket{a,b} \xrightarrow{\mathcal{A} \implies a} \ket{a,b}   
+.\] Der Zustand ändert sich nach der ersten Messung nicht mehr. Das Resultat der ersten und dritten Messung bleibt also gleich, obwohl dazwischen eine andere Observable gemessen wurde. \\
+Wenn der zu $a$ gehörende Zustand entartet ist, so liefert die erste Messung eine Linearkombination der möglichen Zustände: \[
+	\ket{\psi} \xrightarrow{\mathcal{A} \implies a} \sum_{n=1}^{\infty} c_n \ket{a, b_n}  \xrightarrow{\mathcal{B} \implies b_k} \ket{a,b_k} \xrightarrow{\mathcal{A} \implies a} \ket{a,b_k}   
+.\] Die zweite Messung stört auch hier die dritte nicht. \\
+\\
+Gelte nun im folgenden $[\hat{A}, \hat{B}] \neq 0$, in diesem Fall sind die Messungen nicht kompatibel, die beiden korrespondierenden Observabeln können nicht gleichzeitig bestimmt sein.\\
+Diese Aussage wird durch die Unbestimmtheitsrelation quantisiert. Wir definieren für ein System im Zustand $\ket{\psi} $ : \[
+	\Delta^2 \hat{A} = \bra{\psi} \hat{A}^2 \ket{\psi} - (\bra{\psi} \hat{A} \ket{\psi})^2     
+\] \[
+\Delta \hat{A} = \sqrt{\Delta^2 \hat{A}} 
+.\]  Dann gilt:
+\begin{redbox}{Unbestimmtheitsrelation}
+	$\Delta \hat{A} * \Delta \hat{B} \ge \frac{1}{2} | \bra{\psi} [\hat{A}, \hat{B}] \ket{\psi}| $ \\
+	Bemerkung: Dies ist eine Aussage über den Zustand $\ket{\psi} $ und nicht über die Operatorenan sich. Denn um $\Delta \hat{A}$ zu messen muss der Zustand $\ket{\psi} $ oft präpariert und gemessen werden.
+\end{redbox}
+Es gibt auch noch andere Relationen die Umgangssprachlich auch als Unbestimmtheitsrelation bezeichnet werden.
+\section{Zusammengesetzte Systeme und Verschränkung}
+Bisher haben wir uns nur um 1-Teichen Systeme gekümmert, nun wollen wir auch mehrteilchen Systeme betrachten. Wir betrachten nun ein zwei-Teilchen System.\\
+\\
+Sei $\hat{A}^{(1)}$ ein Operator der auf Teilchen 1 wirkt und $\hat{B}^{(2)}$ ein Operator auf Teilchen 2. Seien weiter $\ket{a_m} \forall m = 1, \ldots, M$ und $\ket{b_n} \forall n = 1, \ldots, N$ die zugehörigen Eigenbasen. \\
+Das gesamte System hat die Eigenbasis $\ket{a_m, b_n} = \ket{a_m} \otimes \ket{b_n}$, mit der Dimensionalität $M * N$.\\
+Ein Operator wirkt immer nur auf die Komponenten, die ihn betreffen. \[
+	\hat{A}^{(1)} \ket{a_m, b_n} = \hat{A}^{(1)} (\ket{a_m} \otimes \ket{b_n}) = (\hat{A}^{(1)} \ket{a_m} ) \otimes \ket{b_n}
+.\] Damit lässt sich ein Tensorprodukt für Operatoren definieren: \[
+(\hat{A}^{(1)} \otimes \hat{B}^{(2)}) \ket{a_m, b_n} = (\hat{A}^{(1)} \ket{a_m} ) \otimes (\hat{B}^{(2)} \ket{b_n} ) 
+.\] \\
+Betrachten wir nun als Beispiel e:wq
+in System mit zwei Spin-$\frac{1}{2}$ Teichen. \\ \[
+	\hat{S}_z^{(i)} \ket{\uparrow} = \frac{\hbar}{2} \ket{\uparrow}  
+\] \[
+\implies \hat{S}_z^{(1)} \otimes \hat{S}_z^{(2)} \ket{\uparrow, \downarrow} = - \frac{\hbar^2}{4} \ket{\uparrow, \downarrow} 		
+.\] 
+\begin{greenbox}{Definition Verschränkung}
+	Ein Zustand heisst verschränkt wenn er sich nicht als Produkt zweier Teilsysteme schreiben lässt. \\
+	Beispele: \[
+	\ket{\uparrow, \downarrow} = \ket{\uparrow} \otimes \ket{\downarrow} 
+	.\] ist nicht verschränkt. \[
+	\frac{1}{\sqrt{2} } (\ket{\uparrow, \uparrow} + \ket{\downarrow, \downarrow} )
+	.\] jedoch schon.
+\end{greenbox}
+\subsection{Reduzierter Dichteoperator}
+Falls wir Erwartungswerte der Form $<\hat{A} \otimes \mathbb{I}> = Tr(\hat{\rho} \hat{A} \otimes \mathbb{I}$ betrachten, muss nicht 'das ganze' $\rho$ betrachtet werden. \[
+	<\hat{A} \otimes \mathbb{I}> = \sum_{m,n} \bra{a_m, b_n} \hat{\rho} \hat{A} \otimes \mathbb{I} \ket{a_m, b_n} 
+\] \[
+= \sum_{m, m'} \sum_{n} \bra{a_m, b_n} \hat{\rho} \ket{a_{m'}, b_n} \bra{a_m} \hat{A} \ket{a_{m'}}  
+\] \[
+= \sum_{m, m'} \hat{\rho}^1 \bra{a_m} \hat{A} \ket{a_{m'}} 
+\] \[
+\implies <\hat{A} \otimes \mathbb{I}> = Tr(\hat{\rho}^1\hat{A})
+.\]    Mit $\hat{\rho}^1 = Tr^2(\hat{\rho}) = \sum_{n, m, m'} \ket{a_m} \bra{a_m, b_n} \hat{\rho} \ket{a_{m'}, b_n} \bra{a_{m'}} $ der partiellen Spur über $(1)$. \\
+Eine wichtige Anwendung dieser Technik, ist der 'System-Bad'-Formalismus. die Frage ist die folgende: wie können wir ein Quatensystem jemals korrekt beschreiben, wo es doch ständig mit der Umgebung wechselwirkt, unter Umständen sogar mit ihr verschränkt ist? \\
+Die Lösung dieses Problems besteht darin, die Umgebung einfach 'auszuspuren', so dass man nur noch mit dem Reduzierten Dichteoperator des Systems arbeitet.
+\chapter{Quantendynamik}
+Der zeitlichen Entwicklung eines Systems kommt in der Quantenmechanik eine besondere bedeutung zu, die Zeit ist kein Operator, aber die zeitliche Entwicklung wird in der Regel als Operator $\hat{U}$ geschrieben, die Zeit $t$ selbst ist dann ein Parameter dieses Operators $\hat{U}(t_0, t)$.
+\section{Der Zeitentwicklungsoperator}
+Laut Postulat 6 gilt: \[
+	i \hbar \frac{d}{dt} \ket{\psi(t)} = H(t) \ket{\psi(t_0)}  
+.\] Wir machen also den Ansatz $\ket{\psi(t)} = \hat{U}(t_0, t) \ket{\psi(t_0)} $ und fragen uns welche Eigenschaften $\hat{U}$ haben muss. Der Operator muss folgene Eigenschaften haben:
+\begin{enumerate}
+	\item $\hat{U}(t_0, t_0) = \mathbb{I}$ \\
+	\item $i \hbar \frac{d}{dt} \hat{U}(t_0, t) = H(t) \hat{U}(t_0, t)$ \\
+	\item $\hat{U}^\dagger(t_0, t) = \hat{U}^{-1}(t_0, t)$, sprich $\hat{U}$ ist Unitär. \\
+		Beweis zu 3.  \[
+			i \hbar \frac{d}{dt} (\hat{U}^\dagger\hat{U}) = i \hbar (\dot{\hat{U}^\dagger}U + \hat{U}^\dagger\dot{\hat{U}})
+		\] \[
+		= -\hat{U}^\dagger H \hat{U} + \hat{U} H \hat{U}^\dagger = 0
+	\] \[
+	\implies \hat{U}^\dagger\hat{U} = const.
+	.\]   Aus der 1. Eigenschaft folgt die Behauptung.
+\end{enumerate}
+Diese Operatoren erfüllen auch gewisse Gruppeneigenschaften: 
+\begin{itemize}
+	\item $\hat{U}(t_0, t_2) = \hat{U}(t_1, t_2)\hat{U}(t_0, t_1)$ \\
+	\item $\hat{U}(t_1, t_0) = \hat{U}^{-1}(t_0, t_1)$
+\end{itemize}
+\subsection{Explizite Lösungen für $\hat{U}$}
+Wir werden drei Fälle unterscheiden, in denen $\hat{U}$ mit verschiedennen Methoden gefunden werden kann.
+\begin{enumerate}
+	\item Der erste Fall ist der einfachste: $H(t) = H$, $H$ ist Zeitunabhängig. In diesem Fall ist der Zeitentwicklungsoperator $\hat{U}$ gegeben durch: \[
+			\hat{U}(t_0, t) = \exp(-\frac{i}{\hbar} (t - t_0) H)
+	.\] Wie man direkt durch differenzieren nachrechnen kann. \\
+\item In diesem Fall ist $H(t)$ tatsächlich zeitabhängig, aber es gilt: \[
+		[H(t), H(t')] = 0 \forall t, t'
+.\] In diesem Fall ist der Zeitentwicklungsoperator gegebeen durch: \[
+U(t_0, t) = \exp(-\frac{i}{\hbar } \int_{t_0}^t H(t) dt)
+.\] Ein Beispiel hierfür ist ein Spin-$\frac{1}{2}$ Teilchen in einem Zeitabhängigen Magnetfeld bei dem sich nur die Amplitude, nicht aber die Achse ändert $\vec{B}(t) = B(t) \vec{e}_B $.
+\item Dies sei der allgemeinste Fall, in dem $H(t)$ zeitabhängig ist und gilt: $[H(t), H(t')] \neq 0$. In diesem Fall integrieren wir  $i \hbar \frac{d}{dt} \hat{U}(t_0,t) = H(t) U(t_0, t)$ von $t_0$ bis $t$ und erhalten: \[
+		\implies i \hbar (\hat{U}(t_0, t) - \hat{U}(t_0, t_0)) = \int_{t_0}^{t} H(t')\hat{U}(t_0, t') dt'
+\]  \[
+i \hbar (\hat{U}(t_0, t) - \mathbb{I}) = \int_{t_0}^t H(t')\hat{U}(t_0, t') dt'
+\] \[
+\implies \hat{U}(t_0, t) = \mathbb{I} - \frac{i}{\hbar } \int_{t_0}^t H(t') \hat{U}(t_0, t') dt'
+.\] Nun können wir auch für $\hat{H}(t_0, t')$ wieder integrieren und erhalten: \[
+\hat{U}(t_0, t') = \mathbb{I} - \int_{t_0}^{t'} H(t'') \hat{U}(t', t'') dt''
+\] \[
+\implies \hat{U}(t_0, t) = \mathbb{I} - \frac{i}{\hbar} \int_{t_0}^t H(t') dt' - \frac{i}{\hbar^2} \int_{t_0}^{t} dt' \int_{t_0}^{t'} dt'' H(t'')\hat{U}(t', t'')
+.\]  Diese Operation lässt sich beliebig iterieren: \\
+(Achtung Notationsänderung $t' \to t^{(1)}$ \& $t'' \to t^{(2)}$ etc.) \[
+	\implies \hat{U}(t_0, t) = \mathbb{I} + \sum_{n=1}^{\infty} \frac{-i}{\hbar }^n \int_{t_0}^t dt^{(1)} \int_{t_0}^{t^{(1)}} dt^{(2)} \ldots \int_{t_0}^{t^{(n-1)}} dt^{(n)} H(t^{(1)}) H(t^{(2)}) \ldots H(t^{(n)}
+.\] Diese technik entspricht in etwa dem Picardschen Integrationsverfahren. 
+\end{enumerate}
+Im folgenden sei $H(t)$ zeitunabhängig (Fall 1), und  $t_t = 0$, so dass es weggelassen werden kann. Es gilt also:  \[
+	\hat{U}(t) = \exp(-\frac{i}{\hbar }Ht)
+.\] Besonders einfach wird die Bestimmung von $\hat{U}(t)$ offensichtlich in der Eigenbasis von $H$ (oder in der Eigenbasis eines Zustands der mit $H$ kommutiert). Dann  gilt: \[
+H \ket{a} = E_a \ket{a} 
+\] \[
+\implies \exp(-\frac{i}{\hbar } Ht) = \sum_{a'} \ket{a'} \exp(-\frac{i}{\hbar } Ht) \bra{a'}  
+\] \[
+= \sum_{a'} \ket{a'} \exp(-\frac{i}{\hbar } E_{a'} t) \bra{a'} 
+.\] Denn es gilt: \[
+f(H) \ket{a}  = f(E_a) \ket{a} 
+.\] \\
+Seien nun $\ket{\psi(0)}$ und ein $H$ vorgegeben. \\
+Wir entwickeln das $\ket{ \psi(0)}$ nach der basis der $a$  \[
+	\ket{ \psi(0)} = \sum_{a} \ket{a} \bra{a} \ket{\psi(0)} = \sum_{a} c_a \ket{a} 
+.\] Dann gilt: \[
+\ket{\psi(t)} = \exp(-\frac{i}{\hbar} H t) \ket{\psi(0)} = \sum_{a} c_a \exp(-\frac{i}{\hbar } E_a t) \ket{a}  
+.\] Mit $c_a(t) = c_a \exp(-\frac{i}{\hbar } E_a t)$ ergibt sich: \[
+\ket{\psi(t)} = \sum_{a} c_a(t) \ket{a} 
+.\] Man sieht, die globale Phase ändert sich nicht, aber die relativen Phasen unter den einzelnen Summanden ändern sich. Das heisst, dass sich ein Zustand der Form $\ket{\psi(0)} = \ket{a} $ nicht verändert, wohl aber einer der Form $\ket{\psi(0)} = c_1 \ket{1} + c_2 \ket{2} $.
+\section{Schrödinger- \& Heisenbergbild}
+Betrachten wir die zeitliche Verändrung des Erwartungswerts einer Observable $\mathcal{A}$ mit zugehörigem Operator $\hat{A}$. \[
+	<\mathcal{A}>(t) = \bra{\psi(0)} \hat{U}^\dagger(t) \hat{A} \hat{U}(t) \ket{\psi(0)} 
+.\] Diese Gleichung kann nun unterschiedlich aufgefasst werden. Entweder wir fassen, wie bisher, $\hat{U}(t) \ket{\psi(0)} $ zu einem zeitabhängigen Zustand $\ket{\psi(t)} $ zusammen, oder wir fassen $\hat{U}^\dagger(t) \hat{A} \hat{U}(t)$ als zeitabhängigen Operator $A_H(t)$ auf. Wobei das Subskript $_H$ anzeigt dass es sich hier um einen Operator im Heisenbergbild handelt. \\
+Das Heisenbergbild betrachtet also die Operatoren als zeitabhängig, lässt aber die Zustände in der Zeit unverändert, während das Schrödingerbild die Operatoren unverändert lässt und von zeitabhängigen Zuständen ausgeht. \\
+\begin{itemize}
+	\item \emph{Schrödingerbild}: \\
+		Zeitabhängige Zustände\\
+		Zeitunabhängige Operatoren\\
+	\item \emph{Heisenbergbild}:\\
+		Zeitunabhängige Zustände\\
+		Zeitabhängige Operatoren\\
+\end{itemize}
+Jenach System kann das eine oder andene Bild zu einem einfacheren Lösungsweg führen.
+\subsection{Bewegungsgleichung der Heisenbergoperatoren}
+Die Schrödingergleichung agiert als Bewegungsgleichung für die Zeitabhängigen Zustände im Schrödingerbild. Hier wird nun die entsprechende Gleichung für die Heisenbergoperatoren hergeleitet. \[
+	\frac{d}{dt}\hat{A}_H(t) = \frac{d}{dt}(\hat{U}^\dagger(t) \hat{A} \hat{U}(t)) = \frac{d\hat{U}^\dagger(t)}{dt}\hat{A}\hat{U}(t) + \hat{U}^\dagger(t) \hat{A} \frac{d\hat{U}(t)}{dt}
+.\] Da gilt: $i\hbar \frac{d}{dt} \hat{U} = H\hat{U}$ (und natürlich auch: $-i\hbar \frac{d}{dt} \hat{U}^\dagger = \hat{U}^\dagger H$) folgt: \[
+\frac{d}{dt}\hat{A}_H = -\frac{1}{i\hbar }\hat{U}^\dagger H\hat{A} \hat{U} + \frac{1}{i \hbar } \hat{U}^\dagger \hat{A} H \hat{U}
+.\] Setzen wir $\mathbb{I} = \hat{U} \hat{U}^\dagger$  
+\begin{redbox}{Bewegungsgleichung für Heisenbergoperatoren}
+	$\frac{d}{dt}\hat{A}_H = -\frac{i}{\hbar} [\hat{A}_H, H_H]$
+\end{redbox}
+Bemerkungen:
+\begin{itemize}
+	\item Falls $H$ zeitunabhängig ist, gilt: $H_H = H$.\\
+	\item Falls $\hat{A}(t)$ bereits selbst explizit zeitabhängig ist ist eine Korrektur nötig, die sich direkt aus der differenzierung ergibt: \\
+		$i \hbar \frac{d}{dt} \hat{A}_H(t) = [\hat{A}_H, H_H] + \frac{d\hat{A}}{dt}$ \\
+	\item Hier gibt es einen interessanten Zusammenhang zur klassischen Mechanik, dort wurden im Zusammenhang mit Hamiltonoperatoren die Poissonklammern ${f, g}$ eingeführt. Es gilt:  \[
+			\frac{d}{dt} f(x,p) = {f, H} + \frac{df}{dt}
+		.\] Man sieht also, dass sich ${ , }$ und  $\frac{1}{i\hbar} [ , ]$ sind sich formal ähnlich.
+\end{itemize}
+\section{Konstruktion des Hamiltonoperators}
+Falls das betrachtete System ein klassischen Analogon hat, ergibt sich der Hamiltonoperator $H$ aus dem Korrespondenzprinzip.
+\begin{greenbox}{Korrespondenzprinzip}
+	Wenn ein Quantenmechanisches System ein klassischen Analogon hat, so ergibt sich der Hamiltonoperator des Systems direkt aus der Hamiltonfunktion des klassischen Systems, in dem man $x_i$ und $p_i$ durch die jeweiligen Quatenmechanischen Operatoren $\hat{x}_i$ und $\hat{p}_i = -i\hbar \frac{\partial}{\partial x_i}$ ersetzt. \\
+	$x_i \to \hat{x}_i$ \\
+	$p_i \to \hat{p}_i = -i\hbar \frac{d}{dx_i}$
+\end{greenbox}
+Dazu nun zwei Beispiele.
+\subsubsection{Freies Teilchen im 3D-Raum}
+Die klassische Hamiltonfunktion ist gegeben durch:\\
+$H(x,p) = \frac{\vec{p}^2}{2m} = \frac{1}{2m} (p_x^2 + p_y^2 + p_z^2)$ \\
+Der Hamiltonoperator des Quantenmechanischen freien Teilchens ist also: \[
+	\hat{H} = \frac{1}{2m} (-\hbar^2 \frac{\partial}{\partial x_1} - \hbar^2 \frac{\partial}{\partial x_2} - \hbar^2 \frac{\partial}{\partial x_3}
+\] Betrachten wir nun die Heisenberggleichung für dieses System. Zuerst betrachten wir die Heisenberggleichung dir Impulsraumkomponente: \[
+i\hbar \frac{\partial}{\partial t} \hat{p}_{jH} = [\hat{p}_{jH}, H_H] = \exp(\frac{i}{\hbar } H t) [p_j, H] \exp(-\frac{i}{\hbar } H t)
+.\]  Da $[p_j, H] = 0$ folgt: \[
+\implies i \hbar \frac{\partial}{\partial t} \hat{p}_{jH} =  0
+.\] Wie erwartet ist der Impuls eine Konstante.\\
+Betrachten wir nun die Ortsraumkomponente. Die Heisenberggleichung lautet: \[
+	\frac{\partial}{\partial t} \hat{x}_{jH} = \frac{1}{i \hbar} [\hat{x}_{jH}, H] = \frac{1}{i\hbar } \hat{U}^\dagger [\hat{x}_j, H] \hat{U}
+\] da $[\hat{x}_j, H] = \frac{1}{2m} [\hat{x}_j, \hat{p}_j^2]$ und gilt: $[\hat{x}, f(\hat{p})] = i\hbar f'(\hat{p})$ folgt: \[
+\frac{\partial}{\partial t} \hat{x}_{jH} = \frac{1}{i\hbar} \hat{U}^\dagger i \hbar \frac{\hat{p}_j}{m} \hat{U}
+\] \[
+\implies \frac{\partial}{\partial t} \hat{x}_{jH} = \frac{\hat{p}_{jH}}{m}
+\] Durch integrieren folgt sofort: \[
+\hat{x}_{jH}(t) = \hat{x}_{jH}(0) + \frac{\hat{p}_{jH}}{m}t
+.\]   Auch hier stimmt das Resultat also mit der klassischen Erwartung überein.
+\subsubsection{Teilchen im äusseren Potential $V(x)$ }
+Die klassische Hamiltonfunktion lautet: \[
+	H(\vec{x},\vec{p}) = \frac{\vec{p}^2}{2m} + V(\vec{x})
+.\] Der Hamiltonoperator lautet entsprechend: \[
+	H(\vec{\hat{x}},\vec{\hat{p}}) = \frac{\vec{\hat{p}}^2}{2m} + V(\vec{\hat{x}})
+.\] 
+Versuchen wir nun die Heisenberggleichung für den Impulsoperator aufzustellen: \[
+	i\hbar \frac{\partial}{\partial t}\hat{p}_{jH} = [\hat{p}_{jH}, H] = [\hat{p}_{jH}, V(\hat{x})]
+\] \[
+= \hat{U}^\dagger [\hat{p}_j, V(\hat{x})] = \hat{U}^\dagger (-i\hbar V'(\hat{x}_H)) \hat{U}
+\] \[
+\implies \frac{\partial}{\partial t} \hat{p}_{jH}(t) = - \frac{\partial}{\partial \hat{x}_j} V(\hat{x}_H)
+\] \\
+Für die Ortskomponente gilt unverändert: \[
+	\frac{\partial}{\partial t} \hat{x}_{jH} = \frac{\hat{p}_{jH}}{m}
+.\] \\
+Betrachten wir nun die Beschleunigung des Teilchens $\frac{\partial^2}{\partial t^2}\hat{x}_{jH}(t)$, wir setzen ein: \[
+	\frac{\partial^2}{\partial t^2} \hat{x}_{jH}(t) = \frac{1}{i\hbar } [\frac{\partial}{\partial t}\hat{x}_{jH}(t), H] = \frac{1}{i\hbar } [\frac{\hat{p}_{jH}(t)}{m}, H]
+\] \[
+= \frac{1}{m} \frac{\partial}{\partial t} \hat{p}_{jH}
+\] mit dem Resultat der Impulskomponente folgt: \[
+\implies m\frac{\partial^2}{\partial t^2}\vec{\hat{x}}_{H} = - \vec{\nabla} V(\vec{\hat{x}}_H)
+.\]  Auch das entspricht wieder der klassischen Erwartung.
+\subsection{Ehrenfesttheorem}
+Wenn wir im oben betrachteten Beispiel eines Teilchens im äusseren Potential, die Beschläunigung des Erwartungswerts des Ortes betrachten finden wir das Ehrenfesttheorem. Es wurde hier im Heisenbergbild hergeleitet, gilt aber auch im Schrödingerbild.
+\begin{redbox}{Ehrenfesttheorem}
+	\[
+		m \frac{\partial^2}{\partial t^2} <\vec{\hat{x}}> = \frac{\partial}{\partial t} <\vec{\hat{p}}> = - \nabla  <V(\vec{\hat{x}})>
+	.\] 
+\end{redbox}
+Das klassische Resultat lautet hier \[
+	m \frac{\partial^2}{\partial t^2} <\vec{x}> = -\nabla V(<\vec{x}>)
+.\] Diese zwei diese sind nicht identisch! Die Gleichheit gilt nur für Potentiale $V$ mit maximal quadratischen Bestandteilen.
+\section{Energie-Zeit-Unbestimmtheitsrelation}
+Die allgemeine Unbestimmtheitsrelation $\Delta \hat{A} \Delta \hat{B} \ge \frac{1}{2} | \bra{\psi } [\hat{A}, \hat{B}] \ket{\psi }| $ ist hier nicht anwendbar, da die Zeit kein Operator, sondern ein Parameter ist. Stattdessen betrachten wir: \\
+$\Delta E = \Delta \hat{H}$: die 'Energie-Unschärfe' \\
+$\Delta t$: die Zeit in der sich ein Zustand merklich ändert.\\
+Betrachten wir einen Operator $\hat{A}$ und den Hamiltonian $H$: \[
+	\Delta H \Delta \hat{A} \ge \frac{1}{2} |\bra{\psi(t)} [H, \hat{A}] \ket{\psi(t)} | = \frac{\hbar }{2} |\frac{\partial}{\partial t} \bra{\psi(t)} \hat{A} \ket{\psi(t)} |
+.\] Wir bemerken nun, dass $\frac{\partial}{\partial t} \bra{\psi } \hat{A} \ket{\psi }$ gerade der Änderungsrate des Erwartungswert von $\hat{A}$ entspricht. \\
+Wir definieren die Zeit in der sich der Erwartungswert von $\hat{A}$ um die Varianz von $\hat{A}$ verschiebt als $\tau_\psi(\hat{A}) = |\frac{\partial}{\partial t} <\hat{A}>|$. Und schreiben damit die Mandelstamm-Tam-Beziehung.
+\begin{redbox}{Mandelstamm-Tam-Beziehung}
+	$\Delta H \frac{\Delta \hat{A}}{\tau_\psi(\hat{A})} \ge \frac{\hbar}{2}$
+\end{redbox}
+\chapter{Einfache Modellprobleme}
+\section{Der Harmonische Oszilator}
+Der Harmonische Oszilator ist das wichtigste Modell der Physik.\\
+In der Quantenmechanik führen wir zu seiner Beschreibung Nicht-Hermitesche 'Auf-' und 'Absteigeoperatoren' ein. Wir betrachten zuerst den eindimensionalen Fall mit dem Hamiltonian $H = \frac{\hat{p}^2}{2m} - \frac{1}{2} m \omega_0^2 \hat{x}^2$.\\
+Wir definieren die Ab- und Aufsteigeoperatoren $\hat{a}$ und $\hat{a}^\dagger$ und geben einige Eigenschaften, die wir später rechtfertigen.\\
+Aufsteigeoperator: $\hat{a}^\dagger$\\
+Absteigeoperater: $\hat{a}$ \\
+mit der Kommutatorrelation: $[\hat{a}, \hat{a}^\dagger]=1$ \\
+Wir schreiben nun den Orts und Impultoperator um in dem wir diese neuen Operatoren verwernden: \[
+	\hat{x} = x_0(\hat{a}^\dagger + \hat{a})
+\] \[
+\hat{p} = m\omega_0 x_0 i (\hat{a}^\dagger - \hat{a})
+.\]  Mit $x_0 = \sqrt{\frac{\hbar}{2m\omega_0}}$ der Breite des Grundzustands. Wir können nun auch den Hamiltonian umschreiben: \[
+H = \hbar \omega_0 (\hat{a}^\dagger \hat{a} + \frac{1}{2})
+.\] Die Eigenwerte von $H$ sind nun die Eigenwerte von $\hat{N} = \hat{a}^\dagger \hat{a}$. Im folgenden wollen wir uns nun die Eigenschaften von $\hat{N}$, $\hat{a}^\dagger$ und $\hat{a}$ überlegen.\\
+$\hat{N}$ ist offensichtlich Hermitesch und hat damit reelle Eigenwerte. Wir definieren $\hat{N} \ket{n} = n \ket{n} $ mit $n \in \mathbb{R}$ und $n \ge 0$.\\
+Wir fragen uns nun wie $\hat{a}^\dagger$ ored $\hat{a}$ auf $\hat{N}\ket{n} $ wirken. Wir betrachten zuerst $\hat{N}\hat{a}^\dagger\ket{n} $ : \[
+	\hat{N}\hat{a}^\dagger\ket{n} = \hat{a}^\dagger \hat{a} \hat{a}^\dagger \ket{n} = (\hat{a}^\dagger \hat{a} \hat{a}^\dagger - \hat{a}^\dagger \hat{a}^\dagger \hat{a} + \hat{a}^\dagger \hat{a}^\dagger \hat{a}) \ket{n} 
+\] \[
+= ([\hat{N}, \hat{a}^\dagger] + \hat{a}^\dagger \hat{N}) \ket{n} 
+.\] Da gilt: \[
+[\hat{N}, \hat{a}^\dagger] = \hat{a}^\dagger \hat{a} \hat{a}^\dagger - \hat{a}^\dagger \hat{a}^\dagger \hat{a} = \hat{a}^\dagger [\hat{a},\hat{a}^\dagger] = \hat{a}^\dagger
+\] Analog dazu gilt: $[\hat{N}, \hat{a}] = -\hat{a}$. Damit gilt nun: \[
+\implies \hat{N} \hat{a}^\dagger \ket{n} = (\hat{a}^\dagger + \hat{a}^\dagger \hat{N}) \ket{n} = \hat{a}^\dagger (1 + \hat{N}) \ket{n} = (n+1) \hat{a}^\dagger \ket{n}  
+.\] $\hat{a}^\dagger \ket{n} $ ist also ein Eigenzustand von $\hat{N}$ zum Eigenwert $n+1$. Wir schreiben also $\hat{a}^\dagger$ als Erzeugungns- oder Aufsteigeoperator.\\
+Analog gilt für $ \hat{a}$: \[
+	\hat{N}\hat{a} \ket{n} = (n-1) \hat{a}\ket{n} 
+.\] $\hat{a}$ nennen wir also den Vernichtungs- oder Absteigeoperator.\\
+Wir wissen nun, dass $\hat{a}^\dagger \ket{n} \propto \ket{n+1} $ aber was ist die Normierung?\\
+Wir betrachten $\hat{a}\ket{n} $ \[
+\hat{a} \ket{n} = c \ket{n-1} 
+\] \[
+(\hat{a} \ket{n} )^\dagger \hat{a}\ket{n} = \bra{n-1} c^\dagger c \ket{n-1} 
+\] \[
+\implies \bra{n} \hat{a}^\dagger \hat{a} \ket{n} = \bra{n} \hat{N} \ket{n}  = |c|^2
+\] \[
+\bra{n} \hat{N} \ket{n} = n = |c|^2 \implies c = \sqrt{n} 
+.\]   Analog gilt für $\hat{a}^\dagger$ : \[
+\hat{a}^\dagger \ket{n} = c^* \ket{n+1} \text{ mit } c^* = \sqrt{n+1} 
+.\] Es gelten also die folgenden Relationen.
+\begin{redbox}{Auf- und Absteigeoperator}
+	$\hat{a} \ket{n} = \sqrt{n} \ket{n-1} $ \\
+	$\hat{a}^\dagger \ket{n} = \sqrt{n+1} \ket{n+1} $
+\end{redbox}
+Wenn wir nun $\hat{a}\ket{n} = \sqrt{n} \ket{n-1} $ iterieren erhalten wir: \[
+	\hat{a}^2 \ket{n} = \sqrt{n(n-1)} \ket{n-2} 
+\] \[
+\hat{a}^3 \ket{n} = \sqrt{n(n-1)(n-2)} \ket{n-3} 
+.\]  Da gilt $n \ge 0$ muss der der Vorfaktor unter der Wurzel irgendwann $0$ werden. Daraus folgt direkt \[
+n \in \mathbb{N}_0
+.\] Es gibt also einen kleinsten möglichen Eigenwert $n = 0$ mit zugehörigem Zustand $\ket{0} $, dem Grundzustand. Die Anwendung von $\hat{a}^\dagger$ auf diesen Grundzustand erzeugt alle höherern Zustände. \[
+\ket{1} = \hat{a}^\dagger \ket{0} 
+\] \[
+\ket{2} = \frac{1}{\sqrt{2} } \hat{a}^\dagger \ket{1}  = \frac{1}{\sqrt{2} } \hat{a}^{\dagger2} \ket{0} 
+.\] Es folgt:
+\begin{redbox}{$\ket{n} $ aus $\ket{0} $}
+	$\ket{n} = \frac{1}{\sqrt{n!} } (\hat{a}^\dagger)^n \ket{0} $
+\end{redbox}
+\begin{redbox}{Fazit}
+	Da der Hamiltonian $H = \hbar \omega (\hat{N} + \frac{1}{2})$ durch $\hat{N}$ vollständig beschrieben ist, kennen wir nun auch die Eigenwerte und -zustände des Hamiltonians. \\
+	Die Eigenzustände sind gerade die Eigenzustände von $\hat{N}$ : $\ket{n} $ \\
+	und die Eigenwerte sind gegeben durch: $\hbar \omega (n +\frac{1}{2})$. \\
+	Der kleinst mögliche Energieeigenwert ist also $\frac{\hbar \omega}{2}$.
+\end{redbox}
+\subsection{Wellenfunktionen in der Ortsdahrstellung}
+Wir wissen, dass $\hat{a} \ket{0} = 0$, wobei die $0$ hier den Nullvektor des Hilbertraums beschreibt. Daraus folgt \[
+	0 = \bra{x} \hat{a} \ket{0} = \bra{x} (\sqrt{\frac{m\omega}{2 \hbar}} (\hat{x} + \frac{i\hat{p}}{m\omega}) \ket{0}  
+\] \[
+\implies 0 = (\sqrt{\frac{m\omega}{2 \hbar}} x + \sqrt{\frac{\hbar }{2 m \omega}} \frac{\partial}{\partial x} ) \ket{0} 
+.\]  Die Lösung dieser DGL wird hier ohne Lösungsweg angegeben: \[
+\psi(x) = (\frac{m \omega}{\pi \hbar })^{\frac{1}{4}} \exp(-\frac{m \omega x^2}{2 \hbar })
+.\] 
+\subsection{Zeitentwicklung von $\hat{a}^\dagger$ \& $\hat{a}$ }
+Auch hier gilt wieder die Heisenberggleichung: \[
+	i \hbar \frac{\partial}{\partial t} \hat{a}_H(t) = [\hat{a}_H, H] = \hbar \omega \hat{a}_H(t)
+\] 
+\begin{redbox}{Zeitabhängige Auf \& Absteigeoperatoren}
+\[
+\implies \hat{a}_H(t) = \hat{a} \exp(-i\omega t)
+\] \[
+\implies \hat{a}^\dagger_H(t) = \hat{a}^\dagger \exp(i \omega t)
+\]  
+\end{redbox}
+Daraus folgen durch einestzen auch direkt der Orts- und Impulsraumoperator. \[
+	\hat{x}_H(t) = x_0 (\hat{a}_H(t) + \hat{a}_H^\dagger(t) )
+\] \[
+\hat{p}_H(t) = m\omega x_0 i (\hat{a}_H(t) - \hat{a}_H^\dagger(t))
+.\]  
+\subsection{Verallgemeinerung auf Mehrdimensionale Systeme}
+Die Verallgemeinerung auf drei Dimensionen erfolgt durch ersetzen von $\hat{x}$ und $\hat{p}$ zu $\hat{\vec{x}}$ und $\hat{\vec{p}}$. Der Hamiltonian lautet dann: \[
+	H = \frac{\hat{\vec{p}}^2}{2m} + \frac{1}{2} m \omega^2 \hat{\vec{x}}^2 = \sum_{i=1}^{3} \frac{\hat{p}_i^2}{2m} + \frac{1}{2} m \omega^2 \hat{x}_i^2 = \sum_{i = 1}^{3} H_i 
+.\] Das System kann also als drei unabhängige harmonische Oszilatoren $H_1$, $H_2$ und $H_3$ beschrieben werden, für die gilt: $[H_i, H_j] = 0$.\\
+Wir führen von einander unabhängige Operatoren $\hat{a}_i$ und $\hat{a}_i^\dagger$, sowie $\hat{N}_i = \hat{a}_i^\dagger \hat{a}_i$, ein und schreiben den Hamiltonian als: \[
+	H = \hbar \omega (\hat{N}_1 + \hat{N}_2 + \hat{N}_3 + \frac{3}{2})
+.\] Die Eigenwerte haben die Form: $n_1+n_2+n_3+\frac{3}{2} = n + \frac{3}{2}$. \\
+Im Mehrdimensionalen Fall sind alle Zustände ausser dem Grundzustand entartet. Im dreidimensionalen Fall ist der Entartungsgrad $\frac{1}{2}(n+1)(n+2)$
+\section{Geladenes Teilchen im Magnetfeld}
+Als nächstes betrachten wir ein sich bewegendes, geladenes Teilchen im Magnetfeld. Der klassische Hamiltonian lautet: \[
+	H = \frac{1}{2m} (\vec{p} + e\vec{A})^2
+.\] Mit $\vec{A}$ dem Vektorpotential, $\vec{B} = \nabla \cross \vec{A}$
+Wie aus der Elektrodynamik bekannt, können für $\vec{A}$ verschiedene Eichungen gewählt werden. Wir werden am Anfang stehts annehmen, dass $\vec{B} = B \vec{e}_z$ entlang der Z-Achse ausgerichtet ist. In diesem Fall sind zwei Eichungen von besonderer Bedeutung.\\
+Die Landauereichung: $\vec{A} = B \begin{pmatrix} 0 \\ x \\ 0 \end{pmatrix} $ \\
+Die Zirkuläreeichung: $\vec{A} = B \begin{pmatrix} -y \\ x \\ 0 \end{pmatrix} $ \\
+Zu den Eichungen einige Bemerkungen: 
+\begin{itemize}
+	\item Die Energieeigenwerte hängen nicht von der Eichung ab, die Wellenfunktionen aber schon. 
+	\item Der Geschwindigkeitsoperator $\hat{V}$ ist eichunabhängig. Der Impulsoperator $\hat{p}$ jedoch ist Eichabhängig. Für den Geschwindigkeitsoperator gilt: \[
+			\hat{\vec{V}} = \begin{pmatrix} \hat{V}_x \\ \hat{V}_y \\ \hat{V}_z \end{pmatrix} 
+	\] \[
+	[\hat{V}_x, \hat{V}_y] = \left( \frac{1}{m} \right) ^2 (-e) (\hat{p}_x A_y - \hat{p}_y A_x) = \frac{-e}{m^2} \left( -i\hbar \frac{\partial}{\partial x}A_y + i \hbar \frac{\partial}{\partial y} A_x \right) = i \hbar \frac{e}{m^2} B_z
+.\] Die Geschwindikeitskomponenten kommutieren für ein Magnetfeld $\vec{B} \neq 0$ also nicht.  
+\end{itemize}
+\subsection{Aufstellen \& Lösen des Hamiltonians}
+In unserem Fall ist $\vec{B} = B \vec{e}_z$, damit gilt: \[
+	[\hat{V}_x, \hat{V}_y] = i\hbar \frac{e}{m^2} B = i \hbar \frac{c}{m}
+.\] Mit der Zyklotronfrequent $c = \frac{eB}{m}$. \\
+Um die Energieeigenwerte zu bestimmen, teilen wir den Hamiltonian in zwei Teile auf: \[
+	H = H_{xy} + H_z \text{ mit: } H_{xy} = \frac{m}{2} \left( \hat{V}_x^2 + \hat{V}_y^2 \right) \text{ und } H_z = \frac{\hat{p}_z^2}{m}	
+.\] Offensichtlich kommutieren die beiden Teile miteinander $[H_{xy}, H_z] = 0$. Wir können die beiden Teile also unabhängig von einander Lösen und die Eigenwerte am Schluss addieren. \\
+Für den $H_z$ Teil ist die Lösung bereits bekannt. Es handelt sich um eine freie Bewegung in einer Dimension. Die Eigenzustände sind ebene Wellen mit festem $\ket{p_z} $. Die Eigenwerte sind gegeben durch $\frac{\hbar^2 k_z^2}{2m} = \frac{p_z^2}{2m}$. \\
+Für die Lösung des $H_{xy} = \frac{m}{2} (\hat{V}_x^2 + \hat{V}_y^2)$ Teils stellen wir fest, dass dieser zumindest oberflächlich ähnilch aussieht wie der Hamiltonian des Harmonischen oszilators (er ist auch die Summe der Quadrate zweier nicht kommutierender Operatoren). Wir lösen ihn daher auf ähnilche Art und Weise. \\
+Wir führen wieder Leiteroperatoren $\hat{a}$ und $\hat{a}^\dagger$ ein. Die Eigenschaften wählen wir folgender massen: \[
+	\hat{a} = c (\hat{V}_y - i \hat{V}_x) \text{ und } \hat{a}^\dagger = c^* (\hat{V}-y + i \hat{V}_x)
+\] \[
+\implies \hat{a} \hat{a}^\dagger = |c|^2 (\hat{V}_y^2 + \hat{V}_x^2 + i [\hat{V}_x, \hat{V}_y])
+\] \[
+\text{und } \hat{a}^\dagger \hat{a} = |c^2| \left( \hat{V}_y^2 + \hat{V}_x^2 - i[\hat{V}_x, \hat{V}_y] \right) 
+\] Wir fordern $[\hat{a}, \hat{a}^\dagger] = 1$ also bestimmen wir $c$ als: \[
+[\hat{a}, \hat{a}^\dagger] = |c|^2 (-i) [\hat{V}_x, \hat{V}_y] = 2 |c|^2 \hbar \frac{\omega_c}{m} = 1
+\]  \[
+ \implies c = \sqrt{\frac{m}{2 \hbar \omega_c}} 
+.\]  \\
+Wir kombinieren $\hat{a}\hat{a}^\dagger$ und $\hat{a}^\dagger \hat{a}$ nun geschikt und finden: \[
+	\hat{V}_x^2 \hat{V}_y^2 = \frac{1}{2|c|^2} (\hat{a}^\dagger \hat{a} + \hat{a} \hat{a}^\dagger)
+.\] Nun können wir den Hamiltonian $H_{xy}$ schreiben als: \[
+\implies H_{xy} = \hbar \omega_c (\hat{a}^\dagger \hat{a} + \frac{1}{2})
+.\] Ohne weitere Rechnung kennen wir nun das Spektrum von $H_{xy}$. Es handelt sich um die sogenannten Landauerniveaus: $E_n = \hbar \omega_c \left( n + \frac{1}{2} \right) \text{, } n \in \mathbb{N}_0 $.
+Im gegensatz zum harmonischen Oszilator sind die Landauerniveaus entartet, der Hamiltonian beschreibt ja ein zwei dimensionales System.
+\subsection{Ortswellenfunktionen}
+Wir betrachten im folgenden nur die Lösung für die Landauereichung $\vec{A} = \begin{pmatrix} 0 \\ x \\ 0 \end{pmatrix} $. \\
+Wir gehen gleich vor wie beim harmonischen Oszilator und rechnen: \[
+\hat{a} \ket{0} = 0
+.\] Wir definieren nun Eigenzusände des zweidimensionalen Ortsoperators als $\ket{r} $. \[
+0 = \bra{r} \hat{a} \ket{0} = \bra{r}  \left( \hat{V}_y - i \hat{V}_x \right) \ket{0} = \frac{1}{m} \bra{r} \left( \hat{p}_y - eB_x - i\hat{p}_x \right) \ket{0} 
+\] \[
+\implies 0 = \left( -i\hbar \frac{\partial}{\partial y} - \hbar \frac{\partial}{\partial x} - e B_x \right) \bra{r} \ket{0}  = \left( -i\hbar \frac{\partial}{\partial y} - \hbar \frac{\partial}{\partial x} - e B_x \right) \psi_0(r)
+\] \[
+0 = \left( -i \frac{\partial}{\partial y} - \left( \frac{\partial}{\partial x} + \frac{x}{l_c^2} \right)  \right) \psi_0(r) 
+.\] Mit $l_c = \sqrt{\frac{\hbar }{eB}} = \sqrt{\frac{\hbar}{m\omega_c}} $. 
+\section{FEHLEND}
+\section{Periodische Potentiale}
+Wir betrachten nun Potentiale der Form $V(x) = V(x+a)$. Der Hamiltonian hat die Form  $H = \frac{\hat{p}^2}{m} + V(\hat{x})$. \\
+Wir definieren einen Translationsoperator $\hat{\tau}_a$. Dieser Operator soll die folgende Eigenschaft haben \[
+\bra{x} \hat{\tau}_a \ket{\psi } = \bra{x+a} \ket{\psi } \text{ also } \hat{\tau}_a^\dagger \ket{x} = \ket{x+a}  
+.\] Durch einsetzen erkennen wir sofort, dass $[\hat{\tau}_a, H] = 0$. Wir können also gemeinsame Eigenzustände finden.  
+\subsection{Explizite Dahrstellung von $\hat{\tau}$ }
+\[
+	\bra{x} \hat{\tau}_a \ket{\psi } = \bra{x+a} \ket{\psi } = \psi(x+a) = \psi(x) + a \psi'(x) + \frac{a^2}{2} \psi''(x) \ldots
+\] \[
+= \exp(a \frac{\partial}{\partial x}) \psi(x) = \exp(\frac{ia}{\hbar } \hat{p})\psi(x)
+\] \[
+\bra{x} \hat{\tau}-a \ket{\psi } = \bra{x} \exp(\frac{ia}{\hbar} \hat{p}) \ket{\psi } 
+\] \[
+\implies \hat{\tau}_a = \exp(\frac{ia}{\hbar }\hat{p})
+.\]    Man sagt, der Impulsoperator erzeugt Translationen. Dies gilt allgemein für Translationsoperatoren, wir haben hier die Periodizität nicht verwendet.
+\subsection{Eigenfunktionen Periodischer Potentiale}
+Wir betrachten nun wider periodische Potentiale mit Periodizität $a$. Wie schon oben erwähnt gilt: $[H, \hat{\tau}_a] = 0$. \\
+Da $\hat{\tau}_a$ nicht hermitesch ist, folgt für seine Eigenzustände $\ket{\psi}$ \[
+	\hat{\tau}_a \ket{\psi } = \lambda \ket{\psi }  \text{ mit } \lambda \in \mathbb{C}
+.\] Wir schreiben nun $\lambda$ als $\lambda = \exp(ika)$ mit einem zunächst beliebigen $k$. Da wir $\hat{\tau}_a$ beliebig oft mit gleichem Effekt anwenden können, gilt \[
+\psi(x+a) = \exp(ika) \psi(x)
+\] \[
+\psi(x+na) = \exp(inka)\psi(x) \text{ mit } n \in \mathbb{N}_0 
+.\]   Damit $\psi(x)$ normierbar bleibt, muss gelten $k \in \mathbb{R}$, also gilt $|\lambda| = 1$.\\
+Sei nun  $\psi(x)$ die Eigenfunktion zu $\lambda = \exp(ik)$. Wir definieren \[
+	u_x(x) = \exp(ikx) \psi(x)
+.\] $u_k(x)$ ist periodisch mit $a$, $u_k(x) = u_k(x+a)$.\\
+\begin{redbox}{Bloch-Theorem}
+Die Eigenfunktionen von $\hat{\tau}_a$ haben also die Form: \[
+	\psi(x) = \exp(ikx) u_k(x)
+.\] Ein periodisches Potential, moduliert also eine Ebenewelle periodisch. 
+\end{redbox} 
+Dazu einige Bemerkungen:
+\begin{itemize}
+	\item Da $\exp(ikx)$ mit $a$ periodisch ist, genügt es offenbar $k$ zwischen $-\frac{\pi}{a}$ und $\frac{\pi}{a}$ einzuschränken um alle Eigenwerte abzudecken.
+	\item Da $H$ und $\hat{\tau}_a$ kommutieren sind die $\psi(x)$ auch die Eigenfunktionen zu $H$, aber natürlich zu anderen Eigenwerten. Zu jedem $\lambda = \exp(ika)$ gehört also auch ein Energieeigenwert $\epsilon_k$.
+	\item Das Bloch-Theorem lässt sich auf drei Dimensionen Verallgemeinern: \[
+			\psi(\vec{x}) = \exp(i \vec{k}\vec{x}) u_{\vec{k}}(\vec{x}) 
+		.\] Statt einer Periode $a$ gibt es nun drei Vektoren $\vec{a}_x$,  $\vec{a}_y$ und $\vec{a}_z$. Für das Potential $V$ gilt nun: \[
+		V(\vec{x}) = V(\vec{x} + \sum_{i=1}^{3} n_i \vec{a}_i)
+		.\] 
+\end{itemize}
+\subsection{Beispiel: Kronig-Penney-Modell}
+\[
+	V(x) = \sum_{n=-\infty}^{\infty} V_0 \delta(x-na)
+.\] Im Bereich $]0, a[$ ist das Potential  $V = 0$. In diesem Intervall können wir also den folgenden Ansatz machen \[
+\psi(x) = A \exp(iqx) + B \exp(-iqx) \text{ mit } \hbar q = \sqrt{2mE} 
+.\] Mit dem Bloch Theorem folgt \[
+u_k(x) = A \exp(i\left( q-k \right) x) + B \exp(-i \left( q+k \right) x)
+.\] Wir haben also drei Unbekannte $A \text{, } B \text{ und } q$, eine davon können wir durch die Normierung bestimmen, es bleiben also zwei Unbekannte zu bestimmen. \\
+Die erste Bedingung die erfüllt sein muss, ist: $\psi(x)$ muss stetig sein bei $x = na \forall n \in \mathbb{N}_0$. Also muss auch $u_k(x)$ stetig sein. \[
+	\lim_{\epsilon \to 0} \left( u_k(\epsilon) - u_k(-\epsilon) \right) = 0
+\] \[
+\implies A + B = A \exp(i (q-k) a) + B \exp(-i (q+k) a)
+.\] Die zweite Bedingung ist, dass $\psi(x)$ die Schrödingergleichung erfüllen muss. \[
+\left( E + \frac{\hbar^2}{2m} \frac{\partial^2}{\partial x^2} \right) \psi(x) = \left( V_0 \sum_{n=-inf}^{\infty} \delta(x-na) \right) \psi(x)
+.\] Wir integrieren beide Seiten von $-\epsilon$ bis $\epsilon$ für $\epsilon \to 0$ und erhalten: \[
+\frac{\hbar^2}{2m} \left( \frac{\partial \psi}{\partial x}|_{\epsilon} - \frac{\partial \psi}{\partial x}|_{-\epsilon} \right) = V_0 \psi(0)
+\] \[
+\left( iq(A-B) - \exp(-ika) \frac{\partial \psi}{\partial x}|_{a-k}  \right) = iq \exp(-ika) \left( A \exp(iqa) + B \exp(-iqa) \right) 
+.\] Aus diesen zwei Bedingugnen können wir $B$ eliminieren. \[
+A \left( \cos(ka) - \cos(qa) - \frac{nV_0}{q \hbar^2}\sin(qa) \right) = 0
+.\] Da $A$ nie $0$ ist, muss der Ausdruck in der Klammer $0$ sein. \[
+\cos(ka) - \cos(qa) - \frac{nV_0}{q \hbar^2}\sin(qa) = 0
+.\] Liefert uns $q$. Da $E = \frac{\hbar^2 q^2}{2m}$ kennen wir, sobald wir  $q$ kennen auch $E$ in abhängigkeit von $k$. \\
+Die Gleichung kann graphisch gelöst werden. Man sieht, dass es Zonen gibt in denen eine Lösung existiert und Bereiche in denen keine Lösung existiert. Die Energieeigenwerte existieren also in Bändern getrennt durch verbotene Bereiche. Diesese Verhalten ist sehr typisch für Periodische Potentiale.
+\chapter{Drehimpuls \& Spin}
+\section{Kommutatorrelationen \& Spektren}
+Wir definieren den Drehimpulsoperator getreu der klassischen Mechanik als: \[
+	\hat{L} = \hat{\vec{r}} \cross \hat{\vec{p}} = \begin{pmatrix} \hat{L}_1 \\ \hat{L}_2 \\ \hat{L}_3 \end{pmatrix} 
+.\] Es gelten die folgenden Kommutatorrelationen: \[
+[\hat{L}_1, \hat{x}] = 0 \text{, } [\hat{L}_1, \hat{y}] = i\hbar \hat{z} \text{, } [\hat{L}_1, \hat{z}] = -i\hbar \hat{y}
+\] \[
+\implies [\hat{L}_m, \hat{r}_i] = i \hbar \epsilon_{mik} r_k
+\] \[
+\text{Ohne Beweis: } [\vec{n}\hat{\vec{L}}, \hat{\vec{r}}] = i\hbar(\hat{\vec{r}} \cross \vec{n}) \text{ \& } [ \vec{n} \hat{\vec{L}}, \hat{\vec{p}}] = i\hbar\left( \hat{\vec{p}} \cross \vec{n} \right) 
+.\] Daraus folgen die kommutatorrelationen für den Drehimpulsoperator.
+\begin{redbox}{Eigenschaften de sDrehimpulsoperators}
+	\[
+		[\hat{L}_m, \hat{L}_j] = i\hbar \epsilon_{mjk} \hat{L}_k
+	\] daraus folgt auch \[
+	\hat{\vec{L}} \cross \hat{\vec{L}} = i \hbar \hat{\vec{L}}
+	.\] Wir stellen fest: \[
+	[\hat{L}^2, \hat{L}] = 0
+\] insbesondere gilt $[\hat{L}^2, \hat{L}_z] = 0$.  		 
+\end{redbox}
+\subsection{Eigenzustände und Eigenwerte von $\hat{L}^2$ \& $\hat{L}_z$ }
+Da gilt $[\hat{L}^2, \hat{L}_z] = 0$ können wir gemeinsame Eigenzustände finden.\\
+Wir bezeichnen die Eigenwerte von $\hat{L}^2$ zunächst ohne Begründung mit $\hbar^2 l(l+1) \text{ für } l \ge 0$ und die Eigenwerte von $\hat{L}_z$ mit $\hbar m$. Die gemeinsamen Eigenzustände bezeichnen wir mit $\ket{l,m} $.
+Es gilt also: $\hat{L}^2 \ket{l,m} = \hbar^2 l (l+1) \ket{l,m} $ und $\hat{L}_z \ket{l,m}  = \hbar m \ket{l,m} $. \\
+Wir definieren Hilfsoperatoren der Form $\hat{L}_{\pm} = \hat{L}_x \pm i \hat{L}_y$. Wie schnell nachgerechnet werden kann gilt \[
+\hat{L}_+^\dagger = \hat{L}_-
+\] \[
+[\hat{L}_z, \hat{L}_{\pm} = \pm \hbar \hat{L}_{\pm} 
+\] \[
+\hat{L}_+\hat{L}_- = \hat{L}_x^2 + \hat{L}_y^2 + i[\hat{L}_y, \hat{L}_x] = \hat{L}^2 - \hat{L}_z^2+ \hbar\hat{L}_z 
+\] \[
+\text{ebenso: } \hat{L}_-\hat{L}_+ = \hat{L}^2 - \hat{L}_z^2 + \hbar \hat{L}_z
+\] \[
+\implies [L_+, L_-] = 2 \hbar L_z
+.\] Wir betrachten nun $\bra{l,m} \hat{L}_+\hat{L}_- \ket{l,m} \ge 0 $  und rechnen aus \[
+\bra{l,m} \hat{L}_+\hat{L}_- \ket{l,m} = \hbar^2 l(l+1) -\hbar^2m^2 + \hbar^2m \bra{l,m} \ket{l,m} = \hbar^2 (l(l+1) -m^2 + m)
+\] \[
+\implies l(l+1) - m^2 + m \ge 0
+\] \[
+\implies \left( l + \frac{1}{2} \right) ^2 \ge \left( m- \frac{1}{2} \right) ^2
+\] Die gleiche Rechnung mit $\bra{l,m} \hat{L}_-\hat{L}_+ \ket{l,m} $ ergibt: \[
+\left( l + \frac{1}{2} \right) ^2 \ge \left( m + \frac{1}{2} \right) ^2
+\] Beides zusammen ergibt \[
+|l + \frac{1}{2}| \ge |m \pm \frac{1}{2}| \implies -l \le m \le l
+\] \\
+Da gilt $[\hat{L}_z, \hat{L}_{\pm}] = \pm \hbar \hat{L}_{\pm}$, gilt \[
+	\hat{L}_z\hat{L}_- \ket{l,m} = \left( \hat{L}_- \hat{L}_z - \hbar \hat{L}_- \right) \ket{l,m} 
+\] \[
+= \hat{L}_- (\hbar m - \hbar) \ket{l,m} = \hbar(m-1) \hat{L}_- \ket{l,m} 
+\] Also ist $\hat{L}_- \ket{l,m} $ ein Eigenzustand von $\hat{L}_z$ zum Eigenwert $\hbar(m-1)$. $\hat{L}_-$ senkt also den Eigenwert von $\hat{L}_z$ um $1$. Wir schreiben also \[
+\hat{L}_- \ket{l,m} = c_- \ket{l,m-1} 
+\] und finden \[
+c_- = \hbar \sqrt{l(l+1) - m (m-1)} 
+\] Für $\hat{L}_+$ finden wir \[
+\hat{L}_+ \ket{l,m} = c_+ \ket{l,m+1} \text{, } c_+ = \hbar \sqrt{l(l+1) - m(m+1)} 
+.\] $\hat{L}_{\pm}$ senkt/hebt den Eigenwert von $\hat{L}_z$ also jeweils um $1$. \\
+Da gilt $-l \le m \le l$ muss dieser Prozess irgendwann abbrechen. \[
+	\implies l - (-l) \in \mathbb{N}
+\]\[
+\implies l = \frac{n}{2} \text{ für } n \in \mathbb{N}
+\] \[
+m = -l, -l+1, -l+2, \ldots l-2, l-1, l
+.\] Für Bahndrehimpulse gibt es nur ganzzahlige $l$, für Spins auch halbzahlige. Später mehr dazu.
+\subsection{Matrixdarstellung von $\hat{L}_z \text{ \& } \hat{L}_{\pm}$ }
+\begin{redbox}{Matrizendarstellung}
+	\[
+		\bra{l',m'} \hat{L}_z \ket{l,m} = \hbar m \delta_{m,m'} \delta_{l,l'}
+	\] \[
+	\bra{l',m'} \hat{L}_{\pm} \ket{l,m}  = \hbar \sqrt{l(l+1) - m(m\pm_1)} \delta_{l,l'}\delta_{m',m\pm_1}
+	\] 
+\end{redbox}
+Betrachten wir als Beispiel ein System mit $l = \frac{1}{2} \implies m = \pm \frac{1}{2}$ : \[
+	\hat{L}_z = \hbar \begin{pmatrix} \frac{1}{2} & 0\\0 & -\frac{1}{2} \end{pmatrix}
+\] \[
+\hat{L}_+ = \begin{pmatrix} 0 & \hbar \\ 0 & 0 \end{pmatrix} 
+\]  \[
+\hat{L}_- = \begin{pmatrix} 0 & 0 \\ \hbar & 0 \end{pmatrix} 
+\]  \[
+\hat{L}_x = \frac{1}{2}(\hat{L}_+ + \hat{L}_-) = \frac{\hbar}{2} \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} 
+\] \[
+\hat{L}_y =\frac{1}{2i} \left( \hat{L}_+ -  \hat{L}_- \right) = \frac{\hbar}{2} \begin{pmatrix} 0 & -i \\ i & 0  \end{pmatrix}  
+\] Wir haben also die Paulimatrizen rein algebraisch hergeleitet. \\
+Für Systeme mit $l = 1$, $m= -1 \text{, } 0 \text{, } 1$ gilt entsprechend: \[
+	\hat{L}_z = \hbar \begin{pmatrix} 1 &0&0\\ 0&0&0\\ 0&0&-1 \end{pmatrix} 
+\] \[
+\hat{L}_+ = \hbar \begin{pmatrix} 0 & \sqrt{2} & 0 \\ 0 &0 & \sqrt{2} \\ 0&0&0 \end{pmatrix} \text{ , } \hat{L}_- = \hbar \begin{pmatrix} 0&0&0 \\ \sqrt{2} &0&0 \\ 0&\sqrt{2} &0 \end{pmatrix} 
+\] \[
+\hat{L}_x = \frac{\hbar}{\sqrt{2} } \begin{pmatrix} 0&1&0 \\ 1&0&1 \\ 0&1&0 \end{pmatrix} \text{ , } \hat{L}_y = \begin{pmatrix} 0 & -i &0 \\i &0 &-i \\ 0&i&0 \end{pmatrix} 
+\]  
+\section{Drehungen}
+In einem vorherigen Kapitel haben wir gesehen, dass der Impulsoperator $\hat{\vec{p}}$ translationen $\hat{\tau}$ erzeugt. Wir wollen nun zeigen, dass der Drehimpulsoperator $\hat{\vec{L}}$ Drehungen erzeugt.\\
+Also $\bra{r'} = \bra{r} \exp(\frac{i}{\hbar} \vec{\alpha} \hat{\vec{L}})$, wobei $|\vec{\alpha}| = \alpha$ der Drehwinkel und $\vec{n} = \frac{\vec{\alpha}}{\alpha}$ die Drehachse ist.\\
+Wir betrachten nun die Vektorfunktion mit $\vec{r} = \vec{r}(\alpha = 0)$ und fragen uns wie $\vec{r}(\alpha)$ dargestellt werden kann. Wir betrachten die ifinitessimale Drehung um $\vec{n}$  \[
+	\frac{d\vec{r}(\alpha)}{d\alpha} = \vec{n} \cross \vec{r} = \frac{1}{i\hbar } [\vec{r}, \vec{n} \hat{\vec{L}}]
+\] Wir erhalten also die Differentialgleichung \[
+i\hbar \frac{d\vec{r}(\alpha)}{d\alpha} = [\vec{r}, \vec{n} \hat{\vec{L}}]
+.\] \[
+\implies \vec{r}(\alpha) = \exp(\frac{i}{\hbar} \alpha \vec{n} \hat{\vec{L}}) \vec{r}(\alpha = 0) \exp(-\frac{i}{\hbar } \alpha \vec{n} \hat{\vec{L}}) = \exp(\frac{i}{\hbar } \vec{\alpha} \hat{\vec{L}}) \vec{r}(0) \exp(-\frac{i}{\hbar } \vec{\alpha} \hat{\vec{L}})
+.\] \[
+\implies \bra{r'} = \bra{r} \exp(\frac{i}{\hbar } \vec{\alpha} \hat{\vec{L}}) \text{  qed.}
+\]  
+\section{Kugelfunktionen}
+Wir fragen uns nun nach der Ortsdarstellung der $\ket{l,m} $. Es wird sich rausstellen, dass gilt: \[
+	\psi(\vec{r}) = \bra{\vec{r} }\ket{l,m} = \bra{\phi, \theta, r} \ket{l,m} \propto Y_{l,m}(\theta, \phi)
+\] 
+\subsection{Orstdarstellung der Operatoren}
+Wir betrachten $\bra{r'} = \bra{r} \exp(\frac{i}{\hbar } \vec{\alpha} \hat{L}) $ für $\alpha \ll 1$ und machen eine Taylorentwicklung. \[
+\bra{r} \exp(\frac{i}{\hbar } \vec{\alpha} \hat{L}) = \bra{r} \left( 1 + \frac{i\vec{alpha}\hat{L}}{\hbar } \right) 
+.\]  Aus der Geometrie ist bekannt wie sich Drehungen um die Koordinatenachsen auf $\ket{\phi, \theta, r} $ auswirken, wir können $\hat{L}$ also ablesen. Der Radius $r$ bleibt offensichtlich unverändert.
+\begin{itemize}
+	\item Infinitessimale Drehung um die Z-Achse: \\
+		$\phi \to \phi + \alpha$, $\theta \to  \theta$.\\
+		Für $\vec{\alpha} = \begin{pmatrix} 0 \\ 0 \\ \alpha \end{pmatrix} $ gilt also \[
+		\bra{\phi, \theta, r} 1 + \frac{i\alpha \hat{L}_z}{\hbar } = \bra{\phi + \alpha, \theta, r} \approx \bra{\phi, \theta, r} + \alpha \frac{\partial}{\partial \phi} \bra{\phi, \theta, r} 
+		\] \[
+		\implies \hat{L}_z = -i\hbar \frac{\partial}{\partial \phi }
+		.\] 
+	\item Infinitessimale Drehung um die X-Achse: \\
+		$\phi \to  \phi - \alpha \cot(\theta)\cos(\phi)$, $\theta \to  \theta - \alpha \sin(\phi)$ \[
+			\implies \hat{L}_x = -i\hbar \left( -\sin(\phi) \frac{\partial}{\partial \theta} - \cot(\theta)\cos(\phi) \frac{\partial}{\partial \phi} \right) 
+		.\] 
+	\item Infinitessimale Drehung um die Y-Achse: \\
+		$\phi \to  \phi - \alpha \cot(\theta)\sin(\phi)$, $\theta \to  \theta + \alpha \cos(\phi)$ \[
+			\implies \hat{L}_y = -i\hbar \left( \cos(\phi) \frac{\partial}{\partial \theta} - \cot(\theta)\cos(\phi) \frac{\partial}{\partial \phi} \right) 
+		\]
+\end{itemize}
+$\hat{L}_{\pm} = \hat{L}_x \pm i \hat{L}_y$ und $\hat{L}^2 = \hat{L}_x^2 + \hat{L}_y^2 + \hat{L}_z^2$ ergeben sich aus diesen sofort. \\
+Bemerkung:
+Wenn $\hat{L}^2$ aufgelöst wird, ergibt sich \[
+	\hat{L}^2 = -\hbar^2 \left( \frac{1}{\sin(\theta)^2}\frac{\partial^2}{\partial \phi^2} \frac{1}{\sin(\theta)}\frac{\partial}{\partial \theta}\left( \sin(\theta) \frac{\partial}{\partial \theta} \right)  \right)  
+.\] Dieser Ausdruck hat eine frappante ähnilchket mit $\nabla^2$ in Kugelkoordinaten, so dass wir schreiben können \[
+\nabla ^2 = \frac{1}{r} \frac{\partial^2}{\partial r^2} - \frac{\hat{L}^2}{\hbar^2r^2}
+.\] Die Operatoren sind nun in der Ortsdarstellung bekannt, gesucht sind noch die Eigenwerte. 
+\subsection{Eigenzustände und Eigenwerte in der Ortsdarstellung}
+Um die Eigenwerte in der Ortsdarstellung zu finden betrachten wir \[
+\hat{L}_z \ket{l,m} = \hbar m \ket{l,m} \implies \bra{\phi, \theta, r} \hat{L}_z\ket{\phi, \theta, r} = -i\hbar \frac{\partial}{\partial \phi} \bra{\phi, \theta, r} \ket{l,m} 	
+\] \[
+\implies \bra{\phi,\theta,r} \ket{l.m} = \exp(im\phi) \bra{\phi,\theta,r} \ket{l,m} 
+.\]  
+Um die $\theta$ abhängigkeit zu kriegen betrachten wir \[
+\hat{L}_+ \ket{l,m=l} = 0 \text{ da } -l \le  m \le l
+.\] Anwenden von $\hat{L}_-$ auf $\ket{l,l} $ liefert aber $\ket{l,m=l-1} $. Da $\hat{L}_{\pm}$ keine $r$ abhängigkeit haben, gilt \[
+\bra{\phi, \theta, r} \ket{l,m} = f(r) Y_{l,m}(\phi,\theta)
+.\] Da dies ein Produkt aus zwei Funktionen mit unabhängigen Variabeln ist, können wir je $f(r)$ und $Y_{l,m}(\phi, \theta)$ einzeln Normieren. Bei den $Y_{l,m}$ handelt es sich um die harmonischen Kugelfunktionen, deren exakte Form in Tabellen nachgeschlagen werden kann. Ihre wichtigten Eigenschaften seien hier genannt: 
+\begin{itemize}
+	\item $Y_{l,m} \propto \exp(im\phi)$
+	\item $Y_{l,-m} = \left( -1 \right) ^l Y_{l,m}^*$ 
+	\item Unter Paritätsoperatoren geht $Y_{l,m}$ über in $\left( -1 \right) ^l Y_{l,m}$. Man sagt, die Parität von $Y_{l,m}$ ist $\left( -1 \right) ^l$.
+	\item $\int d\Omega Y_{l,m}^*(\phi, \theta) Y_{l',m'}(\phi, \theta) = \delta_{l,l'}\delta_{m,m'}$
+\end{itemize}
+\section{Zentralpotentiole}
+Wir betrachten ein Potential $V(\vec{r})$ der Form $V(\vec{r}) = V(|\vec{r}|) = V(r) $. Der resultierende Hamiltonian $H = \frac{\hat{p}^2}{m} + V(r)$ kommutiert mit $\hat{L}$, $[H, \hat{L}]$, da er offensichtlich mit Drehungen, und damit auch mit deren Erzeugenden, kommutiert.\\
+\begin{redbox}{Kommutation in Zentralpotentialen}
+	\[
+		[H, \hat{L}] = [H, \hat{L}^2] = 0
+	.\] Für Hamiltonians $H$ der Form $H = \frac{\hat{p}^2}{m} + V(r)$.
+\end{redbox}
+Wir können also gemeinsame Eigenzustände von $H$, $\hat{L}^2$ und $\hat{L}_z$ finden. Wir nennen sie $\ket{E,l,m} $.\\
+Da gilt $[H, \hat{L}_x] = [, \hat{L}_y] = 0$ gilt offensichtlich auch $[H,\hat{L}_{\pm}] = 0$. \[
+	\implies H\hat{L}_{\pm} \ket{E,l,m} = \hat{L}_{pm}H\ket{E,l,m} = E \hat{L}_{\pm} \ket{E,l,m}  
+.\] Das heisst: $\hat{L}_{\pm} \ket{E,l,m} $ ist ebenfalls ein Eigenzustand zum Energieeigenwert $E$. 
+\begin{redbox}{}
+	In einem Zentralpotentiol sind alle Energieniveaus $2l + 1$-fach entartet. 
+\end{redbox}
+Wie vorher gezeigt, lässt sich die Ortswellenfunktion eines Teilchens schreiben als: $\psi(\vec{r}) = f(r) Y_{l,m}(\phi, \theta)$. Wir wollen nun die radiale Abhängigkeit für Zentralpotentiale herleiten.\\
+Aus der definition von $\nabla ^2$ (siehe oben) und der Schrödingergleichung folgt: \[
+	\left( -\frac{\hbar^2}{2m} \frac{1}{r} \frac{d^2}{dr^2}r + \frac{\hbar^2}{2m} \frac{l (l+1)}{r^2} + V(r) - E \right) f_l(r) = 0
+.\] Wir definieren $u_l(r) = rf(r)$ und bekommen \[
+	\left( -\frac{\hbar^2}{2m} \frac{d^2}{dr^2} + \frac{\hbar^2}{2m} \frac{l (l+1)}{r^2} + V(r) - E \right) u_l(r) = 0
+.\]  Wir definieren ein effektives Potential $V_eff$, \[
+\frac{\hbar^2}{2m} \frac{l(l+1)}{r^2} + V(r) = V_{eff}(r)
+.\] Die resultierende Gleichung ist eine Eindimensionale Schrödingergleichung für ein Teilchen im Intervall $[0, \infty)$, dass sich im Potential $V_{eff}$ bewegt. \[
+\left( \frac{\hbar^2}{2m} \frac{d^2}{dr^2} + V_{eff}(r) - E \right) u_l(r) = 0
+.\] Die Randbedingungen ergeben sich aus der Normierbarkeit. \\
+$u_l(r) \to 0 \text{ für } r \to \infty$ \\
+$u_l(r) = 0 \text{ für } r = 0$ \\
+Der unterschied zu einem gewöhnlichen eindimensionalen Problem liegt in den Randbedingugnen und dem Geltungsbereich.\\ \\
+Als Beispiel betrachten wir das Potential $V(r) = V_0 = const.$\[
+	\implies \left( \frac{d^2}{dr^2} + \frac{2}{r} \frac{d}{dr} - \frac{l(l+1)}{r^2} + k^2 \right) f_l(r) = 0
+.\] mit \[
+\hbar k = \sqrt{2m \left( E - V_0 \right) } \text{, } \forall V_0 > 0 \text{ bzw. } \hbar k = i \sqrt{2m \left( V_0 - E \right)} \text{, } \forall V_0 < 0 
+.\] Die Lösungen dieser DGL sind die sphärischen Besselfunktionen $j_l(x)$ und $m_l(x)$, mit $x = kr$.\\
+(Alternativ: sphärische Hankelfunktionen $h_l(x) = j_l(x) + i m_l(x)$)\\
+Die exakte Form dieser Funktionen kann in Tabellen nachgeschlagen werden. Hier sei nur ihr asymptotisches Verhalten angegeben. \\
+$x \to t$ : $j_l(x) \to x^l$\\
+$x \to  \infty$ : $j_l(x) \to \frac{1}{x} \sin(x - \frac{l \pi}{2})$ und $m_l(x) \to  -\frac{1}{x} \cos(x - \frac{l \pi}{2})$
+\section{Spin $\frac{1}{2}$-Teilchen}
+Von besonderer Bedeutung sind Teilchen bei denen $l = \frac{1}{2}$. In diesem Kapitel werden wir diese Systeme genauer betrachten. \\
+Mit $l = \frac{1}{2}$ gibt es zwei Eigenzustände von $\hat{L}^2$ bzw $\hat{L}_z$ $\ket{l = \frac{1}{2}, m = \frac{1}{2}} $ und $\ket{l = \frac{1}{2}, m = - \frac{1}{2}} $. \\
+In diesen Systemen ist es konvention $\hat{S}$ statt $\hat{L}$ zu schreiben, da es sich um einen Spin stat einem Drehmoment handelt. \[
+	\hat{S} = \begin{pmatrix} \hat{S}_x \\ \hat{S}_y \\ \hat{S}_z \end{pmatrix} = \frac{\hbar}{2} \vec{\sigma}
+.\] Mit $\vec{\sigma}$ bezeichnen wir den Vektor der Paulimatrizen. \\ 
+Wir schreiben $\ket{\frac{1}{2}, \frac{1}{2}} = \ket{\uparrow} = \begin{pmatrix} 1 \\ 0 \end{pmatrix}  $ und $\ket{\frac{1}{2}, -\frac{1}{2}} = \ket{\downarrow} = \begin{pmatrix} 0 \\ 1 \end{pmatrix}  $.
+Die Wichtigsten Eigenschaften der Paulimatrizen sind:
+\begin{itemize}
+	\item $\sigma_x^2 = \sigma_y^2 = \sigma_z^2 = \mathbb{I} = \sigma_0$
+	\item  $[\sigma_n, \sigma_m] =2i \epsilon_{nml} \sigma_l $
+	\item ${\sigma_n, \sigma_m} = 2 \delta_{n,m}$
+	\item  $\sigma_n \sigma_m = \delta_{n,m} + i \epsilon_{nml} \sigma_l$
+\end{itemize}
+\subsection{Drehungen im Spinraum}
+Wir wollen nun den Spin entlang einer beliebigen Achse $\vec{n}$ messen. Wir definieren den zugehörigen Operator als \[
+	\vec{n} \hat{S}
+\] Mit den Eigenzuständen und eigenwerten \[
+\vec{n} \hat{S} \ket{n \uparrow} = \frac{\hbar}{2} \ket{n \uparrow} 
+\] \[
+\vec{n} \hat{S} \ket{n \downarrow} = -\frac{\hbar}{2} \ket{n \downarrow} 
+\] Also gilt \[
+\vec{n}\vec{\sigma} \ket{n \uparrow} = \ket{n \uparrow} \text{ , } \vec{n} \vec{\sigma} \ket{n \downarrow} = \ket{n \downarrow}   
+.\] Wir können also $\vec{n} \vec{\sigma}$ schreiben als \[
+\vec{n} \vec{\sigma} = \begin{pmatrix} n_z & n_x - i n_y \\ n_x + n_y & nz \end{pmatrix} 
+.\]  Wenn wir $\vec{n}$ in Kugelkoordinaten schreiben, können wir die gedrehten Zustände $\ket{n \uparrow} $ bzw. $\ket{n \downarrow} $ schreiben als: \[
+\vec{n} = \begin{pmatrix} \cos(\phi) \sin(\theta) \\ \sin(\phi) \sin(\theta) \\ \cos(\theta) \end{pmatrix} 
+\] \[
+\implies \ket{n \uparrow} = \begin{pmatrix} \exp(-i \phi) \cos(\frac{\theta}{2}) \\ \sin(\frac{\theta}{2}) \end{pmatrix} \text{ , } \ket{n \downarrow} = \begin{pmatrix} -\exp(-i \phi) \sin(\frac{\theta}{2}) \\ \cos(\frac{\theta}{2}) \end{pmatrix}  
+.\] Das besondere an dieser Spin-drehung, ist das Spinoren bei einer Drehung um $2\pi$ nicht in sich selbst übergehen, sondern in ihr eigenes negativ. Um den Ursprünglichen Zustand wieder zu kommen, muss um $4\pi$ gedreht werden.
+\section{Addition von Drehimpulsen}
+Zunächst betrachten wir den Spezialfall von zwei Teilchen mit Spin $\frac{1}{2}$. Die beiden Systeme haben die jeweiligen Spinoperatoren $\hat{S}_1$ und $\hat{S}_2$, für die komponentenweise gilt: $[\hat{S}_1, \hat{S}_2] = 0$. \\
+Der Gesamtspin hat den Operator \[
+	\hat{S} = \hat{S}_1 \otimes \mathbb{I} + \hat{S}_2 \otimes \mathbb{I} \text{ ,oder vereinfacht: } \hat{S} = \hat{S}_1 + \hat{S}_2 
+.\] Die Komponenten von $\hat{S}$ erfüllen die Kommutatorrelationen des quantenmechanischen Drehimpulsoperators.\\
+Einerseits wissen wir, dass die vier Zustände $\ket{\uparrow \uparrow} $, $\ket{\uparrow \downarrow} $, $\ket{\downarrow, \uparrow} $, $\ket{\downarrow, \downarrow} $ eine Basis des Produktraums bilden. Andererseits muss es eine Basis geben aus Eigenzuständen von $\hat{S}^2$ und $\hat{S}_z$. \[
+	\hat{S}^2 \ket{sm} = \hbar^2 s(s+1) \ket{sm} \text{ , } \hat{S}_z \ket{sm} = \hbar m \ket{sm} 
+\] Wir suchen also einen Zusammenhang zwischen diesen beiden Basen. Offenbar gilt \[
+\hat{S}_z \ket{\uparrow \uparrow} = \frac{\hbar}{2} (1 + 1) \ket{\uparrow \uparrow} = \hbar \ket{\uparrow \uparrow} 
+\] \[
+\hat{S}_z \ket{\uparrow \downarrow} = \hat{S}_z \ket{\downarrow \uparrow} = 0
+\] \[
+\hat{S}_z \ket{\downarrow \downarrow} = \frac{\hbar}{2} (-1 -1) \ket{\downarrow \downarrow} = -\hbar \ket{\downarrow \downarrow} 
+.\] Wie wirkt also $\hat{S}^2$? \[
+\hat{S}^2 = \left( \hat{S}_1 + \hat{S}_2 \right) ^2 = \hat{S}_1^2 + \hat{S}_2^2 + 2\hat{S}_1\hat{S}_2
+\] \[
+= \frac{3}{4} \hbar^2 + \frac{3}{4} \hbar^2 + 2\left( \hat{S}_{1z}\hat{S}_{2z} + \hat{S}_{1x}\hat{S}_{2x} + \hat{S}_{1y}\hat{S}_{2y} \right) 
+\] Mit $S_{n\pm} = \hat{S}_{nx} \pm i \hat{S}_{ny}$ wird dies zu \[
+\hat{S}^2 = \frac{3}{2} \hbar^2 + 2 \hat{S}_{1z}\hat{S}_{2z} + \hat{S}_{1+}\hat{S}_{2-} + \hat{S}_{1-}\hat{S}_{2+}
+\] Wir betrachten nun, wie $\hat{S}^2$ auf die vier Zustände wirkt. \[
+\hat{S}^2 \ket{\uparrow \uparrow} = \left( \frac{3}{2} \hbar^2 + \frac{\hbar^2}{2} \right) \ket{\uparrow \uparrow} = 2\hbar^2 \ket{\uparrow \uparrow} 
+\] \[
+\implies \ket{\uparrow \uparrow} \text{ hat den Eigenwert } 1  \text{ ,} \ket{\downarrow \downarrow} \text{ ebenso.}
+\] Wir können also sagen: \\
+$\ket{\uparrow \uparrow} \to \ket{s = 1, m = 1} $ \\
+$\ket{\downarrow \downarrow}  \to  \ket{s=1, m = -1} $ \\
+Um $\ket{s = 1, m=0} $ zu bekommen wir durch Anwendung von $\hat{S}_- = \hat{S}_{1\pm}\hat{S}_{2-}$ auf $\ket{\uparrow \uparrow} $: \[
+	\hat{S}_- \text{ senkt den Wert von } m \text{ um } 1 \implies \ket{s = 1, m=0} = \hat{S}_- \ket{\uparrow uparrow} = \frac{1}{\sqrt{2} } \left( \ket{\uparrow \downarrow} + \ket{\downarrow \uparrow}  \right) 
+\] Den vierten Zustand ergibt sich aus der  Orthonormalität: $\ket{s = 0, m = 0} = \frac{1}{\sqrt{2} }\left( \ket{\uparrow \downarrow} - \ket{\downarrow \uparrow}  \right)  $. \\
+Wir fassen also zusammen
+\begin{redbox}{}
+	$3$ Triplett-Zustände mit $s = 1$ nämlich: $\ket{\uparrow \uparrow} \text{, } \ket{\downarrow \downarrow} \text{, } \frac{1}{\sqrt{2} }\left( \ket{\uparrow \downarrow} + \ket{\downarrow \uparrow}  \right) $ \\
+	$1$ Singulett-Zustand mit $s = 0$ : $\ket{\frac{1}{\sqrt{2} } \left( \ket{\uparrow \downarrow} - \ket{\downarrow \uparrow}  \right) } $
+\end{redbox}
+Bemerkung: Die $\ket{s,m} $ sind auch die Eigenzustände zu $\hat{S}_1 \hat{S}_2$. \\
+$\hat{S}_1\hat{S}_2 \ket{s=1,m} = \frac{\hbar^2}{4} \ket{s=1, m} $ \\
+$\hat{S}_1\hat{S}_2 \ket{s=0,m} = -\frac{3}{4} \hbar^2 \ket{s=0,m} $ 
+\subsection{Verallgemeinerung: Beliebige Drehimpulse addieren}
+Mit $[\hat{J}_1, \hat{J}_2] = 0$ komponentenweise. $\hat{J} = \hat{J}_1 + \hat{J}_2$ ist ein quantenmechanischer Drehimpulsoperator. Auch im allgemeinen Fall sind die Eigenzustände durch die Eigenwerte von $\hat{J}_1$ und $\hat{J}_2$ charakterisiert. Auch $\hat{J}_1^2$ und $\hat{J}_2^2$ kommutieren mit $\hat{J}$. \\
+
+Wir betrachten die Eigenzustände $\ket{j_1,j_2,j,m} $ mit \[
+	\hat{J}^2 \ket{j_1,j_2,j,m} = \hbar^2 j(j+1)\ket{j_1,j_2,j,m} \text{ und } \hat{J}_z \ket{j_1,j_2,j,m} = \hbar m \ket{j_1,j_2,j,m} 
+\] Eine weitere Basis ergibt sich aus dem Tensorprodukt der beiden Teilräume: $\ket{j_1,m_1} \otimes \ket{j_2,m_2} = \ket{j_1,j_2,m_1,m_2} $. \\
+Der neue $(2j_1+1)(2j_2+1)$-dimensionale Raum kann in beiden Basen ausgedrückt werden, wie im vorherigen Fall möchten wir die eine Basis gerne durch die andere darstellen.\[
+	\ket{j_1,j_2,j,m} = \sum_{j_1',j_2',m_1,m_2} \ket{j_1', j_2', m_1,m_2} \bra{j_1',j_2',m_1,m_2} \ket{j_1,j_2,m,j} 
+\] Wir haben also eine Zerlegung der $\mathbb{I}$ in der Basis der $\ket{j_1,j_2jm_1,m_2} $ eingefügt. Wir nennen die Matrixelemente $\bra{j_1,j_2,m_1,m_2}\ket{j_1,j_2,j,m}  $ Cletch-Gordan-Koeffizienten, sie transformieren von einer in eine andere Basis. 
+Eigenschaften der CG-Koeffizienten: 
+\begin{itemize}
+	\item verschwinden falls nicht $m = m_1 + m_2$ 
+	\item $j_{max} = j_1 + j_2$ und $j_{min} = |j_1 - j_2|$
+\end{itemize}
+Die CG-Koeffizienten können in Tabellen nachgeschlagen werden.
+\chapter{Näherungsmethoden}
+Die in dieser Vorlesung behandelten Modillprobleme spielen in der Praxis keine Rolle. Reale Probleme sind oftmals einiges komplizierter und können normalerweise nicht analytisch gelöst werden. 
+Insbesondere gilt dies für Mehr- und Vielteilchensysteme.
+In diesen Fällen kommen Näherungsmethoden zum Zug, die eine approximative Lösung der Probleme erlauben - diese approximativen Methoden können analytischer oder numerischer Natur sein.
+\section{Das Variationsprinzip}
+Das Variationsprinzip liefert eine obere Schranke für die Grundzustandsenergie eines Systems - diese obere Schranke kann dann minimiert werden, um eine möglichst tiefe obere Grenze zu finden. Das Grundprinzip ist erstaunlich einfach aber extrem nützlich.\\ 
+Sei:
+\begin{enumerate}
+	\item $\hat{H}$ der Hamiltonian
+	\item $E_0$ die Grundzustandsenergie
+	\item $\ket{\psi}$ ein beliebiger Zustand
+\end{enumerate}
+Dann gilt:  \[
+\frac{\bra{\psi}\hat{H}\ket{\psi}  }{\bra{\psi}\ket{\psi}  } \ge E_0
+.\] Beweis:  \[
+\hat{H} = \sum_{n=1}^{\infty} E_n \ket{n} \bra{n}  \] \[
+\bra{\psi} \hat{H} \ket{\psi} = \sum_{n=1}^{\infty} E_n \bra{\psi}\ket{n}\bra{n}\ket{\psi} \] \[
+E_0 \le E_n \implies \bra{\psi} \hat{H} \ket{\psi} \ge E_0 \sum_{n=1}^{\infty} \bra{\psi}\ket{n} \bra{n} \ket{\psi} = E_0 \bra{\psi}\ket{\psi} \]\[
+\implies \frac{\bra{\psi} \hat{H} \ket{\psi}  }{\bra{\psi} \ket{ \psi}  } \ge E_0
+.\] 
+Bemerkungen:
+\begin{enumerate}
+	\item Gleichheit gilt nur wenn $\ket{\psi} $ der exakte Grundzustand ist.
+	\item Für $\ket{\psi} $ wählt man einen von $n$ Parametern abhängenden Ansatz $\ket{\psi(p_1,p_2,\ldots,p_n)} $ und minimiert anschliessen den Ausdruck: \[
+			\frac{\bra{\psi(p_1,p_2,\ldots,p_n)} \hat{H} \ket{\psi(p_1,\ldots, p_n)}}{\bra{\psi(p_1,\ldots,p_n)} \ket{\psi(p_1,\ldots,p_n)} } 
+	.\] 
+\item Man versucht natürlich $\ket{\psi(p_1,\ldots,p_n)} $ möglichst günstig zu wählen, indem man zum Beispiel bekannte symmetrien o.ä. des Systems ausnutzt und diese in $\ket{\psi} $ berücksichtigt.
+	\item Wenn $\ket{\psi} $ orthogonal zum Grundzustand ist, kann mit hilfe des Variationsprinzips eine obere Schranke für $E_1$ gefunden werden. \\
+		$\implies$ wenn der Zustand $\ket{\psi} $ zu allen Eigenzuständen $\ket{n} \forall n < m$ orthogonal steht, kann eine obere Schranke für die Eigenenergie $E_m$ gefunden werden.
+	\item Mit Hilfe des Variationsprinzips können auch untere Schranken gewonnen werden. Dazu zerlegt man den Hamiltonian in $\hat{H} = \hat{H}_0 + \hat{H}_+$ wobei $\hat{H}_+$ positiv ist. \[
+			\bra{\psi}\hat{H}_+ \ket{\psi} \ge 0 \forall \ket{\psi} \]
+			\[
+	\implies \bra{\psi} \hat{H} \ket{\psi} = \bra{\psi} \hat{H}_0 \ket{\psi} + \bra{\psi} \hat{H}_+ \ket{\psi}      
+	\] \[
+	\ge \bra{\psi} \hat{H}_0 \ket{\psi}  
+	\] \[
+	\implies E_0 = \bra{\psi} \hat{H} \ket{\psi} \ge \bra{\psi} \hat{H}_0 \ket{\psi} = \epsilon_0    
+.\]  Damit ist eine untere Schranke $\epsilon_0$ gefunden.\\
+Schafft man es einen Zustand $\ket{\psi} $ zu finden für den die obere und die untere Schranke zusammen fallen, hat man den Grundzustand $\ket{n = 0} $ bereits gefunden.
+\end{enumerate}
+\subsection{Beispiele}
+\begin{enumerate}
+	\item Anziehenden $\delta$-Potential:  \[
+			\hat{H} = -\frac{\hbar^2}{2m} \frac{d^2}{dx^2} + V_0 \delta(x)
+	\] Aus den Übungen ist bekannt dass dieses Potential einen gebundenen Zustand besitzt, der die Grundzustandsenergie $E_0 = - \frac{mV_0^2}{2\hbar^2}$ hat. \\
+	Wir nehmen nun an, dass wir den Grundzustand nicht kennen und machen den Ansatz:  \[
+		\psi(x) = A \exp(-bx^2) 
+	\] mit der Normierungskonstante $A = (\frac{2b}{\pi})^\frac{1}{4}$ und dem freien Parameter $b$. Durch einsetzen erhalten wir:  \[
+	\bra{\psi} \hat{H} \ket{\psi} = - \frac{\hbar^2}{2m} A^2 \int_{-\infty}^\infty \exp(-bx^2) \frac{d^2}{dx^2} \exp(-bx^2) + V_0*A^2 dx
+	\] \[
+	= E(b) = \frac{\hbar^2}{2m} b + V_0 \sqrt{\frac{2b}{\pi}} \ge E_0
+	\] \[
+	min_b E(b) = - \frac{mV_0^2}{\pi \hbar^2}
+.\] Ein Vergleich mit der exakten Lösung fällt zwar nur mässig aus (die genauikeit der Abschätzung lässt doch zu wünschen übrig), aber sie zeigt doch eine wichtige Tatsache auf. \[
+E_0 = - \frac{mV_0^2}{2 \hbar^2} < - \frac{mV_0^2}{\pi \hbar^2} < 0
+.\] Da bereits die Abschätzung kleiner als Null ist, wissen wir bereits, dass es einen gebundenen Zustand gibt.   
+	\item Untere Schranke für Harmonischen Oszilator mit Störterm: \\
+		\[
+		\hat{H} = \frac{p^2}{2m} + \frac{m}{2} \omega^2x^2 + bx^4
+		\] \[
+		\hat{H} = \hat{H}_0 + bx^4
+		\] wobei $\hat{H}_0$ dem Hamiltonian des Harmonischen Oszilators entspricht. Damit ist die untere Schranke $\epsilon_0$ direkt bekannt, da es sich um die Grundzustandsenergie des Harmonischen Oszilators handelt: \[
+		\epsilon_0 = \frac{1}{2} \hbar \omega
+		.\]    
+\end{enumerate}
+\section{Zeitunabhängige Störungstheorie}
+Viele probleme haben die Form $\hat{H} = \hat{H}_0 + V$ wobei die Eigenwerte und -zustände von $\hat{H}_0$ bekannt sind. \\
+Unter der Annanhme, dass $V$ eine ''kleine'' Störung des Systems ist, stellt sich die Frage ob man die Eigenwerte und -zustände des gestörten Systems $\hat{H}\ket{N} = E_N \ket{N}$ aus den Eigenzuständen und -werten des ungestörten, bekannten, Systems $\hat{H}_0 \ket{n} = E_n \ket{n}$ gewinnen kann.
+Wenn wir einen Parameter $\lambda$ vor den Störterm $V$ setzen, \[
+	\hat{H} = \hat{H}_0 + \lambda V, \lambda \in [0,1]
+\] erwarten wir, dass wir die gestörten Eigenwerte $E_N$ und -zustände $\ket{N} $ als Potenzreihe in $\lambda$ schreiben können. \[
+E_N = E_n + \lambda E_N^1 + \lambda^2 E_N^2 + \ldots
+\] \[
+\ket{N} = \ket{n} + \lambda \ket{N^1} + \lambda^2 \ket{N^2} + \ldots
+.\]  
+Wobei die $E_N^i$ und $\ket{N^i} $ noch zu bestimmen sind. \\
+\begin{redbox}{Achtung}
+	Die Störungstheorie kann nicht immer angewendet werden, und es ist nicht immer trivial abzulesen ob sie anwendbar ist oder nicht. Beispielsweise könnte die Veränderung der $E_N$ durch eine nicht analytische Funktion gegeben sein. Ebenfalls lassen sich negative und positive Potentiale nur schwer unterscheiden, da anstatt $\lambda \in [0,1]$ immer auch $\lambda \in [-1,0]$ gewählt werden kann.
+\end{redbox}
+Aber wir wollen nun annehmen, dass die notwendigen Bedingungen für die Störungstheorie erfüllt sind. \\
+Wir fordern im folgenden, dass die Eigenzustände des bekannten Systems $\ket{n} $ normiert sind. Für die gestörten Eigenzustände fordern wir aber stattdessen eine alternative Normierung (sie können immernoch im nachhinein normiert werden): \[
+\bra{n} \ket{N} = \bra{N} \ket{n} = 1
+\] diese ''Normierung'' erleichtert uns das rechnen im nächsten Schritt. \[
+\implies 1=\bra{n} \ket{N} = \bra{n} \left( \ket{n} + \lambda \ket{N^1} + \lambda^2 \ket{N^2} + \ldots \right) 
+= \bra{n} \ket{n} + \lambda \bra{n} \ket{N^1} + \lambda^2 \bra{n} \ket{N^2} + \ldots 
+\] \[
+\bra{n} \ket{n} = 1\implies \bra{n} \ket{N^i} = 0
+.\]   
+Wir erhalten also: \[
+	(\hat{H}_0 + V) \ket{N} = E_N \ket{N} 
+.\] Durch einsetzen und koeffizienten Vergleich können wir nun die $E_N^i$ und $\ket{N^i} $ bestimmen: \[
+O(\lambda^0): \hat{H}_0\ket{n} = \epsilon_n\ket{n} 
+.\] \[
+O(\lambda^1): \hat{H}_0\ket{N^1} + V\ket{n} = E_N^1\ket{n} + \epsilon_0\ket{N^1} 
+.\] Wenn wir nun das Skalarprodukt mit $\bra{n} $ nehmen folgt die Energieverschiebung 1. Ordnung: \[
+E_N^1 = \bra{n} V \ket{n} 
+.\] Im allgemeinen gilt: \[
+O(\lambda^k): \hat{H}_0 \ket{N^k} + V \ket{N^{k-1}} = \epsilon_n \ket{N^k} + E_N^1\ket{N^{k-1}} \ldots + E_N^k \ket{n}  
+.\] Erneut folgt mit dem Skalerprodukt mit $\bra{n} $ : \[
+E_N^k = \bra{n} V \ket{N^{k-1}} 
+.\] Betrachten wir nun das Skalarprodukt mit $\bra{m} $ ($m \neq n$) und $\bra{m} \hat{H}_0 = \epsilon_m \bra{m}$: \[
+\bra{m} \ket{N^k} = \frac{1}{\epsilon_N - \epsilon_m} \left( \bra{m} V \ket{N^{k-1}} - E_N^1 \bra{m} \ket{N^{k-1}} - \ldots - E_N^{k-1} \bra{m} \ket{N^1}  \right) 
+.\] Wobei wir annehmen, dass  $\epsilon_n \neq \epsilon_m$, wir uns also im nicht entarteten Fall befinden. Also können wir über $\bra{m} \ket{N^i} $ keine Aussage machen, und müssen im allgemeinen davon ausgehen dass $\bra{m} \ket{N^i} \neq  0$. (Da wir nur wissen dass die $\ket{n} $ und $\ket{N^i} $ orthogonal sind). 
+\\ Für $k=1$ gilt: \[
+	\bra{m} \ket{N^1} = \frac{1}{\epsilon_n - \epsilon_m} \left( \bra{m} V\ket{n} - E_N^1 \bra{m} \ket{n}  \right) 
+\]\[
+= \frac{1}{\epsilon_n - \epsilon_m} \left( \bra{m} V \ket{N^0} - E_N^1 *0 \right) 
+\] Daraus folgt der Korrekturterm 1. Ordnung zu $\ket{n} $ \[
+\implies \ket{N^1} = \sum_{m \neq n} \ket{m} \frac{\bra{m} V \ket{n} }{\epsilon_n - \epsilon_m}
+.\] Mit der Entwicklung für die $E_N^i$ \[
+E_N^k = \bra{n} V \ket{N^{k-1}} 
+.\]  Folgt: \[
+E_N^2 = \bra{n} V \sum_{m \neq n} \ket{m} \frac{\bra{m} V \ket{n}}{\epsilon_n - \epsilon_m} 
+\] \[
+\implies E_N^2 = \sum_{m \neq n} \frac{|\bra{n} V \ket{M}|^2 }{\epsilon_n - \epsilon_m}
+.\] die Energieverschiebung 2. Ordnung.\\
+\begin{graybox}{Anmerkung}
+	Sollte die 2. Ordnung nicht sinnvoll sein können natürlich weitere Terme berücksichtigt werden, dies wird in dieser Vorlesung aber nie nötig sein.
+\end{graybox}
+\begin{enumerate}
+	\item Falls $\ket{n} $ der Grundzustand ist $(n=0)$, dann ist $E_0^2$ negativ, da  $\epsilon_m > \epsilon_n$.
+	\item Durch weiteres Anwenden der Interation lassen sich höhere Terme von $\ket{N^i} $ und $E^i$ finden.
+	\item Die Störungstheorie liefert umso bessere Resultate, je kleiner die Matrixelemente $\bra{m} V \ket{n} $ im Vergleich zu den Niveauabständen $\epsilon_n - \epsilon_m$ sind.
+	\item Die $\ket{N} $ müssen noch normiert werden: \[
+			\bra{N} \ket{N}  = 1 + \sum_{n} \frac{|\bra{n} V \ket{m} |^2}{(\epsilon_n-\epsilon_m)^2}
+	.\] Wobei wir nur Terme bis zur Ordnung $\lambda^2$ berücksichtigen. \\
+	Damit können nun normierte $\ket{N'} $ definiert werden.
+\end{enumerate}
+\subsection{Beispiel}
+Betrachten wir nun als Beispiel den anharmonischen Oszilator mit $\hat{H}_0 = \frac{p^2}{2m} + \frac{1}{2}m\omega^2x^2$ und $V = bx^4$.\\
+Der lineare Korrekturterm der Grundzustandsenergie ist damit: \[
+E_0 = \epsilon_0 + E_0^1 = \frac{1}{/2} \hbar \omega + \bra{0} V \ket{0} 
+\] \[
+= \frac{1}{2}\hbar \omega + b \bra{0} x^4 \ket{0} 
+.\] Mit $x = x_0(a + a\dagger$ folgt: \[
+E_0 = \frac{1}{2}\hbar \omega + 3 b x_0^4
+.\] Vergleichen wir dieses Resultat mit dem Resultat aus dem Variationsprinzip: \[
+\frac{1}{2}\hbar \omega \le E_0 \le  \frac{\bra{0} H \ket{0} }{\bra{0} \ket{0} } = \frac{1}{2}\hbar\omega + b \bra{0} x^4 \ket{0} 
+.\] Die erste approximation ist also offensichtlich zu gross, das ist aber ok, da der nächste Korrekturterm negativ ist. \\
+\subsection{Entarteter Fall}
+Betrachten wir nun den Fall, dass das Energieniveau $\epsilon_n$ von $\hat{H}_0$ $k$-fach entartet ist: \[
+\hat{H}_0 \ket{n_i} = \epsilon_n \ket{n_i} \forall i = 1,2,\ldots,k
+.\]  Während vorher galt: $\ket{N} = \ket{n} + \lambda \ket{N^1} + \lambda^2 \ket{N^2} + \ldots $ \\
+Ergibt sich im entarteten Fall für $\lambda \to 0$ eine bestimmte Linearkombination $\sum_{i=1}^{k} c_i \ket{n_i}$ der Zustände aus dem ungestörten Eigenraum. Nun haben wir einen neuen Ansatz: \[
+\ket{N}  = \sum_{i = 1}^{k} c_i \ket{n_i} +\lambda \ket{N^1}  + \lambda^2 \ket{N^2} + \ldots
+\] \[
+E_n = \epsilon_n + \lambda E^1 + \lambda^2 E^2 + \ldots
+.\]  
+\section{Zeitabhängige Störungstheorie}
+Wir betrachten nun Probleme des Typs: \[
+	\hat{H} = \hat{H}_0 + V(t)
+.\] Mit $V(t)=0$ $ \forall t \le t_0$, man kann also sagen die Störung wird bei $t = t_0$ eingeschaltet. Auch hier sei wider $\hat{H}_0$ bekannt, d.h. $\hat{H}_0 \ket{n} = \epsilon_n \ket{n} $. 
+Es stellt sich nun also eine geänderte Fragestellung:
+\begin{greenbox}{Frage}
+	Das System sei zum Zeitpunkt $t = t_0$ im Zustand $\ket{n} $ mit welcher Wahrscheinlichkeit ist es zum Zeitpunkt $t > t_0$ im Zeitpunkt $\ket{m} $? \[
+		P_{n \to m}(t) = |\bra{m} \ket{\Psi(t)}|^2
+	.\] 
+\end{greenbox}
+	\[
+	\ket{\Psi(t_0)} = \ket{n} 
+	.\] \[
+	i \hbar \frac{d}{dt}\ket{\psi(t)} = (\hat{H}_0 + V(t))\ket{\psi(t)} \forall t \ge t_0
+.\] Die Zeitentwicklung von $\ket{\psi(t)} $ beruht also zum Teil auf $\hat{H}_0$ und zum Teil auf $V(t)$. Die Idee ist nun, diese aufzuspalten. Wir definieren also: \[
+\ket{\psi_I(t)} = \exp(-\frac{i \hat{H}_0 t}{\hbar}) \ket{\psi(t)} 
+ .\] Durch differenzieren und multiplikation mit $i\hbar$ erhalten wir also: \[
+ i \hbar \frac{d}{dt} \ket{\psi_I}  = -\hat{H}_0 \exp(-\frac{i \hat{H}_0 t}{\hbar}) \ket{\psi(t)} + \exp(-\frac{i \hat{H}_0 t}{\hbar}) (\hat{H}_0 + V(t)) \ket{\psi(t)} 
+.\] \[
+= \exp(\frac{i \hat{H}_0 t}{\hbar}) V(t) \ket{\psi(t)} 
+.\]  
+Wir definieren weiter: \[
+	V_I(t) = \exp(\frac{i \hat{H}_0 t}{\hbar}) V(t) \exp(-\frac{i \hat{H}_0 t}{\hbar}) 
+.\] und erhalten: \[
+i \hbar \frac{d}{dt} \ket{\psi_I(t)} = V_I(t) \ket{\psi_I(t)} 
+.\] In der Darstellung des Wechselwirkungsbilds, in dem sowohl die Operatoren als auch die Zustände Zeitabhängig sind. Wobei die Zeitabhängigkeit der Operatoren durch $\hat{H}_0$ gegeben ist und die der Zustände durch $V(t)$. Natürlich sind auch in diesem Bild sämtliche Erwartungswerte Zeitunabhängig. \\
+Die Zeitentwicklung von $\ket{\psi_I(t)} $ lösen wir nun wie bereits bekannt: \\
+Wir integrieren beide Seiten von $t_0$ bis $t$ und teilen durch $i \hbar$: \[
+	\ket{\psi_I(t)} = \ket{\psi_I(t_0)} + \frac{1}{i \hbar} \int_{t_0}^t dt' V_I(t) \ket{\psi_I(t)} 
+.\] Wir approximieren nun und iterieren: \[
+= \ket{\psi(t_0} + \frac{1}{i \hbar } \int_{t_0}^t dt' V_I(t') \ket{\psi(t_0)} + \frac{1}{(i\hbar)^2} \int_{t_0}^t dt' \int_{t_0}^t dt'' V_I(t') V_I(t'') \ket{\psi(t_0} + \ldots
+.\] Wir approximieren und behalten nur den Term 1. Ordnung und erhalten (mit $\ket{\psi_I(t_0)} = \ket{\psi(t_0)}  = \ket{n} $): \[
+\ket{\psi_I(t)}  = \ket{n} + \frac{1}{i \hbar} \int_{t_0}^t dt' V_I(t') \ket{n} 
+.\] Wir betrachten nun nochmals die Übergangswahrscheinlichkeit $P_{n \to m}$ und setzen $\ket{\psi_I(t)} $ ein. \[
+P_{n \to  m} = |\bra{m} \ket{\psi(t)} |^2 = |\bra{m} \exp(-\frac{i \hat{H}_0 t}{\hbar}) \exp(\frac{i \hat{H}_0 t}{\hbar}) \ket{\psi(t)}|^2 
+\] \[
+=  |\bra{m} \exp(- \frac{i \hat{H}_0 t}{\hbar}) \ket{\psi_I(t)}  |^2
+.\]  Da aber $\ket{m} $ ein Eigenzustand von $\hat{H}_0$ ist, wird die Exponentialfunktion $\exp(- \frac{i \hat{H}_0 t}{\hbar})$ nur eine Phase bewirken, diese wiederum fällt beim Betragsquadrat weg, wesshalb gilt: \[
+P_{n\to m} = |\bra{m} \ket{\psi_I} |^2
+.\] Setzen wir nun darin das Integral 1. Ordnung von oben ein, so erhalten wir: \[
+P_{l \to  m} = |\bra{m} (\ket{n} + \frac{1}{i \hbar} \int_{t_0}^t dt' V_I(t') \ket{n} )|^2 = \frac{1}{\hbar^2} |\int_{t_0}^t dt' \bra{m} V_I(t') \ket{n} |^2
+.\]  Also gilt: \[
+P_{n\to m} = \frac{1}{\hbar^2} |\int_{t_0}^t dt' \exp(\frac{i (\epsilon_m - \epsilon_n) t'}{\hbar}) \bra{m} V(t') \ket{n}|^2 
+.\] 
+\section{Auswahlregeln}
+Die Berechnung von Matrixelementen von $V$ wird oft durch die sogenannten Auswahlregeln vereinfacht, da diese zum Beispiel sagen dass gewisse Matrixelemente immer $=0$ sein werden. Wir betrachten drei Regeln genauer.
+\begin{enumerate}
+	\item betrachte einen allgemeinen Operator $\hat{\Omega}$ mit $[\hat{\Omega}, V] = 0$, es gibt also gemeinsame Eigenzustände von $\hat{\Omega}$ und $V$ wir nennen sie $\ket{\omega, v} $. \\
+		$\bra{\omega_2, v_2} V \ket{\omega_1, v_1} = 0$ für alle $\omega_1 \neq \omega_2$ \\
+		Denn $0 = \bra{\omega_2, v_2} [\hat{\Omega}, V] \ket{\omega_1, v_1} = \left( \omega_2 - \omega_1 \right) \bra{\omega_2,v_2} V \ket{\omega_1, v_1}$ 
+	\item wir betrachten den Paritätsoperator $\hat{P}$ und wenden die erste Regel an.\\
+		Wenn gilt $[\hat{P},V]=0$ verschwinden alle Matrixelemente $\bra{v_2} V \ket{v_1} =0 $ bei denen $v_1$ und $v_2$ verschiedene Paritäten haben. \\
+	\	Wenn gilt $\{\hat{P}, V\} = 0$ verschwinden die Elemente wenn $v_1$ und $v_2$ gleiche Paritäten haben.
+\end{enumerate}
+\chapter{Streutheorie (TODO)}
+\section{Erinnerung: Klassische Streuung (TODO)}
+\section{Lippmann-Schwinger-Gleichung \& Streuamplitude (TODO)}
+\section{Bornsche Näherung (TODO)}
+\section{Partialwellenzerlegung (TODO)}
+\chapter{Identische Teilchen (TODO)}
+\section{Bosonen \& Fermionen (TODO)}
+\printbibliography
+
+\end{document}

@@ -1,0 +1,2553 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+\usepackage{siunitx}
+\usepackage{amsmath}   
+\usepackage[
+    backend=biber,
+    style=numeric,
+  ]{biblatex}
+\usepackage{physics}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage[margin=1cm, bottom=2cm]{geometry}
+\usepackage{titlesec}
+
+\addbibresource{sources.bib}
+
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\chapter}[frame]{\bfseries\LARGE}{\hsp\thechapter\hsp}{10pt}{\centering}
+
+  \title{Statistical Physics  \\
+\large Notes}
+\author{The\_Reto}
+\date{HS 2021}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{Roman}
+
+\addcontentsline{toc}{chapter}{Introduction}
+\chapter*{Introduction}
+\addcontentsline{toc}{section}{On This Document}
+\section*{On this document}
+This document are my personal notes on the lecture \emph{Lecture-No. - Statistical Physics} at ETH Zürich in the fall semester 2021. 
+I type part of this document during the lectures (while the Professor speaks), and another part as a write up when I personally read the associated literature. All of this happens with minimal editing - there are \emph{A LOT} of spelling mistakes, typos and errors of various severity.
+\addcontentsline{toc}{section}{Information About This Course}
+\section*{Information about the Course}
+The course is taghut by Prof. Manfred Sigrist. HIT K23.8, sigrist@itp.phys.ethz.ch.\\
+The lectures are held in presence, but are also avaivable as a live-stream and as a recording. The exercise classes are held in presence and as a live-stream.\\
+Lecture Notes are provided on Moodle, the lecture notes also contain a list of recommended textbooks. THe lecture itself is not based on a singular textbook.\\
+\subsection*{Content}
+The topics covered in the lecture is:
+\begin{enumerate}
+  \item Kinetic approach to statistical physics
+  \item Classical statistical physics (Gibbs' ensembles)
+  \item Quantum statistical physics
+  \item Identical particles - Formalism of second quantization
+  \item One-dimensional systems of interacting degrees of freedom
+  \item Phase transitions
+  \item Superfluidity
+\end{enumerate}
+\subsection*{Exam}
+\addcontentsline{toc}{chapter}{Table Of Contents}
+\tableofcontents
+
+\newpage
+\pagenumbering{arabic}
+\chapter{Kinetic Approach to Statistical Physics}
+We want to consider the theory of thermodynamics from a microscopic viewpoint. Thermodynamics deals with
+\begin{itemize}
+  \item Behavior / relations between quantities of macroscopic systems in equilibrium
+  \item Time is not a variable (any change is quasi-static). 
+\end{itemize}
+Macroscopic systems of course consist of many microscopic degrees of freedom (particles, magnetic/electric dipols).We wnat to study the dynamics of these microscopic degrees of freedom, ie. their time evolution. In a macroscopic system it is impossible to keep trock of each DoT (Degree of Freedom). We therefore take a statistical approach.\\
+In this chapter we want to look at the evolution of "many-body" systems from non-equilibrium state to the equilibrium state. The goal is therefore to recover thermadynamics from this evolution. We'll archieve that by taking it time averages. This stands in contrast to chapter 2, where we'll look at statistical physics from an ensemble point of view, where time wil play no role at all.\\
+\section{Time evolution and master equation}
+We first cansider a model system of many, arbitrary, DoF.\\
+We consider a sysetm with $N$ identical units (eg. atoms) that each have $z$ different microstates. \[
+  \{s_i^\nu\} , i=1\ldots N, \nu=1\ldots z
+\] The variable $s_i^\nu $ is given by \[
+s_i^\nu = \begin{cases}
+  0 & \nu = \nu' \\
+  1 & \nu \neq \nu'
+\end{cases}
+\] We can thus define a vector $\vec{s_i}$ as: \[
+\vec{s_i} = \begin{bmatrix} 0 \\ 0 \\ \ldots \\ 1 \\ \ldots \end{bmatrix} 
+\] 
+We now consider a discrete timeevolution of $\vec{s_i}$ in timesteps $t_n$ and a $\Delta t = t_{n+1} - t_n$. We are interested in the transition probability $\nu \to \nu'$. \[
+  P_{\nu \nu'} = \Delta t  \cdot \Gamma_{\nu \nu'}
+\] where $\Gamma_{\nu \nu'}$ is a transition rate. We assume time reversability such that $P_{\nu \nu'} = P_{\nu' \nu} \implies \Gamma_{\nu \nu'} = \Gamma_{\nu' \nu}$.\\
+This formalism therefore describes the evolution of each single unit. We now try a statistical approach and consider the microstate $\nu$, we call the number of units in micrestate $\nu $ $N_\nu$. We obviously get \[
+\sum_\nu^z N_\nu = N
+\] We can now define \[
+N_\nu = \sum_i^\nu s_i^\nu
+\] the probability of a unit to be in microstate $\nu $ is then given by \[
+w_\nu - \frac{N_\nu}{N} \le 1\\
+sum_\nu^z w_\nu = 1
+\] 
+We now do a budget equation for the microstates $\nu $. The transition $\nu \to \nu'$ will happen with a rate \[
+  \sum_{\nu'} \Gamma_{\nu\nu'} N_\nu
+\] Likewise the transisition $\nu' \to \nu$ has the rate \[
+\sum_{\nu'} \Gamma_{\nu'\nu} N_{\nu'}
+\] 
+We can therefore write an iterative time-evolution of the microstate $\nu$ as \[
+  N_\nu\left( t_{n+1} \right) = N_\nu \left( t_n \right) - \Delta t \cdot \sum_{\nu' \neq \nu} \Gamma_{\nu \nu'} N_\nu \left( t_n \right) + \Delta t \cdot \sum_{\nu' \neq \nu} \Gamma_{\nu' \nu} N_{\nu'}\left( t_n \right) 
+\] Where the first term is the current number of units in microstate $\nu$, the second term is the number of units that will leave the state $\nu$ over the next timestep, and the last term is the number of units that will change into microstate $\nu$.\\
+Starting at $t_1=0$ in a certain configuration $\{N_\nu(0)\}$ the iteration will lead to a fixed point, meaning that \[
+  N_\nu(t_{n+1}) = N_\nu\left( t_n \right)  \forall \nu
+\] At the fixed point we therefore have \[
+0 = \sum_{\nu \neq \nu'} \Gamma_{\nu \nu'} N_\nu(t_n) - \sum_{\nu' \neq \nu}^{} \Gamma_{\nu' \nu} N_{\nu'}(t_n)
+\] 
+This means in particular, that for each pair $\left( \nu, \nu' \right) $ we have \[
+0 = \Gamma_{\nu \nu'} N_\nu(t_n) - \Gamma_{\nu' \nu} N_{\nu'}(t_n)
+\] 
+Of course the individual units still change their microstate, but the total number of units in each microstate is constant at a fixed point. Such a fixed point is called a "\emph{detalied balance}".\\
+When we now invoke time reversability $\Gamma_{\nu \nu'} = \Gamma_{\nu' \nu}$ we must have that every microstate is equally occupied. \[
+  N_\nu = N_{\nu'} = \frac{N}{z}
+\] 
+When we consider the probabilities $w_n(t)$ by letting $n = N_\nu / N$ and $\Delta t = 0$ \[
+  N_\nu(t_n) \to w_n(t)
+\] 
+It's easy to check that these are real probabilities.\\
+We write \[
+\frac{N_\nu\left( t + \Delta t \right) - N_\nu(t)}{N \Delta t} = - \sum_{\nu \neq \nu}^{} \Gamma_{\nu \nu'} \frac{N_\nu(t)}{N} + \sum_{\nu \neq \nu'}^{} 
+\] 
+And find the \emph{Master Equation}:
+\[
+\implies \frac{dw_\nu(t)}{dt} = - \sum_{\nu \neq \nu'}^{} \left( \Gamma_{\nu \nu'} w_\nu - \Gamma_{\nu' \nu} w_{\nu'} \right) 
+\] 
+If we now insert our detailed balance condition $\Gamma_{\nu\nu'} w_\nu = \Gamma_{\nu'\nu} w_{\nu'}$ we get \[
+\frac{dw_\nu}{dt} = 0
+\] 
+If we consider a certain state property or quantity $\alpha$ which takes the values $\alpha_\nu$ when the unit is in state $\nu$. The mean value of the entire system is given by \[
+  <\alpha>\left(t  \right) = \sum_{\nu}^{z} \alpha_\nu w_\nu(t)
+\]
+
+We now consider the deriviative of $\alpha$ \[
+\frac{d <\alpha>}{dt} = \sum_{\nu} \alpha_\nu \frac{dw_\nu}{dt} 
+\] \[
+= \sum_{\nu} \alpha_\nu \left( w_\nu \sum_{\nu \neq \nu'} \Gamma_{\nu\nu'} + \sum_{\nu \neq \nu'} \Gamma_{\nu'\nu} w_{\nu'}   \right) 
+\] \[
+= \frac{1}{2} \sum_{\nu, \nu'} \left( \alpha_\nu - \alpha_{\nu'} \right) \left( w_\nu - w_{\nu'} \right) \Gamma_{\nu \nu'} 
+\] Which in the detailed balance case $w_\nu = w_{\nu'}$ means: \[
+\implies \frac{d<\alpha>}{dt} = 0
+\] 
+\subsection{H-Function and Information}
+We define the "$\mathcal{H}$-Function" as:\[
+  \mathcal{H}(t) = - \sum_{\nu}^{z} w_\nu\left( t \right) \ln \left[ w_\nu\left( t \right) \right]  
+\] 
+As we will see, $\mathcal{H}$ is a measure for our knowledge of the systems microstate.\\
+The detalied balance maximises $\mathcal{H}$.\\
+We now want to consider the time evolution of $\mathcal{H}(t)$ ; \[
+  \frac{\mathcal{H}}{dt} = - \sum_{\nu} \dot{w_\nu}\left( \ln(w_n) + 1 \right)  
+\] By inserting the master equation we get \[
+\dot{\mathcal{H}} = \sum_{\nu, \nu'} \Gamma_{\nu \nu'} \left( w_\nu - w_{\nu'} \right) \left( \ln(w_\nu) + 1 \right) = \frac{1}{2} \sum_{\nu, \nu'} \Gamma_{\nu, \nu'} \left( w_\nu - w_{\nu'} \right) \left( \ln(w_\nu) - \ln(w_{\nu'}) \right)  
+\] 
+Since $\left( x - y \right) \left( \ln(x) - \ln(y) \right) \ge 0$ we find the \emph{H-Theorem} \[
+  \dot{\mathcal{H}} \ge 0
+\] 
+When $\mathcal{H}$ thus never decreases, when it has stopped increasing the system has reached equilibrium.\\
+We now want to look at $\mathcal{H}$ from the viewpoint of configurations of units. We now consider a configuration: $\{w_\nu\}$. How many configurations are there in our System \[
+  W\left( N_\nu \right) = \frac{N!}{\Pi_{i=1}^z N_i!}
+\] with $W\left( N_\nu \right) $ being the number of configurations. To find a connection with the H-function we consider its log and use the Sterling-Approximation $\ln(n!) \approx n  \ln n - n + \frac{1}{2} \ln\left( 2 \pi n \right) $ :
+\[
+  \ln\left( W(N_\nu) \right) \approx N \ln N - N -\left( \sum_{\nu} N_\nu \ln N_\nu - \sum_{\nu} N_\nu   \right) 
+\] \[
+\ln \left( W(N_\nu) \right) = - N (\sum_{\nu} \frac{N_\nu}{N} \ln N_\nu - \sum_{\nu} \frac{N_\nu}{N} \ln N)  
+\] \[
+= -N \left( \sum_{\nu} w_\nu \ln\left( w_\nu \right)   \right) = N \mathcal{H}
+\] 
+We therefore see that the H-function is also a measure for the number of configurations possible for a given probability distribution. $\mathcal{H}$ is maximal for $\{N_\nu\}$ / $\{w_\nu\}$ with largest number of configurations. This now gives us an alternate way of finding  the fixedpoint - it let's us phrase it in terms of maximisation of \[
+  \mathcal{H}(t) = - \sum_{\nu} w_\nu \ln w_\nu 
+\] under the constraint that the $w_\nu$ must sum to $1$. We thus have to maximize \[
+\mathcal{H}' = - \sum_{\nu} w_\nu \ln w_\nu + \lambda \left( \sum_{\nu} w_\nu - 1  \right)  
+\] \[
+\frac{dH'}{dw_\nu} = -\ln w_\nu - 1 + \lambda = 0 \implies w_\nu = e^{\lambda-1}
+\] \[
+\frac{dH'}{d\lambda} = \sum_{\nu} w_\nu - 1 = 0 
+\] \[
+\implies w_\nu = \frac{1}{z}
+\] 
+
+\subsection{Simulation of a 2-State System}
+We will consider a system of $N$ units with $z=2$ states.\[
+\text{microstate: } m_i = \begin{cases}
+  +1 & \nu=1 \text{ or } \uparrow \\
+  -1 & \nu=-1 \text{ or }  \downarrow
+\end{cases}
+\] The time evolution is simply given as: "flip states at each timestep with probability $0 < p < 1$".
+To simulate such a system we generate $N$ random numbers $R_i \in [0,1]$ and update the  $m_i$ as \[
+  m_i(t_{n+1}) = \begin{cases}
+    m_i(t_n) & \text{if } p < R_i \le 1\\
+    -m_i(t_n) & \text{if } 0 \le R_i \le p
+  \end{cases}
+\] 
+Such a simulation of independent steps is called a Markov chains. Such a simulation is obviously time reversal symmetric. \\
+We measure at each timestep some quantity. If we imagine states $1,2$ as magnetic moments pointing up or down, we can for example measure the magnetization $M$. \[
+  M(t) = \frac{1}{N} \sum_{i=1}^{N} m_i(t)
+\] We can also look at the H-Function \[
+H(t) = - \sum_{\nu=1}^{2} w_\nu \ln w_\nu
+\] With the probabilities given by $w_{1,2} = \frac{1}{2} \left( 1 \pm M \right) $.\\
+To start the simulation we start all units in state $m_i(t_0) = +1 \forall i$, giving us $w_1=1, w_2 = 0, M=1, H=0$. When running the simulation for a sufficient number of steps we find the detailed balance in which $w_1=\frac{1}{2}, w_2=\frac{1}{2}, M= 0, H= \ln 2$.\\
+If we then look at the number of configurations at detailed balance we find in theory: \[
+  W = \frac{N!}{\left( (\frac{N}{2})! \right)^2} \approx 2^N \sqrt{\frac{2}{\pi N}} 
+\] 
+When we slightly deviate from detailed balance, $N_1= \frac{N}{2}(1+M)$ and $N_2 = \frac{N}{2} (1 - M)$ with $M \ll 1$. We now consider $W(M)$ and find \[
+  W(M) = \frac{N!}{\left( \frac{N}{2} (1 + M) \right)! \left( \frac{N}{2} (1 - M) \right) }
+\] \[
+\ln W(M) \approx N \ln N - N - \frac{N}{2} \left( (1+M) \ln\left( \frac{N}{2} (1+M) \right)  \right) + \left( 1 - M \right) \ln\left( \frac{N}{2} (1 - M) \right) + \frac{1}{2} \ln(2\pi N) - \frac{1}{2} \ln\left( \pi N\left( 1 + M \right)   \right) - \frac{1}{2} \ln\left( \pi N \left( 1 -M \right)  \right)  
+\] \[
+\ln W(M) \approx N \ln_2 + \frac{1}{2} \ln\left( \frac{2}{\pi N} \right) - \frac{NM^2}{2}
+\] 
+Reversing the logarithm we find a gaission curve with standard deviation $\sqrt{\frac{2}{N}}$. \[
+  W(M) = 2^N \sqrt{\frac{2}{\pi N}} e^{-\frac{M^2 N}{2}}
+\] Which for large $N$ is strongly peaked at $M = 0$.\\
+We now want to analize this situation from the viewpoint of the master equation: \[
+  \frac{dw_1}{dt} = \Gamma \left( w_2 - w_1 \right) 
+\] \[
+\frac{dw_2}{dt} = \Gamma \left( w_1 - w_2 \right) 
+\] \[
+\frac{d}{dt} \left( w_1 + w_2 \right) = 0
+\] \[
+\frac{d}{dt} \left( w_1 - w_2 \right) = \dot{M} = -2\Gamma \left( w_1 - w_2 \right) = -2 \Gamma M
+\] Which leads to the solution for $M$ : \[
+M(t) = M_0 e^{-2t\Gamma}
+\] 
+The result for the $H$-function yields: \[
+  H(t) = - w_1 \ln w_1 - w_2 \ln w_2 = \ln 2 - e^{-4t \Gamma}
+\] 
+This is an interessting result, since we get that $M(t)$ approaches $0$ with a relaxation time of $\tau_M = \frac{1}{2 \Gamma}$, while the H-function approaches it's final value with a relaxation time $\frac{1}{4 \Gamma}$.
+
+\section{Analysis of a closed System}
+Closed System means:
+\begin{itemize}
+  \item Conserved number of units $N$.
+  \item Conserved Energy (not yet introduced).
+\end{itemize}
+We introduce the energy of microstate $\nu$: $\epsilon_\nu$. 
+\begin{description}
+  \item[mean value of energy] \[
+  <\epsilon> = \sum_{\nu=1}^{z} w_\nu \epsilon_\nu
+  \] 
+\item[Thermodynamics: Internal Energy] \[
+U = N <\epsilon> = N u
+\] 
+\end{description}
+\subsection{$H$ and the equilibrium thermodynamics}
+We maximize $H\left( w_\nu \right) $ with respect to $w_\nu$. \[
+  H\left( w_\nu \right) = - \sum_\nu w_\nu \log\left( w_\nu \right) + \lambda \left( \sum_{\nu} w_\nu - 1  \right) - \frac{1}{\theta} \left( \sum_{\nu}  w_\nu \epsilon_\nu - <\epsilon>  \right) 
+\] 
+where $\lambda$ and $\frac{1}{\theta}$ are both lagrange multipliers to help us take into account our two constraints. We now maximize \[
+  0 = \frac{dH}{dw_\nu} = -\log\left( w_\nu \right) - 1 + \lambda - \frac{\epsilon_\nu}{\theta} \text{      (*)}
+\] \[
+\implies w_\nu = e&{\lambda - 1 - \frac{\epsilon_\nu}{\theta}}
+\] If we now impose $ 1 = \sum w_\nu$ we find \[
+e^{1-\lambda} = \sum_{\nu} e^{\frac{\epsilon_\nu}{\theta}} = Z \implies w_\nu = \frac{e^{\frac{\epsilon_\nu}{\theta}}{Z}}
+\] 
+  Where $Z$ is called the \emph{partition function}.
+  we now consider our equation (*) and find  \[
+    0 = H - 1 + \lambda - \frac{<\epsilon>}{\theta} \implies 1-\lambda = H - \frac{<\epsilon>}{\theta}
+  \] \[
+  <\epsilon> = \theta \left( \log w_\nu + H \right) + \epsilon_\nu
+  \] \[
+  d<\epsilon> = \left( \log w_\nu + H \right) d\theta + theta\left( dH + \frac{dw_\nu}{w\nu} \right) +d\epsilon_\nu
+  \] We then mulitply with $1 = \sum_{\nu} w_\nu $ and find \[
+  d<\epsilon> = 0 d\theta + \theta dH + \theta \sum_{\nu} dw_\nu + \sum_{\nu} w_\nu d\epsilon_\nu  
+  \] \[
+  = \theta dH + \sum_{\nu} w_\nu d\epsilon_\nu 
+  \]
+We rename $<\psilon> = u$ and change $d\epsilon_\nu = \sum_{j} \frac{\partial \epsilon_\nu }{\partial q_j  d q_j} $ with $q_j$s generalized coorditates and therefore $\frac{\partial \epsilon_\nu }{\partial q_j }$ a generalized force. \[
+    du = \theta dH - \sum_{\nu, j} w_\nu F_{j, \nu} dq_j = \theta dH - \sum_{j} <F_j> dq_j   
+\] or like wise \[
+  dH = \frac{du}{\theta} + \frac{1}{\theta} \sum_{j} <F_j> dq_j  
+\] 
+We therefore find that $H\left( u, q_j \right) $ is a function of $u$ and $q_j$.\\
+This relation can be "translated" to known thermodynamical relations by letting $\theta = k_B T$, $H = \frac{s}{k_B}$: \[
+  \frac{ds}{k_B} = \frac{du}{k_B T} + \frac{1}{k_B T} \sum_{j} <F_j> dq_j 
+\] We have therefore identified our $H$-function with the entropy \[
+  S = N k_B H
+\] 
+\subsection{Master equation for clased systems}
+How do the dynamics look with energy conservation? Processes like $\nu \to \nu'$ is only possible if $\epsilon_\nu = \epsilon_{\nu'}$. We can also allow processes where $\left( \nu_0, \nu_1 \right) \to  \left( \nu_2, \nu_3 \right) $ with $\epsilon_0 + \epsilon_1 = \epsilon_2 + \epsilon_3$, this obviously allows for greater flexibility. The Master equation then becomes \[
+  \frac{dw_\nu}{dt} = \sum_{\nu, \nu_1, \nu_2, \nu_3} \left( -\Gamma_{\nu,\nu_1; \nu_2, \nu_3} w_{\nu_0} w_{\nu_1} + \Gamma_{\nu_2, \nu_3;\nu_0,\nu_1} w_{\nu_2} w_{\nu_3} \right)  
+\] 
+Time reversal symmetry is here given by imposing that $\Gamma_{\nu_0, \nu_1 ; \nu_2, \nu_3} = \Gamma_{\nu_0, \nu_1 ; \nu_2, \nu_3}$ and we can also exchange with in the pairs $\Gamma_{\nu_0, \nu_1 ; \nu_2, \nu_3} = \Gamma_{\nu_1, \nu_0 ; \nu_2, \nu_3}$  etc.\\
+\paragraph{H-function} is now given by  \[
+H = - \sum_{\nu} w_\nu \log w_\nu 
+\] \[
+\frac{dH}{dt} = - \sum_{\nu} \frac{dw\nu}{dt} \left( \log w_\nu + 1 \right) = \frac{1}{4} \sum_{\nu,\nu_1,\nu_2, \nu_3} \Gamma_{\nu_0,\nu_1,\nu_2,\nu_3}\left( w_{\nu_0} w_{\nu_1} - w_{\nu_2}w_{\nu_3} \right) \left( \log\left( w_{\nu_0} w_{\nu_1} \right) \log\left( w_{\nu_2} w_{\nu_3} \right)   \right)   
+\] 
+In the detailed balance case we find \[
+\frac{dH}{dt} = 0 \implies w_{\nu_0}w_{\nu_1} = w_{\nu_2}w_{\nu_3}
+\] Taking our previous result we get \[
+\frac{e^{\frac{\epsilon_{\nu_0}}{k_B T}} e^{\frac{\epsilon_{\nu_1}}{k_B T}}}{Z^2} =
+\frac{e^{\frac{\epsilon_{\nu_2}}{k_B T}} e^{\frac{\epsilon_{\nu_3}}{k_B T}}}{Z^2}
+\] 
+We now rewrite the detailed balance in "compressed" transisition rates \[
+\Gamma_{\nu \nu'}' w_\nu = \Gamma_{\nu' \nu}' w_{\nu'}
+\] Where  \[
+\Gamma_{\nu' \nu}' = \sum_{\nu_1, \nu_2} \Gamma_{\nu, \nu_1, \nu_2, \nu'} w_{\nu_2} \frac{e^{- \frac{\epsilon_{\nu_2}}{k_B T}}}{Z}
+\] 
+\[
+\Gamma_{\nu \nu'}' = \sum_{\nu_1, \nu_2} \Gamma_{\nu, \nu_1, \nu_2, \nu'} w_{\nu_1} \frac{e^{- \frac{\epsilon_{\nu_1}}{k_B T}}}{Z}
+\] 
+It's important to note, that under this definition $\Gamma'_{\nu \nu'} \neq \Gamma'_{\nu' \nu}$ \\
+Detailed balance means now that \[
+  \frac{w_\nu}{w_{\nu'}} = \frac{\Gamma'_{\nu' \nu}}{\Gamma'_{\nu \nu'}} = e^{- \left( \epsilon_\nu - \epsilon_{\nu'} \right) / k_B T }
+\] 
+Which we regognize as the bolzmann distribution.
+\subsection{Irreversibse processes and the increase of entropy}
+The standard example of a irreversible process is the example of a gascanister which is doubled in volume by removing a wall (Guy-Lussac Experiment). We now consider a closed system composed of two subsystems $1$ and $2$. If system $1$ and $2$ are not in contact with each other they themselves are closed systems in equilibrium with internal energies $U_{1}$ and $U_{2}$ respectively.
+We then establish a bridge of weak coupling between the two over which energy can be transported. Each has their corresponding distributions: \[
+  w_\nu^\text{(1)} = \frac{N_\nu^\text{(1)}}{N_1} \text{ , } w_\nu^\text{(2)} = \frac{N_\nu^\text{(2)}}{N_2}
+\] 
+The total number of configurations is given by the product of the two corresponding values \[
+  W = W_1 W_2 = \frac{N_1! N_2!}{N_1^\text{(1)}! N_2^\text{(2)}! N_1^\text{(2)}! \ldots}
+\] 
+The total entropy is simply the sum of the two subsystems \[
+  S = k_B \log W = k_B \left( \log W_1 + \log W_2 \right) = S_1 + S_2
+\]  
+The total internal energy is \[
+U = U_1 + U_2
+\] \[
+S\left( U \right) = S\left( U_1 + U_2 \right) = S_1\left( U_1 \right) +S_2\left( U_2 \right) 
+\] 
+We now write $U_1$ and $U_2$ as $U_{1,2} = U_{01,02} \pm \hat{U}$. We are now interessted in the entropy in relation to $\hat{U}$.\[
+  S\left( \hat{U} \right) = S_1\left( U_{01} + \hat{U} \right) + S_2\left( U_{02} - \hat{U} \right) 
+\] 
+The entropy is maximal at \[
+  0 = \frac{dS\left( \hat{U} \right) }{d\hat{U}} = \frac{\partial S_1\left( U_{01} + \hat{U} \right)  }{d U_1} - \frac{\partial S_2\left( U_{02} - \hat{U} \right)  }{\partial U_2 } = \frac{1}{T_1} - \frac{1}{T_2}
+\] Which yields \[
+T_1 = T_2 = T_0
+\] 
+Where $U_{01}$ and $U_{02}$ are the respective internal energies of the two systems when the entire system is at equilibrium. 
+The entropy is maximal if both systems are at the same temperature. We therefor call temperature the \emph{equilibrium parameter} of the system. \\
+We now cansider $\hat{U} \ll U_{01}, U_{02}$ \[
+\frac{1}{T} = \frac{\partial S_1 }{\partial U_1 } |_{U_1 = U_{01} + \hat{U}} = \frac{1}{T_0} + \hat{U} \frac{\partial^2 S_1 }{\partial U_1^2 }|_{U_1 = U_{01}} + \ldots
+\] Repeating the same for $\frac{1}{T_2}$ yields \[
+\implies S\left( \hat{U} \right) = S_1\left( U_{01} \right) + S_2\left( U_{02} \right) + \frac{\hat{U}}{2}\left( \frac{\partial^2 S_1 }{\partial U_1^2 } + \frac{\partial^2 S_2 }{\partial U_2^2 } \right)|_{U_{01}, U_{02}}
+\] 
+The time evolution of $S$ is therefor given by \[
+  \frac{dS\left( \hat{U}\left( t \right)  \right) }{dt} = \frac{d\hat{U}}{dt} \hat{U} \left( \frac{1}{T_1} - \frac{1}{T_2} \right)  
+\] 
+where we can call $-\frac{d\hat{U}}{dt} = J_Q$ the heat flow from system $2 \to 1$.
+We consider system 1 in a quasi-equilibrium: $w_\nu^\text{(1)} = \frac{e^{- \frac{E_\nu}{k_B T}}}{Z_1}$ we then get \[
+  \frac{d\hat{U}}{dt} = N_1 \sum_{\nu} E_\nu \frac{dw_\nu^\text{(1)}\left( t \right) }{dt} = N_1 \sum_{\nu} E_\nu \frac{\partial w_\nu^\text{(1)} }{\partial T_1 } \frac{dT_1}{dt}  
+\] \[
+\frac{d\hat{U}}{dt} = N_1 \frac{dT_1}{dt} \left( \sum_{\nu} w_\nu^\text{(1)} E_\nu^2 - \left( \sum_{\nu} E_\nu w_\nu^\text{(1)}  \right) ^2   \right) \frac{1}{k_B T_1^2} 
+\] \[
+\frac{d\hat{U}}{dt} = \frac{dT_1}{dt} \frac{N}{k_B T_1^2} \left( <E^2> - <E>^2 \right) = C_1 \frac{dT_1}{dt}
+\] With $C_1$ the heatcapacity of system 1. \[
+C_1 = \frac{N}{k_B T_1^2} \underbracket{\left( <E^2> - <E>^2 \right) }_{\text{fluctuation}}
+\] 
+We get the fluctuation-dissipation theorem \[
+  \frac{d\hat{U}}{dt} = \frac{dT_1}{dt} \frac{\partial \hat{U} }{\partial T_1 } - C_1 \frac{dT_1}{dt}
+\] which leads to \[
+0\le \frac{dS}{dt} = C_1 \frac{dT_1}{dt} \frac{T_2 - T_1}{T_1T_2}
+\] Which leads to
+\begin{itemize}
+  \item $T_2 > T_1 \to \frac{dT_1}{dt} > 0 \implies \frac{d\hat{U}}{dt}>0$ which means energy flows from system 2 to system 1.
+  \item $T_1 > T_2 \to \frac{dT_1}{dt} < 0 \implies \frac{d\hat{U}}{dt}<0$ which means energy flows from system 1 to system 2.
+\end{itemize}
+Which means that, like we except, energy flows from the hotter system to the colder system.
+
+
+\chapter{Classical Statistical Physics}
+The kinetic approach we considered in chapter 1 came from Bolzmann.\\
+Classical statistical physics (which is time independent) comes from an approach of Gibbs.\\
+Since time is no longer a variable we'd like to haev a microscopic undersanding of Thermodynamics.
+\section{Gibbsian concept of ensembles}
+We consider the example of the (ideal) gas of $N$ particles in a three dimensional space. We therefore have $3N$ canonical coordinates $q_1 \ldots q_{2N}$ which we write as $q$ (a $3N$ component vector). Of course we also have $3N$ conjugate momenta $p_1 \ldots p_{3N}$ which we write as $p$.\\
+We therefore get the microstate: \[
+  \text{microstate: } \left( q_1 \ldots q_{3N} ; p_1 \ldots p_{3N} \right) \in \Gamma
+\] Where $\Gamma$ is the $6N$ dimensional space of microstates.\\
+We consider external condition(s) such as temperature, pressure, internal energy.\\
+In the temporal view of Boltzmann we were considering individual points on a trajectory through the $6N$ dimensional space $\Gamma$. To get a macroscopic quantity we take the timeaverage.\\
+In the ensemle view of Gibbs we instead consider a huge number of such spaces $\Gamma$ with a differen microstate that satisfies all conditions in each of them. To get macroscopic quantities we take an ensemble averag over many, maybe infinitely many, state spaces $\Gamma$.\\
+That these two views are equivalent is given by the so called ergodicity hypotheses, which states that a system will, over large enough times, visit all points satisfying all the conditions.\\
+The problem with that is that we can imagine a time evolution that remains in a subspace $\Gamma'$. 
+We now want to consider the quantity $A\left( p, q \right) $. In the time dependend picture we have $p\left( t \right) $ and $q\left( t \right) $ and $A\left( p\left( t \right) , q\left( t \right)  \right) $ is then given by $<A> = \lim_{t\to \infty} \frac{1}{T} \int_0^T A\left( p\left( t \right) ,q\left( t \right)  \right) dt$.\\
+In the ensemble picture on the other hand we get a densitp $\rho\left( p, q \right) $ and we need to consider \[
+  \underbrace{\rho\left( p,q \right)d^{3N}p d^{3N}q}_{\text{number of points in all ensembles within a volume $d^{3N}p d^{3N}q$}}
+\] To get the quantity $A$ we need to do \[
+<A> = \frac{\int_\Gamma A\left( p,q \right) \rho\left( p,q \right) dp dq}{\int_\Gamma \rho\left( p,q \right) dp dq}
+\] 
+\subsection{Liouville Theorem}
+We make a statement of $\rho\left( p,q \right) $ like a gas with $N$ particles in $\Gamma$. We have the hamiltonian $\mathcal{H}\left( p,q \right) $ which is independent of $t$, this leads to an equation of motion given by \[
+  \dot{p_i} = - \frac{\partial \mathcal{H} }{\partial q_i }
+\] \[
+\dat{q_i} = \frac{\partial \mathcal{H} }{\partial p_i }
+\] 
+The number of points in $\Gamma$ are conserved and their density satisfy a continuity equation \[
+  \frac{\partial \rho }{\partial t } + \vec{\nabla} \cdot \left( \rho \vec{v} \right) = 0
+\] With $\vec{v} = \left( \dot{p_1} \ldots \dot{p_{3N}} ; \dot{q_1} \ldots \dot{q_{3N}} \right) $ a generalized velocity, and $\vec{\nabla} = \left( \frac{\partial }{\partial p_1 } \ldots \frac{\partial }{\partial p_{3N}} ; \frac{\partial }{\partial q_1 } \ldots \frac{\partial }{\partial q_{3N} } \right) $.\\
+\paragraph{Substantial deriviative} is given by \[
+  \frac{D\rho}{Dt} = \frac{\partial \rho }{\partial t } + \underbrace{\vec{v}\cdot \vec{\nabla} \rho}_{\text{advectiv term}}
+\] \[
+\frac{D\rho}{Dt} + \rho \vec{\nabla} \cdot \vec{v} = 0
+\] which, with $\vec{\nabla} \cdot \vec{v} = \sum_{i} \left( \frac{\partial \dot{p_i }}{\partial q_i }+ \frac{\partial \dot{p_i} }{\partial p_i } \right) = 0  $ simplifies to \[
+0 = \frac{D \rho}{Dt} = \frac{\partial \rho \partial t }{\partial t } + \sum_{i} \left( \dot{q_i} \frac{\partial \rho }{\partial q_i } + \dot{p_i} \frac{\partial \rho }{\partial p_i } \right) 
+\] Which, when inserting our equation of motion we find \[
+0 = \frac{\partial \rho }{\partial t } - \{ \mathcal{H}, \rho\}
+\] 
+With $\{ X, Y \}$ the Poisson brackets. 
+\subsection{Equilibrium System}
+Since in equilibrium $\frac{\partial \rho }{\partial t } = 0$ because we have no timedependence. We therefore find \[
+\{ \mathcal{H} , \rho\} = 0
+\] 
+We can therefore see that $\rho\left( p,q \right) $ is constant in $\Gamma$ for certain external condition.
+\paragraph{closed system:} with energy $E = \mathcal{H}\left( p, q \right) $ we get \[
+  E: \rho\left( p,q \right) = \begin{cases}
+    \text{const.} & E\le  \mathcal{H}\left( p,q \right) \le E + \underbrace{\delta E}_{\text{small}} \\
+    0 & \text{otherwise}
+  \end{cases}
+\] 
+We can therefore say that $\rho\left( p,q \right) $ "filters" for $\left( p,q \right) $ with a given energy $E$.
+Therefore our exprossion for a quantity $A$ is an average at a given energy.
+\section{Microcanonical Ensemble}
+While the microcanonical ensemble is easyest to derive it's often cumbersome to work in, we thus introduce it first, but later introduce other ensembles as well.\\
+The Microcanonical Ensemble contains all states of a given energy $E = \mathcal{H}\left( p,q \right) $. In this picture we get the density \[
+  \rho\left( p, q \right) = \begin{cases}
+    \text{const.} & E\le \mathcal{H}\left( p,q \right) \le E + \underbrace{\delta E}_{\text{very small}} \\
+    0 & \text{Otherwise}
+  \end{cases}
+\] 
+Each point in the ensemble is equally frequently visited, provided we wait long enough. This lends itself naturally to describe a closed system, since $E$ is fixed. We can also fix $V$ and $N$.\\
+\begin{description}
+  \item[Phase Volume] \[
+      \Phi\left( E \right) := \Lambda_N \int_{\mathcal{H}\left( p,q \right) \le E} dp dq
+    \] This is the integral over all points in $\Gamma$ with energy $\le  E$. We have the normalization factor $\Lambda_N = \frac{1}{N! h^{3N}}$, where $N!$ counts the number of indistinguishable permutations of indistinguishable particles, and since we want $\Phi$ to be dimensionless we also have $h^{3N}$ with the units $[h] = [p_i q_i] = Js$, this looks like Planks constant, but it can be chosen arbitrarily.
+  \item[Volume of the Microcanonical Ensemble] \[
+      \omega\left( E \right) = \Lambda_N \int_{E \le \mathcal{H}\left( p,q \right) \le E + \delta E} dp dq = \Phi\left( E + \delta E \right) - \Phi\left( E \right) = \frac{d\Phi\left( E \right) }{dE} \delta E
+  \] We can now use this to renormalize the density function: \[
+  1 = \Lambda_N \int dp dq \rho\left( p,q \right) = \Lambda_N \int dp dq \text{const.} = \omega\left( E \right) \rho\left( p,q \right) 
+  \] We therefore get \[
+  \implies \rho\left( p,q \right) = \begin{cases}
+    \frac{1}{\omega\left( E \right) } & E\le  \mathcal{H} \le E + \delta E\\
+    0 & \text{otherwise}
+  \end{cases}
+  \] Which now leads us to the easier representation of averages as \[
+  <A> = \Lambda_N \int dp dq \rho(p,q) A\left( p,q \right) 
+  \] 
+\end{description}
+\subsection{Entropy}
+We recall that in the kinetic approach we had \[
+N H = \log W \implies S = k_B N H = k_B \log W
+\] with $W$ the number of configurations.\\
+We now define the entropy in the following way \[
+  S\left( E,V,N \right) = k_B \log\left( \omega\left( E,V,N \right)  \right) 
+\] This definition fullfills a few nice properties which we want of an entropy
+\begin{itemize}
+  \item it is extensive $S \propto N$ 
+  \item It satisfies the second law of thermodynamics
+\end{itemize}
+To verify these claims we consider a composite system consisting of two boxes with gas. Box one contaitning $N_1$ particles in a volume $V_1$, and likewise box two with $N_1$ and $V_1$. The Hamiltonian is given by \[
+  \mathcal{H}\left( p,q \right) = \mathcal{H}_1\left( p,q \right) + \mathcal{H}_2\left( p,q \right) 
+\] 
+If we now consider the microcanonical volumes we get $\omega_{1,2}\left( E_{1,2} \right) $ respectively. For the combined systems we find $E = E_1 + E_2$, $N = N_1 + N_2$ and $V = V_1 + V_2$. Considering the entropies we get
+\begin{align*}
+  S_1\left( E_1 \right) &= k_B \log\left( \omega_1\left( E_1 \right)  \right)  \\
+  S_2\left( E_2 \right) &= k_B \log\left( \omega_2\left( E_2 \right)  \right) 
+\end{align*}
+If we now look at the microcanonical volume of the combined system we find \[
+  \omega\left( E \right) = \omega_1\left( E_1 \right) \cdot \omega_2\left( E_2 \right) 
+\] Which then leads us to 
+\begin{align*}
+  S\left( E \right) &= k_B \log\left( \omega\left( E \right)  \right) \\
+                    &= k_B \log\left( \omega_1\left( E_1 \right)  \right) + k_B \log\left( \omega_2\left( E_2 \right)  \right)  \\
+                    &= S_1\left( E_1 \right) + S_2\left( E_2 \right)  \\
+\end{align*}
+Now we consider the case where we couple the two subsystems in a way that they can exchange energy (but not volume or energy). In this case we find the microcanonical volume to be \[
+  \omega\left( E \right) = \sum_{0\le E' \le E} \omega_1\left( E' \right) \omega_2\left( E - E' \right) 
+\] 
+It turns out that there is a maximal term in this sum, which dominates the total strongly, meaning that there is an $E_0' = E' = E_1$, $E-E_0' = E_2$ which dominates the sum.\\
+To see this we consider $E \propto N$ and $\log \omega \propto N$. If we take $\omega_1\left( E_0' \right) \omega_2\left( E- E_0' \right) \le \omega\left( E \right) \le \underbrace{\frac{E}{\delta E}}_{\text{number of meshpoints}} \omega_1\left( E_0' \right) \omega_2\left( E - E_0' \right) $. Taking the logarithm of this expression yields \[
+  \underbrace{k_B \log\left( \omega_1 \omega_2 \right)}_{\propto N} \le \underbrace{S\left( E \right)}_{\propto N} \le \underbrace{k_B \log\left( \omega_1 \omega_2 \right)}_{\propto N} +\underbrace{k_B \log\left( \frac{E}{\delta E} \right) }_{\propto \log N}
+\] Which for large $N$ goes to \[
+k_B \log\left( \omega_1 \omega_2 \right) \le S\left( E \right) \le k_B \log\left( \omega_1 \omega_2 \right)
+\] \[
+\implies S\left( E \right) = k_B \log\left( \omega_1\left( \overline{E}_1 \right) \omega_2\left( \overline{E}_2 \right)  \right) 
+\] with $\overline{E}_{1,2}$ the equilibrium at $\overline{E}_1 = E_0'$ and $\overline{E}_2 = E - E_0'$.
+The largest term of the sum above is of course given at \[
+  0 = \frac{\partial }{\partial E' } \omega_1\left( E' \right) \omega_2\left( E - E' \right) 
+\] We then find 
+\begin{align*}
+  0 &= \frac{1}{\omega_1\left( E' \right) } \frac{\partial \omega_1\left( E_1 \right)  }{\partial E' }+ \frac{1}{\omega_2\left( E - E' \right) } \frac{\partial \omega_2\left( E - E' \right)  }{\partial E' } \\
+    &= \frac{\partial }{\partial E_1 } \log \left( \omega_1\left( E_1 \right)  \right) |_{E_1 = E'} \ \frac{\partial }{\partial E_2 } \log\left( \omega_2\left( E_2 \right)  \right) |_{E_2 = E - E'} \\
+\end{align*}
+Which yields the equilibrium condition \[
+  \frac{\partial }{\partial E_1 } S_1\left( E_1 \right) |_{E_1 = \overline{E}_1} = \frac{\partial }{\partial E_2 } S_2\left( E_2 \right) |_{E_2 = \overline{E}_2}
+\] 
+When we look at the thermodynamics $E \to U$ the internal energy we find $\left( \frac{\partial S }{\partial U } \right)_{N,V} = \frac{1}{T}$ which gets us to \[
+\frac{\partial S_1 }{\partial U_1 } = \frac{\partial S_2 }{\partial U_2 }
+\] \[
+\frac{1}{T_1} = \frac{1}{T_2}
+\] \[
+\implies T_1 = T_2
+\] 
+We could also repeat this thought experiment with two systems that can exchange volume and energy we'd find $P_1 = P_2$. If we repeat the argument for the particle number $N$ it's the chemical potential $\mu$ which is equal at equilibrium.\\
+If we are not in equilibrium we find \[
+  \hat{\omega}\left( E,V,N \right) = \omega_1\left( E_1,V_1,N_1 \right) \omega_2\left( E_2,V_2,N_2 \right) 
+\] which leads to \[
+\hat{S}\left( E,V,N \right) = k_B \log\left( \hat{\omega\left( E,V,N \right) } \right) \le k_B \log\left( \omega\left( E,V,N \right)  \right) 
+\] 
+We thus recovered the correct relations predicted by the second law of thermodynamics.
+\subsection{Relation to thermodynamics}
+$E = U$ internal energy, $V$ volume and $N$ particle number.\\
+Entropy can be written as \[
+  S\left( U,V,N \right) \text{ which is a thermodynamic potential}
+\] 
+As we are accustumed, for thermodynamic potentials we can write differentials \[
+  dS = \left( \frac{\partial S }{\partial U } \right) _{V,N} dU + \left( \frac{\partial S }{\partial V } \right) _{U,N} dV + \left( \frac{\partial S }{\partial N } \right) _{U,V} dN = \frac{1}{T} dU + \frac{p}{T} dV - \frac{\mu}{T} dN
+\] We find $T, p, \mu$ that are all equilibrium parameters (i.e. all of them are uniform in equilibrium).\\
+\paragraph{caloric equation of state} is given as \[
+  \frac{1}{T} = \left( \frac{\partial S }{\partial U } \right) _{V,N}
+\] 
+\paragraph{thermodfnamic equation of state} is given as \[
+  \frac{p}{T} = \left( \frac{\partial S }{\partial V } \right) _{E,N}
+\] 
+Of course we can also derive all sorts of other thermodynamical potentials \[
+  S\left( U,V,N \right) \to U\left( S,V,N \right) 
+\] 
+\subsection{The Ideal Gas in the Microcanonical Treatment}
+An ideal gas consists of $N$ particles (mono-atomic, i.e. they have no internal degrees of freedom), filling a volume $V$ and we assume the system to be closed $U$ is fixed. Since the particles don't interact the hamiltonian does not depend on position, it is given by \[
+  \mathcal{H}\left( p,q \right) = \mathcal{H}\left( p \right) = \sum_{i=1}^{N} \frac{\vec{p}_i^2}{2m}
+\] 
+With this hamiltonian given we can calculate the phase space volume as \[
+  \Phi\left( E \right) = \Lambda_N \int_{\mathcal{H}\left( p \right) \le E} dp dq = \Lambda_N V^N \int_{\mathcal{H}\left( p \right) \le E} dp
+\] Where our condition on $\mathcal{H}$ defines a volume of a sphere in phasespace with radius $R = \sqrt{2m E} $. We therefore get \[
+\Phi\left( E \right) = \Lambda_N V^N C_{3N}\left( 2mE \right) ^{\frac{3N}{2}}
+\] With $C_{n} $ the volume of a $n$ dimensional unit-sphere given by $C_n = \frac{\pi^{\frac{n}{2}}}{\Gamma\left( \frac{n}{2} + 1 \right) }$, with $\Gamma\left( n \right) $ the gamma function.\\
+From this volume we can now get the volume of the microcanonical ensemble \[
+  \omega\left( E \right) = \frac{\partial \Phi\left( E \right)  }{\partial E } \delta E = \Lambda_N C_{3N} V^N \frac{3N}{2} \left( 2m E \right)^{\frac{3N}{2} - 1} \delta E
+\] 
+  We can define the entropy in two different ways that turn out to be equivalent. Once in terms of $\omega$ as $S_{\omega}$ and once in therms of $\Phi$ as $S_{\Phi}$.
+  To get the results below we use the so called Stirling approximation: $\log n! = n \log n - n + O\left( \log n \right)$.
+\begin{align*}
+  S_{\Phi} &= k_B \log \Phi \\
+           &= k_B \log\left( \Lambda_N V^N C_{3N} \right) + k_B \left( \frac{3N}{2} - 1 \right) \log\left( 2mE \right)  \\
+           &= k_B \log\left( \Lambda_N V^N C_{3N} \right) + k_B \frac{3N}{2} \log\left( 2mE \right)  \\
+  S_{\omega} &= k_B \log \omega \\
+             &= k_B \log\left( \Lambda_N V^N C_{2N} \right) + k_B \left( \frac{3N}{2} - 1 \right) \log\left( 2mE \right) + \underbrace{k_B \log\left( \frac{3N}{2}2m \delta E \right)}_{=O\left( \log N \right) }  \\
+             &= k_B \log\left( \Lambda_N V^N C_{3N} \right) + k_B \frac{3N}{2} \log\left( 2m E \right) + O\left( \log N \right)  \\
+             &= S_{\Phi} + O\left( \log N \right)  \\
+\end{align*}
+To calculate the entropy of the ideal Gas we get: \[
+  S\left( E,V,N \right) = N k_B \log\left( V \left( \frac{2m \pi E}{h^2} \right) ^{\frac{3}{2}} \right) - k_B \frac{3N}{2} \log \frac{3N}{2} - \frac{3N}{2} k_B
+\] \[
+S\left( E,V,N \right) = Nk_B \log\left( \frac{V}{N} \left( \frac{4\pi E}{h^2} \right) ^{\frac{3}{2}} \right) + \frac{5}{2} N k_B
+\]
+Which defines a thermodynamic potential. If we now identify $E\to U$ we can write \[
+  U\left( S,V,N \right) = N\left( \frac{N}{V} \right) ^{\frac{3}{2}} \frac{3h^2}{4\pi m} \exp\left( \frac{2S}{3 Nk_B} - \frac{5}{3} \right) 
+\] 
+By the differential of the entropy given above we know \[
+  \frac{1}{T} = \left( \frac{\partial S  }{\partial E} \right) _{V,N} = \frac{3}{2} N k_B \frac{1}{E}
+\] \[
+\implies U = \frac{3N}{2} k_B T
+\] 
+Which is the so called caloric equation of state. In a simmilar fashion we can find \[
+  \frac{p}{T} = \left( \frac{\partial S}{\partial V} \right) _{E,N} = N k_B \frac{1}{V}
+\] \[
+\implies pV = Nk_B T
+\] Which is the well known thermodynamic equation of state. And finally we can write \[
+-\frac{\mu}{T} = \left( \frac{\partial S}{\partial N} \right) _{V,E} = k_B \log\left( \frac{V}{N} \left( \frac{4 \pi m E}{3N h^2} \right) ^{\frac{3}{2}} \right) 
+\] \[
+\implies \mu = -k_B T \log\left( \frac{V}{N} \left( \frac{2\pi m k_B T}{h^2} \right) ^{\frac{3}{2}} \right) 
+\] 
+We still have the constant of $h$ which we introduced to get rid of the dimension. If we go from $h \to \alpha h$, $\alpha \in \mathbb{R}$ we get $S \to S' = S + N k_B \log \frac{1}{\alpha ^{3}} = S - 3Nk_B \log \alpha$, since $S$ is only defined up to an additive constant anyways, so this doesn't matter that much. With $\mu$ we get the same problem $\mu \to  \mu' = \mu + 3N k_B \log \alpha$.
+\section{Canonical ensemble}
+The new approach we take now is that we take temperature $T$ as the control variable instead of the energy $E$. So we no longer consider a closed sysetm, but a system connected to a heat reservoire. The heat reservoir is thermally coupeled to our system, meaning they can exchange energy but nothing else. Our system has parameters $E_1, S_1, N_1, V_1$ and temperature $T$ and the heat reservoire has parameters $E_2,S_2,N_2,V_2$ and the same temperature $T$. We assume $N_2 \gg N_1, V_2 \gg V_1, E_2\gg E_1, S_2\gg S_1$. The combined system is closed and we can think of it's hamiltonian in terms of a microcanonical ensemble \[
+  H\left( p,q \right) = H_1\left( p_1,q_1 \right) + H_2\left( p_2,q_2 \right) 
+\] 
+The volume of this microcanonical ensemble is now given by \[
+  \omega(E) = \sum_{0 \le E_1 \le E} \omega_1\left( E_1 \right) \omega_2\left( E-E_1 \right)  
+\] We have the dominant contribution at $E_1 = \overline{E_1}$ and $E_2 = \overline{E_2} = E - \overline{ E_1}$. For which we can also write $\overline{E_2} \gg \overline{E_1}$. \[
+\omega(E) \approx \omega_1\left( \overline{E_1} \right) \omega_2\left( E - \overline{E_1} \right) 
+\] 
+We'd now like to use this to get quantities for sub-system 1, to do that we introduce a unrenormalized density function of system 1 as \[
+  \rho_1\left( p_1, q_1 \right)
+\] 
+When we now consider the average value of $A\left( p,q \right) $ we get \[
+  <A>_1 = \frac{\int_1 dp_1 dq_1 A\left( p_1,q_1 \right) \rho_1\left( p_1,q_1 \right) }{\int_1 dp_1 dq_1 \rho_1\left( p_1,q_1 \right) }
+\] \[
+= \frac{\int_1 dp_1 dq_1 A\left( p_1,q_1 \right) \int_2 dp_2dq_2 \rho\left( p,q \right) }{\int_1 dp_1 dq_1 \int_2 dp_2 dq_2 \rho\left( p,q \right) }
+\] 
+With $\rho\left( p,q \right) $ the microcanonical density function which is constant in the energy range and $0$ outside of it. We can now consider \[
+  \int_2 dp_2 dq_2 \rho\left( p,q \right) \propto \int_{\hat{E}\left( p_1,q_1 \right) \le H_2\left( p_2,q_2 \right) \le \hat{E}\left( p_1, q_1 \right) + \delta E} dp_2 dq_2 = \omega_2\left( \hat{E}\left( p_1,q_1 \right)  \right) 
+\] With $\hat{E}\left( p_1,q_1 \right) = E - H_1\left( p_1,q_1 \right) $.
+\[
+  \omega_2\left( E - H_1\left( p_1,q_1 \right)  \right) \to \rho_1\left( p_1,q_1 \right) 
+\] Which means \[
+<A>_1 = \frac{\int_1 dp_1 dq_1 A\left( p_1,q_1 \right) \omega_2\left( E - H_1\left( p_1,q_1 \right)  \right) }{\int_1 dp_1 dq_1 \omega_2\left( E - H_1\left( p_1,q_1 \right)  \right) }
+\] 
+Since the heat reservoir is much much bigger than our system we can say that  \[
+  \overline{E_2} \approx E \gg \overline{E_1} \implies H \gg H_1\left( p_1,q_1 \right) 
+\] This allows us to write 
+\begin{align*}
+  k_B \log\left( \omega_2\left( E - H_1\left( p_1,q_1 \right)  \right)  \right) &= S_2\left( E - H_1\left( p_1,q_1 \right)  \right) \\
+                                                                                &= S_2\left( E \right) - H_1\left( p_1,q_1 \right) \frac{\partial S_2 }{\partial \overline{E_2}} \\
+                                                                                &= S_2\left( E \right) - \frac{H_1\left( p_1,q_1 \right) }{T} \\
+\end{align*}
+Which then leads to 
+\begin{align*}
+  \omega_2\left( E-H_1\left( p_1,q_1 \right)  \right) &\approx e^{\frac{S_2\left( E \right) }{k_B}} e^{-H_1\left( p_1,q_1 \right) \frac{1}{k_B T}} \\
+                                                      &\propto \rho_1\left( p_1,q_1 \right)  \\
+\end{align*}
+This now allows us to write the density function of the canonical ensemble with fixed $T$ and aphase space $\Gamma\left( p,q \right) $  and a Hamiltonian $H\left( p,q \right) $ - where we only consider our system and ignore the heat reservoire. 
+\begin{align*}
+  \rho\left( p,q \right) &= \frac{1}{Z} e^{-\frac{H\left( p,q \right) }{k_B t} } \\
+  Z &=  \Lambda_N \int_\Gamma dp dq e^{\frac{-H\left( p,q \right) }{k_B T}} \\
+\end{align*}
+Where we call $Z$ the partition function.
+\subsection{Thermodynamics of the canonical ensemble}
+The new variables which we can controll are $T,V,N$. The corresponding thermodynamic potential is \[
+  F\left( T,V,N \right) = U - TS \text{        The Helmholtz free energy}
+\] We now claim that \[
+Z = e^{-\beta F\left( T,N,V \right) } \text{ or } F\left( T,V,N \right) = -k_B T \log Z\left( T,V,N \right) 
+\] The internal energy now is no longer constant but needs to be considered an average $U = <H>$, and the entropy is given as $S = -\left( \frac{\partial F}{\partial T} \right)_{V,N}$. \[
+\Lambda_N \int_\Gamma dpdq e^{\beta\left( F - H\left( p,q \right)  \right) } = 1, \beta = \frac{1}{k_BT}
+\] We now take a deriviative with respect to $\beta$ : \[
+0 = \Lambda_N \int_\Gamma dpdq e^{\beta\left( F-H \right) } \left( F-H + \beta \frac{\partial F}{\partial \beta} \right) _{V,N} = \Lambda_N \int_\Gamma dpdq e^{\beta\left( F - H \right) } \left( F -H - T \left( \frac{\partial F}{\partial T} \right) _{V,N} \right) 
+\] \[
+= F - TS - <H>
+\] \[
+\implies F = U - TS
+\] 
+\begin{align*}
+  F\left( T,V,N \right) \to dF &= \left( \frac{\partial F }{\partial T} \right) _{V,N} dT + \left( \frac{\partial F}{\partial V } \right) _{T,N} dV + \left( \frac{\partial F }{\partial N} \right) _{T,V} dN\\
+  &= -S dT - p dV + \mu dN \\
+\end{align*}
+We can now get 
+\begin{description}
+  \item[pressure:] $p = -\left( \frac{\partial F}{\partial V} \right) _{T,N}$ which is the thermodynamic equation of state.
+  \item[caloric equation of state] \[
+  U = <H> = \frac{\Lambda_N}{Z} \int_\Gamma dpdq H e^{-\beta H} = -\frac{1}{Z} \frac{\partial Z}{\partial \beta}
+  \] \[
+  \implies U = -\frac{\partial }{\partial \beta} \log Z\left( T,V,N \right) 
+  \] 
+\end{description}
+\subsection{Equipartition Law}
+The equiparititon law states that there is an equal distribution of energy to equivalent degrees of freedom. This can be seen by considering the average of 
+\[
+  <q_\mu \frac{\partial H}{\partial q_\mu}> = \frac{\Lambda_N}{Z} \int dpdq q_\mu \frac{\partial H}{\partial q_\mu} e^{-\beta H} = \frac{\Lambda_N}{Z} \int dpdq q_\mu \left( -\frac{1}{\beta} \frac{\partial }{\partial q_\mu} e^{-\beta H} \right) 
+\] Which we can integrate by parts to get \[
+- \frac{\Lambda_{N}}{Z \beta} \underbrace{\int' dpd'q q_\mu e^{-\beta H}}_{=0} + \frac{\Lambda_N}{Z \beta} \int dp dq \underbrace{\frac{\partial q_\mu}{\partial q_\nu }}_{= \delta_{\mu\nu}} e^{-\beta H}
+\] \[
+= k_B T \delta_{\mu\nu}
+\] 
+This result is usefull when we consider \[
+  H\left( p,q \right) = E_kin \left( p \right)  + V\left( Q \right) 
+\] And consider some scaling $\lambda$ \[
+E_{kin}\left( \lambda p \right) = \lambda^2 E_{kin}\left( p \right) \propto p^2
+\] \[
+V\left( \lambda q \right) = \lambda^{\alpha} V\left( q \right) \forall V \propto q^{\alpha}
+\] 
+What we now get for the mean values is \[
+<E_{kin}> = < \sum_{i=1}^{N} \frac{\vec{p}^2}{2m} > = \frac{3}{2} N < p \frac{\partial E_{kin} }{\partial p}> = 3N < \frac{p^2}{2m}> = \frac{3}{2} N k_B T
+\] 
+\[
+<V> = \frac{3N}{\alpha} k_B T
+\] 
+\subsection{Ideal Gas in the canonical ensemble}
+\[
+  H\left( p,q \right) = H\left( p \right) = \sum_{i=1}^{N}  \frac{\vec{p_i}^2}{2m} 
+\] Which leads to \[
+Z = \Lambda_N \int d^{3}p d^{3}q \text{ } e^{-\beta \sum_i \frac{\vec{p_i}^2}{2m} } = \Lambda_N V^{N} \left( \int d^{3}p \text{ } e^{-\beta \frac{p^2}{2m}} \right)^{3N} = \Lambda_N V^{N} \left( 2\pi m k_B T \right) ^{\frac{3}{2} N}
+\] 
+The free energy $F\left( T,V,N \right)$ is given as 
+\begin{align*}
+  F\left( T,V,N \right) &= -k_B t \log\left( Z \right)  \\
+                        &= -k_B T \log\left( \Lambda_N V^N \left( 2 \pi m k_B T \right) ^{\frac{3}{2}N} \right)  \\
+                        &= -N k_B T \log\left( \frac{V}{N} \left( \frac{2\pi m k_B T}{h^2} \right) ^{\frac{3}{2}} \right) - Nk_B T \\
+\end{align*}
+For the entropy we find 
+\begin{align*}
+  S\left( T,V,N \right) &=  -\left( \frac{\partial F }{\partial T} \right)_{V,N} \\
+  &= N k_B \log\left( \frac{V}{N} \left( \frac{2 \pi m k_B T}{h^2} \right) ^{\frac{3}{2}} \right) + \frac{5}{2} N k_B \\
+\end{align*}
+The internal energy likewise
+\begin{align*}
+  U\left( T,V,N \right) &= - \frac{\partial }{\partial \beta} \log Z\\
+                        &= \frac{\partial }{\partial \beta} \log\left( \Lambda_N V^N \left( \frac{2 \pi m}{\beta} \right) ^{\frac{3N}{2}} \right)  \\
+                        &= \frac{3}{2}N \frac{1}{\beta} \\
+                        &= \frac{3}{2} N k_B T \\
+\end{align*}
+As we would expect for the ideal gas.\\
+To obtain the pressure we take
+\begin{align*}
+  p &= - \left( \frac{\partial F}{\partial V} \right) _{T,N} \\
+  &= \frac{Nk_BT}{V} \\
+  \implies pV &= Nk_B T\\
+\end{align*}
+For the chemical potential we have
+\begin{align*}
+  \mu &= \left( \frac{\partial F}{\partial N} \right) _{T,V} \\
+      &= - K_B T \log\left( \frac{V}{N} \left( \frac{2\pi m k_B T}{h^2} \right) ^{\frac{3}{2}} \right) \\
+\end{align*}
+\section{Grand Canonical Ensemble}
+We, again, consider a gas, this time with fixed $T,V$ but a fluctuating $N$. In analogy to the previoius section we consider two systems, one much larger than the other one. We have the total number of particles $N = N_1 + N_2$ and the total volume $V = V_1+ V_2$. With $N_1 \ll N_2$ and $V_1 \ll V_2$, both systems are at temperatuer $T$ and chemical potential $\mu$. The total hamiltonian is now given as
+\begin{align*}
+  \mathcal{H}\left( p,q,N \right) &= \mathcal{H}_1\left( p_1,q_1,N_1 \right) + \mathcal{H}_2\left( p_2,q_2,N_2 \right)  \\
+\end{align*}
+The total partition function (in the sense of the canonical ensemble) is given as
+\begin{align*}
+  Z_N\left( V,T \right) &= \frac{1}{N! h^{3N}} \int dp dq \text{ } e^{-\beta \mathcal{H}\left( p,q,N \right) } \\
+                        &= \frac{1}{N! h^{3N}} \sum_{N_1 = 0}^{N} \underbrace{\frac{N!}{N_1! N_2!}}_{\text{No. of distributions}}  \int dp_1 \int_{V_1} dq_1 \int dp_2 \int_{V_2} dq_2 e^{-\beta \left( \mathcal{H}_1\left( p_1,q_1,N_1 + \mathcal{H}_2\left( p_2,q_2,N_2 \right)  \right)  \right) } \\
+                        \text{With $N_2 = N - N_1$}  \\
+                        &= \sum_{N_1=0}^{N}  \underbrace{\frac{1}{N_1! h^{3N_1}}}_{\Lambda_{N_1}} \int_{V_1} dp_1 dq_1 e^{-\beta H_1\left( p_1,q_1,N_1 \right) } \underbrace{\frac{1}{N_2! h^{3N_2}}}_{\Lambda_{N_2}} \int_{V_2} dp_2 dq_2 e^{-\beta H_2\left( p_2,q_3,N_2 \right) } \\
+\end{align*}
+We now introduce a density function for the state of system 1 $\left( p_1, q_1 \right) $ and $N_1$ particles: \[
+  \rho\left( p_1,q_1,N_1 \right) = \frac{e^{-\beta H\left( p_1,q_1,N_1 \right) }}{Z_{N} N_1! N_2! h^{3N_2}} \int dp_2 dq_2 e^{-\beta H\left( p_2,q_2,N_2 \right) }
+\] \[
+\rho\left( p_1,q_1,N_1 \right) = \frac{e^{-\beta H\left( p_1,q_1,N_1 \right) }}{N_1!} \frac{Z_{N_2}}{Z_N}
+\] 
+Which fullfills \[
+  \sum_{N_1 = 0}^{N}  \frac{1}{h^{3N_1}} \int_{V_1} dp_1 dq_1 \rho\left( p_1,q_1,N_1 \right) = 1
+\] 
+We now take a look at the ratio of the two canonical partition functions $Z_{N_2}\left( V_2,T \right) $ and $Z_N\left( V,T \right) $ which are connected to the free energy: \[
+  \frac{Z_{N_2}}{Z_N} = e^{-\beta \left( F\left( T, V_2=V-V_1, N_2=N-N_1 \right) - F\left( T,V,N \right) \right) }
+\] 
+If we now look at the term in the exponential and consider that $V_1 \ll V_2 \approx V$ and $N_1 \ll N_2 \approx N$ we get 
+\begin{align*}
+  F\left( T, V-V_1, N - N_1 \right) - F\left( T,V,N \right) &= -\left( \frac{\partial F}{\partial V} \right) _{T,N} V_1 -\left( \frac{\partial F}{\partial N} \right) _{T,V} N_1 \\
+  &= p V_1 - \mu N_1 \\
+\end{align*}
+Leading us to find \[
+\frac{Z_{N_2}}{Z_N} = e^{\beta \mu N_1} e^{-\beta p V_1}
+\] 
+We now as before, dorp the subscript $_1$ and only consider the system we're interested in, which now has the density function: \[
+  \rho\left( p,q,N \right) = \frac{z^N}{N!} e^{-\beta pV} e^{-\beta \mathcal{H}\left( p,q,N \right) }
+\] 
+with $z = e^{\beta \mu}$ the fugacity, which will turn out to be an important variable from now on.\\
+The grand partition function is given as the sum of all canonical partition functions, weighed by the fugacity:
+\[
+  \mathcal{Z}\left( T,V,z \right) = \sum_{N=0}^{\infty} z^{N} Z_N\left( V, T \right) 
+\] 
+\subsection{Relation to Thermodynamics}
+The density function is renormalized \[
+  1 = \sum_{N=0}^{\infty} \frac{1}{h^{3N}} \int dp dq \rho\left( p,q,N \right) = e^{-\beta pV} \sum_{N=0}^{\infty} \frac{1}{h^{3N}} \frac{z^N}{N!} \int dp dq e^{-\beta H\left( p,q,N \right) }
+\] \[
+\implies 1 = e^{-\beta pV} \mathcal{Z}\left( T,V,z \right) 
+\] 
+We now define a grand potenital (also grand canonical potential) \[
+  \Omega\left( T,V,\mu \right) = -pV = -k_B T \log\left( \mathcal{Z}\left( T,V,z \right)  \right) 
+\] the differential is given as \[
+d\Omega = \left( \frac{\partial \Omega}{\partial T} \right) _{V, \mu} dT + \left( \frac{\partial \Omega}{\partial V} \right) _{T,  \mu} + \frac{\partial \Omega}{\partial \mu} d\mu 
+\] \[
+d\Omega = -S dT - p dV - N d \mu
+\] 
+We can now therefore calculate all relevant quantities.\\
+The average number of particles $N$ is given as
+\begin{align*}
+  N &= \left( \frac{\partial \Omega}{\partial \mu } \right) _{T, V} \\
+    &= k_B T \frac{\partial }{\partial \mu} \log \mathcal{Z} \\
+    &= z \frac{\partial }{\partial z} \log \mathcal{Z}\left( T,V,z \right)  \\
+    &= \frac{1}{\mathcal{Z}} \sum_{N=0}^{\infty} N z^N Z_N\left( V,T \right)  \\
+    &= \sum_{N=0}^{\infty} P_N N \\
+\end{align*}
+With $P_N$ the probability of finding $N$ particles in the system. \\
+The internal energy is, in analogy of the canonical ensemble, given by
+\begin{align*}
+  U\left( T,V,\mu \right) = - \frac{\partial }{\partial \beta} \log \mathcal{Z}
+\end{align*}
+The heat capacity is given by \[
+  C_V = \left( \frac{\partial U}{\partial T} \right)_{V, \mu}
+\] 
+\subsection{Ideal Gas in the Grand Canonical Treatment}
+We have the hamiltonian as \[
+  \mathcal{H} = \sum_{i=1}^{N}  \frac{\vec{p}_i^2}{2m}
+\] 
+and the grand partition function is given as
+\begin{align*}
+  \mathcal{Z}\left( T,V,z \right) &= \sum_{N = 0}^{\infty} z^N Z_N\left( T,V \right)  \\
+                                  &= \sum_{N=0}^{\infty} \frac{1}{N!} \underbrace{\frac{z^N V^N}{h^{3N}} \left( 2\pi m k_B T \right) ^{\frac{3}{2}N}}_{a^N} \\
+                                  &= e^a \\
+                                  &= \exp\left( \frac{zV}{h^{3}} \left( 2 \pi m k_B T \right) ^{\frac{3}{2}} \right)  \\
+\end{align*}
+We then find the average number of particles as
+\[
+  <N> = z \frac{\partial }{\partial z} \frac{zV}{h^{3}} \left( 2\pi m k_B T \right)^{\frac{3}{2}} = \frac{zV}{h^{3}} \left( 2 \pi m k_B T \right)^{\frac{3}{2}}
+\] 
+Meaning we get that  \[
+  \mathcal{Z} = e^{<N>}
+\] 
+\[
+z^N Z_N = \frac{<N>^N}{N!}
+\] 
+Which now allows us to find the probability $P_N$ as 
+\begin{align*}
+  P_N &= \frac{z^N Z_N}{\mathcal{Z}} \\
+  &=  e^{-<N>} \frac{<N>^N}{N!}\\
+  &\text{we apply stirlings approximation and assume $N - <N>$ is relatively small we find} \\
+  &\approx \frac{1}{\sqrt{2 \pi <N>} } e^{-\left( N-<N> \right)^2 \frac{1}{2 <N>}}\\
+\end{align*}
+
+Which is a gaussian which is strongly peaked at $N = <N>$. When we consider the mean value of the fluctuations we find \[
+  <\left( N - <N> \right) ^2> = z \frac{\partial }{\partial z} <N> = <N>
+\] 
+We look at the thermodynamic equation of state:
+\begin{align*}
+  -pV &= - k_B T \log \mathcal{Z} \\
+  &= - <N> k_B T \\
+  \implies pV &= <N> k_B T \\
+\end{align*}
+The caloric equation of state is given as 
+\begin{align*}
+  U\left( T,V, \mu \right) &=  - \frac{\partial }{\partial \beta} \log \mathcal{Z}\\
+                           &= -\frac{\partial }{\partial \beta} \left( \frac{zV}{h^{3}} \left( \frac{2m\pi}{\beta} \right) ^{\frac{3}{2}} \right)  \\
+                           &= \frac{3}{2} \frac{1}{\beta} \frac{zV}{h^{3}} \left( \frac{2\pi m}{\beta} \right) ^{\frac{3}{2}} \\
+                           &= \frac{3}{2} <N> k_B T \\
+\end{align*}
+We can now also use \[
+  <N> = \frac{zV}{h^{3}} \left( 2\pi m k_B T \right) ^{\frac{3}{2}}
+\] and $z = e^{\beta  \mu}$ to find \[
+\mu = -k_B T \log\left( \frac{V}{<N>} \left( \frac{2m\pi k_B T}{h^{3}} \right) ^{\frac{3}{2}} \right) 
+\] 
+
+\section{Notes from 13.10 missing}
+
+\chapter{Quantum Statistical Physics}
+In this chapter we apply the language of statistical physics to quantum systems and we'll find several differences. A few examples of differences are for example the behaviour of the entropy at low temperatures, the concept of indishtinguishable particles (quatum gases with fermions or bosons) or collective modes.\\
+\section{Basis of quantum statistical Physics}
+We consider quantum systems of many degrees of freedom that are described by a hamiltonian operator $\hat{\mathcal{H}}$. We can then find so called sationary states $\{\ket{\psi_n}\} $ which are the eigenvectors of $\hat{\mathcal{H}}$ : $\hat{\mathcal{H}}\ket{\psi_n} = E_n\ket{\psi_n}$. The stationary states $\{\ket{\psi_n}\} $ are a complete orthonormal set, meaning $\bra{\psi_n}\ket{\psi_n'} = \delta_{n,n'}$ and $\mathbb{I} = \sum_{n} \ket{\psi_n}\bra{\psi_n} $.\\
+Any state of the system can then be considered as a superposition of the $\ket{\psi_n}$.\[
+  \ket{\Psi} = \sum_{n} c_n \ket{\psi_n} ,  \text{  } c_n \in \mathbb{C} 
+\] 
+A general state $\ket{\Psi}$ is normalized iff $1 = \bra{\Psi}\ket{\Psi} = \sum_{n,n'} c_n^* c_{n'} \bra{\psi_n}\ket{\psi_{n'}} = \sum_{n} \abs{c_n}^2  $. In general the coefficients $c_n$ are timedependent, with a timedependence given as $c_n = c_n\left( t \right) = c_n\left( 0 \right) e^{-i \frac{E_n t}{\hbar}}$.\\
+Observables are given as hermitian operators $\hat{A} = \hat{A}^{\dagger}$. Expectation values of observables are then given as \[
+\bra{\Psi} \hat{A} \ket{\Psi} = \sum_{n,n'} c_n^* c_{n'} \bra{\psi_n} \hat{A} \ket{\psi_{n'}} 
+\] 
+The time average of an observable is then given as \[
+  <\hat{A}> = \overline{\bra{\Psi} \hat{A} \ket{\Psi}} = \lim_{T \to \infty} \frac{1}{T} \int_0^T dt \sum_{n,n'}  c_n^*\left( t \right) c_{n'}\left( t \right) \bra{\psi_n} \hat{A} \ket{\psi_{n'}} = \sum_{n,n'} \overline{c_n^* c_{n'}} \bra{\psi_n} \hat{A} \ket{\psi_{n}} 
+\] 
+Where the time average over the coefficients will tend to $0$ for $n \neq n'$, as $c_n^*\left( t \right) c_{n'}\left( t \right) = c_n^*\left( 0 \right) c_{n'}\left( 0 \right) e^{-i \frac{\left( E_n - E_{n'} \right) t}{\hbar}}$ goes to $0$ for all $E_n - E_{n'} \neq 0$.\\
+Note: in such a system the time evolution conserves energy \[
+  \ket{\Psi} \implies \bra{\Psi}H \ket{\Psi} = E_{\Psi} = \sum_{n} \underbrace{\abs{c_n\left( t \right) }^2}_{= \abs{c_n\left( 0 \right) }^2} E_n 
+\] 
+We can therefore write an ensemble average as \[
+<\hat{A}> = \sum_{n,n'} \rho_{n,n'} \bra{\psi_n} \hat{A} \ket{\psi_{n'}} 
+\] \[
+\rho_{n,n'} = \overline{c_n^* c_{n'}}  = \lim_{T \to  \infty} \frac{1}{T} \int_0^T dt c_n^*\left( 0 \right) c_{n'}\left( 0 \right) e^{i \frac{(E_n - E_{n'}) t}{\hbar}} = \abs{c_n\left( 0 \right) }^2 \delta_{n,n'}
+\] 
+Which then allows us to write the ensemble average as
+\[
+  <\hat{A}> = \sum_{n} \abs{c_n}^2 \bra{\psi_n} \hat{A} \ket{\psi_n}  
+\] 
+This now leads us to the \emph{postulate of quantum statistical physics}: 
+\begin{itemize}
+  \item equal probability \[
+  c_n^* c_n = \begin{cases}
+    r \in \mathbb{R} & E \le E_n \le E + \delta E \\
+    0 & \text{otherwise}
+  \end{cases}
+  \] 
+\item random phase: the global phase of a state is a random and cancels out in any measurement.
+\end{itemize}
+We could therefore write the state $\ket{\Psi}$ as an effective state with effective wavefunction $b_n$ as \[
+\ket{\Psi}_{\text{eff}} \sum_{n} b_n \ket{\psi_n} 
+\] where $\abs{b_n}^2 = \begin{cases}
+1 & E \le  E_n \le E + \delta E \\
+0 & \text{otherwise}
+\end{cases}$. Which then lets us write the ensemble average as \[
+<\hat{A}> \frac{ \sum_{n} \abs{b_n}^2 \bra{\psi_n} \hat{A} \ket{\psi_n}  }{ \sum_{n} \abs{b_n}^2 }
+\] 
+\section{Density matrix}
+We now define the density matrix $\hat{\rho}$ for pure or coherent, or mixed or incoherent states. The density matrix is given as \[
+\text{pure state: } \hat{\rho}_{\text{pure}} = \ket{\Psi}\bra{\Psi} = \sum_{n,n'} c_{n}^* c_{n'} \ket{\psi_n}\bra{\psi_{n'}} 
+\] \[
+\text{mixed state: } \hat{\rho}_\text{mixed} = \sum_{N} \abs{c_N}^2 \ket{\Psi_N} \bra{\Psi_N} 
+\] \[
+\text{general state: } \hat{\rho} = \sum_{n} \abs{c_n}^2 \ket{\psi_N} \bra{\psi_N} 
+\] 
+A where there's a classical uncertainty which of the quantum states $\ket{\Psi_N}$ is present. To distinguish pure from mixed states we can look at the trace of the squared density matrix
+\begin{align*}
+  Tr\left( \hat{\rho}_\text{pure} \right) = 1, \text{  } & Tr\left( \hat{\rho}_\text{mixed} \right) = 1 \\
+  Tr\left( \hat{\rho}_\text{pure}^2\right) = 1, \text{  } & Tr\left( \hat{\rho}_\text{mixed}^2 \right) \le  1 \\
+\end{align*}
+We can now write the (normalized) mean value of an observable as \[
+  <\hat{A}> = \frac{Tr\left( \hat{H} \hat{\rho} \right) }{Tr\left( \rho \right) }
+\] 
+For these calculations we can then use all the handy properties of traces such as:
+\begin{itemize}
+  \item invariant under cyclic rearangement: $Tr\left( \hat{A} \hat{B} \hat{C} \right) = Tr\left( \hat{B} \hat{C} \hat{A} \right) = Tr\left( \hat{C} \hat{A} \hat{B} \right) $ 
+  \item Basis independence : $\hat{A} \to \hat{A}' = U^{-1} \hat{A} U \implies Tr\left( \hat{A}' \right) = Tr\left( \hat{A} \right) $ (with $U$ a unitary)
+\end{itemize}
+An important property of the density matrix for stationary ensembles is that it's time independent \[
+  i\hbar \frac{\partial \hat{\rho} }{\partial t} = [H, \hat{\rho}] \underbrace{= 0}_{\text{for stationary ensembles}}
+\] 
+\section{Ensembles in Quantum Statistical Physics}
+To build ensembles we only consider stationary states $H \ket{\psi_n} = E_n \ket{\psi_n}$. We now consider the three ensembles already introduced clasically: the microcanonical, the canonical and the grand canonical ensembles.
+\subsection{Microcanonical Ensemble}
+We consider a closed system $\bra{\psi_n} \hat{\rho} \ket{\psi_{n'}} = \rho_{n,n'} \abs{b_n}^2 \delta_{n,n'}$, where $\abs{b_n}^2 = 1 \forall E \le  E_n \le E+\delta E$ and $0$ otherwise. The density matrix is thus given as \[
+  \hat{\rho} = \sum_{n} \abs{b_n}^2 \ket{\psi_n} \bra{\psi_n} 
+= \sum_{n \text{ s.t. } E\le  E_n \le E + \delta E} \ket{\psi_n} \bra{\psi_n} 
+\] 
+We can then define the volume of the microcanonical ensemble is then \[
+  \omega(E) = Tr\left( \hat{\rho} \right) = \sum_{n} \rho_{n,n'} = \sum_{n} \abs{b_n}^2  
+\] 
+A the entropy in then given as \[
+  S\left( E \right) = k_B \log\left( \omega\left( E \right)  \right) 
+\] 
+And the phase space volume is given as \[
+  \Phi\left( E \right) = \sum_{n \text{ s.t. } E_n \le E} 1 \implies \omega(E) = \frac{d\Phi\left( E \right) }{d E} \delta E 
+\] 
+All of this is equivalent to the classical case.
+\subsection{Canonical Ensemble}
+We now have a heat reservoire and thus consider a system at fixed temperature $T$. In the classical case we had $\rho\left( p,q \right) = e^{-\beta H\left( p,q \right) }$ which now gives us in the quantum case \[
+\rho_{n,n'} = \delta_{n,n'} e^{-\beta E_n}
+\]  
+and the partition function is given as \[
+  Z = \sum_{n} e^{-\beta E_n} = Tr\left( \hat{\rho} \right)  
+\] 
+With the density matrix given as
+\begin{align*}
+  \hat{\rho} &=  \sum_{n} u^{-\beta E_n} \ket{\psi_n}\bra{\psi_n}  \\
+             &= e^{-\beta H} \underbrace{ \sum_{n} \ket{\psi_n}\bra{\psi_n}}_{= 1} \\
+             \implies \hat{\rho} &=  e^{-\beta H}
+\end{align*}
+Which then gives us the partition function as \[
+  \implies Z = Tr\left( e^{-\beta H} \right) 
+\] 
+To calculate mean values of observables we get \[
+  <\hat{A}> = \frac{Tr\left( \hat{A} e^{-\beta H} \right) }{Tr\left( e^{-\beta H} \right) } = \frac{1}{Z} Tr\left( \hat{A} e^{-\beta H} \right) 
+\] 
+The Helmholz free energy is given as \[
+  F\left( T,\ldots \right) = -k_B T \log Z
+\] 
+\subsection{Grand Canonical Ensemble}
+We have both a heat and particle reservoire, so a fixed temperature and chemical potential $\mu$. The density matrix is given as \[
+  \hat{\rho} = e^{-\beta \left( H - \mu \hat{N} \right) }
+\] with $\hat{N}$ the particle number operator, who shares it's eigenstates with $H_N$ 
+\begin{align*}
+  H_N \ket{\psi_n^N} &= E_n^N \ket{\psi_n^N}\\
+  \hat{N} \ket{\psi_n^N} &= N \ket{\psi_n^N} \\
+\end{align*}
+The partition function is given as \[
+  \mathcal{Z} = Tr\left( \hat{\rho} \right) = Tr\left( e^{-\beta \left( H_N - \mu \hat{N} \right) } \right) 
+\] \[
+= \sum_{N=0}^{\infty} z^{N} Z_N
+\] with $z = e^{\beta \mu}$ the fugacity as before.\\
+The grand potential is then given as \[
+  \Omega\left( T, \mu, \ldots \right)  = -k_B T \log \mathcal{Z}
+\] 
+\section{Ideal Paramagnet in the Quantum Canonical Treatment}
+We consider a system of independent quantum spins in an external magnetic field (Zeeman coupling).
+\subsection{ Spin $\frac{1}{2}$}
+We consider $N$ independent quantum spins $S = \frac{1}{2}$ as $\ket{s, s_z} = \ket{\frac{1}{2}, \pm \frac{1}{2}}$. The hamiltonian of the system is given as \[
+H = \sum_{i} H_i = -\frac{g \mu_B}{\hbar} \sum_{i=1}^{N}  \vec{H} \cdot \hat{\vec{S}} 
+= -\mu_B \sum_{i=1}^{N}  \vec{H} \hat{\vec{\sigma}}
+\] 
+With $\vec{\sigma}$ the vector of the pauli matricies. 
+\section*{Eine VL Fehlt}
+\section{Quantum Gases - Bosons}
+Phase diagram 
+\begin{align*}
+  P &= \frac{k_B T}{\lambda^{3}} g_{\frac{5}{2}}\left( z = 1 \right)  \\
+  n = \frac{1}{v} &= \frac{1}{\lambda^{3}} g_{\frac{3}{2}} \left( z=1 \right) 
+\end{align*}
+We now consider two diagrams
+\begin{description}
+  \item[P-v-diagram:] \[
+      p v ^{\frac{3}{2}} = \frac{h^2}{2\pi m} \frac{g_{\frac{5}{2}}\left( 1 \right) }{\left( g_{\frac{3}{2}}\left( 1 \right)  \right) ^{\frac{5}{2}}}
+  \] 
+  \item[P-T-diagram:] \[
+    P = \frac{k_B T}{\lambda^{3}} g_{\frac{5}{2}}\left( 1 \right) \propto T^{\frac{5}{2}}
+  \] 
+\end{description}
+We can use a Clausius-Clapeyron relation: 
+\begin{align*}
+  \frac{dP}{dT} &= \frac{l}{T \Delta v}
+\end{align*}
+With $l = T \Delta s$ the latent heat of a particle, and $\Delta v$ is the volume change per particle,which is also equal to the critical volume $\Delta v = v_C$.
+$\Delta s = s = \frac{5}{2} k_B \frac{g_{\frac{5}{2}}\left( 1 \right) }{g_{\frac{3}{2}}\left( 1 \right) }$, condensed bosons do not have a specific volume and entropy. \\
+Given all of this we can see that the latent heat is given as
+\begin{align*}
+  l &= T v_c \frac{dp}{dT} 
+\end{align*}
+Which is the condensation energy per particle, ie. the energy released per particle entering the condensate.
+\section{Photons \& Phonons}
+\paragraph{Quantum Harmonic Oscillators} \\
+A we consider quantum harmonic oszillators with mass $m = 1$ which gives the hamiltonian \[
+  \mathcal{H} = \frac{\hat{P}^2}{2} + \frac{\omega^2}{2} \hat{Q}^2
+\] As known from quantum mechanics we replace the momentum and coordinate operator $\hat{P}$ and $\hat{Q}$ with 
+\begin{align*}
+  \hat{Q} &= \sqrt{\frac{\hbar}{2 \omega}}  \left( \hat{a} + \hat{a}^{\dagger} \right)  \\
+  \hat{P} &= i \omega \sqrt{\frac{\hbar}{2 \omega}} \left( \hat{a} - \hat{a}^{\dagger} \right)  
+.\end{align*} 
+With $[\hat{a}, \hat{a}^{\dagger}] = 1 \implies [\hat{Q}, \hat{P}] = i \hbar$. We can then rewrite the hamiltonian as \[
+  \implies \mathcal{H} = \hbar \omega \left( \hat{a}^{\dagger} \hat{a} + \frac{1}{2} \right) 
+\] with the eigenbasis $\ket{n}$ with \[
+\mathcal{H} \ket{n} = E_n \ket{n} \\
+E_n = \hbar \omega\left( n + \frac{1}{2} \right) , n \in \mathbb{R}
+\] and the actions of the raising/lowering operators 
+\begin{align*}
+  \hat{a} \ket{n} &= \sqrt{n} \ket{n-1}\\
+  \hat{a}^{\dagger} \ket{n} &= \sqrt{n+1}  \ket{n+1} \\
+  \implies \hat{a}^{\dagger} \hat{a} \ket{n} &= n \ket{n}
+\end{align*}
+A we thus have stationary states $\ket{n}$ with $\mathcal{H} \ket{n} = E_n \ket{n}$.\\
+We now do statistical physics and consider the canonical ensemble: \[
+  Z = Tr\left( e^{-\beta \mathcal{H}} \right) = \sum_{n=0}^{\infty} \bra{n} e^{-\beta \mathcal{H}} \ket{n} = \sum_{n}^{} e^{-\beta E_n}
+\] \[
+\implies Z = e^{-\beta \frac{\hbar \omega}{2}} \sum_{n=0}^{\infty} e^{-\beta \hbar \omega n} = \frac{e^{-\beta \frac{\hbar \omega}{2}}}{1 - e^{-\beta \hbar \omega}}
+\] 
+Giving us the internal energy \[
+U = - \frac{\partial }{\partial \beta} \log Z = \frac{1}{2} \hbar \omega + \frac{\hbar \omega}{e^{\beta \hbar \omega} - 1}
+\] 
+And the heat capacity \[
+  C = \frac{dU}{dT} = \left( \frac{\hbar \omega}{2 k_B T} \right)^2 \frac{k_B}{\sinh^2\left( \beta \frac{\hbar \omega}{2} \right) }
+\] \[
+C = \begin{cases}
+ k_B & k_B T \gg \hbar \omega \\
+ 4 k_B \left( \frac{\hbar \omega}{2 k_B T} \right)^2 e^{-\beta \hbar \omega} & k_B T \ll \hbar \omega
+\end{cases}
+\] 
+The mean quantum number $n$ is then given as \[
+<n> = \frac{1}{Z} \sum_{n=0}^{\infty} n e^{-\beta E_n} = \frac{1}{e^{\beta \hbar \omega} - 1}
+\] We have recovered a form of the Bose-Einstein distribuiton with $\mu = 0$.
+\subsection{Blackbody Radiation - Photons}
+We consider a cavity with "black" walls, ie. walls that absorb any EM radiation hitting it and that thermally radiate. We fix temperature and try to find the thermal equilibrium. The EM waves in the cavity are given as plane waves, described by $\vec{k}, \lambda$, their frequency is given as $\omega_{\vec{k}} = k \abs{\vec{k}} = c k$. The hamiltonian is given as: \[
+  \mathcal{H} = \sum_{\vec{k}, \lambda}^{}  \hbar \omega_{\vec{k}} \left( \underbrace{ \hat{a}_{\vec{k},\lambda}^{\dagger}\hat{a}_{\vec{k},\lambda} }_{\hat{n}_{\vec{k},\lambda}} + \frac{1}{2}  \right) 
+\] 
+We again look at the canonical partition function \[
+Z = \Pi_{\vec{k}, \lambda} \frac{e^{-\beta \frac{\hbar \omega_{\vec{k}}}{2}}}{1 - e^{-\beta \hbar \omega_{\vec{k}}}} = \Pi_{\vec{k}} 
+\left( \frac{e^{-\beta \frac{\hbar \omega_{\vec{k}}}{2}}}{1 - e^{-\beta \hbar \omega_{\vec{k}}}} \right)^2 
+\] 
+The internal Energy is then given as \[
+  U = -\frac{\partial }{\partial \beta} \log Z = \sum_{\vec{k}, \lambda}^{} \frac{\hbar \omega_{\vec{k}}}{e^{\beta \hbar \omega_{\vec{k}}} - 1} + \underbrace{\text{zero point energy}}_{\to \infty \text{ but we can ignore it since it's constant}}
+\] \[
+U = \int_0^{\infty} d\omega \underbrace{\sum_{\vec{k}, \lambda}^{} \delta\left( \omega - \omega_{\vec{k}} \right)}_{D\left( \omega \right) = V \frac{\omega^2}{\pi^2 c^3}} \frac{\hbar \omega}{e^{\beta \hbar \omega} - 1}
+\] 
+With $D\left( \omega \right) $ the density of states. We can now write \[
+  U = V \int_0^{\infty} d\omega u\left( \omega, T \right) 
+  \] with the spctral energy density $u\left( \omega, T \right) $ given as: \[
+u\left( \omega, T \right) = \frac{1}{V} D\left( \omega \right) \frac{\hbar \omega}{e^{\beta \hbar \omega} - 1} 
+= \frac{\omega^2}{\pi^2 c^{3}} \frac{\hbar \omega}{e^{\beta \hbar \omega} -1}
+\] 
+We now consider the limits of the spectral energy density \[
+  u\left( \omega, T \right) = \begin{cases}
+    \frac{\omega^2}{\pi^2 c ^3} k_B T & \hbar \omega \ll k_B T\\ & \text{ the Rayleigh-Jeans limit}\\
+    \frac{\hbar \omega ^3}{\pi^2 c ^3} e^{-\beta \hbar \omega} & \hbar \omega \gg k_B T \\ & \text{ the Wien's law}
+  \end{cases}
+\] 
+In the R-J limit we get $D\left( \omega \right) k_B T$ which basically expresses the equipartition law ($k_B T$ per independend mode). 
+The maximum of the Plank law is at $\frac{\hbar \omega_0}{k_B T}$, which is called Wie's displacement law.\\
+We now consider the total internal energy per volume 
+\begin{align*}
+  \frac{U}{V} &= \int_0^{\infty} d\omega u\left( \omega, T \right) \\
+  &= \frac{\hbar}{\pi^2 c ^3} \int_0^{\infty} d\omega \frac{\omega^3}{e^{\beta \hbar \omega} - 1} \\
+  &= \frac{\left( k_B T \right) ^{4}}{\pi^2 \left( \hbar c \right) ^3} \underbrace{\int_0^{\infty} dy \frac{y^3}{e^{y}- 1}}_{\frac{\pi^{4}}{15}} \\
+  &= \frac{\pi^2}{10\left( \pi c \right) ^3} \left( k_B T \right) ^{4} \propto T^{4} \\
+\end{align*}
+This result is called the Stefan-Boltzmann-law.\\
+We now consider a piece of the surface of the black body and look at the energy current density $\frac{U}{V} c$, the emmision power per area unit of a blackbody surface is given by \[
+  P_{\text{em}}\left( u \right) = \frac{U}{V}c \int \frac{d\Omega}{4 \pi} \underbrace{\frac{\vec{k} \cdot \vec{n}}{\abs{\vec{k}}}}_{\cos \theta_{\vec{k}}} =
+  \frac{\pi^2}{60 \hbar^3 c^2} \left( k_B T \right)^{4} 
+\] 
+This can then, for example, be used to calculate the power reaching earth from the sun, which is $1.37$ $\text{kW/m}^2$. \\
+We can also look at the free energy which is given as \[
+  F = -k_B T \log Z = \ldots = - \frac{U}{3} = V \frac{\pi^2}{45} \frac{\left( k_B T \right) ^{4}}{\left( \hbar c \right) ^3}
+\] and from that the pressure \[
+P = -\left( \frac{\partial F}{\partial V} \right)_T = \frac{\pi^2}{45} \frac{\left( k_B T \right) ^{4}}{\left( \hbar c \right) ^3} = \frac{U}{3V}
+\] Leading to the result \[
+\implies U = 3pV
+\] 
+Since the Free Energy does not depend on the photon number $n$ we get \[
+  \mu = \left( \frac{\partial F}{\partial n} \right) = 0
+\] 
+Which is in agreement with the Bose-Einstein like result we got earlier.
+\subsection{Phonons in a Solid}
+Phonons are vibrations of/on a lattice of atoms, we'll consider Debye theory which has strong similarities with the EM waves of the last section on photons.\\
+We consider a box of volume $L^3$ containing $N_A$ atoms with a total of $3 N_A$ degrees of freedom. \\
+Alternatively we can cosider the lattice as a contious elastic medium (a bit like a block of rubber), this view will then lead us to the concept of a displacement field $\vec{u}( r )$, which will come in handy in future chapters. In this view we can then define a wave equations for soundwaves
+\begin{align*}
+  \frac{i}{c_\ell} \frac{\partial ^2}{\partial t^2} \vec{u} - \vec{\nabla } \left( \vec{\nabla } \cdot \vec{u} \right) &= 0 \\
+  \frac{i}{c_t} \frac{\partial ^2}{\partial t^2} \vec{u} - \vec{\nabla }^2 \vec{u} &= 0
+\end{align}
+With $c_\ell$ and $c_t$ the velocity of longitudinal and transverse waves respectively. When lo oking at plane waves we thus get two different dispersions 
+\begin{align*}
+  \omega_\vec{k}^{\ell} &= c_\ell \abs{\vec{k}} \\
+  \omega_\vec{k}^{t} &= c_t \abs{\vec{k}}  \\
+.\end{align*}
+In analogy to the EM case we find the density of modes as
+\begin{align*}
+  D_\ell \left( \omega \right) &= V \frac{\omega^2}{2\pi^2 c_\ell^2} \\
+  D_t\left( \omega \right) &= V \frac{2\omega^2}{2\pi^2 c_t^2}  \\
+  D\left( \omega \right) = D_\ell \left( \omega \right) + D_t \left( \omega \right) &=  V \frac{\omega^2}{2 \pi^2} \left( \frac{1}{c_\ell^2} + \frac{2}{c_t^2}  \right) = V \frac{\omega^2}{2\pi^2} \frac{3}{c_\text{eff} ^3}  \\
+\end{align*}
+With the effective wave velocity $c_\text{eff} $.\\
+We now take a lo ok at the number of degrees of freedom \[
+3N_A = \sum_{\abs{\vec{k}} \le k_D}^{} 3 = \frac{3V}{\left( 2\pi \right) ^3} \int_{\abs{\vec{k}} \le k_D}^{} d^3k = \frac{Vk_D^3}{2\pi^2}     
+\] 
+Which then defines the Debeye wave vector $k_D = \left( \frac{6\pi^2 N_A}{V}  \right) ^{\frac{1}{3} } $. This in turn then defines a debye wave length as $k_D = \frac{2\pi}{\lambda_D} $ . With this we can now define the Debye frequency as $\omega_D = c_\text{eff} k_D $, and the Debye temperature $\hbar \omega_D = k_B \theta_D$. \\
+This then leads to \[
+3N_A = \int_{0}^{\omega_D} d\omega D\left( \omega \right)   
+\] Which then leads to \[
+D\left( \omega \right) = \begin{cases}
+  V \frac{\omega^2}{2 \pi^2} \frac{3}{c_\text{eff} ^3}  & 0 \le \omega \le \omega_D \
+  0 & \omega_D \le \omega \
+\end{cases}
+\] 
+We now consider the internal energy.
+\begin{align*}
+  U &= \int_{0}^{\infty} d\omega D\left( \omega \right) \frac{\hbar \omega}{e^{\beta \hbar - 1} }    \\
+  &= V \int_{0}^{\omega_D} d\omega \underbrace{u\left( \omega,T \right) }_{\text{spectral energy density}}     \\
+  &= \frac{3V}{2\pi^2 c_\text{eff} ^3} \int_{0}^{\omega_D} d\omega \frac{\hbar \omega^2}{e^{\beta \hbar\omega} -1}    \\
+  &\underbrace{=}_{y = \beta \hbar \omega} V \frac{3 \left( k_B T \right) ^{4} }{\left( \hbarc_\text{eff}  \right)^3} \int_{0}^{y_D = \frac{\hbar \omega_D}{k_B T} = \frac{\theta_D}{T} } \frac{y^3}{e^{y} - 1}     \\
+\end{align*}
+We consider the limits:
+\begin{itemize}
+  \item 
+   $k_B t \ll \hbar \omega_D = k_B \theta_D \implies T \ll \theta_D \implies y_D \gg 1$ \\
+\[
+\implies \int_{0}^{\infty} dy \frac{y^3}{e^{y} - 1} = \frac{\pi^{4} }{15}   
+\] \[
+   U = V \frac{\pi^2 \left( k_B T \right)^{4} }{10 \left( \hbar c_\text{eff}  \right) ^2}
+ \] Which leads to the heat capacity \[
+ C_V = \left( \frac{\partial U}{\partial T}  \right) _{V} = \frac{12 \pi^{4} }{5} N_A k_B \left( \frac{T}{\theta_D}  \right) ^3 \propto T^3
+ \] Which agrees with the so called debye law.
+ \item $t \gg \theta_D \implies y \ll 1$ \[
+     U = V \frac{3 \left( k_B T \right) ^{4} }{\left( \hbar c_\text{eff}  \right) ^3} \int_{0}^{\frac{\theta_D}{T}  } dy \left[ y^2 - \frac{y^3}{2} + \frac{y^{4} }{12} + \ldots  \right] = 3 N_A k_B T \left[ 1 - \frac{3}{8} \frac{\theta_D}{T} + \frac{1}{20} \left( \frac{\theta_D}{T}  \right) ^2 + \ldots  \right]   
+ \] 
+ Leading to the heat capacity \[
+ C_V = 3N_A k_B \left[ 1 - \frac{1}{20} \left( \frac{\theta_D}{T} \right) ^2 + \ldots \right] 
+ \] 
+\end{itemize}
+For usual materials $\theta_D$ is around room temperature, however there are exceptions.
+\section{Diatamic Molecule}
+We consider the easiest molecules, diatomic molecules. We have two atoms with masses $m_{1,2} $ and positions $\vec{r}_{1,2} $. We can then define their relative coordinates $\vec{r} = \vec{r}_1 - \vec{r}_2$ and their center of mass coordinate $\vec{R} = \frac{m_1 \vec{r}_1 + m_2 \vec{r}_2}{2}  $. \\
+We now consider N atoms (meaning $\frac{N}{2} $ molecules). We consider the two particle attractive potential called a Lenard-Jones potential
+\begin{equation}
+  v( \abs{\vec{r}} = r ) = 4 \epsilon \left[ \left( \frac{\overline{r}}{r}  \right) ^{12} - \left( \frac{\overline{r}}{r}  \right) ^{6}  \right] 
+\end{equation}
+A we now consider a system with $k_B T \ll \epsilon$, meaning the atoms are close to $r_0 = \overline{r} 2^{\frac{1}{6} } $ and the potential can be approximated by a quadratic $v( r ) = -\epsilon + A \left( r - r_0 \right) ^2$, $A = \frac{36 \epsilon}{r_0^2} $. \\
+We now look at the relative motion, which is described by the hamiltonian \[
+  \mathcal{H} = \frac{\vec{p}^2}{2 m^{*} } + A \left( r - r_0 \right) ^2 - \epsilon
+\] with the reduced mass $m^{*} = \frac{m_1 m_2}{m_1 + m_2} $. Introducing the radial momentum $p_\text{radial} $ and the angular momentum $\vec{L}^2$ we get:
+\begin{align*}
+  \mathcal{H} &= \frac{p_\text{radial} ^2}{2m^{*} } + A \left( r - r_0 \right) ^2 - \epsilon + \frac{\vec{L}^2}{2m^{*} r_0^2}  \\
+  &=  \\
+\end{align*}
+We can seperate the radial and the azimutal spectra:
+\begin{itemize}
+  \item The radial part is given by \[
+  E_n^{\text{vib}} = \hbar \omega \left( n + \frac{1}{2}  \right) 
+  \] with $\omega = \sqrt{\frac{2A}{m^{*} } } $.
+  \item the azimutal part is given by \[
+    E_\ell^{\text{rot}} = \frac{\hbar^2 \ell \left( \ell + 1 \right) }{2 m^* r_0^2} 
+  \] With $\ell \in \mathbb{Z}$
+\end{itemize}
+For the center of mass coordinate we get the Hamiltonian \[
+\mathcal{H} = \frac{\vec{P}^2}{2\left( m_1 + m_2 \right) }  = \frac{\vec{P}^2}{2 M} 
+\] assuming bosoninc particles.\\
+We now want to treat such a system in the language of statistical physics and find it's partition functions:
+\begin{itemize}
+  \item center of mass motion (Bosons) in the grand canonical ensemble \[
+  \mathcal{Z}_\text{trans} = \prod_{\vec{P}}^{} \frac{1}{1 - z e^{-\beta \frac{\vec{P}^2}{2M}  } }  
+  \] with the fugacity $z = e^{\beta \mu} $.
+  \item Vibrations (harmon. osc.) in the canonical ensemble: \[
+  Z_\text{vib} = \left( \frac{e^{-\beta \frac{\hbar \omega}{2} } }{1 - e^{\beta \hbar \omega} }  \right) ^{\frac{N}{2} } 
+  \] With $\hbar\omega= k_B \theta_\text{vib} $ the vibrational temperature.
+  \item Rotations in the canonical ensemble: \[
+  Z_\text{rot} = \left( \sum_{\ell=0}^{\infty} \left( 2\ell+1 \right) e^{-\beta \frac{\ell \left( \ell +  1 \right) }{I_\text{rot} } }   \right) ^{\frac{N}{2} } 
+  \] With $I_\text{rot} = \frac{2m^{*} r_0^2}{\hbar^2} $, which is then used to define $\frac{2}{I_\text{rot} } = k_B \theta_\text{rot} $ the rotational temperature.\\
+  We consider the limits
+  \begin{itemize}
+    \item $T \gg \theta_\text{rot} $ : sum $\to $ integral \[
+    Z_\text{rot} \approx \left( \int_{0}^{\infty} d\ell \left( 2\ell + 1 \right) e^{-\beta \frac{\ell \left( \ell + 1 \right) }{I_\text{rot} } }   \right) ^{\frac{N}{2} } \approx \left( I_\text{rot} k_B T \right) ^{\frac{N}{2} } = \left( 2 \frac{T}{\theta_\text{rot} }  \right) ^{\frac{N}{2} } 
+    \] Including corrections resulting from the approximation of the sum with an integral we get \[
+    Z_\text{trot} \approx \left( 2 \frac{T}{\theta_\text{rot}} + \frac{1}{3} + \frac{\theta_\text{rot} }{30 T}  + \ldots  \right) 
+    \] 
+  \item $T \ll \theta_\text{rot} $ \[
+  Z_\text{rot} = \left( 1 + 3 e^{-\beta \frac{2}{I_\text{rot} } } + \ldots \right) ^{\frac{N}{2} } 
+  \] 
+  \end{itemize}
+\end{itemize}
+The total partition function of the relative coordinate is then given as \[
+Z_\text{rel} = Z_\text{rot} Z_\text{vib} 
+\] 
+We get a hirarchy of 'characteristic temperatures' as \[
+\underbrace{T_C}_{\text{BEC}} \ll \theta_\text{rot} \ll \theta_\text{vib} \ll \underbrace{T_\text{dissociation} }_{k_B T_\text{dis} = \epsilon}  
+\] 
+To calculate the internal energy and the heat capacity we use the standard formulas. \\
+We now consider the heat capacity per molecule \[
+\frac{2C}{N} = \begin{cases}
+  \frac{3}{2} k_B + 3k_B \left( \frac{\theta_\text{rot} }{T}  \right)^2 e^{-\frac{\theta_\text{rot} }{T} }  & T_C \ll T \ll \theta_\text{rot}  \\
+   \frac{3}{2} k_B + k_B + \frac{k_B}{180} \left( \frac{\theta_\text{rot} }{T}  \right)^2 + k_B \left( \frac{\theta_\text{vib} }{T}  \right)^2 e^{- \frac{\theta_\text{vib} }{T} }  & \theta_\text{rot} \ll T \ll \theta_\text{vib} \\
+   \frac{3}{2} k_B + k_B + k_B  & \theta_\text{vib} \ll T \ll T_\text{dis}  \\
+   3 k_B & T_\text{dis}  \ll T
+\end{cases}
+\] Where the first term is always the center of mass contribution, the second one the rotational contribution and the last one the vibrational contribution.
+\chapter{Identical Quatum Particles - Formalism of Second Quantization}
+Second quantization is a convinient tool to deal with many-body systems, for Fermions/Bosons/collective modes, etc. By using second quantization we avoid complicated calculations with many-body wavefunctions. We will non-the-less first talk about many-body wave functions and then see where problems arrise.
+\section{Many-Body Wavefunctions and Particle Stasistics}
+In classical mechanics we usually deal with distinguishable particles, meaning we can follow individual trajectories; while in Quantum Mechanics we have indistinguishable particles, meaning the trajectory of a single particle is not well defined and we can thus not follow them individually.\\
+The dynamics of a many-body system is in any case given by a Hamiltonian $\mathcal{H}$, which is invariant under particle exchange - particle permutation is in a way a symmetry of the Hamiltonian.\\
+The many-body wavefunction for $N$ quantum particles is defined as \[
+\Psi\left( \vec{r}_1, s_1, \vec{r}_2, s_2, \ldots, \vec{r}_N, s_N \right) = \Psi\left( 1,2,\ldots N \right) 
+\] Many-body operators are given by \[
+A\left( \vec{r}_1, \vec{p}_1, s_1, \ldots, \vec{r}_N, \vec{p}_N, s_N  \right) = \hat{A}\left( 1,2,\ldots N \right) 
+\] The exchange operator $\hat{P}_{ij} $ exchanges the coordinates of particles $i$ and $j$.
+\begin{align*}
+  \hat{P}_{ij} &= \left( \hat{P}_{ij}  \right)^{-1}   \\
+  \hat{P}_{ij} \Psi\left( 1, \ldots, i, \ldots, j, \ldots N \right) &= \Psi\left( 1, \ldots, j, \ldots,i,\ldots,N \right) \\
+  \hat{P}_{ij} \hat{A}\left( 1,\ldots, i,\ldots,j,\ldots,N \right) &= \hat{A}\left( 1,\ldots,j,\ldots,i,\ldots,N \right) 
+\end{align*}
+We said that the Hamiltonian is invariant under exchange, meaning that 
+\begin{align*}
+  \hat{P}_{ij} \mathcal{H} &= \mathcal{H} \\ 
+  \implies \left[ \mathcal{H}, \hat{P}_{ij} \right] &= 0
+\end{align*}
+There are therefore common eigenstates 
+\begin{align*}
+  \mathcal{H} \ket{\Psi} &= E \ket{\Psi} \\
+  \mathcal{H} \hat{P}_{ij} \ket{\Psi} = \hat{P}_{ij} \mathcal{H} \ket{\Psi} &= E \hat{P}_{ij} \ket{\Psi}
+\end{align*}
+The many-body wavefuncion of a state $\ket{\Psi} $ is given as \[
+\Psi\left( 1,\ldots,N \right) = \bra{1,\ldots,N} \ket{\Psi} 
+\] 
+To encode the difference between fermions and bosons is given by a sign \[
+\Psi\left( 1,\ldots,i,\ldots,j,\ldots,N \right) = \begin{cases}
+  + \Psi\left( 1,\ldots,j,\ldots,i,\ldots,N \right)  & \text{for bosons} \\
+  - \Psi\left( 1,\ldots,j,\ldots,i,\ldots,N \right)  & \text{for fermions} 
+\end{cases}
+\] 
+We then directly get the Pauli exclusion principle for fermions \[
+\Psi\left( 1,\ldots,i,\ldots,i,\ldots,N \right) = - \Psi\left( 1,\ldots,i,\ldots,i,\ldots,N \right) = 0
+\] 
+\section{Independet, Indistinguishable, Particles}
+We consider $N$ particles in a potential $V$ with no mutual interactions. \[
+\mathcal{H} = \sum_{i=1}^{N} \mathcal{H}_i 
+\] with $\mathcal{H}_i = \frac{\vec{P}_i^2 }{2m} + V \left( \vec{r}_i \right) $ the Hamiltonian for particle $i$. We therefore have a Hilbert space of single-particle states $\left\{ \psi_{\nu} \right\} $, with $\nu$ a quatum number labeling the state. \[
+\mathcal{H}_i \psi_\nu\left( \vec{r}_i, s_i \right) = \epsilon_\nu \psi_\nu \left( \vec{r}_i, s_i \right) 
+\] To renormalize these states we write \[
+\sum_{s}^{} \int_{}^{} d^3r \abs{\psi_\nu\left( \vec{r}_i, s_i \right) } ^2 = 1  
+\] 
+To consturct the many-body wavefunction in product form we write for bosons 
+\begin{align*}
+  \bra{\vec{r}_1, s_1,\ldots,\vec{r}_N, s_N} \ket{\hat{\Psi}_B} &= \Psi_B\left( 1,\ldots,N \right) \\
+                &=\sum_{\hat{P} \in S_N}^{} \hat{P} \psi_{\nu_1} \left( \vec{r}_1, s_1 \right) \cdot \ldots \cdot \psi_{\nu_N} \left( \vec{r}_N, s_N \right)
+\end{align*}
+With $S_N$ the group of all permutations of $N$ objects, and $\hat{P}$ acting on $\left( \nu_1, \ldots, \nu_N \right) $. Resulting in a completely symmetric $\Psi_B\left( 1,\ldots,N \right) $ under permutation of particles.\\
+Doing the same thing for Fermions we find
+\begin{align*}
+  \bra{\vec{r}_1, s_1,\ldots, \vec{r}_N, s_N} \ket{\Psi_F} &= \Psi_F\left( 1,\ldots,N \right)  \\
+  &= \sum_{\hat{P} \in S_N}^{}  \text{sgn}\left( \hat{P} \right) \hat{P} \psi_{\nu_1}\left( \vec{r}_1, s_1 \right) \cdot \ldots \cdot \psi_{\nu_N} \left( \vec{r}_N, s_N \right)   \\
+\end{align*}
+With \[
+\text{sgn}\left( \hat{P} \right) = \begin{cases}
+  +1 & \text{if $\hat{P}$ involves an even number of transpositions} \\
+  -1 & \text{if $\hat{P}$ involves an odd number of transpositions} \\
+\end{cases}
+\] 
+A which we can write more compact as a Slater determinant \[
+  \Psi_F \left( 1,\ldots,N \right) = \text{det} \begin{bmatrix} \Psi_{\nu_1} \left( 1 \right) & \ldots & \Psi_{\nu_N} ( N ) \\
+  \ldots & & \ldots \\
+\Psi_{\nu_N} \left( 1 \right) & \ldots & \Psi_{\nu_N} \left( N \right) 
+\end{bmatrix}
+\] 
+Which is of course completely antisymmetric.\\
+We now consider the norm of many-body states and find 
+\begin{align*}
+  \bra{\Psi_B} \ket{\Psi_B} &= N! \cdot  \prod_{i}^{} n_{\nu_i}!  \\
+  \bra{\Psi_F} \ket{\Psi_F} &= N! \\
+\end{align*}
+With $n_\nu$ the occupation number of the single particle state $\nu$, which are either $0$ or $1$ in the fermionic case.
+\section{Second Quantization Formalism}
+We introduce so called "creating" and "annihilating" operators that act on a so called Fock-space which is a combination of hilbertspaces \[
+  \mathcal{F} = \left( Q_n \right)^{\otimes_{n=0}^{\infty }}
+\] with $Q_n$ different Hilbertspaces. In this formalism we get a manybody state in an occupation number representation: \[
+\ket{n_{\nu_1}, n_{n_2} ,\ldots  } \in \mathcal{F} 
+\] 
+\subsection{Creation and Annihilation Operators}
+The Hilbert space is not sufficient, as these operators change the number of particles 
+\begin{align*}
+  \hat{a}_\nu: Q_n &\to Q_{n-1} \\
+  \hat{a}^\dagger_\nu: Q_n &\to Q_{n+1} 
+\end{align*}
+We first consider the bosonic state:
+\begin{align*}
+  \hat{a}_\nu \ket{n_{\nu_1} , \ldots, n_\nu,\ldots} &= \sqrt{n_\nu} \ket{n_{\nu_1} ,\ldots,n_\nu - 1, \ldots}\\
+  \hat{a}^\dagger_\nu \ket{n_{\nu_1} ,\ldots, n_\nu, \ldots} &= \sqrt{n_\nu + 1} \ket{n_{\nu_1} , \ldots, n_\nu + 1, \ldots} \\
+  \hat{a}_\nu \ket{n_{\nu_1} , \ldots, n_\nu = 0,\ldots} &= 0
+\end{align*}
+The operators satisfy the following commutation relation (in the bosonic case)
+\begin{align*}
+  \left[ \hat{a}_\nu, \hat{a}^\dagger_{\nu'}  \right] &= \delta_{\nu \nu'}  \\
+  \left[ \hat{a}_\nu, \hat{a}_{\nu'}  \right] = \left[ \hat{a}^\dagger_\nu, \hat{a}^\dagger_{\nu'} \right] &= 0
+\end{align*}
+Note: the lowering/raising operator of the harmonic oscillator have the same property. We introduce the so called vacuum state $\ket{0} $ as the state where there are no particles at all: \[
+  \hat{a}_\nu \ket{0} = 0 \text{  } \forall \nu
+\] We can now construct all the occupation number states by writing
+\begin{align*}
+  \ket{n_{\nu_1} , n_{\nu_2} , \ldots, n_\nu, \ldots} &= \frac{\left( \hat{a}^\dagger_\nu \right)^{n_\nu} \ldots \left( \hat{a}^\dagger_{\nu_2} \right) ^{n_{\nu_1} } \left( \hat{a}^\dagger_{\nu_1} \right) ^{n_{\nu_1} } }{\sqrt{n_{\nu_1} !} \sqrt{n_{\nu_2} !} \ldots \sqrt{n_\nu!}  } \ket{0} 
+\end{align*}
+We can also introduce the occupation number operator \[
+\hat{n}_\nu = \hat{a}^\dagger_\nu \hat{a}_\nu 
+\] \[
+\implies \hat{n}_\nu \ket{n_{\nu_1} ,\ldots , n_\nu, \ldots} = n_\nu \ket{n_{\nu_1} ,\ldots, n_\nu,\ldots} 
+\] and the number operator \[
+\hat{N} = \sum_{\nu}^{} \hat{n}_\nu 
+\] 
+For a Hamiltonian of independent particles in spectral form we get \[
+\mathcal{H} = \sum_{\nu}^{} \epsilon_\nu \hat{a}^\dagger_\nu \hat{a}_\nu = \sum_{\nu}^{} \epsilon_\nu \hat{n}_\nu  
+\] 
+\[
+\implies \mathcal{H} \ket{n_{\nu_1} ,\ldots} = \sum_{\nu}^{} \epsilon_\nu n_\nu 
+\] 
+For fermions we get the same behaviour, except that the commutation relations no longer hold; they are instead replaced by an anticommutator
+\begin{align*}
+  \left\{ \hat{a}_\nu, \hat{a}^\dagger_{\nu'}  \right\} &= \delta_{\nu, \nu'}  \\
+  \left\{ \hat{a}_\nu, \hat{a}_{\nu'}  \right\} = \left\{ \hat{a}^\dagger_\nu, \hat{a}^\dagger_{\nu'}  \right\} &= 0
+\end{align*}
+\[
+\implies \hat{a}^\dagger_\nu \hat{a}^\dagger_\nu = - \hat{a}^\dagger_\nu \hat{a}^\dagger_\nu = 0
+\] \[
+\implies \hat{a}_\nu \hat{a}_\nu = - \hat{a}_\nu \hat{a}_\nu = 0
+\]  
+Giving us the Pauli exclusion principle as \[
+\hat{a}^\dagger_\nu \ket{n_{\nu_1} , \ldots, n_\nu = 1, \ldots} = \hat{a}^\dagger_\nu \hat{a}^\dagger_\nu \ket{n_{\nu_1} ,\ldots, n_\nu = 0, \ldots}  = 0
+\] 
+To construct the occupation number states we get 
+\[
+\ket{n_{\nu_1} , n_{\nu_2} ,\ldots , n_\nu} = \left( \hat{a}^\dagger_\nu \right) ^{n_\nu} \ldots \left( \hat{a}^\dagger_{\nu_2}  \right) ^{n_{\nu_2} } \left( \hat{a}^\dagger_{\nu_1}  \right) ^{n_{\nu_1} } \ket{0} 
+\] 
+The antisymmetric nature of these states has to be taken into account by
+\[
+\ket{n_1,n_2,n_3,n_4} = \ket{1,1,1,1} = \hat{a}^\dagger_4 \hat{a}^\dagger_3 \hat{a}^\dagger_2 \hat{a}^\dagger_1 \ket{0} 
+\] 
+\begin{align*}
+  \hat{a}_2 \ket{1,1,1,1} &= \hat{a}_2 \hat{a}^\dagger_4 \hat{a}^\dagger_3 \hat{a}^\dagger_2 \hat{a}^\dagger_1 \ket{ 0}  \\
+  &= -\hat{a}^\dagger_4 \hat{a}_2 \hat{a}^\dagger_3 \hat{a}^\dagger_2 \hat{a} ^\dagger_1 \ket{0}  \\
+  &= + \hat{a}^\dagger_4 \hat{a}^\dagger_3 \hat{a}_2 \hat{a}^\dagger_2 \hat{a}^\dagger_1 \ket{0}  \\
+  &= \hat{a}^\dagger_4 \hat{a}^\dagger_3 \left( 1- \hat{a}^\dagger_2 \hat{a}_2 \right) \hat{a}^\dagger_1 \ket{0}  \\
+  &= \hat{a}^\dagger_4 \hat{a}^\dagger_3 \hat{a}^\dagger_1 \ket{0} + 0 \\
+  &= \ket{1,0,1,1}
+\end{align*}
+If we do the whole thing again but we destroy particle $3$ we get:
+\begin{align*}
+  \hat{a}_3 \ket{1,1,1,1} &= \hat{a}_3 \hat{a}^\dagger_4 \hat{a}^\dagger_3 \hat{a}^\dagger_2 \hat{a}^\dagger_1 \ket{ 0}  \\
+  &= -\hat{a}^\dagger_4 \hat{a}_3 \hat{a}^\dagger_3 \hat{a}^\dagger_2 \hat{a} ^\dagger_1 \ket{0}  \\
+  &= -\hat{a}^\dagger_4 \left( 1- \hat{a}^\dagger_3 \hat{a}_3 \right)  \hat{a}^\dagger_2 \hat{a}^\dagger_1 \ket{0}  \\
+  &= -\hat{a}^\dagger_4 \hat{a}^\dagger_2 \hat{a}^\dagger_1 \ket{0} + 0 \\
+  &= -\ket{1,1,0,1}
+\end{align*}
+We have found a global phase of $-1$ depending on the position where we destroy the particle.
+\subsection{Field Operator}
+We use a specific example of the independent free particles with momentum space $\vec{p} = \hbar \vec{k}$ and $\epsilon_{\vec{k}} = \frac{\hbar^2 \vec{k}^2}{2m} $. The wavefunction is given by plane waves \[
+\psi\left( \vec{r} \right) = \bra{\vec{r},s} \ket{\psi_{\vec{k}} } = \frac{1}{\sqrt{V} }  e^{i\vec{k}\cdot \vec{r}} 
+\] 
+We assume periodic boundary conditions, enforcing our $\vec{k} = \frac{2\pi}{L} \left( n_1,n_2,n_3 \right) $ with $n_i \in \mathbb{N}$ and $L^3 = V$.\\
+We introduce a field operator in terms of the creation and anhilation operators as 
+\begin{align*}
+  \hat{\Psi}_s\left( \vec{r} \right) &= \sum_{\vec{k}}^{} \psi_{\vec{k}}\left( \vec{r} \right)  \hat{a}_{\vec{k},s}   \\
+  &= \frac{1}{\sqrt{V} }  \sum_{\vec{k}}^{} e^{i\vec{k}\cdot \vec{r}} \cdot  \hat{a}_{\vec{k},s}  \\
+  \hat{\Psi}_s^\dagger\left( \vec{r} \right) &= \sum_{\vec{k}}^{} \psi_{\vec{k}}^\dagger\left( \vec{r} \right) \hat{a}^\dagger_{\vec{k},s}   \\
+  &= \frac{1}{\sqrt{V} }  \sum_{\vec{k}}^{} e^{-i \vec{k} \cdot  \vec{r}} \cdot  \hat{a}^\dagger_{\vec{k}, s}  
+\end{align*}
+While this looks like a fourier transform, it's important to note that this is not true in general- the fourier form is just a side effect of choosing plane-wave basis functions. The invers can be given as:
+\begin{align*}
+  \hat{a}^\dagger_{\vec{k},s} &= \int_{}^{} d^3r \frac{e^{i\vec{k}\cdot \vec{r}} }{\sqrt{V} } \hat{\Psi}^\dagger_s\left( \vec{r} \right) \\ 
+  \hat{a}_{\vec{k},s} &= \int_{}^{} d^3r \frac{e^{-i\vec{k}\cdot \vec{r}} }{\sqrt{V} } \hat{\Psi}_s\left( \vec{r} \right) 
+\end{align*}
+We now have to answer the question of how the field operators work:
+\begin{align*}
+  \hat{\Psi}^\dagger_s\left( \vec{r} \right) \ket{0} &= \ket{\vec{r},s} \\
+  \hat{\Psi}_s\left( \vec{r} \right) \ket{0} &= 0
+\end{align*}
+If we call $\phi_s\left( \vec{r} \right) $ the wave function we get \[
+\phi_s\left( \vec{r} \right) = \bra{\vec{r},s} \ket{\phi} = \bra{0} \hat{\Psi}_s\left( \vec{r} \right) \ket{\phi}   
+\] 
+As before these operators fullfill some (anti-)commutation relations:\\
+For bosons
+\begin{align*}
+  \left[ \hat{\Psi}_s\left( \vec{r} \right) , \hat{\Psi}^\dagger_{s'} \left( \vec{r}' \right)  \right] &= \frac{1}{V} \sum_{\vec{k}, \vec{k}'}^{} e^{i\vec{k}\cdot \vec{r}- i\vec{k}' \cdot \vec{r}'} \left[ \hat{a}_{\vec{k},s} , \hat{a}^\dagger_{\vec{k}',s'}  \right]   \\
+  &= \delta_{s,s'} \frac{1}{V} \sum_{\vec{k}}^{} e^{i\vec{k}\left( \vec{r} - \vec{r}' \right) }   \\
+  &= \delta_{s,s'} \delta^{\left( 3 \right) } \left( \vec{r} - \vec{r}' \right)  \\
+\end{align*}
+For fermions
+\begin{align*}
+  \left\{ \hat{\Psi}_s\left( \vec{r} \right) , \hat{\Psi}^\dagger_{s'} \left( \vec{r}' \right)  \right\} &= \frac{1}{V} \sum_{\vec{k}, \vec{k}'}^{} e^{i\vec{k}\cdot \vec{r}- i\vec{k}' \cdot \vec{r}'} \left\{ \hat{a}_{\vec{k},s} , \hat{a}^\dagger_{\vec{k}',s'}  \right\}   \\
+  &= \delta_{s,s'} \frac{1}{V} \sum_{\vec{k}}^{} e^{i\vec{k}\left( \vec{r} - \vec{r}' \right) }   \\
+  &= \delta_{s,s'} \delta^{\left( 3 \right) } \left( \vec{r} - \vec{r}' \right)  \\
+\end{align*}
+With all others (anti-)commutators vanishing.\\
+We now use this to write
+\begin{align*}
+  \bra{\vec{r}' s'} \ket{\vec{r} s} &= \bra{0} \hat{\Psi}_{s'} \left( \vec{r}' \right) \hat{\Psi}^\dagger_s \left( \vec{r} \right) \ket{0}  \\
+                                    &= \bra{0} \delta_{s,s'} \delta^{\left( 3 \right) }\left( \vec{r} - \vec{r}' \right) \ket{0} \pm \underbrace{ \bra{0} \hat{\Psi}^\dagger_s \left( \vec{r} \right) \hat{\Psi}_{s'} \left( \vec{r}' \right) \ket{0}}_{= 0}   \\
+  &= \delta_{s,s'} \delta^{\left( 3 \right) } \left( \vec{r} - \vec{r}' \right) 
+\end{align*}
+as expected. This formulation now also works for $N$-particle states:
+\begin{align*}
+  \hat{\Psi}^\dagger_s \left( \vec{r} \right) \ket{\vec{r}_1, s_1; \vec{r}_2, s_2; \ldots; \vec{r}_N, s_N} &= \sqrt{N+1} \ket{\vec{r}_1,s_1;\ldots;\vec{r}_N, s_S; \vec{r}, s} \\
+  \text{allowing us to write: } 
+  \ket{\vec{r}_1, s_1; \vec{r}_2, s_2; \ldots; \vec{r}_N, s_N} &= \frac{1}{\sqrt{N!} } \hat{\Psi}^\dagger_{s_N} \left( \vec{r}_N \right) \cdot \ldots \cdot \hat{\Psi}^\dagger_{s_1} \left( \vec{r}_1 \right) \ket{0} \\
+  \implies \ket{\vec{r}_1,s_1; \vec{r}_2, s_2;\ldots;\vec{r}_N, s_S; \vec{r}, s} &= \pm \ket{\vec{r}_2, s_2; \vec{r}_1, s_1; \ldots; \vec{r}_N, s_N} 
+\end{align*}
+Where the sign in the last line depends on whether the particles are bosons or fermions ($+$ for bosons and $-$ for fermions).\\
+We can then write the many-body wavefunction as \[
+\Phi\left( 1,\ldots,N \right) = \bra{\vec{r}_1,s_1; \vec{r}_2,s_2; \ldots; \vec{r}_N, s_N} \ket{n_{k_1,s_1} ,n_{k_2,s_2} , \ldots } 
+\] 
+\section{Observables in Second Quantization}
+We search for expressions for Hermitian operators.
+\begin{description}
+  \item[particle density operator:] \[
+  \hat{\rho}\left( \vec{r} \right) = \sum_{i=1}^{N} \delta\left( \vec{r} - \hat{\vec{r}}_i  \right)  
+  \] We consider two states $\ket{\phi} , \ket{\phi'} \in Q_N$ the Hilbert space of $N$ particles. We get 
+  \begin{align*}
+    \bra{\phi'} \hat{\rho} \ket{\phi} &= \int_{}^{} d^3r_1 \ldots d^3r_N \bra{\phi'}\ket{\vec{r}_1,\ldots, \vec{r}_N} \bra{\vec{r}_1,\ldots,\vec{r}_N} \sum_{i}^{} \delta\left( \vec{r} - \hat{\vec{r}}_i \right) \ket{\phi}\\
+    &= \int_{}^{} d^3r_1\ldots d^3r_N \sum_{i}^{} \delta\left( \vec{r} - \hat{\vec{r}}_i \right) \bra{\phi'} \ket{\vec{r}_1\ldots \vec{r}_N }  \bra{\vec{r}_1 \ldots \vec{r}_N} \ket{\phi}   \\
+    = N \int_{}^{} d^3r_1\ldots d^3r_{N-1}  \bra{\phi'} \ket{\vec{r}_1 \ldots \vec{r}_{N-1} , \vec{r}}  \bra{\vec{r}_1 \ldots \vec{r}_{N-1} , \vec{r}} \ket{\phi} 
+  \end{align*}
+  Based on this we now claim that 
+  \begin{align*}
+    \hat{\rho}\left( \vec{r} \right) &=  \hat{\Psi}^\dagger\left( \vec{r} \right) \hat{\Psi}\left( \vec{r} \right)  \\
+    \bra{\phi'} \hat{\rho} \left( \vec{r} \right) \ket{\phi} &= \bra{\phi'} \hat{\Psi}^\dagger\left( \vec{r} \right) \hat{\Psi}\left( \vec{r} \right) \ket{\phi}  \\
+    &= \int_{ }^{} d^3r_1\ldots d^3r_{N-1} \bra{\phi'} \hat{\Psi}^\dagger\left( \vec{r} \right) \underbrace{\ket{\vec{r}_1, \ldots \vec{r}_{N-1} } \bra{\vec{r}_1, \ldots, \vec{r}_{N-1} } }_{ = \mathbb{I}} \hat{\Psi}\left( \vec{r} \right) \ket{\phi}   \\
+    &= N \int_{ }^{} d^3r_1 \ldots d^3r_{N-1} \bra{\phi'} \ket{\vec{r}_1, \ldots \vec{r}_{N-1},\vec{r} } \bra{\vec{r}_1 \ldots \vec{r}_{N-1},\vec{r} }  \ket{\phi}   \\
+  \end{align*}
+  \item[Kinetic Energy:] \[
+  H_kin = \sum_{\vec{k}}^{} \epsilon_{\vec{k}} \hat{a}^\dagger_k \hat{a}_k = \sum_{\vec{k}}^{} \frac{\hbar^2 \vec{k}^2}{2m} \hat{a}^\dagger_k \hat{a}_k   
+  \] or, with field operators:
+  \begin{align*}
+    H_{kin} &= \frac{\hbar^2}{2mV} \sum_{\vec{k}}^{} \int_{}^{} d^3r d^3r' \vec{k}^2 e^{i\vec{k}\cdot \vec{r} - i \vec{k}\cdot \vec{r}'} \hat{\Psi}^\dagger\left( \vec{r} \right) \hat{\Psi}\left( \vec{r}' \right)    \\
+    &= \frac{\hbar^2}{2mV}  \sum_{k}^{} \int_{ }^{} d^3r d^3r' \left( \vec{\nabla } e^{i\vec{k}\cdot \vec{r}}  \right) \cdot \left( \vec{\nabla }' e^{-i \vec{k}\cdot \vec{r}'}  \right) \hat{\Psi}^\dagger\left( \vec{r} \right) \hat{\Psi}\left( \vec{r}' \right)    \\
+    &= \frac{\hbar^2}{2mV } \sum_{\vec{k}}^{} \int_{}^{} d^3r d^3r' \left( \vec{\nabla } \hat{\Psi}^\dagger\left( \vec{r} \right)  \right) \left( \vec{\nabla }' \hat{\Psi}\left( \vec{r}' \right)  \right) e^{i\vec{k}\cdot \left( \vec{r} - \vec{r}' \right) }    \\
+    &= \frac{\hbar^2}{2m} \int_{ }^{}   d^3r d^3r' \left( \vec{\nabla } \hat{\Psi}^\dagger\left( \vec{r} \right)  \right) \left( \vec{\nabla }' \hat{\Psi}\left( \vec{r}' \right)  \right) \delta\left( \vec{r} - \vec{r}' \right)    \\
+    &= \frac{\hbar^2}{2m} \int_{}^{} d^3r \left( \vec{\nabla } \hat{\Psi}^\dagger\left( \vec{r} \right)  \right) \cdot  \left( \vec{\nabla } \hat{\Psi}\left( \vec{r} \right)  \right)   \\
+  \end{align*}
+  \item[Potential Energy:] \[
+  H_{\text{pot}} &= \int_{}^{} d^3 r V\left( \vec{r} \right) \underbrace{\hat{\Psi}^\dagger\left( \vec{r} \right) \hat{\Psi}\left( \vec{r} \right) }_{\hat{\rho}\left( \vec{r} \right) }  \\
+  \] 
+  \item[Current density operator:] 
+   \begin{align*}
+     \hat{J}\left( \vec{r} \right) &= \frac{\hbar}{2mi} \left[ \hat{\Psi}^\dagger\left( \vec{r} \right) \left( \vec{\nabla } \hat{\Psi}\left( \vec{r} \right)  \right) - \left( \vec{\nabla } \hat{\Psi}^\dagger\left( \vec{r} \right)  \right) \hat{\Psi}\left( \vec{r} \right)  \right]  \\
+   \end{align*}
+  \item[Spin density operator]
+    (for spin $\frac{1}{2} $ particles):
+    \begin{align*}
+      \hat{\vec{S}} \left( \vec{r} \right) = \frac{\hbar}{2} \sum_{s,s'}^{} \hat{\Psi}^\dagger_s \left( \vec{r} \right) \hat{\vec{\sigma} }_{s,s'} \hat{\Psi}_{s'} \left( \vec{r} \right)  
+    \end{align*}
+\end{description}
+All of these operators can also be written in momentum space, eg: \[
+\hat{\rho}_{\vec{q}} = \int_{}^{} d^3r e^{-i\vec{q}\cdot \vec{r}} \hat{\rho}\left( \vec{r} \right) = \sum_{\vec{k}}^{} \hat{a}^\dagger_{\vec{k}} \hat{a}_{\vec{k} + \vec{q}}  
+\] 
+See the lecture notes for the momentum expression of all the other operators intruduced.\\
+We now consider two body interaction with $V\left( \vec{r} - \vec{r}' \right) $, leading to the interaction Hamiltonian 
+\begin{align*}
+  H_{\text{int}} &= \frac{1}{2} \sum_{s,s'}^{} \int_{}^{} d^3r d^3r' \hat{\Psi}^\dagger_s \left( \vec{r} \right) \hat{\Psi}^\dagger_{s'} \left( \vec{r}' \right) V\left( \vec{r} - \vec{r}' \right) \hat{\Psi}_{s'} \left( \vec{r}' \right) \hat{\Psi}_s \left( \vec{r}' \right) \\   
+  \text{Going to momentum space yields: } &= \frac{1}{2V} \sum_{\vec{k}, \vec{k}', \vec{q}}^{} \sum_{s, s'}^{} V_{\vec{q}} \hat{a}^\dagger_{\vec{k}+\vec{q},s} \hat{a}^\dagger_{\vec{k}' - \vec{q}, s'} \hat{a}_{\vec{k}', s'} \hat{a}_{\vec{k}, s}
+\end{align*}
+With $V\left( \vec{r} \right) = \frac{1}{V} \sum_{\vec{q}}^{} V_{\vec{q}} e^{i\vec{q}\cdot \vec{r}}  $. Where $V_{\vec{q}} $ describes a scattering event with a momentum transfer of $\vec{q}$ (with momentum and spin conserved).
+\section{Equation of Motion}
+We look at the general hamiltonian given as:\[
+\mathcal{H} = \sum_{\vec{k}}^{} \epsilon_{\vec{k}} \hat{a}^\dagger_{\vec{k}} \hat{a}_{\vec{k}}  
+\] Where we ignore the spin for now.
+In it's Heisenberg representation it's given as
+\begin{align*}
+  \hat{a}_{\vec{k}} \left( t \right) = e^{i \mathcal{H} \frac{t}{\hbar} } \hat{a}_{\vec{k}} a^{-i\mathcal{H} \frac{t}{\hbar} }\\ 
+\end{align*}
+Considering it's time deriviative we find 
+\begin{align*}
+  i\hbar \frac{d \hat{a}_{\vec{k}} }{dt} &= - \left[ \mathcal{H}, \hat{a}_{\vec{k}} \right] = - \sum_{\vec{k}'}^{} \epsilon_{\vec{k}'} \left[ \hat{a}^\dagger_{\vec{k}'} \hat{a}_{\vec{k}'} , \hat{a}_k \right]  \\
+&= - \sum_{\vec{k}'}^{} \epsilon_{\vec{k}'} \begin{cases}
+  \hat{a}^\dagger_{\vec{k}'} \left[ \hat{a}_\vec{k}, \hat{a}_{\vec{k}}  \right] + \left[ \hat{a}^\dagger_{\vec{k}'} , \hat{a}_{\vec{k}} \right] \hat{a}_{\vec{k}}  & \text{ for Bosons} \\
+   \hat{a}^\dagger_{\vec{k}'} \left\{ \hat{a}_{\vec{k}'} , \hat{a}_{\vec{k}}  \right\} - \left\{ \hat{a}^\dagger_{\vec{k}'} , \hat{a}_{\vec{k}} \right\} &  \text{ for Fermions} \\
+\end{cases}  \\
+&= \sum_{\vec{k}'}^{} \epsilon_{\vec{k}'} \hat{a}_{\vec{k}'} \delta_{\vec{k}, \vec{k}'}    \\
+&= \epsilon_{\vec{k}} \hat{a}_{\vec{k}}
+\end{align*}
+Running through the whole calculation for $\hat{a}^\dagger$ we find 
+\begin{align*}
+  i\hbar \frac{d \hat{a}^\dagger_{\vec{k}} }{dt} &= -\epsilon_{\vec{k}} \hat{a}^\dagger_{\vec{k}}
+\end{align*}
+To make the connection to statistical physics we write 
+\begin{align*}
+  e^{-\beta \mathcal{H}} \hat{a}^\dagger_{\vec{k}} e^{\beta \mathcal{H}} &= e^{-\beta \epsilon_{\vec{k}} } \hat{a}^\dagger_{\vec{k}}  \\ 
+  e^{\beta \mu \hat{N}} \hat{a}^\dagger_{\vec{k}} e^{-\beta \mu \hat{N}} &= e^{\beta \mu} \hat{a}^\dagger_{\vec{k}} 
+\end{align*}
+Proof:
+\begin{align*}
+  \ket{\Phi} = \ket{n_{\vec{k}_1} , \ldots n_{\vec{k}} ,\ldots} \\
+  e^{-\beta \mathcal{H}} \hat{a}^\dagger_{\vec{k}} e^{\beta \mathcal{H}} \ket{\Phi} &=  e^{\beta E} e^{-\beta \mathcal{H}} \hat{a}^\dagger_{\vec{k}} \ket{\Phi}  \\
+  &= e^{\beta E} e^{-\beta \mathcal{H}} \sqrt{n_{\vec{k}} +1} \ket{\Phi'}  \\
+  &= e^{\beta E} e^{-\beta E'} \sqrt{n_{\vec{k}} + 1} \ket{\Phi'}  \\
+  &= e^{\beta\left( E-E' \right) } \hat{a}^\dagger_{\vec{k}} \ket{\Phi}  \\
+  &= e^{-\beta \epsilon_\vec{k}} \hat{a}^\dagger_{\vec{k}} \ket{\Phi}   \\
+\end{align*}
+Analougous for the second equation above for the number operator $\hat{N}$.
+We introduce the distirbution function $\left< \hat{n}_k \right> $  a thermal average \[
+\mathcal{H}' = \sum_{\vec{k}}^{} \epsilon_k \hat{n}_k - \mu \hat{N} = \sum_{\vec{k}}^{} \left( \epsilon_k - \mu \right) \hat{n}_k  
+\] \[
+\left< \hat{n}_k \right> = \left< \hat{a}^\dagger_k \hat{a}_k \right> = \frac{\text{Tr}\left( e^{-\beta \mathcal{H}'} \hat{a}^\dagger_k \hat{a}_k \right) }{\text{Tr}\left( e^{-\beta \mathcal{H}'}  \right) } 
+\] \[
+\text{Tr}\left( e^{-\beta \mathcal{H}'} \hat{a}^\dagger_k \hat{a}_k \right) = \text{Tr}\left( e^{-\beta \mathcal{H}'} \hat{a}^\dagger_k e^{\beta \mathcal{H}'} e^{-\beta \mathcal{H}'} \hat{a}_k \right) 
+\] \[
+= e^{-\beta \left( \epsilon_k - \mu \right) } \text{Tr}\left( \hat{a}^\dagger_k e^{-\beta \mathcal{H}'} \hat{a}_k \right) = e^{-\beta\left( \epsilon_k - \mu \right) } \text{Tr}\left( e^{-\beta \mathcal{H}'} \underbrace{\hat{a}_k \hat{a}^\dagger_k}_{= \pm \hat{a}^\dagger_k \hat{a}_k}  \right) 
+\] \[
+\implies \left< \hat{n}_k \right> = \left( 1 \pm \left< \hat{n}_k \right>  \right) e^{-\beta \left( \epsilon_k - \mu \right) } 
+\] \[
+\left< \hat{n}_k \right> = \begin{cases}
+  \frac{1}{e^{\beta\left( \epsilon_k - \mu \right) }  - 1}  & \text{ for Bosons} \\
+   \frac{1}{e^{\beta\left( \epsilon_k - \mu \right) } + 1}  & \text{ for Fermions} \\
+\end{cases}
+\] 
+\section{Correlation Functions}
+Corrolation functions are a kind of observable that behave very differently for quantum particles than for classical particles. We'll primarily consider two limits:
+\begin{enumerate}
+  \item $T = 0$ 
+  \item $T \gg T_\text{characteristic} = T_\text{ch}  $
+\end{enumerate}
+\subsection{Fermionic Corrolation Functions}
+We write the ground state fermionic wavefunction (spin $= \frac{1}{2} $ ) with $E_k = \frac{\hbar^2 k^2}{2m} $ as \[
+\ket{\psi_0} = \prod_{\abs{k} < k_F}^{} \prod_{s = \uparrow, \downarrow}^{}   \hat{a}^\dagger_{ks}  \ket{0} 
+\] 
+\[
+\left< \hat{n}_{ks}  \right> = \bra{\psi_0} \hat{a}^\dagger_{ks} \hat{a}_{ks} \ket{\psi_0} = \Theta\left( k_f - \abs{ k}  \right) 
+\] 
+This now allows us to write our first single particle, equal time, corrolation function which is defined as
+\begin{align*}
+  \frac{n}{2}  g_s\left( r - r' \right) &= \left< \hat{\Psi}^\dagger_s\left( r \right) \hat{\Psi}_s\left( r' \right)  \right>  \\
+  &= \frac{1}{V} \sum_{k, k'}^{} e^{-i k\cdot r + i k' \cdot r'} \underbrace{\left< \hat{a}^\dagger_k \hat{a}_{k'}  \right> }_{\left< \hat{n}_k \right> \delta_{k,k'} }    \\
+\end{align*}
+Which in the $T = 0$ limit is now given as 
+\begin{align*}
+  \frac{n}{2} g_s\left( r-r' \right) &= \int_{}^{} d^3k \frac{1}{\left( 2\pi \right) ^3} n_{ks} e^{-i k \left( r- r' \right) }   \\
+  &= \frac{1}{\left( 2\pi \right) ^22} \int_{0}^{k_F} dk k^2 \int_{-1}^{1} d\cos\left( \theta \right)  e^{i- k \abs{r - r'} \cos\left( \theta \right) }    \\
+  &= \frac{1}{2\pi \abs{r-r'} } \int_{0}^{k_F} dk \sin\left( k \abs{r - r'}  \right) k  \\
+  &= \frac{3n}{2} \left( \frac{\sin\left( x \right) - x \cos\left( x \right) }{x^3}  \right)|_{x = k_F \abs{r-r'} }  \\
+  \implies g_s &= \begin{cases}
+    1 & r \to 0 \\
+    0 & r \to \infty
+  \end{cases}
+\end{align*}
+We can understand this corrolation function as the overlap between two wavefunctions \[
+\sqrt{\frac{2}{n} } \Psi_s\left( r \right) \ket{\psi_0} , \sqrt{\frac{2}{n} } \Psi_s\left( r' \right) \ket{\psi_0} 
+\] 
+In the $T \gg T_\text{ch} $ limit we get
+\begin{align*}
+  \left< \hat{n}_k \right> \approx z e^{-\beta \epsilon_k} &\approx n \lambda^3 e^{-\beta \epsilon_k} \\
+  &= \frac{n}{2}  \frac{\left( 2\pi \right) ^3}{\left( \sqrt{\pi} A \right) ^3} e^{\frac{k^2}{A^2} }  \\
+\end{align*}
+With $A = \frac{2mk_B T}{\hbar^2} = \frac{4\pi}{\lambda^2} $. Leading to
+\begin{align*}
+  \frac{n}{2} g_s\left( r-r' \right) &= \frac{n}{2 \pi^{\frac{3}{2} A^3} } \int_{}^{} d^3k e^{-ik\cdot \left( r - r' \right) } e^{- \frac{k^2}{A^2} }   \\
+  &= \frac{n}{2} e^{-A^2 \left( r - r' \right) ^2 \frac{1}{4} }  \\
+  &= \frac{n}{2} e^{-\pi \frac{\left( r-r' \right) ^2}{\lambda^2} }  \\
+\end{align*}
+We can now consider pair-correlation functions: 
+\[
+\left( \frac{n}{2}  \right) ^2 g_{ss'} \left( r- r' \right) = \left< \hat{\Psi}^\dagger_s\left( r \right) \hat{\Psi}^\dagger_{s'} \left( r' \right) \hat{\Psi}_{s'} \left( r' \right) \hat{\Psi}_s \left( r \right)  \right> 
+\] 
+Which in $k$-space reads \[
+= \frac{1}{V^2} \sum_{k,k',q,q'}^{} e^{-i \left( k -k' \right) \cdot r} e^{-i \left( q-q' \right) \cdot r'} \left< \hat{a}^\dagger_{ks} \hat{a}^\dagger_{qs'} \hat{a}_{q's'} \hat{a}_{k's}  \right>  
+\] 
+The derivation of the expectation value is given in the lecture notes, we'll only discuss the result
+\begin{itemize}
+  \item $s = s'$ \[
+  \left( \frac{n}{2}  \right) ^2 g_{ss'} \left( r-r' \right) = \frac{1}{V^2} \sum_{k,q}^{} \left( 1- e^{-i\left( k-q \right) \cdot \left( r-r' \right) }  \right) \left< \hat{n}_k \right> \left< \hat{n}_q \right>  
+  \] \[
+  = \left( \frac{n}{2}  \right) ^2 \left( 1 - g_s\left( r-r' \right)^2 \right) 
+  \] \[
+  g_{ss} \left( r-r' \right) = \begin{cases}
+    1 - \frac{9\left( \sin\left( x \right) - x \cos\left( x \right)  \right) ^2}{x^{6} }  & T = 0 \\
+    1 - e^{-2\pi \frac{\left( r - r' \right) ^2}{\lambda^2} }  & T \gg T_\text{ch} \\
+  \end{cases}
+  \] 
+\item $s \neq s'$ \[
+g_{ss'} = 1
+\]  For fermions of different spins we have absolutely no correlation.
+\end{itemize}
+Taking these two together we find for $g\left( r \right) $ the corrolation given a fermion at position $r' = 0$ :
+\[
+g\left( r \right) = \frac{1}{2} \left( g_{\uparrow \uparrow} \left( r \right) + g_{\uparrow \downarrow} \left( r \right)  \right) = \frac{1}{2} \left( \underbrace{1 - g_s\left( r \right) ^2}_{g_{\uparrow \uparrow} } + \underbrace{1}_{g_{\uparrow \downarrow} }  \right) 
+\] 
+Giving us the charge depletion
+\begin{align*}
+  n \int_{}^{} d^3 r \left[ \underbrace{g\left( r \right) }_{\frac{1}{2} \left( 1- g^2 + 1 \right) }  -1 \right]  &= - \frac{n}{2} \int_{}^{ } d^3r \left[ g_s \left( r \right)  \right] ^2  \\
+                                                                                                                  &= -\frac{2}{n} \int_{}^{} d^3r \frac{1}{V^2} \sum_{k,k'}^{} \left< n_{ks}  \right> \left< n_{k's} \right> e^{-i \left( k-k' \right) \cdot r}  \\
+                                                                                                                  &= -\frac{2}{nV} \sum_{k}^{} \left< n_k \right> ^2 \\
+                                                                                                                  &= \begin{cases}
+               -1 & T = 0 \\
+               - \frac{\lambda^3 n}{2^{\frac{5}{2} } }  & T \gg T_\text{F} \\
+            \end{cases}
+\end{align*}
+\subsection{Bosonic Correlation Functions}
+We start again with the single particle corrolation function with $s = 0$.\[
+g_1\left( r-r' \right) = \left< \hat{\Psi}^\dagger\left( r \right) \hat{\Psi}\left( r' \right)  \right> 
+= \frac{1}{V} \sum_{k,k'}^{} e^{-i k\cdot r + i k' \cdot r'} \left< \hat{a}^\dagger_k \hat{a}_{k'}  \right> 
+= = \frac{1}{V} \sum_{k}^{} e^{-i k \cdot \left( r - r' \right) } \left< n_k \right>  
+
+\] 
+\begin{itemize}
+  \item $T = 0$ BEC \[
+  \left< \hat{n}_k \right> = N \delta_{k,0} 
+  \] 
+\item $ T \gg T_C$ \[
+\left< \hat{n}_k \right> \propto e^{-\frac{k^2}{A^2} } 
+\] 
+\end{itemize}
+Giving us \[
+g_1\left( r - r' \right) = \begin{cases}
+  n & T = 0 \\
+  n e^{-\pi \frac{\left( r - r' \right) ^2}{\lambda^2}  }  & T \gg T_c \\
+\end{cases}
+\] 
+We then also consider the pair corrolation functions
+\begin{align*}
+  g_2\left( r-r' \right) &= \left< \hat{\Psi}^\dagger\left( r \right) \hat{\Psi}^\dagger\left( r' \right) \hat{\Psi}\left( r' \right) \hat{\Psi}\left( r \right)  \right>  \\
+  &= \frac{1}{V^2} \sum_{k,k',q,q'}^{} e^{-i \left( k-k' \right) \cdot r - i \left( q-q' \right) \cdot r'} \left< \hat{a}^\dagger_k \hat{a}^\dagger_q \hat{a}_{q'} \hat{a}_{k'}  \right>   \\
+  &= \frac{1}{V^2} \sum_{k,k',q,q'}^{} e^{-i \left( k-k' \right) \cdot r - i \left( q-q' \right) \cdot r'}  \left( 1-\delta_{kq}  \right) \left\{ \delta_{kk'} \delta_{qq'} + \delta_{kq'} \delta_{k'q}  \right\} \left< n_k \right> \left< n_q \right> + \delta_{kq} \delta_{kk'} \delta_{qq'} \left( \left< n^2_k \right> - \left< n_k \right>  \right) \\
+  &= \frac{1}{V^2} \left[ \sum_{kq}^{} \left( 1 - \delta_{kq}  \right) \left[ 1 + e^{- i \left( k - q \right) \cdot  \left( r- r' \right) }  \right] \left< \hat{n}_k \right> \left< \hat{n}_q \right>  + \sum_{k}^{} \left( \left< \hat{n}_k^2 \right> - \left< \hat{n}_k \right>  \right)    \right] \\
+  &= \frac{1}{V^2} \left[ \sum_{k,q}^{} \left< \hat{n}_k \right> \left< \hat{n}_q \right>  + \abs{ \sum_{k}^{} e^{-i k \left( r-r' \right) } \left< \hat{n}_k \right>  } ^2 + \sum_{k}^{} \left( \left< n_k^2 \right> - \left< n_k \right> ^2 - \left< n_k \right> \left( \left< n_k \right> + 1 \right)  \right)   \right]  \\
+  &= n^2 + g_1\left( r - r' \right)^2 + \frac{1}{V^2} \sum_{k}^{} \left< n_k^2 \right> - \left< n_k \right> ^2 - \left< n_k \right> \left( \left< n_k \right> + 1 \right) 
+\end{align*}
+Giving us for
+\begin{itemize}
+  \item $T = 0, \left< n_k \right> = N \delta_{k,0} $ \[
+  g_2\left( r-r' \right) = 2n^2 - \frac{1}{V^2} N\left( N + 1 \right) \approx n^2 
+  \] 
+\item $T \gg T_c$ \[
+g_2\left( r-r' \right) = n^2 + g_1 \left( r-r' \right)^2 = n^2\left( 1 + e^{-2\pi \frac{\left( r-r' \right)^2 }{\lambda^2} }  \right) 
+\] 
+\end{itemize}
+
+\section{Selected Applications \\\small{of second quantisaton \& statistical physics}}
+\subsection{Spin Susceptibility}
+We use the fluctuation-dissipation theorem \[
+\chi = \frac{1}{V k_B T} \left[ \left< \hat{M}_z^2 \right> - \left< \hat{M}_z \right> ^2 \right] 
+\] 
+With $\hat{M}_z = \frac{g \mu_B}{\hbar} \int_{}^{} d^3r \hat{S}_z\left( r \right) = \mu_B \sum_{k}^{} \sum_{ss'}^{} \hat{a}^\dagger_{ks} \sigma^{z}_{ss'} \hat{a}_{ks'} = \mu_B \sum_{k}^{} \left( \hat{n}_{k\uparrow} - \hat{n}_{k\downarrow}  \right)   $. We consider each term inididually
+\begin{align*}
+  \left< \hat{M}_z \right> &= \mu_B \sum_{k}^{} \left( n_{k\uparrow} - n_{k\downarrow}  \right) = 0  \\
+  \left< \hat{M}_z^2 \right> &= \mu_B^2 \sum_{k,s}^{} \sum_{k',s'}^{} s s' \left< \hat{a}^\dagger_{ks} \hat{a}_{ks} \hat{a}^\dagger_{k's'} \hat{a}_{k's'}  \right>  \\
+  &= \mu_B^2 \sum_{k,s}^{} \sum_{k',s'}^{} s s' \left( \left< \hat{a}^\dagger_{ks} \hat{a}_{ks}  \right> \left( 1- \left< \hat{a}^\dagger_{ks} \hat{a}_{ks}  \right>  \right) \delta_{kk'} \delta_{ss'} + \left< \hat{a}^\dagger_{ks}  \right> \left< \hat{a}^\dagger_{k's'} \hat{a}_{k's'}  \right>  \right)    \\
+  &= \mu_B^2 \sum_{k,s}^{} \left< \hat{n}_{ks}  \right> \left( 1 - \left< \hat{n}_{ks} \right> \right) \\
+  &= 2 \mu_B^2 \sum_{k}^{} \frac{1}{4 \cosh^2\left( \frac{\beta \left( \epsilon_k - \mu \right) }{2}  \right) } 
+\end{align*}
+By going into an integal we get
+\begin{align*}
+  \left< \hat{M}^2_z \right> &= \mu_B^2 V \int_{0}^{\infty} d\epsilon \frac{N\left( \epsilon \right) }{4 \cosh^2\left( \frac{\beta \left( \epsilon - \mu \right) }{2}  \right) }   \\
+                             &\approx V \mu_B k_B T N\left( \epsilon_F \right)  \\
+\end{align*}
+With $N\left( \epsilon \right) $ the density of states, which for free fermions is given as $N\left( \epsilon \right) = \frac{3n}{2 \epsilon_F} \sqrt{\frac{\epsilon}{\epsilon_F} } $. Giving us the Pauli susceptibility (the last equation only holds for free fermions, the first is very general).
+\[
+\chi = \frac{\left< \hat{M}_z^2 \right> }{V k_B T} =  \mu_B^2 N\left( \epsilon_F \right) \underbrace{ = \mu_B^2 \frac{3n}{2 \epsilon_F} }_{\text{for free fermions: } \epsilon_k = \frac{\hbar k^2}{2m} } 
+\] 
+\subsection{Bose-Einstein condensate - coherent state}
+We will now use the language of second quantization to derive the BEC. To do that we introduce a so called coherent state and a so called order parameter (off diagonal long-range order).\\
+We consider Bosons with $S = 0$ and we consider the single particle corrolation function \[
+g\left( \vec{r} - \vec{r}' \right) = \left< \hat{\Psi}^\dagger\left( \vec{r} \right) \hat{\Psi}\left( \vec{r}' \right)  \right> = \frac{1}{V} \sum_{\vec{K}}^{} \left< \hat{a}^\dagger_{\vec{K}} \hat{a}_{\vec{K}} \right> e^{i\left( \vec{k}\cdot \vec{r} - \vec{k}\cdot \vec{r}' \right) }  = \frac{1}{V} \sum_{\vec{K}}^{} \left< \hat{n}_{\vec{K}}  \right> e^{i \vec{K}\left( \vec{r} - \vec{r}' \right) }  
+\] 
+We now write
+\begin{align*}
+  g\left( \vec{R} = \vec{r}-\vec{r}' \right) &= \frac{1}{V} \sum_{\vec{K}}^{} \frac{e^{-i \vec{K} \cdot  \vec{R}} }{e^{\beta \left( \epsilon_{\vec{K}} - \mu \right)} -1 } \\
+  \text{Limit: } R = \abs{\vec{R}} \to  0 &  \\
+  g\left( \vec{R} \right) &= \frac{1}{V}  \sum_{\vec{K}}^{} \frac{1 -i \vec{K}\cdot \vec{R} - \frac{\left( \vec{K} \cdot  \vec{R} \right) ^2}{2} + \ldots}{ e^{\beta\left( \epsilon_{\vec{K}} - \mu \right) } - 1}   \\
+ &= n - \frac{R^2}{6} \left< \vec{K}^2 \right> + \ldots  \\
+ \text{with: } \left< \vec{K}^2 \right> &= \begin{cases}
+   6\pi n \lambda^{-2}  & T \gg T_C \\
+   3.08 \pi n \lambda^{-2} \left( \frac{T}{T_C}  \right)^{\frac{3}{2} }  & T > T_C \\
+ \end{cases} \\
+   \text{Limit: } R \to  \infty & (T > T_C) \\
+  g\left( R \right) &\approx \frac{1}{V} \sum_{\vec{K}}^{} \frac{e^{-i \vec{K} \cdot  \vec{R}} }{\beta\left( \epsilon_k - \mu \right) }   \\
+  &= \frac{2mk_B T}{\hbar^2} \int_{}^{} \frac{d^3k}{\left( 2\pi \right) ^3} \frac{e^{-i \vec{K}\cdot \vec{R}} }{\vec{K}^2 + K_0^2}  \\
+  \text{with: } k_0^2 &= -\frac{2m}{\hbar^2} \mu > 0 \\
+  \implies g\left( R \right) &= \frac{m k_B T}{\left( 2\pi \right) ^3 k^3} \frac{e^{-k_0R} }{R}   \\
+   \text{Limit: } R \to  \infty & (T < T_C) \\
+   g\left( R \right) &=  \\
+\end{align*}
+
+\section{Two missing lectures}
+
+\chapter{1 Dimensional Systems (skipped for now)}
+\chapter{Phase Transitions}
+A phase transition is a change of state of a macroscopic system. This can be a change from disorder to order or reverse, examples include: gas-liquid-solid, paramagnet-ferromagnet or conductor-superconductor transitions.\\
+Pase transitions are usually accompanied by a change of the macroscopic properties, for example in Bose-Einstein condensation the specific heat has a cusp at the critical temperature. BEC is a bit a special case, as it deals with non-interacting particles, usually we need some interaction between particles to see phasetransitions.\\
+A phase transition can be considered as a competition between the internal energy (or the ground state energy) and the entropy. There are two thermodynamic potentials of interest:
+\begin{itemize}
+  \item The Helmholtz free energy \[
+  F\left( T,V,N,\ldots \right) = U - TS
+  \] 
+  \item The Gibbs free energy \[
+  G\left( T,p,N,\ldots \right) = H - TS
+  \] 
+\end{itemize}
+We see that $T = 0$ the state is determined by $U$ or $H$ alone. If we however consider $T>0$ the second terms reduce the potentials, since both potentials "want" to be minimal it get's more and more beneficial to increase the entropy.\\
+A phase transition is an anomaly (singularity) in the potential as a function of $T,p,V$.\\
+In this chapter we will see
+\begin{itemize}
+  \item The mean field approximation and order parameters
+  \item critical phenomenon close to the phase transitions
+  \item self-consisten field theories (Ginzburg criterion)
+  \item existence of phase transitions in one and two dimensions (Peierls condition)
+\end{itemize}
+\section{Eherenfest Classification of Phase Transitions}
+Ehrenfest introduced the so called order of phase transition, which is tied to the type of singularity in the thermodynamic potentials at the phase transition.\\
+We consider a phase transition at $T = T_C$, meaning that we have different phases for $T>T_C$ and $T< T_C$.\\
+A phase transition is of $n ^{\text{th}} $ order if for all $m \le n-1$ we have: \[
+\left( \frac{\partial ^{m} G}{\partial T^{m} }  \right) _p |_{T=T_{C+} } =  \left( \frac{\partial ^{m} G}{\partial T^{m} }  \right) _p |_{T = T_{C-} } 
+\] (or the same with the deriviative with respect to pressure, etc.)\\
+and \[
+\left( \frac{\partial ^{n}G }{\partial T^{n} }  \right) _p |_{T=T_{C+} } \neq \left( \frac{\partial ^{n}G }{\partial T^{n} }  \right) _p |_{T=T_{C-} } 
+\] 
+Meaning a phase transition of order $n$ has a discontinuity in the $n^{\text{th}} $ deriviative. In practise we usually have $n \le 2$.\\
+For example
+\begin{itemize}
+  \item $n = 1$ discontinuities in entropy and volume
+    \begin{align*}
+      S = -\left( \frac{\partial G}{\partial T}  \right) _p & V = \left( \frac{\partial G}{\partial p}   \right) _T
+    \end{align*}
+    Giving us the latent heat as $L = T_c \Delta S$ where $\Delta S$ is the difference in entropy from one phase in the other.
+  \item $n=2$ discontinuities in the second deriviatives  \[
+      C_p = - T \left( \frac{\partial ^2 G}{\partial T^2}  \right) p \text{   ,   }
+      \kappa_T =- \frac{1}{V} \left( \frac{\partial ^2 G}{\partial p^2}  \right) _T \text{   ,   }
+      \alpha = \frac{1}{V} \left( \frac{\partial ^2 G}{\partial T \partial p }  \right)  
+  \] with $C_p$ the specific heat, $\kappa_T$ the isothermal compressability and $\alpha$ the thermal expansion coefficient.
+\end{itemize}
+We now take a look at the Ehernfest relations. We first consider a $n=1$ order phase transition, for examlpe a liquid-gas transition with $G_\text{liquid} $ and $G_\text{gas} $ respectively. At the phase transition we have 
+\begin{align*}
+  G_L \left( T, p, N,\ldots \right) &=  G_G \left( T,p,N,\ldots \right)  \\
+\end{align*}
+Implicitly defining a phase boundary in a $T$, $p$ plot, which is given by 
+\begin{align*}
+  dG_L &=  dG_G \\
+  -S_L dT + V_L dp &= -S_G dT + V_G dp \\
+  \implies \frac{dp}{dT} &= \frac{S_G - S_L}{V_G - V_L} \\
+  &= \frac{L}{T \Delta V} 
+\end{align*}
+With $L = T \left( S_G - S_L \right) = T \Delta S$ and $\Delta V = V_G - V_L$. This relation is called the Clausius-Claperyron relation.\\
+Simmilar relations exist for $n=2$ and higher order phase transitions.
+\section{Phase Transition in the Ising model}
+The Ising model for ferromagnetic degrees of freedom consists of a regular (hypercubic) lattice of $N$ sites, at each site we have a degree of freedom $s_i = \pm s$ a magnetic moment pointing up or down. This model then is described by a Hamiltonian \[
+\mathcal{H} = -J \sum_{\left< i,j \right> }^{} s_i s_j - \sum_{i}^{} s_i H 
+\] With $J > 0$ a coupling term, $H$ an external magnetic field,  and the sum over  $\left< i,j \right> $ being the sum over all neighbouring pairs with each bond only counted once.
+The $s_i$ 's are classical degrees of freedom (we are not dealing with quantum spins!). \\
+In the ground state of the system all moments are parallel, meaning we are in the ferromagnetic case. In the high temperature limit we have to maximise the entropy leading to $N_+ = N_- = \frac{N}{2} $. \\
+We have two tuning parameters the temperature $T$ and the external magnetic field $H$.
+\subsection{Mean Field Approximation}
+The Ising model has exact solutions for $1$ and $2$ dimensions. In order to get exact solutions in higher dimensions we have to introduce approximations.\\
+The mean field approximation which consists of assuming that all the neighbous can be approximated as resulting in a mean field. This will lead to a self-consistent scheme.\\
+We consider the moment at site $i$ as
+\begin{align*}
+  s_i &= \left< s_i \right> + \left( s_i - \left< s_i \right>  \right)  \\
+  &= m + \left( s_i - m \right) 
+\end{align*}
+Where we assume that $\left< s_i \right> $ is site independent and called it $m$. By calling $s_i - m = \delta s_i$ we get:
+\begin{align*}
+  s_i &= m + \delta s_{i} \\
+  \implies \mathcal{H} &= -J \sum_{\left< i,j \right> }^{} \left[ m + \delta s_i \right] \left[ m + \delta s_j \right] - \sum_{i}^{} s_i H   \\
+  &= -J \sum_{\left< i,j \right> }^{} m^2 + m \delta s_i + m \delta s_j + \delta s_i \delta s_j    \\
+  &= -J \sum_{\left< i,j \right> }^{} \left( m s_i + m s_j - m^2 \right) + \sum_{i}^{} s_i H - J \sum_{\left< i,j \right> }^{} \delta s_i \delta s_j  \\
+  &= -J \sum_{i}^{} \left( z m s_i- \frac{z}{2} m^2 \right) - \sum_{i}^{} s_i H - J \sum_{\left< i,j \right> }^{} \delta s_i \delta s_j  \\
+\end{align*}
+With the coordination number $z$ giving the number of neigbours each cell has (for a hypercubic lattice in $d$ dimensions we have $z = 2d$ ).
+The forst two terms now just describe an ideal paramagnet, but the last term proportional to $\delta s_i \delta s_j$ is troublesome. We now consider
+\begin{align*}
+  E_{ij} &= \frac{\left< \delta s_i \delta s_j \right> }{\left< s_i \right> \left< s_j \right> } \\
+  &= \frac{\left< s_i s_j \right> - \left< s_i \right> \left< s_j \right> }{\left< s_i \right> \left< s_j \right> }  \\
+   &\ll 1
+\end{align*}
+Where the last step is an assumption that only holds for $\abs{m} \approx s$, if this assumption holds we can ignore the last term in the modified Hamiltonian, and we get the so called mean field hamiltonian \[
+\mathcal{H}_{\text{mean field}} = - \sum_{i}^{} \left( s_i h_\text{eff} + \frac{J}{2} z m^2 \right)  
+\] with \[
+h_\text{eff} = Jzm + H
+\] 
+This mean field hamiltonian is now an ideal paramagnet with a modified field $h_\text{eff} = H + Jzm$. The issue is now that $m$ is unknown and we have to find it.\\
+We take the canonical ensemble
+\begin{align*}
+  \mathcal{Z}_N &= \prod_{i}^{} \sum_{s_i = \pm s}^{} e^{-\beta Jz \frac{m^2}{2} + \beta h_\text{eff} s_I}    \\
+               &= \left( \sum_{s_i = \pm s}^{} e^{-\beta Jz \frac{m^2}{2} + \beta h_\text{eff} s_I} \right)^{N}    \\
+               &= e^{-\beta J z \frac{m^2}{2} N} \left[ 2 \cosh\left( \beta h_\text{eff} s \right)  \right] ^{N}
+\end{align*}
+The Helmholtz free energy is given as
+\begin{align*}
+  F\left( T, H, m \right) &= - k_B T \log\left( \mathcal{Z}_N \right)  \\
+  &= NJz \frac{m^2}{2} - N k_B T \log\left( 2 \cosh\left( \beta s h_\text{eff} \right) \right)
+\end{align*}
+For given $T, H$ the free energy is a minimum. Meaning we can find $m$ by minimizing $F$.
+\begin{align*}
+  0 &=  \frac{\partial F}{\partial m}  \\
+  &= NJz m - NJ z s \tanh\left( \beta s h_\text{eff} \right)  \\
+  \implies m &= s \tanh\left( \beta s h_\text{eff} \right) 
+\end{align*}
+Where $h_\text{eff} $ depends on $m$, so this is not a simple solution, but can be solved.\\
+Another approach is given by looking at the self consistence
+\begin{align*}
+  m = \left< s_i \right> &= \frac{ \sum_{s_i = \pm s}^{} s_i e^{\beta h_\text{eff} s_i}  }{ \sum_{s_i = \pm s}^{} e^{\beta h_\text{eff} s_i}  }  \\
+&= s \tanh\left( \beta s h_\text{eff} \right)
+\end{align*}
+Yielding the same result as above. $m$ can also be written as \[
+m = -\frac{1}{N} \left( \frac{\partial F}{\partial H}  \right)_{T,H} 
+\] 
+Unfortunatelly the equation for $m$ has no analytical solution. When considering the case where $H = 0$ and looking at the graphical plot we find that there are two regimes: 
+\begin{itemize}
+  \item For $T > T_C$ there's only one solution at $m = 0$ 
+  \item For $T < T_C$ there are three solutions $m = 0$ and $m = \pm m_\text{sol} $
+\end{itemize}
+The transition is given where the slope of both sides of the equation $m = s \tanh\left( \beta s h_\text{eff}  \right) $ at $m = 0$ are equal, yielding
+\begin{align*}
+  \frac{d}{d m} m|_{m=0}  &= \frac{d}{d m} s \tanh\left( \frac{Jzs}{k_B T} m \right)|_{m=0}   \\
+  1 &= \frac{s^2 J Z }{k_B T_C}  \\
+  \implies k_B T_C &=  J z s^2
+\end{align*}
+\subsection{Instability of the Paramagnetic Phase}
+The Paramagnetic phase is the phase that occures at $T > T_C$ where we have $\left< s_i \right> = m = 0$. In this case we now consider the magnetic susceptibility $\chi\left( T \right) $ for $H = 0$.
+\begin{align*}
+  \chi\left( T \right) &= \frac{d}{dH} m |_{H = 0}  \\
+        &= \frac{d}{dH} s \tanh\left( \beta Jzm( H ) + H \right) |_{H=0}  \\
+        &= \frac{s}{k_B T} \left( Jzs \frac{d m}{dH} |_{H=0} + s \right) \frac{1}{\cosh^2\left( \beta\left( Jzsm + H \right)  \right) } |_{H=0}  \\
+        &= \frac{s}{k_B T} \left( Jzs \chi\left( T \right) + s \right)  \\
+        \implies \chi\left( T \right) &= \frac{s^2}{k_B T - Jzs^2}  \\
+        &= \frac{s^2}{k_B \left( T - T_C \right) }  \\
+        \implies \chi\left( T\to T_C^{+} \right) &\to \infty
+\end{align*}
+Near the critical temperature an arbitririly small external field $H$ leads to a huge magnetization of the system. \\
+We now that
+\begin{itemize}
+  \item $T > T_C$ : $m = 0$
+  \item  $T < T_C$ : $m = 0, +m\left( T \right) , -m\left( T \right) $
+\end{itemize}
+We now consider the $T < T_C$ case and ask which of the three solutions is stable. To do that we consider the free energy \[
+F\left( T,H,m \right) = \frac{NJzm^2}{2} - Nk_BT \log\left( 2 \cosh\left( \beta s h_\text{eff} \right)  \right) 
+\] we assume $m \ll s$, and $h_\text{eff} $ small, meaning we're at $T \approx T_C$, and expand
+ \begin{align*}
+  F\left( T,H,m \right) &= NJz \left[ \frac{m^2}{2} - \frac{k_B T}{Jz} \left( \frac{1}{2} \left( \beta s h_\text{eff}  \right) ^2 - \frac{1}{12} \left( \beta s h_\text{eff}  \right) ^{4}  \right)   \right] + \ldots
+\end{align*}
+In the case of $H = 0$, $h_\text{eff} = Jzm$ we get
+\begin{align*}
+  F\left( T, H=0, m \right) &= F_0\left( T \right) + N J z \left[ \left( \frac{T}{T_C} -1 \right) \frac{m^2}{2} + \left( \frac{T_C}{T}  \right) ^2 \frac{m^{4} }{12 s^2} + \ldots \right]  \\
+  &= F_0\left( T \right) + N J z \left[ \left( \frac{T}{T_C} -1 \right) \frac{m^2}{2} + \frac{m^{4} }{12 s^2}  \right]
+\end{align*}
+Where $F_0$ does not depend on $m$. When considering the $T > T_C$ case we see that this has only one minimum at $m = 0$, while for the $T < T_C$ case we see two minima at $\pm m\left( T \right) $, while the solution at $m = 0$ becomes a maximum (ie. is physically unstable).
+What we find is thus: (with $\tau = 1- \frac{T}{T_C} $)
+\begin{align*}
+  m\left( T \right) &= \begin{cases}
+    0 & T \ge T_C \\
+    \pm s \sqrt{3 \tau}  & T < T_C \\
+  \end{cases}
+\end{align*}
+The free energy $F$ as written above has the form of a Landau theory for a second order phase transition with order parameter $m$. We will return to Landau theories later.\\
+We can now insert this solution and do thermodynamics at $T \approx T_C$ and get
+\begin{align*}
+  F\left( T \right) &= F_0\left( T \right) - \frac{2N k_B T_C}{4} \tau^2 \Theta\left( \tau \right)  \\
+  \Theta\left( \tau \right) &= \begin{cases}
+    0 & \tau < 0 \\
+    1 & tau > 0 \\
+  \end{cases} \\
+  S\left( T \right) &= - \frac{\partial F}{\partial T} \\
+  &= Nk_B \log\left( 2 \right) - \frac{2Nk_B}{2} \tau \Theta\left( \tau \right)  \\
+  \frac{C}{T} &= \frac{\partial S}{\partial T}  \\
+  &= \frac{3N K_B}{2 T_C} \Theta\left( \tau \right) 
+\end{align*}
+We see that we have no heat-capacity is $0$ above $T_C$, this is an error comming from the mean field approximation. What is true however is that $\frac{C}{T} $ is discountinous at $T_C$, meaning we do have a second order phase transition.
+\subsection{Phase Diagram}
+We again consider the case of small  $m,H$ and write $\tau = 1 - \frac{T}{T_C} $. \[
+F\left( T,H,m \right) = F_0\left( T \right) + NJz \left( -\tau \frac{m^2}{2} + \frac{m^{4} }{12s^2}  \right) - NmH
+\] 
+For $H = 0$ we have a spontaneous symmetry breaking, since $T > T_C \to m = 0$ and for $T < T_C \to m \neq 0$, breaking of mirrior symmetry or breaking of time reversal symmetry.\\
+For  $H\neq 0$ we have the additional last term in $F\left( T,H,m \right) $ leading to an imbalance between the two minima (which were degenerate before). In the $H = 0$ case we had a sharp phase transition of second order, but in the $H \neq 0$ case we have a smooth crossover.\\
+We now again consider 
+\begin{align*}
+  0 = \frac{\partial F}{\partial m} &= NJz \left[ \tau m + \frac{m^3}{3 s^2}  \right] - NH \\
+  H\left( m \right) &= Jz \left\{ -\tau m + \frac{m^3}{3s^2} \right\}
+\end{align*}
+To check for stability we look at
+\begin{align*}
+  \frac{\partial^2 F}{\partial m^2} &= NJz \left( \frac{m^2}{s^2} - \tau \right)  \\
+  &= \begin{cases}
+    >0 & \text{(meta)stable} \\
+    <0 & \text{unstable} \\
+  \end{cases}
+\end{align*}
+We consider the differential suseptability
+\[
+\chi = \frac{d m}{dH} = \begin{cases}
+  >0 & \text{(meta)stable} \\
+  <0 & \text{unstable} \\
+\end{cases}
+\] 
+See various plots in the lecture material.\\
+We can set up a Clausius-Clapeyron-esque relation giving us \[
+\frac{dH}{dT} = \frac{L}{T \Delta m} = 0
+\] 
+IN the ising model case we have no latent heat, as the two phases are equivalent. 
+\section{Gaussian Transformation}
+We consider the Hamiltonian \[
+H = \frac{1}{2} \sum_{i,j}^{} J_{ij} s_i s_j - \sum_{i}^{} s_i H_i  
+\] Where we still have discrete degrees of freedom $s_i$ but we now have not only nearest neighbour interaction but a more general interaction $J_{ij} $ between sites $i$ and $j$ and a non homogenous magnetic field $H_i$ which is different for each site $i$. We regain the Ising model for $J_{ij} = -J$ for nearest neigbours and $J_{ij} = 0$ otherwise, as well as $H_i = H$.\\
+The partition function is given as \[
+Z = \sum_{\left\{ s_i \right\} }^{} e^{-\frac{\beta}{2} \sum_{i,j}^{} J_{ij} s_i s_j + \beta \sum_{i}^{} s_i H_i  }  
+\] 
+To make analysis easier we go to the view of a continous field $\phi_i$. We use the Gaussian identiy: \[
+  \int_{-\infty}^{\infty} d\phi \exp\left( -\frac{\phi^2}{2a} + s\phi - \frac{a}{2} s^2 + \frac{a}{2} s^2 \right) = e^{\frac{a}{2} s^2} \int_{-\infty}^{\infty} d\phi \exp\left( -\frac{1}{2a} \left( \phi - sa \right) ^2 \right) = \sqrt{2\pi a } \times  e^{\frac{a}{2} s^2}    
+\] 
+This also works in higher dimensions as
+\[
+  \int_{-\infty}^{\infty} \left( \prod_{i}^{} d\phi_i  \right) \times  \exp\left( -\frac{1}{2} \sum_{i,j} \phi_i \left( A^{-1} \right)_{ij} \phi_j + \sum_{i}^{} \phi_i s_i  \right) =
+  \left( 2\pi \right) ^{\frac{N}{2} } \sqrt{\det A} \times  \exp\left( -\frac{1}{2} \sum_{i,j}^{} s_i A_{ij} s_j \right)
+\] 
+Using this identiy we can then rewrite $Z$ as
+\begin{align*}
+  Z &= \frac{1}{\left( 2\pi k_B T \right) ^{\frac{N}{2} } \sqrt{\det J} } \int_{-\infty}^{\infty} \left( \prod_{i}^{} d\phi_i  \right) \exp\left( \frac{\beta}{2} \sum_{i,j}^{} \left( J^{-1} \right)_{ij} \left( \phi_i - H_i \right) \left( \phi_j - H_j \right)   \right) \times \prod_{i}^{} \underbrace{ \sum_{s_i = \pm s}^{}   \exp\left( \beta \phi_i s_i \right)}_{ = 2 \cosh\left( \beta s \phi_i \right) }     \\
+    &= \frac{1}{\left( 2\pi k_B T \right) ^{\frac{N}{2} } \sqrt{\det J} } \int_{-\infty}^{\infty} \left( \prod_{i}^{} d\phi_i  \right) \exp\left( \frac{\beta}{2} \sum_{i,j}^{} \left( J^{-1} \right)_{ij} \left( \phi_i - H_i \right) \left( \phi_j - H_j \right)   \right) \times \exp\left( \sum_{i}^{} \log\left( 2 \cosh\left( \beta s \phi_i \right)  \right)   \right) \\
+    \implies Z &= C \int_{-\infty}^{\infty} \left( \prod_{i}^{} d\phi_i  \right) \exp\left( -\beta S\left( \phi_i, H_i \right)  \right) = e^{-\beta F}   \\
+\end{align*}
+With  \[
+C = \frac{1}{\left( 2\pi k_B T \right) ^{\frac{N}{2} } \sqrt{\det J }  } 
+\] \[
+S\left( \phi_i, H_i \right) = -\frac{1}{2} \sum_{i,k}^{} \left( J^{-1}  \right) _{ij} \left( \phi_i - H_i \right) \left( \phi_j - H_j \right) - \frac{1}{\beta} \sum_{i}^{} \log\left( 2 \cosh\left( \beta s \phi \right)  \right)   
+\] 
+The second term in $S\left( \phi_i, H_i \right) $ is still problematic to integrate over.
+\paragraph{Saddle point approximation} (steepest descent method). The idea is to approximate the integral \[
+I = \int_{a}^{b} e^{N g\left( x \right) } dx 
+\] where $N \gg 1$ where we have a maximum at $x \approx \overline{a}$. We write \[
+g\left( x \right) = g\left( \overline{x} \right) + \underbrace{g'\left( \overline{x} \right) }_{=0} \left( x - \overline{x} \right) + \frac{1}{2} \underbrace{g"\left( \overline{x} \right) }_{< 0}  \left( x-\overline{x} \right) ^2
+\] 
+and we can approximate
+\begin{align*}
+  I &= e^{N g\left( \overline{x} \right) } \int_{a \to -\infty}^{b \to \infty} \exp\left( -N \abs{g"\left( \overline{x} \right) \left( x-\overline{x} \right) ^2}  \right)  \\
+  &= e^{N g\left( \overline{x} \right) } \left( \frac{2\pi}{N \abs{g"\left( \overline{x} \right) } }  \right) ^{\frac{1}{2} }  \\
+  \implies \log\left( I \right) &= N g\left( \overline{x} \right) + \frac{1}{2} \log\left( \frac{2\pi}{N \abs{g"\left( \overline{x} \right) } }  \right)   \\
+  \log\left( I \right) &= N g\left( \overline{x} \right) + O\left( \log\left( N \right)  \right)
+\end{align*}
+This approximation holds for $N \gg 1$.\\
+We now evaluate $Z$ using the saddle point approximaton and write \[
+Z \approx C e^{-\beta S\left( \overline{\phi}_i, H_i \right) } 
+\] with
+\begin{align*}
+  0 &= \frac{\partial S}{\partial \phi_i} |_{\phi_i = \overline{\phi}_i} \\
+  &= - \sum_{j}^{} \left( J^{-1}  \right) _{ij} \left( \overline{\phi}_j - H_j \right) - s \tanh\left( \beta s \overline{\phi}_i \right)
+\end{align*}
+We therefore get the saddle point equation 
+\begin{align*}
+  \sum_{j}^{} \left( J^{-1} \right) _{ij} \left( \overline{\phi}_j - H_j \right) &= -s \tanh\left( \beta s \overline{\phi}_i \right) \\
+  \underbrace{\implies}_{\text{mult. inverse of } J_{ij} } \overline{\phi}_i &=  H_i - s \sum_{j}^{} J_{ij} \tanh\left( \beta s \overline{\phi}_j \right) 
+\end{align*}
+This now has significant simmilarity with the previous result from the mean field approximation.
+\begin{itemize}
+  \item We first consider $H_i = 0 \forall i $. In this case we have a uniform solution where $\overline{\phi}_i = \overline{\phi}$.\[
+  \overline{\phi} = -s \sum_{j} J_{ij} \tanh\left( \beta s \overline{\phi} \right)  
+  \] by assuming only nearest neigbour interaction in $J_{ij} $ we get \[
+  \overline{\phi} = Jzs \tanh\left( \beta s \overline{\phi} \right) 
+  \] Compare to previous mean field solution $m = s \tanh\left( \frac{Jzsm}{k_B T} \right) $. In fact we get the exact same critical temperature $k_B T_C = J z s^2$.\\
+  The relation between $m$ and $\overline{\phi}$ can be seen by looking at \[
+    m = \left< s_i \right> = k_B T \frac{\partial \log\left( Z \right) }{\partial H_i} = \frac{k_B T}{Z} \beta \sum_{\left\{ s_i \right\} }^{} s_i e^{-\frac{\beta}{2} \ldots} = - \frac{dS\left( \overline{\phi}, H_i \right) }{d H_i} 
+  \] \[
+    = - \frac{\partial S}{\partial H_i} + \underbrace{ \frac{\partial S}{\partial \overline{\phi}_i}}_{=0}  \frac{\partial \overline{\phi}}{\partial H_i}  = -\frac{\partial S}{\partial H_i} = - \sum_{j}^{} \left( J^{-1}  \right) _{ij} \left( \overline{\phi}_j - H_j \right) = s \tanh\left( \beta s \overline{\phi}_i \right)  
+  \] Leading to \[
+  m = s \tanh\left( \beta s \overline{\phi} \right) \implies \overline{\phi} = Jzm
+  \]  
+\end{itemize}
+\subsection{Correlation Function and Susceptibility}
+The saddle point approximaiton allows us to consider spacially varrying parameters like $H_i$ \[
+\overline{\phi}_i = H_i - s \sum_{j}^{} J_{ij} \tanh\left( \beta s \overline{\phi}_j \right)  
+\] 
+We define a corrolation function $\Gamma_{ij} $ as 
+\begin{align*}
+  \Gamma_{ij} &= \left< s_i s_j \right> - \left< s_i \right> \left< s_j \right> \\
+              &= \beta^{-2} \frac{\partial \log\left( Z \right) }{\partial H_i \partial H_j}|_{H_k = 0} 
+\end{align*}
+When using the result from above \[
+Z \approx C e^{-\beta S\left( \overline{\phi}_i, H_i \right) } 
+\] 
+we get
+\begin{align*}
+  \Gamma_{ij} &= -k_B T \frac{d^2 S\left( \overline{\phi}_i, H_i \right) }{dH_i d H_j} |_{H_k = 0}  \\
+  &= \frac{s^2}{\cosh\left( \beta s \overline{\phi} \right) } \frac{d\overline{\phi}_i}{dH_j}  \\
+  \Gamma^{-1}_{ij} &= \frac{1}{s^2} \left[ \delta_{ij} \cosh^2\left( \betas \overline{\phi} \right) + \beta s J_{ij}   \right]
+\end{align*}
+We consider the last expression in Fourier space
+\begin{align*}
+  \Gamma_{ij} &= \frac{1}{N} \sum_{\vec{q}}^{} \Gamma\left( \vec{q} \right) e^{i \vec{q}\left( \vec{r}_i - \vec{r}_j \right) }   \\
+  J_{ij} &= \frac{1}{N} \sum_{\vec{q}}^{} J\left( \vec{q} \right) e^{i \vec{q} \cdot  \left( \vec{r}_i - \vec{r}_j \right) }   \\
+  \delta_{ij} &=  \frac{1}{N} \sum_{\vec{q}}^{} e^{i \vec{q} \cdot  \left( \vec{r}_i - \vec{r}_j \right) }   \\
+  \Gamma^{-1}_{ij} \to \Gamma^{-1} \left( \vec{q} \right) &= \frac{1}{\Gamma\left( \vec{q} \right) }  \\
+  \implies \Gamma\left( \vec{q} \right) &= \frac{k_B T \Gamma_0}{1 + \Gamma_0 J\left( \vec{q} \right) }  \\
+  \Gamma_0 &= \frac{\beta s^2}{\cosh^2\left( \beta s \overline{\phi} \right) } = \beta \left( s^2 - m^2 \right) 
+\end{align*}
+We now look at what $J\left( \vec{q} \right) $ looks like for nearest neigbour coupling
+\begin{align*}
+  J\left[ \vec{q} \right] &=  \frac{1}{N} \sum_{i,j}^{} J_{ij} e^{-i \vec{q} \cdot \left( \vec{r}_i - \vec{r}_j \right) }   \\
+  &= -2 J \sum_{\alpha = 1}^{d} \cos\left( q_\alpha a \right)  
+\end{align*}
+With $d$ the number of dimensions and $a$ the lattice constant. (compare to tight-binding band structure).\\
+We consider the correlation in the long distance limit $\abs{\vec{r}_i - \vec{r}_j} \gg a$ meaning $\vec{q}$ is small $\abs{\vec{q}} \ll \frac{\pi}{a} $. In this limit we get 
+\begin{align*}
+  J\left( \vec{q} \right) &= -2J \sum_{\alpha}^{d} \left( 1- \frac{q_\alpha^2 a^2}{2} + \ldots \right)   \\
+  &= - \underbrace{2d}_{z} J  + J a^2 q^2 + \ldots
+\end{align*}
+We can now use this result to arrive at
+\begin{align*}
+   \Gamma\left( \vec{q} \right) &= \frac{k_B T}{\frac{k_B T}{s^2 - m^2} - Jz + J q^2 a^2}  \\
+                                &\underbrace{\approx}_{m^2 \ll s^2} \frac{k_B T}{k_B \left( T - \underbrace{T_C}_{k_B T_C = Jzs^2}  \right) + Js^2 a ^2 q^2 + k_B T \frac{m^2}{s^2} } 
+\end{align*}
+This result now has the following basic form \[
+\Gamma\left( \vec{q} \right) &= \frac{A}{1 + \zeta^2 q^2}  \\
+\] 
+This form is called the Ornstein-Zernike form, it arrises often when looking at correlation functions in $q$ space.\\
+We take a look at the susceptibility and use the fluctiation-dissipation theorem. Writing $ \sum_{i}^{} s_i = M $ we get:
+\begin{align*}
+  \chi\left( T \right) &= \frac{1}{N k_B T} \left( \left< M^2 \right> - \left< M \right> ^2 \right)  \\
+  &= \frac{1}{N k_B T} \sum_{i,j}^{} \left( \left< s_i s_j \right> - \left< s_i \right> \left< s_j \right>  \right)   \\ 
+  &= \frac{1}{N k_B T} \sum_{i,j}^{} \Gamma_{ij}   \\
+  &= \frac{1}{k_B T} \Gamma\left( \vec{q} = 0 \right)  \\
+  &= \frac{s^2}{k_B \left( T - T_C \right) + k_B T \frac{m^2}{s^2} }  \\
+  \implies \chi\left( T \right) &= \begin{cases}
+    \frac{s^2}{k_B \left( T - T_C \right) }  & T>T_C \\
+    \frac{s^2}{2 k_B \abs{T - T_C}  }  & T< T_C \\
+  \end{cases} 
+\end{align*}
+Where we have used that \[
+\frac{m^2}{s^2} = \begin{cases}
+  0 & T> T_C \\
+  3 \left( \frac{T_C}{T} - 1 \right)  & T < T_C \\
+\end{cases}
+\] 
+We now return to the real space $\Gamma_{ij} $ and assume  $\vec{r} = \vec{r}_i - \vec{r}_j \gg a$ large. We write the correlation function in the Ornstein-Zernike form and get:
+\begin{align*}
+  \Gamma_{\vec{r}} &= \int_{}^{} \frac{d^3q}{\left( 2\pi \right) ^3} \Gamma\left( \vec{q} \right) e^{i \vec{q} \cdot  \vec{r}}   \\
+  &= \frac{A}{4 \pi^2} \int_{0}^{\infty} dq \times q^2 \int_{}^{} d\theta \sin\left( \theta \right) \frac{e^{i q r \cos\left( \theta \right) } }{1 + \zeta^2 q^2}    \\
+  &= \frac{A}{4\pi^2 i r} \int_{-\infty}^{\infty} dq q \frac{e^{iqr} }{1 + \zeta^2 q^2}   \\
+  &= \frac{A}{4\pi} \frac{e^{-\frac{r}{\zeta} } }{\zeta r^2}  \\
+  &= \frac{k_B T}{4\pi J} \frac{e^{-\frac{r}{\zeta} } }{r} 
+\end{align*}
+This form is called the Yunkana form. With \[
+\zeta^2 = \frac{J s^2 a^2}{k_B \left( T - T_C \right) } \underbrace{\to }_{T \to T_C^{+} } \infty
+\] 
+In $d$-dimensions we would get \[
+\Gamma_{\vec{r}} \propto \frac{e^{\frac{r}{\zeta} } }{r^{\frac{d-1}{2} } } 
+\] 
+Using a different scheme (see lecture materials) we can see that at $T = T_C$ we get \[
+\Gamma_{\vec{r}} = \frac{k_B T}{J a^2} \int_{}^{} \frac{d^{d} q}{\left( 2\pi \right) ^{d} } \frac{e^{iqr} }{q} \propto \begin{cases}
+  \log\left( r \right)  & d = 2 \\
+  r^{2-d}  & d \neq 2 \\
+\end{cases} 
+\] 
+These kinds of calculations are important for the discussion of critical phenomena/behavior at $T \to T_{C}^{\pm} $.\\
+Irrespective whether we're in the ordered or unordered phase we get \[
+\Gamma_r \underbrace{\to }_{r \to \infty} 0 \text{ for } T > T_C \text{ and } T < T_C
+\] 
+Meaning that in this case \[
+\lim_{r \to \infty} \left< s_i s_j \right> = \left< s_i \right> \left< s_j \right> = \begin{cases}
+  0 & T> T_C \\
+  m^2 & T < T_C \\
+\end{cases}
+\] 
+This phenomenon is called long range order.
+
+\section{Ginzburg-Landau Theory}
+Based on Landaus concept of second order phasetransistions (disordered $\to $ ordered phase) using spontaneous symmetry breaking. Usually we find
+\begin{align*}
+  T > T_C & \text{High symmetry with symmetry group } \mathcal{G} \\
+  T < T_C & \text{Low symmetry with symmetry group } \mathcal{G}'  \in \mathcal{G}
+\end{align*}
+Landau further introduces an order parameter $m$ 
+\begin{align*}
+  m & \begin{cases}
+    = 0 & T > T_C \\
+    \neq 0 & T < T_C \\
+  \end{cases}
+\end{align*}
+$ m$ describes a character of the ordered phase which you usually (but not always) can measure.\\
+In the case of symmetry breaking wme get several degeneracies of an ordered phase, the degeneracy is given by $\frac{G}{G'} $.
+\subsection{Ginzburg-Landau Theory for the Ising Model}
+The order parameter is $m = \left< s_i \right> $ and now the question is: under which symmetries will this order parameter break? The magnetic moment $m$ breaks time reversal symmetry, we call the time reversel operator $\hat{K}$ and get \[
+\hat{K}m = -m
+\] 
+We now look at the symmetry groups and we find
+\begin{align*}
+  \mathcal{G}  &= G \times \mathcal{K}  \\
+  \mathcal{G}' &= G
+\end{align*}
+With $G$ the lattice symmetry group and $\mathcal{K} = \left\{ \mathbb{I}, \hat{K} \right\} $, meaning we get
+\begin{align*}
+  \mathcal{G} / \mathcal{G}' &= \mathcal{K} \text{ with order } 2
+\end{align*}
+The GL-Theory is then a functional of the order paramenter for $T \approx T_C$, ie. the order parameter $m$ is small $m \ll 1$.
+\section{Two lectures missing}
+\chapter{Superfluidity}
+In nature superfluidity can be observed in Helium. Helium, being a noble gas forms no molecules, at ambient pressure it is liquid, even at $T = 0$ kelvin. Helium can be found in two isotopes; $^4\text{He}$ which is bosonic and $^3\text{He}$ which is fermionic.\\
+Under pressure there is a solidification at $P_C \approx 25- 35$ bar, the crystal structure found is hpc (hexagonal closed packed). $^{3}\text{He}$ has a more interesting phase behaviour (more phases, phases in relation to an external magnetic field, etc.) it is however also much more complicated, because of time constraints we will focus our discussion on $^{4}\text{He}$.\\
+\paragraph{Superfluidity} frictionless/disipation less flow of liquid through constriction or capillaries.\\
+For $^{4}\text{He}$ we have a critical temperature $T_\lambda \approx 1.18$ K, for $^3\text{He}$ we have $T_C \approx 10^{-3} $ K.
+\section{Quantum Liquid Helium}
+Why does Helium stay a liquid for $T \to 0$ K?\\
+The answer basically lies in zero-point motion. There is an interaction between He atoms described by Slater \& Kirkwood: \[
+  V\left( r \right) =\underbrace{Ae^{-\frac{r}{r_1} }}_{\text{repulsive}}  -\underbrace{ B \left( \frac{r_2}{r}  \right) ^{6} }_{\text{attractive}} 
+\] 
+Where the repulsive part is due to core repulsion and the attractive term is a Van-der-Waals term. When we compare to experiments we find: $A = 4.89$ eV and $B = 9.3\cdot 10^{-5} $ eV, $r_1 = 0.22$ Angstroms and $r_2 = 4.64$ Angstroms.\\
+The minimum of the potential with these values is then $r_0 \approx 3$ Angstroms with a depth of $-7.8\cdot 10^{-4} $ eV. Which is a very shallow minimum.\\
+The distance in Helium at $T \approx 0$ K can be measured as $d \approx 4 $ Angsstroms. For stability of a crystal lattice, we need that \[
+\frac{\text{fluctiation of position}}{\text{distance}} = \frac{\Delta r}{d} < L_m \approx 0.1
+\] 
+However, when we look at the heisenberg uncertainty in helium we get
+\begin{align*}
+  \Delta r \cdot \Delta p &=  \hbar \\
+  \implies \Delta E &\approx \frac{\Delta p^2}{2m} \\
+                    &= \frac{1}{2m} \left( \frac{\hbar}{\Delta r} \right) ^2\\
+                    &\approx 10^{-3} \text{eV} > \abs{V_0} 
+\end{align*}
+Where in the last step we inserted the $\Delta r \approx 0.5$ Angstroms. We see that the fluctuations in the kinetic energy are bigger than the minimum of the Slater-Kirkwood potential. In chapter 4 we looked at quantum melting and we found the condition for stability as \[
+c_\ell > \frac{k_B \Theta_D}{8 \rho_m d^{4} L_m^2} 
+\] 
+\subsection{Superfluid Phase}
+The phase transition normal to superfluid is at $T_\lambda = 2.18$ K, where the heatcapacity has a singularity, at $T \ll T_\lambda$ we find $C \propto T^3$. This is a bit a puzzle since the BEC for an ideal Bose-Gas has $C \propto T^{\frac{3}{2} } $, as we will see this difference stems from the interaction between Helium atoms.\\
+\paragraph{Ideal Bose Gas}
+We start from the viewpoint of an ideal bose gas (non-interacting), and we consider this Bose gas uniformly flowing through a capillary with velocity $-\vec{v}$. We consider this situation in two different rest frames:
+\begin{table}[h]
+  \centering
+  \caption{caption}
+  \label{tab:label}
+  \begin{tabular}{|c|c|c|}
+  \hline
+  Rest frame & total momentum & total energy \\ 
+  \hline
+  "Superfluid" & $\vec{P}$ & $E$ \\
+  \hline
+  Capillary & $\vec{P}' = \vec{P} - M\vec{v}$ & $E' = E - \vec{P}\cdot \vec{v}+ \frac{M \vec{v}^2}{2} $ \\
+  \hline
+  \end{tabular}
+\end{table}
+We consider the initial condition that $\vec{P} = 0$ and $E = 0$, we then look at a scattering of He at the capilary and get  $\vec{P} = - \vec{p}$ and $E = \epsilon\left( \vec{p} \right) $. In the restfram of the capilary we can then look ath the energy change due to scattering and we get \[
+\Delta E' = \epsilon\left( \vec{p} \right) + \vec{p}\cdot \vec{v}
+\] 
+The maximum energy drop is for $\vec{p}$ being anti parralell to $\vec{v}$ (backscattering). The fluid will only slow down for $\Delta E' < 0$. For an ideal bose gas we have
+\begin{align*}
+  \epsilon\left( \vec{p} \right) &= \frac{\vec{p}^2}{2m}  \\
+  \implies \Delta E'&= \frac{\vec{p}^2}{2m} + \vec{p}\cdot \vec{v} \\
+  &= \frac{p^2}{2m} - pv \\
+  &< 0 \text{  } \forall \text{  } p < 2mv
+\end{align*}
+In the case of an ideal Bose gas we have no superfluidity, there is always dissipation.\\
+\paragraph{Real Bose Gas}
+If we instead consider the real bose gas (with interaction), in this case we get a linear dispersion of a sound mode (with $c_s$ the sound velocity): \[
+\epsilon\left( p \right) = c_s \abs{\vec{p}} = c_s p
+\] 
+Leading to the result \[
+\Delta E' > 0 \text{  } \forall \text{  } c_s > v
+\] 
+Where we have no backscattering for the case where $v < v_s = c_s$.
+In the case of $^{4}\text{He}$ we have the case that $\epsilon\left( p \right) $ has a local minimum at $p_0$, when applying pressure this minimum goes down and can even be "forced" to become $0$. We get \[
+\epsilon\left( p \right) = \begin{cases}
+  c_s p & p \ll p_0 \\
+  \Delta + \frac{\left( p-p_0 \right) ^2}{2m^{+} }  & p \approx p_0 \\
+\end{cases}
+\] 
+With $c_s = 240$ m/s, $\frac{p_0}{\hbar} = 1.9 \text{Angstrom}^{-1} $, $\frac{\Delta}{k_B} = 8.7$ K, $m^{+} = 0.16 \text{m}_{\text{He}}  $ . The minimum is acctually what limits our superfluidity and we find $v_c = 60$ m/s .\\
+\subsection{Collective Excitations - Bogolyubov Theory}
+We consider interacting bosons with a hamiltonian \[
+\mathcal{H} = \mathcal{H}_\text{kin} + \mathcal{H}_\text{int} 
+\] with
+\begin{align*}
+  \mathcal{H}_\text{kin} &= \sum_{\vec{k}}^{} \left( \epsilon_k - \mu \right) \hat{a}^\dagger_k \hat{a}_k  \\
+  \epsilon_k &=  \frac{\hbar^2 k^2}{2m} \\
+  \mathcal{H}_\text{int} &= \frac{1}{2} \int_{}^{} d^3r d^3r' \hat{\Psi}^\dagger\left( \vec{r}' \right) \hat{\Psi}^\dagger\left( \vec{r} \right) V\left( \vec{r}-\vec{r}' \right) \hat{\Psi}\left( \vec{r}' \right) \hat{\Psi}\left( \vec{r} \right)   \\
+  \hat{\Psi}\left( \vec{r} \right) &= \frac{1}{\sqrt{V} } \sum_{\vec{k}}^{} \hat{a}_k e^{i\vec{k}\cdot \vec{r}} 
+\end{align*}
+We'll use a so called contact interaction where we get \[
+V\left( \vec{r} - \vec{r}' \right) = U \delta^{\left( 3 \right) } \left( \vec{r} - \vec{r}' \right) 
+\] With this we can then rewrite $\mathcal{H}_\text{int} $ in momentum space and get 
+\begin{align*}
+  \mathcal{H}_\text{int} &= \frac{U}{2V} \sum_{\vec{k}, \vec{k}', \vec{q}}^{} \hat{a}^\dagger_{\vec{k}+\vec{q}} \hat{a}^\dagger_{\vec{k}'- \vec{q}} \hat{a}_{\vec{k}'} \hat{a}_{\vec{k}}\\
+  \implies \mathcal{H} &= \sum_{k}^{} \left( \epsilon_k - \mu \right) \hat{a}^\dagger_k \hat{a}_k + \frac{U}{2V} \sum_{k,k',q}^{} \hat{a}^\dagger_{k+q} \hat{a}^\dagger_{k'-q} \hat{a}_{k'} \hat{a}_k  
+\end{align*}
+We now assume that we have BEC and apply the Bogolyubov approximation \[
+\hat{a}_0 \to \sqrt{N_0}  \text{  and  } \hat{a}^\dagger_0 \to \sqrt{N_0}   
+\] Where the density of bosens in $\vec{k} = 0$ is given an $n_0 = \frac{N_0}{V} $. This approximation holds if $N_0 \gg N - N_0 = N_n$, ie. when most of the particles are in the $\vec{k}=0$ state. With this approximation we then rewrite
+\begin{align*}
+  \hat{a}^\dagger_{\vec{k}+\vec{q}} \hat{a}^\dagger_{\vec{k}'-\vec{q}} \hat{a}_{\vec{k}'} \hat{a}_{\vec{k}} &=  N_0^2 \text{  if } \vec{k} = \vec{k}' = \vec{q} = 0 \\
+  \text{alternatively:}\\
+  \hat{a}^\dagger_{\vec{k}+\vec{q}} \underbrace{ \hat{a}^\dagger_{\vec{k}'-\vec{q}} \hat{a}_{\vec{k}'} }_{= N_0} \hat{a}_{\vec{k}} &=  N_0 \hat{a}^\dagger_{\vec{k}} \hat{a}_{\vec{k}} \text{  if  } \vec{k}' - \vec{q} = \vec{k}' = 0\\
+  \underbrace{\hat{a}^\dagger_{\vec{k}+\vec{q}} \hat{a}^\dagger_{\vec{k}'-\vec{q}}}_{N_0}  \hat{a}_{\vec{k}'} \hat{a}_{\vec{k}} &=  N_0 \hat{a}_{-\vec{q}} \hat{a}_{\vec{q}}  \text{  if  } \vec{k} + \vec{q} = \vec{k}' - \vec{q} = 0\\
+  \hat{a}^\dagger_{\vec{k}+\vec{q}} \hat{a}^\dagger_{\vec{k}'-\vec{q}} \underbrace{\hat{a}_{\vec{k}'} \hat{a}_{\vec{k}}}_{N_0}  &=  N_0 \hat{a}^\dagger_{\vec{q}} \hat{a}^\dagger_{-\vec{q}} \text{ if  } \vec{k}' = \vec{k} = 0
+\end{align*}
+In this way we can generate all possible terms and use them to calculate further. This then lets us write 
+\begin{align*}
+  \mathcal{H}' &= -N_0 \frac{U n_0}{2} + \frac{1}{2} \sum_{\vec{k} \neq 0}^{} \left[ \left( \epsilon_{\vec{k}} + Un_0 \right) \left( \hat{a}^\dagger_{\vec{k}} \hat{a}_{\vec{k}} + \hat{a}^\dagger_{-\vec{k}} \hat{a}_{-\vec{k}}  \right) + Un_0 \left( \hat{a}^\dagger_{\vec{k}} \hat{a}^\dagger_{-\vec{k}} + \hat{a}_{-\vec{k}} \hat{a}_{\vec{k}}  \right)  \right] 
+\end{align*}
+The detailed derivation of this last result is given in the lecture material.\\
+We can now pursue the goal of a diagonalized Hamiltonian by doing a Bogolyubov transformation. We want the halmiltonian ta have the form of \[
+\mathcal{H}' = \frac{1}{2} \sum_{\vec{k}\neq 0}^{} E_k \left[ \hat{\gamma}^\dagger_k \hat{\gamma}_k + \hat{\gamma}^\dagger_{-k} \hat{\gamma}_{-k}  \right] + E_0 - \mu N_0 
+\] 
+To arrive at such a form we apply a Bogolyubov transformation by replacing
+\begin{align*}
+  \hat{a}_k &= u_K \hat{\gamma}_k - v_k \hat{\gamma}^\dagger_{-k}  \\
+  \hat{a}_{-k} &= u_k \hat{\gamma}_{-k} - v_k \hat{\gamma}^\dagger_{k} 
+\end{align*}
+With $\hat{\gamma}, \hat{\gamma}^\dagger$ being bosonic 
+\begin{align*}
+  \left[ \hat{\gamma}, \hat{\gamma}^\dagger_k \right] = \left[ \hat{\gamma}_{-k} , \hat{\gamma}^\dagger_{-k}  \right] &= 1 \\
+  \implies \left[ \hat{a}_k, \hat{a}^\dagger_k \right] = u_k^2 - v_k^2 = 1
+\end{align*}
+By inserting this substitution and chosing $u_k, v_k$ such that $\hat{\gamma}_k \hat{\gamma}_{-k} , \hat{\gamma}^\dagger_{-k} \hat{\gamma}^\dagger_k$ disappear, we do indeed get the form we want. Detailed calculation in the lecture materials. We get:
+\begin{align*}
+  u_k &= \frac{1}{\sqrt{1 - \chi_k^2} } \\
+  v_k &= \frac{\chi_k}{\sqrt{1 - \chi_k^2} }  \\
+  \chi_k &= 1+ \frac{\epsilon_k}{U n_0} - \frac{E_k}{U n_0}\\
+  E_k &=  \sqrt{\epsilon_k + 2 U n_0 \epsilon_k}  \\
+.\end{align*}
+Which for $\epsilon_k \ll U n_0$ yields \[
+E_k &= \sqrt{ \frac{U n_0}{m} } \hbar k = c_s \hbar k = c_s p 
+\] a linear dispersion but for $\epsilon_k \gg Un_0$ we get \[
+E_k = \epsilon_k + Un_0
+\] Just a shift by $Un_0$ from the non-interacting energy.\\
+From the linear part we then get the critical velocity as:
+\[
+v_C = c_s = \sqrt{\frac{U n_0}{m} } 
+\] From this we immediatelly see that there is no critical velocity without interaction.\\
+We now look at the condensate fraction $n_0$ (ie. the fraction of particles in the condensate), we now that for our approximation to be valid we need $N_0 \gg N - N_0 = N_n$. We get:
+\begin{align*}
+  n_0 &= n - \underbrace{\frac{1}{V} \sum_{k \neq 0}^{} \left< \hat{a}^\dagger_k \hat{a}_k \right>  }_{n_n}   \\
+  \left< \hat{a}^\dagger_k \hat{a}_k \right> &= \left< \left( \hat{\gamma}^\dagger_k u_k^{*} - \hat{\gamma}_{-k} v_k^{*} \right) \left( \hat{\gamma}_k u_k - \hat{\gamma}^\dagger_{-k} v_k \right)  \right>  \\
+                                             &= \abs{u_k} ^2 \left< \hat{\gamma}^\dagger_k \hat{\gamma}_k \right> + \abs{v_k} ^2 \left< \hat{\gamma}_{-k} \hat{\gamma}^\dagger_{-k}  \right> - u_k^{*} v_k \underbrace{\left< \hat{\gamma}^\dagger_k \hat{\gamma}^\dagger_{-k}  \right> }_{=0} -\underbrace{  u_kv_k^{*} \left< \hat{\gamma}_{-k} \hat{\gamma}_k \right>}_{=0}   \\
+  \left< \hat{\gamma}^\dagger_k \hat{\gamma}_k \right> &= \frac{1}{e^{\beta E_k} - 1}  \\
+  \left< \hat{\gamma}_{-k} \hat{\gamma}^\dagger_{-k}  \right> &= 1+ \left< \hat{\gamma}^\dagger_k \hat{\gamma}_{-k}  \right>  \\
+  &= 1 + \frac{1}{e^{\beta E_k} -1}  \\
+  \implies n_k &= \left< \hat{a}^\dagger_k \hat{a}_k \right> \\
+  &= \left( \abs{u_k} ^2 + \abs{v_k} ^2 \right) \frac{1}{e^{\beta E_k} -1} + \abs{v_k} ^2 \\
+  &= \frac{1 + \chi_k^2}{1 - \chi_k^2} \frac{1}{e^{\beta E_k} -1} + \frac{\chi_k^2}{1 - \chi_k^2}  \\
+  \lim_{T \to  0} \frac{1}{e^{\beta E_k} -1}  &= 0 \\
+  \implies \left< \hat{a}^\dagger_k \hat{a}_k \right> |_{T = 0} &= \frac{\chi_k^2}{1 - \chi_k^2} \\
+  &= \begin{cases}
+    \frac{\sqrt{mUn_0} }{2 \hbar k}  & \epsilon_k \ll Un_0 \\
+    \frac{\left( mUn_0 \right) ^2}{4 \left( \hbar k \right) ^{4} }  & \epsilon_k \gg U n_0 \\
+  \end{cases}
+\end{align*}
+Which now allows us to write for $n_0$ at $T = 0$:
+\begin{align*}
+  n_0 &= n - \frac{1}{V} \sum_{k \neq 0}^{} \frac{\chi_k^2}{1- \chi_k^2}   \\
+  &= n - \int_{}^{} \frac{d^3k}{\left( 2\pi \right) ^3 } \frac{\chi_k^2}{1- \chi_k^2}   \\
+  &= n - \frac{1}{3 \pi^2} \left( \frac{Un_0 m}{\hbar^2}  \right)^{\frac{3}{2} } 
+\end{align*}
+Even at $T=0$ not all particles are in the condensate. Our approximation is therefore only valid for weak interactions or small desities. What is now a sufficiently weak interaction?\\
+We compare the kinetic and interaction energies to each other. 
+\begin{align*}
+  \epsilon_{k'} = U n_0 &= \frac{\hbar^2 k'^2}{2m}  \\
+  k' \xi &= 1 \\
+\end{align*}
+Which now defines us a lengthscale $\xi$ as \[
+\xi^2 = \frac{\hbar^2}{2m Un_0} 
+\] 
+Which now gives us 
+\begin{align*}
+  n_0 =  n - \frac{1}{2 \pi^2 \xi^3} &\gg n - n_0 \approx n \\
+  n &\gg \frac{1}{3\pi^2 \xi^3} \\
+  \implies n \xi^3 &\gg 1
+\end{align*}
+For $a$ the average distance between the bosens we can write
+\begin{align*}
+  n &=  \frac{1}{a^3}  \\
+  \implies \frac{\xi}{a} &\gg 1
+\end{align*}
+\paragraph{1D Bose Gas with interaction}
+We take a brief excursion into the case of a 1d Bose gas and we find
+\begin{align*}
+  n_0 &= n - \underbrace{ \int_{0}^{\infty} \frac{dk}{2\pi} \frac{\chi_k^2}{1 - \chi_k^2} }_{ - \infty} 
+\end{align*}
+We find a so called infrored divergence for $k \to 0$. This means that in $1$ D Bose systems there cannot be any superfluidity.
+\paragraph{Thermodynamics}
+We now consider the thermodynamics of the system. We start with the internal Energy of the superfluid
+\begin{align*}
+  U_\text{SF} &= \left< \mathcal{H}' \right>  \\
+  &= E_0 - \mu N_0 + \sum_{k \neq 0}^{} E_k \left< \hat{\gamma}^\dagger_k \hat{\gamma}_k \right>   \\
+  &= E_0 - \mu N_0 + \sum_{k \neq 0}^{} \frac{E_k}{e^{\beta E_k} - 1} \\
+  \text{For Low Temperatures: } T \ll 1 \implies &= E_0 - \mu N_0 + N \frac{\pi^2}{30 n} \left( \frac{m}{U n_0 \hbar^2}  \right)^{\frac{3}{2} } \left( k_B T \right) ^{4}
+\end{align*}
+This then gives us the heat capacity 
+\begin{align*}
+  C_\text{SF} &= \frac{dU_\text{SF} }{dT}  \\
+  &= N \frac{2\pi^2 k_B}{15 n} \left( \frac{m}{U n_0 \hbar^2}  \right) ^{\frac{3}{2} } \left( k_B T \right) ^3 \propto T^3 
+\end{align*}
+Which is different from the ideal bose gas where we found $C \propto T^{\frac{3}{2} } $. The difference is due to the existance of collective modes in the interacting (real) Bose gas, ie the sound or phonon modes with linear dispersion $E_k = c_s \hbar k$.
+\subsection{Gross-Pitaevskii Equation}
+We now treat Bosons in real space, ie in terms of field operators 
+\begin{align*}
+  \mathcal{H} &= \int_{}^{}  d^3r \left[ \frac{\hbar^2}{2m} \left( \vec{\nabla} \hat{\Psi}^\dagger\left( \vec{r} \right) \cdot \left( \vec{\nabla } \hat{\Psi}\left(\vec{r} \right)  \right)  \right) + \left( V\left( \vec{r} \right) - \mu \right) \hat{\Psi}^\dagger\left( \vec{r} \right) \hat{\Psi}\left( \vec{r} \right)  \right] \\
+              &+ \frac{1}{2} \int_{0}^{} d^3r d^3r' \hat{\Psi}^\dagger\left( \vec{r} \right) \hat{\Psi}^\dagger\left( \vec{r}' \right) \hat{\Psi}\left( \vec{r}' \right) \hat{\Psi}\left( \vec{r} \right)  \\
+  \left[ \hat{\Psi}\left( \vec{r} \right) , \hat{\Psi}^\dagger\left( \vec{r}' \right)  \right] &= \delta\left( \vec{r} - \vec{r}' \right)  
+\end{align*}
+We consider the equations of motion and write: \[
+i\hbar \frac{\partial }{\partial t} \hat{\Psi}\left( \vec{r},t \right) = \left[ \hat{\Psi}\left( \vec{r},t \right) , \mathcal{H} \right] = \left[ - \frac{\hbar^2 \vec{\nabla } ^2}{2m} + V\left( \vec{r} \right) - \mu + U \hat{\Psi}^\dagger\left( \vec{r} \right) \hat{\Psi}\left( \vec{r} \right)  \right] \hat{\Psi}\left( \vec{r} \right) 
+\] 
+We again use the Bogolugbov approximation and we write \[
+\hat{\Psi}\left( \vec{r},t \right) = \psi_0\left( \vec{r},t \right) + \delta \hat{\Psi}\left( \vec{r},t \right) 
+\] Where we have $\psi_0\left( \vec{r},t \right) $ a complex valued wave function (no operator!) with: $\abs{\psi_0} \approx \sqrt{n_0} $. We take the approximation of neglecting $\delta \hat{\Psi}$ and we get for the equation of motion: 
+\[
+i\hbar \frac{\partial }{\partial t} \psi_0\left( \vec{r},t \right) = \left[ -\frac{\hbar^2}{2m} \vec{\nabla } ^2+ V\left( \vec{r} \right) - \mu + U \abs{\psi_0\left( \vec{r},t \right)  } ^2 \right] \psi_0\left( \vec{r},t \right) 
+\] This equation is called the Gross-Pitaevskii equation, which is very handy for treating Bose condensates in real space.\\
+We can also derive this equation from an energy funnctional: \[
+E\left[ \psi_0\left( \vec{r},t \right)  \right] = \int_{}^{} d^3r \left[ \frac{\hbar^2}{2m} \abs{\vec{\nabla } \psi_0\left( \vec{r},t \right) } ^2 + \left( V\left( \vec{r} \right) - \mu \right) \abs{\psi_0\left( \vec{r},t \right) } ^2 + \frac{U}{2} \abs{\psi_0\left( \vec{r},t \right) } ^{4}  \right]  
+\] We can then get the GP equation by taking \[
+i\hbar \frac{\partial }{\partial t} \psi_0\left( \vec{r},t \right) = \frac{\delta E}{\delta \psi_0^{*} \left( \vec{r},t \right) } 
+\] 
+We look at the static, uniform, situation, with $V\left( \vec{r} \right) = 0$, given as
+\begin{align*}
+  \frac{\partial }{\partial t} \psi_0\left( \vec{r},t \right) &= 0 \\
+  -\mu \psi_0 + U \abs{\psi_0} ^2 \psi_0 &= 0 \\
+  \implies \abs{\psi_0} ^2 &= \frac{\mu}{U} = n_0\\
+  \implies \mu &= Un_0
+\end{align*}
+\paragraph{Spacial Variations:} We look at the spacial variation in the system and introduce a characteristic length scale, or a so called healing length. We again consider a static case and write 
+\begin{align*}
+  \psi_0\left( \vec{r} \right) &= \underbrace{\sqrt{n_0} }_{\text{uniform case}} + \underbrace{\eta\left( \vec{r} \right) }_{\text{perturbation}} 
+.\end{align*} 
+With $\abs{\eta} ^2 \ll n_0$. We lineraize the GP-eqation in $\eta\left( \vec{r} \right) $ and get
+\begin{align*}
+  -\frac{\hbar^2}{2m} \vec{\nabla } ^2 \eta\left( \vec{r} \right) + 2 Un_0 \eta\left( \vec{r} \right) &= -V\left( \vec{r} \right) \left( \sqrt{n_0} + \eta\left( \vec{r} \right)  \right)  \\
+  \text{Point defect:} & V\left( \vec{r} \right) = V_0 \delta\left( \vec{r} \right)  \\
+  \implies \eta\left( \vec{r} \right) &= \eta_0 \frac{e^{-\frac{r}{\sqrt{2} \xi} } }{r}  \\
+  n_0 &= - \frac{m V_0 \sqrt{n_0} }{2 \pi \hbar^2}  \\
+  \xi^2 &= \frac{\hbar^2}{2m Un_0} 
+\end{align*}
+Where we have found the same $\xi$ as in the previous subsection. This result is only valid for $r > \xi$.
+\paragraph{Thomas-Formi approximation}
+We assume a slowly varying $V\left( r \right) $, ie the length scale of variation is $\gg \xi$. In this case we can ignore the first term of the GP-equation (the gradient term): 
+\begin{align*}
+  \psi_0\left( \vec{r} \right) &= \left( \frac{\mu_0 - V\left( \vec{r} \right) }{U}  \right) ^{\frac{1}{2} } 
+\end{align*}
+We, as an example, consider the potential trap of harmonic form $V\left( x \right) \propto x^2$ - see graph in the lecture materials. \\
+\paragraph{Continuity equation and current density}
+Simmilarly to the usual treatment of the Schroedinger equation we multiply the GP-equation and multiply with $\psi_0^{*} $. 
+\begin{align*}
+  \psi_0^{*} \text{GP} + \left( \psi_0^{*} \text{GP} \right) ^{*} \\
+  i\hbar \psi_0^{*} \frac{\partial }{\partial t} \psi_0 &= -\frac{\hbar^2}{2m} \psi_0^{*} \vec{\nabla } ^2 \psi_0 + \left( V - \mu \right) \abs{\psi_0} ^2 + U \abs{\psi_0} ^{4}  \\
+  \implies \frac{\partial }{\partial t} \abs{\psi_0} ^2 &=  - \frac{\hbar^2}{2m} \left[ \psi_0^{*} \vec{\nabla } ^2 \psi_0 - \psi_0 \vec{\nabla } ^2 \psi_0^{*}  \right]  \\
+  &= - \vec{\nabla } \cdot \frac{\hbar}{2m} \left( \psi_0^{*} \vec{\nabla } \psi_0 - \psi_0 \vec{\nabla } \psi_0^{*}  \right)  
+\end{align*}
+This then can be written in form of a continuity equation \[
+\frac{\partial }{\partial t} \rho\left( \vec{r},t \right) + \vec{\nabla}\cdot  \vec{j}\left( \vec{r},t \right) =0
+\] 
+Where we have the density and current of the superfluid given as
+\begin{align*}
+  \rho\left( \vec{r},t \right) &= \abs{\psi_0\left( \vec{r},t \right) } ^2 \\
+  \vec{j}\left( \vec{r},t \right) &= \frac{\hbar}{2m} \left( \psi_0^{*} \vec{\nabla} \psi_0 - \psi_0 \vec{\nabla } \psi_0^{*}  \right) 
+\end{align*}
+We now consider the case where $V\left( \vec{r} \right) = 0$ meaning $\mu = U n_0$. We now make the approximation that we have a fixed amplitude but varying phase
+\begin{align*}
+  \psi_0\left( \vec{r},t \right) &= \sqrt{n_0} e^{i\phi\left( \vec{r} \right) }  \\
+  \implies \vec{j}\left( \vec{r} \right) &= \frac{\hbar}{m} n_0 \vec{\nabla } \phi\left( \vec{r} \right)  \\
+  &= n_0 \vec{v}_s\left( \vec{r} \right) 
+\end{align*}
+The phase gradient leads to a superfluid velocity $\vec{v}_s$ which is given as \[
+\vec{v}_s\left( \vec{r} \right) = \frac{\hbar}{m} \vec{\nabla } \phi\left( \vec{r} \right) 
+\] 
+We insert this result into the energy functional above which then gives us an energy depending on $\vec{v}_s$ as \[
+  E\left[ \psi_0\left( \vec{r} \right)  \right] = E\left( \vec{v}_s \right) = V \left( \underbrace{n_0 \frac{m}{2} \vec{v}_s^2}_{\text{kinetic energy}} - \underbrace{\frac{Un_0^2}{2} }_{\text{condensation energy}}  \right) 
+\] 
+The critical current is then given as
+\begin{align*}
+  E\left( v_c \right) &= 0 \\
+  \implies v_c &= \sqrt{\frac{Un_0}{m} } = c_s
+\end{align*}
+Which is the same result as before.\\
+\paragraph{Frictionless flow and quantized vortices}
+A key property of $\psi_0\left( \vec{r} \right) $ is that is a complex wave-function defined every where in space, but it has to be single valued, in particular this is also true in multiply connected systems (eg. a torus). We consider a closed path through the system and have \[
+\psi_0\left( \vec{r}_\text{start}  \right) \to \psi_0\left( \vec{r}_\text{end}  \right) = \psi_0\left( \vec{r}_\text{start}  \right) e^{i_2\pi n} 
+\] With $n$ an integer.\\
+We now consider the case of a torus shaped tube through which the superfluid flows with velocity $\vec{v}_S$. We get the current as
+\begin{align*}
+  \vec{j} &= n_0 \vec{v}_S\\
+  \oint_{}^{} \vec{v}_S \vec{ds} &= \frac{\hbar}{m} \oint_{}^{} \vec{\nabla} \phi \cdot \vec{ds}  \\  
+  \text{using: } \phi\left( \vec{r}_\text{end}  \right) &= \phi\left( \vec{r}_\text{start}  \right) + 2\pi n_\phi \\
+  \implies \frac{\hbar}{m} \oint_{}^{} \vec{\nabla} \phi \cdot \vec{ds} &= \frac{\hbar}{m} \left( \phi\left( \vec{r}_\text{end}  \right) - \phi\left( \vec{r}_\text{start}  \right)  \right)  \\ 
+  \implies \underbrace{L}_{\text{length of path}} v_S &= \frac{\hbar}{m} 2\pi n_\phi
+\end{align*}
+We therefore only have discrete states of flow, ie dissipation happens only in jumps. Such a situation occurs when we have a vortex in the fluid.\\
+In a superfluid we automatically have a multiply connected system through the singularity in $\psi_0$. We consider a line through our system on which $\psi_0 = 0$, we consider an environment of size $\xi$ (healing length $\xi^2 = \frac{\hbar^2}{2mUn_0} $) around this line. We write
+\begin{align*}
+  \psi_0\left( r_\perp, \Theta, z \right) &= \sqrt{n_0} f\left( r_\perp \right) e^{i \Theta n_\phi} \\
+  f\left( r_\perp = 0 \right) &= 0 \\
+  f\left( r_\perp \right) &\propto r_\perp^{n_\phi}  \text{  for } r_\perp \ll \xi
+\end{align*}
+In order to be single-valued $n_\phi$ needs to be an integer, meaning that the vortex flow is quantized, ie. we have a circular flow around the singularity $\psi_0 = 0$.\\
+This is a so called topological defect, it can neither decay nor be spontaneously created, but if we have many vorticies we can have a so called total vorticity \[
+n_\psi^{\left( \text{tot} \right) } = \sum_{i}^{} n_\phi^{\left( i \right) }  
+\] which is conserved. What we can therefore do is create vortex/antivortex pairs, in some ways this is like a particle/anti-particle creation.\\
+We can now consider the energy of a vortex. We consider a cylinder with radius $R$ and a vortex with quantum number $n_\phi$ in the center.
+\begin{align*}
+  E_\text{vortex} &= \underbrace{\int_{r_\perp < \xi}^{} E\left[ \Psi \right] d^2r  }_{E_\text{core} = \frac{Un_0^2}{2} \pi \xi^2} + \underbrace{\int_{r_\perp > \xi}^{} E\left[ \Psi \right] d^2r }_{E_\text{flow} = \int_{\xi}^{R} dr_\perp r_\perp \int_{0}^{2\pi} \frac{\hbar^2}{2m} \frac{1}{r_\perp^2} \abs{\frac{\partial \Psi}{\partial \Theta} }^2 d\Theta  }  \\
+  &= \frac{Un_0^2}{2} \pi \xi^2 + \int_{\xi}^{R} dr_\perp \frac{1}{r_\perp} \frac{\hbar^2 n_0}{2m} n_\phi^2 2 \pi  \\
+  \frac{E_\text{vortex} }{\text{unit length}} &= \frac{Un_0^2}{2} \pi \xi^2 + \frac{\hbar^2 n_0}{2m} n_\phi^2 2\pi \log\left( \frac{R}{\xi}  \right)  
+\end{align*}
+We now have the problem that in an indefititely big vessel $R \to \infty$ the vortex energy diverges. Another interesting thing to note is that the energy is proportional to $n_\phi^2$, meaning that the cheapest vortex has $n_\phi = \pm 1$ and the next cheapest vortex with $n_\phi = 2$ has four the the energy of the cheapest one. \[
+E_\text{v} \left( n_\phi = 2 \right) = 2 \left( E_\text{v} \left( n_\phi^{\left( 1 \right) } = 1\right)+ E_\text{v} \left( n_\phi^{\left( 2 \right) } = 1 \right)  \right) 
+\] 
+\section{Berezinskii-Kosterlitz-Thouless Transition}
+We consider a $2 $D superfluid (for example a He film on a substrate). In such a system we observe a new type of phase and a corresponding phase transition (BKT transition).
+\subsection{Correlation function}
+We consider the single particle corrolation function as
+\begin{align*}
+  g\left( \vec{R} \right) &= \left< \hat{\Psi}^\dagger\left( \vec{r} \right) \hat{\Psi}\left( \vec{r}+ \vec{R} \right)   \right>  \\
+  &= \left< \hat{\Psi}^\dagger\left( 0 \right) \hat{\Psi}\left( \vec{R} \right)  \right>  
+\end{align*}
+For $\vec{R}$ in the $x-y$-plane (2D).  we consider the case where $T > T_C$: $n_0 = 0$, $\mu < 0$, $\lambda = \frac{h}{\sqrt{2\pi m k_B T} } $:
+\begin{align*}
+  g\left( \vec{R} \right) &= \int_{}^{} \frac{d^2k}{\left( 2\pi \right)^2} e^{i \vec{k}\cdot \vec{R}} n_{\vec{k}}   \\
+  &= \int_{}^{} \frac{d^2k}{\left( 2\pi \right) ^2} \frac{e^{i \vec{k}\cdot \vec{R}} }{e^{\beta\left( \epsilon_k - \mu \right) } - 1} 
+\end{align*}
+With $\epsilon_k = \frac{\hbar^2 k^2}{2m} $, we assume that interaction is not important and we consider large $\vec{R}$, meaning small  $\vec{k}$ which mean that $e^{\beta \left( \epsilon_k - m \right) } \approx \vec{k}^2 + k_0^2$ : 
+\begin{align*}
+  g\left( \vec{R} \right) &\approx \frac{2m k_B T}{\hbar^2} \int_{}^{} \frac{d^2k}{\left( 2\pi \right) ^2} \frac{e^{i \vec{k}\cdot \vec{R}} }{k^2 + k_0^2} \\
+  &= \frac{2}{\lambda^2} K_0\left( Rk_0 \right)  \\
+  &\approx \frac{1}{\lambda^2} \sqrt{\frac{2\pi}{k_0 R} } e^{-k_0 R} \propto \frac{e^{-k_0R} }{\sqrt{k_0 R} } 
+\end{align*}
+Where $K_0\left( Rk_0 \right) $ is a modified Besselfunction (also called the MacDonalds function).
+Which means this is short ranged for 2D systems, and it decays on a length-scale $k_0^{-1} $.\\
+We now consider the super-fluid phase: $T < T_C$ :\\
+We again consider the Energy functional 
+\begin{align*}
+  E &=  \int_{}^{} d^2r \left[ \frac{\hbar^2}{2m} \abs{\vec{\nabla} \psi_0}^2 + \left( V- \mu \right) \abs{\psi_0} ^2 + \frac{U}{2} \abs{\psi_0} ^{4}  \right]   
+\end{align*}
+We consider the case where we're well into the superfluid phase $T \ll T_C$, $V = 0$, $\mu = n_0 U$ , $\psi_0\left( r \right) = \underbrace{\sqrt{n_0} }_{\text{const}} e^{i\phi\left( \vec{r} \right) } $. This then yields
+\begin{align*}
+  E &= \int_{}^{} d^2r \left[ \frac{\hbar^2}{2m} n_0 \abs{\vec{\nabla} \phi}^2 - \frac{Un_0^2}{2}  \right]   \\
+  &= Un_0^2 \int_{}^{} d^2r \left[ \xi^2 \abs{\vec{\nabla} \phi} ^2 - \frac{1}{2}  \right] 
+\end{align*}
+For the following consideration we ignore the $-\frac{1}{2} $ term in the integral. We then fourier transform and get: $\phi\left( \vec{r} \right) = \frac{1}{\sqrt{V} } \sum_{\vec{q}}^{} \phi_{\vec{q}} e^{i \vec{q} \cdot \vec{r}}  $. We get
+\begin{align*}
+  E &= Un_0^2 \left[ \sum_{\vec{q}}^{} \xi^2 q^2 \phi_{\vec{q}} \phi_{-\vec{q}}  \right]  
+\end{align*}
+This is now the energy due to phase fluctuations. We now express the corrolation function as
+\begin{align*}
+  g\left( \vec{R} \right) &= \left< \hat{\Psi}^\dagger\left( 0 \right) \hat{\Psi}\left( \vec{R} \right)  \right>  \\
+  &= \left< \psi_0^{*}\left( 0 \right) \psi_0\left( \vec{R} \right)  \right>  \\
+  &= n_0 \left< e^{-i \left( \phi\left( 0 \right) - \phi\left( R \right)  \right) }  \right>  \\
+  \phi_{\vec{q}} &= \phi_{1 \vec{q}} + i \phi_{2 \vec{q}}  \\
+  \implies E &= Un_0^2 \sum_{\vec{q}}^{} q^2 \left( \phi_{1q}^2 + \phi_{2q}^2 \right)   
+\end{align*}
+
+This then allows us to write a canonical partition function as
+\begin{align*}
+  Z &= \prod_{q}^{} \int_{-\infty}^{\infty} d\phi_{1q} d\phi_{2q} e^{-\beta U n_0^2 \xi^2 q^2 \left( \phi_{1q} ^2 + \phi_{2q} ^2 \right) }    \\
+  &= \prod_{\vec{q}}^{} \left( \frac{\pi k_B T}{U n_0^2 \xi^2 q^2}  \right) 
+\end{align*}
+We now get:
+\begin{align*}
+  \phi\left( 0 \right) - \phi\left( R \right) &= \frac{1}{\sqrt{V} } \sum_{q}^{} \phi_q \left( 1- e^{i \vec{q} \cdot  \vec{R}}  \right)  \\
+  &= \frac{1}{\sqrt{V} } \sum_{q}^{} \phi_q \left( 1 - \cos\left( \vec{q} \cdot  \vec{R} \right)  \right)  \\
+  \implies g\left( \vec{R} \right) &= n_0 \left< e^{-i \left( \phi\left( 0 \right) - \phi\left( R \right)  \right) }  \right>  \\
+&= \frac{1}{Z} \prod_{q}^{} \int_{}^{} d\phi_{1q} d\phi_{2q}  \exp\left( \frac{i}{\sqrt{V} } \left( \phi_{1q} + \phi_{2q}  \right) \left( 1 - \cos\left( \vec{q} \cdot \vec{R} \right)  \right) - \beta U n_0^2 \xi^2 q^2 \left( \phi_{1q}^2 + \phi_{2q}^2 \right)  \right)    \\
+&= \frac{1}{Z} \prod_{q}^{} \left( \frac{\pi k_B T}{U n_0^2 \xi^2 q^2}  \right) \exp\left( -\frac{k_B T}{U n_0^2 \xi^2} \frac{1}{V} \frac{1 - \cos\left( \vec{q}^2 \vec{R} \right) }{q^2}   \right)   \\
+&= \prod_{q}^{}\exp\left( -\frac{k_B T}{U n_0^2 \xi^2} \frac{1}{V} \frac{1 - \cos\left( \vec{q}^2 \vec{R} \right) }{q^2}   \right)   \\
+&= \exp\left( -\frac{k_B T}{U n_0^2 \xi^2} \frac{1}{V} \sum_{q}^{} \frac{1 - \cos\left( \vec{q}^2 \vec{R} \right) }{q^2}   \right)   
+\end{align*}
+We now convert the sum in the exponent ot an integral
+\begin{align*}
+  \sum_{q}^{} \frac{1 - \cos\left( \vec{q}\cdot \vec{R} \right) }{q^2} &= \int_{}^{} \frac{d^2q}{\left( 2\pi \right) ^2} \frac{1-\cos\left( \vec{q}\cdot \vec{R} \right) }{q^2}   \\ 
+  &= \frac{1}{\left( 2\pi^2 \right) ^2} \int_{}^{} dq q \int_{0}^{2\pi} d\Theta \frac{1 - \cos\left( qR \cos\left( \Theta \right)  \right) }{q^2}    \\
+  &= \frac{1}{2\pi} \int_{0}^{\frac{\pi}{r_0} } dq \frac{1- J_0\left( qR \right) }{q}   \\
+  &= \frac{1}{2\pi} \log\left( \frac{\pi R}{r_0}  \right)  
+\end{align*}
+
+With $r_0 = \frac{1}{n^{\frac{2}{3} } } $, and $J_0\left( x \right) $ a bessel funciton. This all then leads to
+\begin{align*}
+  g\left( \vec{R} \right) &= \exp\left( -\frac{k_B T}{Un_0^2 \xi^2 2\pi} \log\left( \frac{\pi R}{r_0}  \right)  \right)  \\
+  &= \exp\left( \eta\left( T \right) \log\left( \frac{\pi R}{r_0}  \right)  \right)  \\
+  &= \left( \frac{r_0}{\pi R}  \right) ^{\eta\left( T \right) }  \\
+  &\to 0 \text{ for } R \to \infty
+\end{align*}
+In contrast to the 3D case here the corrolation still goes to $0$ for $T<T_C$, but only slowly. We don't have real long range order as before.
+We therefore find: \[
+g\left( \vec{R} \right) = \left< \hat{\Psi}^\dagger\left( 0 \right) \hat{\Psi}\left( \vec{R} \right)  \right> \approx
+\begin{cases}
+  \frac{1}{\lambda^2} \sqrt{\frac{2\pi}{k_0 R} } e^{-k_0 R}  & \text{high temperature} \\
+  \left( \frac{\pi R}{r_0}  \right)^{-\eta\left( T \right) }  & \text{low temperature} \\
+\end{cases}
+\] 
+The two different behaviours hint at a phase transition, and indeed we find one.
+\subsection{Topological excitations and BKT Transition}
+We consider the topological excitation in form of a vortex where the wave function has the form of \[
+\psi_0\left( \vec{r} \right) = \sqrt{n_0} f\left( r \right) e^{i \Theta n_\phi} 
+\] where $f\left( r \right) \to 0 $ for $r \to 0$. And where the total vorticity $n_\phi^{total} = \sum_{i}^{} n_\phi^{\left( i \right) }  $ is conserved. This is analogous to the domain walls in a 1D system. \\
+We now want to make a conceptual argument for the existance of a phase transition based on these topological excitations. We postulate that there is a transition at $T > 0$. We consider a system with a single vortex of vorticity $n_\phi = 1$ from earlier we know that the energy of this vortex is given by \[
+E_\text{vortex} &= \frac{\hbar^2}{2m} n_0 2 \pi \log\left( \frac{R}{\xi}  \right) 
+\] 
+The question is now why should the energy for a vortex be "paid"? It turns out that a vortex produces entropy as \[
+S_\text{vortex} &= k_B \log\left( W \right) 
+\] with $W$ the number of configurations, ie the possible positions for the vortex, we get $W = \left( \frac{R}{\xi} \right) ^2$, which leads to:
+\begin{align*}
+  S_\text{v} &= k_B \log\left( \left( \frac{R}{\xi}  \right) ^2 \right)  \\
+  &= 2 k_B \log\left( \frac{R}{\xi}  \right)  \\
+  \implies \text{Free energy: } F_\text{vortex} &= E_\text{v} - T S_\text{v}  \\
+  &= \left( \frac{\hbar^2 n_0 2\pi}{2m} - 2 k_B T \right) \log\left( \frac{R}{\xi}  \right)  
+\end{align*}
+We can now find a condition for the free energy to vanish to find the point where it becomes beneficial to have vorticies. Interesitingly enough the system size does not matter in this consideration.
+\begin{align*}
+  k_B T_\text{BKT} &=  \frac{\hbar^2 \pi n_0}{2m} 
+\end{align*}
+In the case where $T < T_\text{BKT} $ vorticies are unfavorable, but above they become favorable. \\
+The interpretation of this BKT transition is now that vortex/anti-vortex pairs spontaneously form in the film, at low temperature ($T < T_\text{BKT} $) they immediatelly destroy each other again, at hight temperatures ($T > T_\text{BKT} $) they drift appart. It is these vorticies that destroy superfluidity above $T_\text{BKT} $ by allowing dissipation.\\
+\paragraph{Interaction between vorticies and antivorticies}
+\[
+E_{ij} = - 2 \frac{\hbar^2 n_0}{2m} 2\pi n_\phi^{\left( i \right) } n_\phi^{\left( j \right) } \log\left( \abs{\frac{\vec{r}_i - \vec{r}_j}{\xi} }  \right) 
+\] This holds for $\abs{\vec{r}_i - \vec{r}_j} \gg \xi$.\\
+The derivation of this interaction energy will not be given in detail, it is however given in the lecture materials. It turns out that the situation is analogous to two conducting, current bearing, wires that are being attracted to each other.\\
+We now consider a "gas" of vorticies and consider it's grand cononical partition function: 
+\begin{align*}
+\mathcal{Z}_\text{vortex} &= \underbrace{ \sum_{N = 0}^{\infty}'}_{\text{only even }N} \frac{z^{N} }{\left[ \left( \frac{N}{2}  \right) ! \right] } \sum_{\left\{ n_\phi \right\} }^{} \int_{}^{} d^2r_1 \ldots d^2r_n \exp\left( 2 \beta \frac{\hbar^2 n_0}{2m} 2\pi \sum_{i<j}^{} n_\phi^{\left( i \right)} n_\phi^{\left( j \right) } \log\left( \abs{\frac{\vec{r}_1 - \vec{r}_2}{\xi} }  \right)   \right)     
+\end{align*}
+By construction $n_\phi^{\text{total}} = 0$ , ie. we only consider pairs of vortex/antivortex. We assume that we only have dilute vorticies ie $z \to 0$, ie. vorticies are expensive. We therefore only consider the case for $N = 0 $ or $N = 2$, ie. $n_\phi^{\left( i \right) } = - n_\phi^{\left( j \right) } = 1 $. We now want to study the distance between the vorticies:
+\begin{align*}
+  \left< \abs{\vec{r}_1 - \vec{r}_2}  \right> &\propto \frac{1}{\mathcal{Z}_\text{v} }  \int_{}^{} d^2r_1 d^2r_2 \frac{\abs{\vec{r}_1 - \vec{r}_2}^2}{\xi^2} e^{-2\beta \frac{\hbar^2 n_0}{2m} 2\pi \log\left( \abs{\frac{\vec{r}_1 - \vec{r}_2}{\xi} }  \right) } \\
+  &= \frac{1}{\mathcal{Z}_\text{v} } \int_{}^{} d^2r_1 d^2r_2 \abs{\frac{\vec{r}_1 - \vec{r}_2}{\xi} }^{2- \frac{2\beta \hbar^2 n_0}{m} \pi}  
+\end{align*}
+The partition function is highly dominated by the $N=0$ case $\implies \mathcal{Z}_\text{v} \approx 1$. In that case we can concentrate of the integral.\\
+We rewrite in relative and combined coordinates $\vec{ r} = \vec{r}_1 - \vec{r}_2$ and $\vec{R} = \frac{\vec{r}_1 + \vec{r}_2}{2} $ to
+\begin{align*}
+  \left< \abs{\vec{r}}^2 \right> &\propto \xi^{2 \pi \frac{\beta \hbar^2 n_0}{m} -2} \int_{\xi}^{\infty} dr r\cdot r^{2- \frac{2\pi \hbar n_0}{m} }   \\
+  &= \frac{\xi^2}{4- \frac{2\pi \hbar^2 n_0}{m k_B T} }  \\
+  &= \frac{\xi^2}{4} \left( \frac{T_\text{BKT} }{1} -1 \right)^{-1} 
+\end{align*}
+So what we find is that:
+\begin{align*}
+  T \to  T_\text{BKT}_- &\implies \left< \abs{\vec{r}} ^2 \right> \to \infty
+\end{align*}
+So for $T < T_\text{BKT} $ the vortex/anitvortex pair are bound, while at $T > T_\text{BKT} $ they dissociate.
+We wont derive it here but actually $n_0$ is itself a function of $T$, what is found is that \[
+n_0\left( T \right) = \begin{cases}
+  n_0\left( T_\text{BKT}  \right)  & T < T_\text{BKT}  \\
+  0 & T > T_\text{BKT}  \\
+\end{cases}
+\] 
+Such a transition can also be seen in other systems such as:
+\begin{itemize}
+  \item XY planar magnet
+  \item Melting of two dimensional crystals through defects
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

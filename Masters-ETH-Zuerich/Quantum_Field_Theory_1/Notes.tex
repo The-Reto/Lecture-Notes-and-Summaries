@@ -1,0 +1,2551 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}   
+\usepackage[
+    backend=biber,
+    style=numeric,
+  ]{biblatex}
+\usepackage{physics}
+\usepackage{amssymb}
+\usepackage{slashed}
+\usepackage{mathtools}
+\usepackage[margin=1cm, bottom=2cm]{geometry}
+\usepackage{titlesec}
+
+\addbibresource{sources.bib}
+
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\chapter}[frame]{\bfseries\LARGE}{\hsp\thechapter\hsp}{10pt}{\centering}
+
+\title{Quantum Field Theory I\\
+\large Notes}
+\author{The\_Reto}
+\date{HS 2021}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{Roman}
+
+\addcontentsline{toc}{chapter}{Introduction}
+\chapter*{Introduction}
+\addcontentsline{toc}{section}{On This Document}
+\section*{On this document}
+This document are my personal notes on the lecture \emph{Lecture-No. - Quantum Field Theory I} at ETH Zürich in the fall semester 2021. 
+I type part of this document during the lectures (while the Professor speaks), and another part as a write up when I personally read the associated literature. All of this happens with minimal editing - there are \emph{A LOT} of spelling mistakes, typos and errors of various severity.
+\addcontentsline{toc}{section}{Information About This Course}
+\section*{Information about this Course}
+The course is taught by Professor Graf.\\
+The lecture is hel in person as well as a remote lecture. Lecture Notes and the exercises are published on moodle.
+\subsection*{Exercises}
+Exercises start in week two
+\addcontentsline{toc}{section}{Introduction - Why QFT?}
+\section*{Exercises}
+The exercises are posted on moodle on mondays. It's heavily recommended to solve them before going to the exercise classes. The exam is, in part, based on the exericses. 
+\addcontentsline{toc}{section}{Introduction - Why QFT?}
+\section*{Introduction - Why QFT?}
+The goal of this lecture is to describe particles and interactions. 
+\begin{description}
+  \item[Reqirements] on a theory we want to find:
+    \begin{enumerate}
+      \item Relativistically covariant
+      \item Quantum Mechanical
+      \item describe interactions between different particles
+    \end{enumerate}
+  Picking just two of these requirements is relatively easy: Electrodynamics is relativistically covariant and describes interactions but is not quantum mechanical, regular quantum mechanics describes the world quantum mechanically and allows interactions but is not relativistic, in this lecture we will see a theory
+  \item[Answer] \emph{QFT!} 
+    \begin{enumerate}
+      \item Locality principle: \\
+        causality travels from one point to the direct neigbouring point in time and space. The way to ensure sech a locality principle is to describe an underlying field instead of particles.
+      \item By imposing quantum mechanical relations on the field particles emerge automatically. Particles that emerge that way may or may not be what we thought particles are.
+      \item If you consider interacting fields we can automatically describe interacting particles. We will consider two interacting field theories; QED and $\phi^4$-theory.\\
+        We will describe these interacting fieldtheories with Feynman diagrams.\\
+        We will then see that divergencies appear frem these computations and will subsequentnly learn to renormalize the theories to get rid of these divergencies.
+    \end{enumerate}
+\end{description}
+\addcontentsline{toc}{chapter}{Table Of Contents}
+\tableofcontents
+
+\newpage
+\pagenumbering{arabic}
+\chapter{Relativistic quantum mechanics}
+We now want to find a relativistically covariant description of quantum mechanics (in essence we want to unite the first two requirements from section 0.1).
+\section{Symmetries of Spacetime}
+Events happen at coordinates in inertal reference frames (IF): \[
+x = \begin{bmatrix} x^0 \\ x^1 \\ x^2 \\ x^3 \end{bmatrix} = \begin{bmatrix} ct \\ \vec{x} \end{bmatrix} 
+\] 
+In addition we have a metric on this spacetime \[
+  x\cdot y = x^T g y = g_{\mu\nu} x^\mu y^\nu
+\] with $g$ given by \[
+g_{\mu\nu} = \begin{bmatrix} 1 & 0 \\ 0 & -\mathbb{I} \end{bmatrix} 
+\] 
+We also know the "raising" and "lowering" of indecies \[
+  x_\mu = g_{\mu\nu} x^\nu
+\] 
+We are also already familiar with Lorenz transformations (LT) that occure when changing inertial frames \[
+  x' = \Lambda x + a \text{ with } \Lambda^T g \Lambda = g \text{, } a \in \mathbb{R}^4
+\] 
+The lorenz trasformations preserve the metric on the space time and thus it's symmetries. We call the set of all possible $\Lambda$ matricies the Lorenzgroup \[
+  L = \{ \Lambda \}
+\] The Lorenz group has 4 connected componets. One of them is denoted \[
+L_+^\uparrow = \{\Lambda \in L | \Lambda^0_0 \ge 1, det\left( \Lambda  \right) = +1\}
+\] This connected componet is a subgroup of all lorenztransformations. The three remaining components are optained by multiplication of this first group with certain operations: \[
+P = \begin{bmatrix} 1 & 0 \\ 0 & -\mathbb{I}_3 \end{bmatrix} , T = \begin{bmatrix} -1 & 0 \\ 0 & \mathbb{I}_3 \end{bmatrix} , PT = -\mathbb{I}_4 
+\] 
+In the following we only consider $ \left( \Lambda, a \right) \in L_+^\uparrow \cross \mathbb{R}^4 $ as transformations between IF's, we call this group the Poincare group $P$. In this notation we got a composition law: \[
+  \left( \Lambda_1, a_1 \right) \left( \Lambda_2, a_2 \right) = \left( \Lambda_1\Lambda_2, a_1+\Lambda_1 a_2 \right) 
+\] and the inverse law \[
+\left( \Lambda, a \right) ^{-1} = \left( \Lambda^{-1}, -\Lambda^{-1}a \right) 
+\] 
+We now consider a family of LT's \[
+  x_1 = \Lambda(\lambda) x + a(\lambda) \text{    } \lambda \in \mathbb{R}
+\] \[
+\left( \Lambda(0), a(0) \right) = \left( 1,0 \right) 
+\] Such a family defines an ininitesimal LT \[
+x' = \frac{d}{d\lambda}|_{\lambda=0} \left( \Lambda(\lambda) + a(\lambda) \right) = \epsilon x + \tau
+\] \[
+x' = x + \lambda\left( \epsilon x + tau \right) + O(\lambda^2)
+\] 
+These inifitessimal elements are no longer part of the poincare group, but are elements of the Lie Algebra of $P$, ie. $Lie(P)$.\\
+There are certain constraints on what values the $\tau$ or $\epsilon$ can take:\[
+  \tau^\mu \in \mathbb{R}
+\] \[
+\epsilon_{\mu\nu} + \epsilon_{\nu\mu} = 0
+\] 
+As for any Lie group, here $Lie(P)$, is closed with respect to some operations.
+\begin{enumerate}
+  \item it's a real vectorspace
+  \item it's closed with respect to lie brakets
+\end{enumerate}
+Given an element of $P$ \[
+  \text{Ad}_{\left( \Lambda, a \right) }\text{:} Lie(P) \to Lie(P)
+\] \[
+\left( e\psilon, \tau \right) \to \text{Ad}_{\left( \Lambda, a \right) } \left( \epsilon, \tau \right) 
+\] 
+Lie Brackets \[
+  [\left( \epsilon_1, \tau_1 \right) , \left( \epsilon_2, \tau_2 \right)] := \frac{\partial }{\partial\lambda_1 } \frac{\partial }{\partial \lambda_2 } |_{\lambda_1 = \lambda_2 = 0} \left( \Lambda_1, a_1 \right) \left( \Lambda_2, a_2 \right) \left( \Lambda_1, a_1 \right) ^{-1} \left( \Lambda_2,a_2 \right) ^{-1} \in Lie(P) 
+\] 
+Important Formulae:
+\begin{itemize}
+  \item $Ad_{\left( \Lambda, a \right) } \left( \epsilon, \tau \right) = ( \Lambda \epsilon \Lambda^{-1}, \Lambda\tau - \Lambda \epsilon \Lambda^{-1}) $ 
+  \item $[\left( \epislon_1, \tau_1 \right), \left( \epsilon_2, \tau_2 \right) ] = \left( [\epsilon_1, \pesilon_2], \epsilon_1 \tau_2 - \epsilon_2 \tau_1 \right)   $
+\end{itemize}
+To find the generators of $Lie(P)$ : $M^{\mu\nu}, P^\sigma$ we expand $\left( \epsilon, \tau \right) = \left( \epsilon, 0 \right) + \left( 0, \tau \right)   $ with $\epsilon = \epsilon_{\mu\nu} M^{\mu\nu}$ with $M^{\mu\nu} + M^{\nu\mu} = 0$ we get \[
+  M^{0,1} = \begin{bmatrix}  0 & 1 & 0 & 0 \\ -1 & 0 &0 &0 \\ 0& 0& 0&0 \\ 0&0&0&0 \end{bmatrix} 
+  , M^{1,2} = \begin{bmatrix} 0&0&0&0 \\ 0&0&1&0 \\ 0&-1&0&0 \\ 0&0&0&0 \end{bmatrix} 
+\]   \[
+P^0 = \begin{bmatrix} 1\\0\\0\\0 \end{bmatrix} 
+\] 
+We get the commutators: \[
+  [M^{\mu\nu}, M^{\rho, \sigma}] = \left( g^{\nu \rho} M^{\mu \sigma} - \left( \mu \leftrightarrow \nu \right)  \right) - \left( \rho \leftrightarrow \sigma \right) 
+\] \[
+[M^{\mu\nu}, P^\sigma] = g^{\mu \sigma} P^\mu - \left( \mu \leftrightarrow \nu \right) 
+\] \[
+[P^\mu, P^\nu] = 0
+\] 
+In total we find $10$ generators of the symmetries of spacetime: (in the following $i = 1,2,3$):
+\begin{description}
+  \item[Rotations about the axis $i$:] $J^i = M_{i+1}^{i+2}$ (3 generators)
+  \item[Boosts in direction  $i$:] $K^i = M_0^i$ (3 generators)
+  \item[Spacial translations:]  $P^i$ (3 generators)
+  \item[Temporal translation:]  $P^0$ (1 generator)
+\end{description}
+\section{What is a Particle?}
+Wigner 1939 tried to explain what a particle is, from pure theory. So what's a free elementary particle? A free elementary particle has only kinematic degrees of freedom: these are those dof that result from the relation of the particle to the inertial frame. Wiegner postulates: \emph{The Hilbertspace $\mathcal{H}$ carries an irreducible projective representation $U\left( \Lambda, a \right) $ of the Poincare group $\mathcal{P}$.
+}\\
+
+Remarks on this postulate:
+\begin{description}
+  \item[Representation] $\mathcal{P} \to \{\text{ unitaries in }\} \mathcal{H}$ homomorphically. Each element of the group can be mapped to a unitary.
+  \item[Projective] "up to a phase": It's important to keep in mind that the unitaries are not acting on vectors in the Hilbertspace, but on states. The unitaries correspond to ordinary representations of the universal cover of $\mathcal{P}$. (SO(3) compared to SU(2))
+  \item[Irreducible] the only invariant subspaces in $\mathcal{H}$ that stay invariant under  $U\left( \Lambda, a \right) \forall \Lambda, a$ are the whole hilbert space or the empty group.
+  \item[meaning] $U\left( \Lambda, a \right) $ is a passive transformation of states $\Psi \in \mathcal{H}$ when changing the inertial frame. There is also the active interpretation, switching between the two can offer different perspectives.
+  \item[Formulation] this entire formulation is given in a Heisenberg picture.
+  \item[Elementary] What now makes a particle elementary? It's the word irreducible (no longer as a point particle). An elementary particle is thus a particle whose representation cannot be further reduced.
+\end{description}
+This representation is a one of the poincare group that induces the Lie algebra of infinitessimal Lorenz transformations $\left( \epsilon, \au \right) = \frac{d}{d\lambda} \left( \Lambda, a \right) \text{ at } \lambda = 0 $. We now use this to define our unitaries \[
+  U\left( \epsilon, \tau \right) := \frac{d}{d\lambda} U\left( \Lambda, a \right) \text{ at } \lambda = 0
+\] \[
+\implies U\left( \epsilon, \ta \right)^* + U\left( \epsilon, \tau \right) = 0 
+\] \[
+-i U\left( \epsilon, \tau \right) \text{ is self adjoint}
+\] 
+Thus, with slight abuse of notation \[
+  U\left( P^\mu \right) = \frac{i}{\hbar} P^\mu
+\] \[
+U\left( M^{\mu\nu} \right) = \frac{i}{\hbar} M^{\mu\nu}
+\] 
+If we only consider spacetime translations: \[
+  \to U\left( 1, a \right) = e^{\frac{1}{\hbar} P^\mu a_\mu} = e^{\frac{i}{\hbar} P_\mu a^\mu} = e^{\frac{i}{\hbar} \left( P^0 a^0 - \vec{P}\vec{a} \right) 
+\] 
+conforming with establishod use and sign conventions we find that $P$ is the generator of translations. \[
+  \frac{\partial}{\partial a^\mu } U\left( 1, a \right) = \frac{i}{\hbar} P_\mu U\left( 1, a \right) 
+\] 
+\paragraph{Example:} before continuing we'll consider the example of the familiar Schroedinger Equation \[
+  i\hbar \frac{\partial}{\partial t  } \psi\left( t \right) = H \psi\left( t \right) 
+\] This is a special case of the equation above with $\mu = 0$ and $\psi\left( t \right)  U\left( 1' a \right) \psi_0$ and $a=\left( -ct, 0 \right)$ and $H = c P^0$.
+Interpretation: Whot one observer O sees at time  $t=t_0+\Delta t$ is what O' sees at time  $t=t_0$, if $t'= t - \Delta t$. We can take the point of view that there is an active change of view in which the world changes, or the passive picture at which different observers at different times observe the same, unchanging, state differently.\\
+Let's go back to the analysis of this irreducible representation. \[
+  \mathcal{P} = \Lambda_+^\uparrow \times \mathbb{R}^4
+\] We now consider \[
+\left( 1, a \right) \left( \Lambda, 0 \right) = \left( \Lambda, a \right) = \left( \Lambda, 0 \right) \left( 1, \Lambda^{-1} a \right) 
+\] now we go to the representation \[
+\to e^{\frac{i}{\hbar} P_\mu a^\mu} U\left( \Lambda, a \right) = U\left( \Lambda, a \right)  e^{\frac{i}{\hbar}P_\mu \left( \Lambda^{-1} a \right) ^\mu} = U\left( \Lambda a \right) e^{\frac{i}{\hbar}\left( \Lambda P \right) _\mu a^\mu}
+\] Differentiating both sides yields \[
+P_\mu U\left( \Lambda, 0 \right) = U\left( \Lambda, 0 \right) \left( \Lambda P \right) _\mu = U\left( \Lambda, 0 \right) \Lambda_\mu^\nu P_\nu
+\] \[
+\to U\left( \Lambda, 0 \right)^* P_\mu U\left( \Lambda, 0 \right) = \left( \Lambda P \right) _\mu = \Lambda_\mu^\nu P_\nu
+  \] Which yields the result that $P^\mu$ transforms like a vector under Lorenztransformations.\\
+  We now consider Spacetime translators $U\left( 1, a \right) $ which all commute with each other. This means that the generatorn $P_\mu$ also all commute, which then in turn means that they can be diagonalized jointly. We can therefor eigenvectors $\ket{\psi}$ of all at once \[
+  P^\mu \ket{\psi} = p^\mu \ket{\psi}
+  \] 
+  Let $\mathcal{H}_P$ be the eigenspace of $P$. We now consider our previous point \[
+    U\left( \Lambda, 0 \right) : \mathcal{H}_P \to \mathcal{H}_{\Lambda P}
+  \] Lorenztransformations thus move one eigenspace to another one.
+  We now consider the space  \[
+    V = \{ p \in \mathcal{R}^4 | \mathcal{H}_P \neq \{0\}\}
+  \] which is a lorenz invariant set. \\
+  We now use the property of irreducibility: $V$ is not the union of two such subsets with the same property. \[
+    \implies V = \{ \Lambda p | \Lambda \in L_+^\uparrow \} \text{ for some } p \in \mathbb{R}^4
+  \] 
+We call the set of points reachable via lorenztransformations from a point $p$, $\Lambda p$ the orbit of $p$. How many orbits are there in minkowsky space? There are 6 types of orbits
+\begin{enumerate}
+  \item $V_m^+=\{p | p^2 = m^2c^2, p^0 > 0\}$ (mass shell)
+  \item $V_m^-=\{ p | p^2 = m^2c^2, p^0 < 0 \} = -V_m^+$ 
+  \item $V_0^+ = \{ p | p^2 = 0, p^0 > 0 \}$
+  \item $V_0^- = \{ p | p^2 = 0, p < 0\} = - V_0^+$\\
+    It's worth noting that there's no restframe for orbits of type 3 and 4.
+  \item $V_\rho = \{ p| p^2 = -\rho\}, \rho > 0$
+  \item $V_0^0 = \{0\}$
+\end{enumerate}
+Let's discuss these cases in detail:
+\begin{enumerate}
+  \item fits tho notion of a massive relativistic particle: classically this would be $p^\mu = \left( \frac{E}{c}, \vec{p} \right) = m \frac{dx^\mu}{d\tau} = \left( \frac{mc}{\sqrt{1 - \frac{v^2}{c^2}} }, \frac{m \vec{v}}{\sqrt{1 - \frac{v^2}{c^2}} } \right) \implies p^2 = m^2 c^2$.
+    \item also fits the notion of a massive particle, but they have $E = c p^0 < 0$. This contradicts the convention for the proper time $\frac{dx^0}{dt} > 0$.
+    \item Is like the first case, but with massless particles.
+    \item also fits the notion of a massless particle, but they have $E = c p^0 < 0$. This contradicts the convention for the proper time $\frac{dx^0}{dt} > 0$.
+    \item describe tachyons (particles at speed larger than the speed of light). This we dismiss as being unphysical.
+    \item Corresponds to the trivial representation of $P$ ($dim \mathcal{H} = 1, U\left( \Lambda, a \right) = 1$) which fittingly describes the vacuum.
+\end{enumerate}
+A few remarks
+\begin{itemize}
+  \item The orbits in minkovski space are not just lorenz invariant sets' but also lorenz invariant measures. \[
+      d \mu \left( \Lambda p \right) = d\mu(p) \text{ ; is unique up to a multiple:}
+  \] \[
+  d \mu(p) = \delta\left( p^2 - m^2c^2 \right) \Theta\left( \gamma^0 \right) d^4p
+\] because $p^2, d^4p, \Theta(p^0)$ are all invariant. Also $d \mu\left( p \right) = \frac{d^3p}{2 p^0}$
+\item Recall that $\mathcal{H}_p$ is the Hilbert space after elimination of the translational DoF. \\
+  We can now think of this as the space of inner degrees of freedom and $dim\left( \mathcal{H}_p \right) < \infty$ (it turns out that this is true in some cases, but has to be enforced in others).\\
+  We introduce the following notation for transformations without translations \[
+    \hat{U}\left( \Lambda \right) = U\left( \Lambda, 0 \right) : \mathcal{H}_p \to \mathcal{H}_{\Lambda p}
+  \] The Hilbertspce $\mathcal{H}$ has $dim\left( \mathcal{H} \right) = \infty$ if $V ? p$ has $\infty$-many elements.
+\end{itemize}
+
+\subsection{Method of the little group (or stabilizer)}
+\[
+  H_p := \{ \Lambda \in L_+^\uparrow | \Lambda p = p\}
+\] 
+If we now consider $H_p$ and $H_{\Lambda p}$ are isomorphic via $\hat{U}\left( \Lambda \right) $.\\
+The whole irreducible representation $U\left( \Lambda,a \right) $ of $\mathcal{P}$ on $\mathcal{H}$ with orbit $V \contains p$ are one to one with irreps. $\hat{U}\left( \Lambda \right) $ of $H_p \contains \Lambda$ onn $\mathcal{H}_p$ \\
+The method of the little group is possible because  $\mathcal{P} = \Lambda_+^\uparrow \times \mathbb{R}^4$.\\
+A word of caution: With projective representations, some of this analysis is a bit more tricky.\\
+What we now archieved is that we just need to analyze one  $p \in V$, since we can transform it to any other $p' \in V$.\\
+\begin{description}
+  \item[Massive case: ($m>0$)] Pick $p \ \left( m, \vec{0} \right) $ (rest frame) $\implies H_p = SO(3)$ only rotations remain. 
+    $H_p$ is thereofro generated by $\vec{J} = \left( J_1,J_2,J_3 \right) $.
+    The projective representations are ordinary reps of covering group (double) $SU(2)$ : which is labeled \emph{SPIN} $j$ \[
+      \mathcal{D}_j \left( j = 0, \frac{1}{2}, 1 , \frac{3}{2}, \ldots \right) 
+    \] $dim\left( \mathcal{D}_j = 2j + 1 \right) $.\\
+    Spin is intrinsic angular momentum in the rest frame.
+    \paragraph{Examples:}
+    \begin{itemize}
+      \item Electron: $j = \frac{1}{2}$ 
+      \item pion $j = 0$ 
+        \item C-atom  $j = 1$
+    \end{itemize}
+  \item[Massless case: ($m = 0$)] Pick $p = \left( p^0, 0,0 p^3 \right), p^0 > 0 $. We are looking for Lorentz transformations $\Lambda \in H_p$. One generator of $ H_p $ is given by \[
+      M_1^2 = J^3 = \begin{bmatrix} 0 &0&0&0 \\ 0&0&-1&0 \\ 0&1&0&0 \\ 0&0&0&0 \end{bmatrix} 
+  \] another is given by \[
+      \Theta_1 = K^1 + J^2 = \begin{bmatrix} 0&1&0&0 \\ 1&0&0&-1  \\ 0&0&0&0 \\ 0&1&0&0 \end{bmatrix} 
+  \] Which is a boost in the $1$ direction and a rotation in the $2$ direction. There's also \[
+  \Theta_2 = K^2 - J^1
+  \] The last two generators commute \[
+  [\Theta_1, \Theta_2] = 0
+  \] What subgroups do they generate?
+  \begin{itemize}
+    \item $\Lambda(w)$ is the subgroup generated by $J_3$ : it corresponds to a rotation by angle, or phase, $w = w_1 + i w_2, \abs{w} = 1$.
+    \item $\Lambda(t)$ is the subgroup generated by $\Theta_1$ and $\Theta_2$. With the paramenter $t = t_1 + i t_2$.
+  \end{itemize}
+  All in all $H_p$ consists of $\Lambda\left( w, t \right) = \Lambda(t) \Lambda(w)$. The group multiplication rule is given by \[
+    \Lambda\left( w', t' \right) \Lambda\left( w, t \right) = \Lambda\left( w' w, t' - w' t \right) 
+  \] $H_p$ is isomorphic to Euclidean groupt $\Epsilon$ of rigid transformation in the plane $\mathbb{C}$. \[
+     \Lambda\left( w,t \right) : & z \to wz + t\\
+  \] 
+  The irreducible representations of $H_p$ by little group method. We diagonalize the abelian part $\Theta_1$, $\Theta_2$ and find the Eigenvalues $\xi = \xi_1 + i \xi_2$ of $\Theta_1 + i \Theta_2$ that transform as $\xi \to  w\xi$ under $w \in U\left( 1 \right) $. The minimal invariant subsets are either $\{ \xi \in \mathbb{C} | \abs{\xi} = R\}$ with $R > 0$, or $\{ \xi = 0 \}$. We can reject the first option, because it leads to  $dim\left( \mathcal{H}_p \right) = \infty$ (which we said we'd impose to not be the case). So we are left with $H_p = U\left( 1 \right) $. We can think of that as the covering group of $U\left( 1 \right) $ which is $\mathbb{R}$ $\implies \hat{U}\left( w \right) = w^s , s \in \mathbb{R}$. It turns out however that this is not quite correct.
+  In truth  $U\left( 1 \right) $ is generated by $J_3$. Only transformations compatible with the double cover should be retrieved. Therefore only $s = \frac{n}{2}, n \in \mathbb{N}$ are allowed. This property is called the \emph{Helicity}.\\
+  Helicity is the intrinsic angle of momentum about the propagation direction of the massless particle. 
+  \paragraph{Examples:}
+  \begin{itemize}
+    \item Right circularized photon: $s = 1$
+    \item Left circularized photon: $s = -1$
+  \end{itemize}
+  It's important to be precise: a Photon does not have spin $= \pm1$, it has helicity $s = \pm 1$.
+\end{description}
+We claim that if we include parity $P$ but not $T$; we get that:
+\begin{itemize}
+  \item In the $m > 0$ case the $D_j$ are as before
+  \item In the $m = 0$ case the $\pm s$ merge
+\end{itemize}
+Spin and Helicity are unified in th Pauli-Lubouski vector \[
+  W_\mu = -\frac{1}{2} \epsilon_{\mu \nu \rho \sigma} p^\nu M^{\rho \sigma}
+\] \[
+W^0 = \vec{P} \cdot \vec{J} \text{   ,   } \vec{W} = P^0 \vec{J} + \vec{P} ? \vec{K}
+\] 
+\begin{itemize}
+  \item For $m > 0$ we choose $p = \left( m, \vec{0} \right) $ and we get \[
+  W^0 = 0 \text{   ,   } \vec{W} = P^0 \vec{J} = m \vec{J}
+  \] 
+\item For $m = 0$ we again take $p = \left( p^0, 0,0, p^3 \right) $ and find \[
+    W^\mu = p^0 \left( J^3, \underbrace{J^1 - K^2}_{-\Theta_2}, \underbrace{J_2 + K^1}_{\Theta_1}, J_3 \right) = p^0 \left( J^3, 0,0, J^3 \right) = J^3 p^\mu
+\] so we find \[
+W^0 = J^3 p^0 = s p^0 \text{   ,   } \vec{W} = s \vec{p}
+\] From which we can deduce \[
+\vec{P} \cdot \vec{J} = s p^0
+\] 
+\end{itemize}
+So we get that the helicity is $s>0$ for $\vec{J}$ and $\vec{P}$ parallel and $s<0$ for $\vec{J}$, $\vec{P}$ antiparallel.\\
+We know that under parity $P$ 
+\begin{align*}
+  \vec{p} &\to -\vec{p}\\
+  p^0 &\to p^0 \\
+  \vec{J} &\to \vec{J}
+  \vec{K} &\to - \vec{K}
+\end{align*}
+And we find therefore 
+\begin{itemize}
+  \item $m > 0$: $D_j$ are invariant
+  \item $m=0$: $\vec{p} \vec{J} \to  - \vec{p} \vec{J}$, which means $s \to  -s$.
+\end{itemize}
+\section{The Klein-Gordon Equation}
+Staes of free particles at a fixed 4-momentum is given by \[
+  \Psi\left( x \right) = e^{i\vec{k}\vec{x}- \omega t} = e^{-i k_\mu x^\mu} = e^{-i k \cdot x}
+\] 
+with $k^\mu = \left( \frac{\omega}{c}, \vec{k} \right) $ describing \[
+p = \hbar k, \text{i.e. } \begin{cases}
+  E &= \hbar \omega \\
+  \vec{p} &= \hbar \vec{k}
+\end{cases}
+\] 
+By using $p_\mu p^\mu = m^2c^2$ ie $p^0 = + \sqrt{\vec{p}^2 + m^2c^2} > 0$ we get the dispersion law \[
+\omega = c \sqrt{\vec{k}^2 + \frac{m^2c^2}{\hbar^2}} 
+\] and we find the goup velocity \[
+\frac{\partial \omega }{\partial \vec{k} } = \frac{\partial E }{\partial \vec{p} } = c \frac{\partial p^0 }{\partial \vec{p} } = c \frac{\vec{p}}{p^0} = \vec{v} 
+\] Which agrees with classical velocity.\\
+We now consider general states we get \[
+  \Psi\left( x \right) = \left( 2\pi \hbar \right) ^{-\frac{3}{2}} \int \underbrace{d^4p \theta\left( p^0 \right) \delta\left( p^2 - m^2c^2 \right)}_{d \mu\left( p \right)} \hat{\Psi}\left( p \right) e^{-\frac{i}{\hbar} p\cdot x}
+\] Which can also be written as \[
+\Psi\left( x \right) = (2 \pi \hbar)^{-\frac{3}{2}} \int \frac{d^3\vec{p}}{2 p^0} \hat{\Psi}\left( \vec{p} \right) e^{-\frac{i}{\hbar} p\cdot x}
+\] This equation then describes a so called positive energy solution of the Klein-Gordan equation \[
+\left( \square + \frac{m^2 c^2}{\hbar^2}  \right) \Psi\left( x \right) = 0
+\] 
+With $\square = \partial_\mu \partial^\mu  $ the d'alembersian operator.
+We will now discuss the state $\Psi\left( x \right) $, $x = \left( x^0, \vec{x} \right) $ a bit further. It is a solution over all of time (instead of at one time like in the schroedinger equation), non the less the entire wave function is determined by $\Psi\left( 0, \vec{x} \right) $. By taking \[
+  \Psi\left( 0, \vec{x} \right) = \left( 2 \pi \hbar \right) ^{-\frac{3}{2}} \int \frac{d^3 p}{2 p^0} \hat{\Psi}\left( \vec{p} \right) e^{i \frac{\vec{p} \vec{x}}{\hbar}}
+\] and by fourier transform \[
+\Psi\left( 0, \vec{x} \right) \to^{\mathcal{F}} \frac{\hat{\Psi}\left( \vec{p} \right) }{2 p^0} \to \Psi\left( x \right) 
+\] 
+Insertirng this into the equation given above we find \[
+i\hbar \frac{\partial \Psi }{\partial t } = H \Psi
+\] 
+with $H$ the multiplication operator in momentum space by $p^ 0$. \[
+  H: \hat{\Psi}\left( \vec{p} \right) \to c p^0 \hat{\Psi}\left( \vec{p} \right) = c \sqrt{\vec{p}^2 + m^2c^2} \hat{\Psi}\left( \vec{p} \right) 
+\] 
+But: $H$ is not a differential operator in  $\vec{x}$, since $\sqrt{\vec{p}^2 + m^2 c^2} $ is not a polynomial in $\vec{p}$. This description is non-local in $\vec{x}$ at the lengthscale $\frac{\hbar}{mc}$ (the compton wave-length: for the electron we find $\lambda_c = 3.8 \cdot 10^{-18}$m).\\
+We now phrase our schroedingerlike equation to \[
+  \frac{\partial \Psi }{\partial x^0 } = -\frac{i}{2 \hbar} \left( 2 \pi \hbar \right) ^{-\frac{3}{2}} \int d^3p \hat{\Psi}\left( p \right) e^{-\frac{i}{\hbar} p\cdot x}
+\] 
+\paragraph{Remember:} The general solution of the Klein-Gordan equation is the some integral as above but without the $\Theta\left( p^0 \right) $. i.e. not only positive energies are allowed. This means that for the general solution we have to initially define $\Psi\left( 0, \vec{x} \right) $ and $\frac{\partial \Psi }{\partial x^0 }\left( 0, \vec{x} \right) $ independently. (which follows from the fact that the K-G equation is second order in $t$, only by restricting ourself to positive energy solution can we recover the Schroedinger Equation.)
+\subsection{Lorenz Invariance}
+We still have to show that the K-G equation is invariant under Lorentz transformations. \\
+Given a LT $x' = \Lambda x + a$ let $\Psi$ transform to $\Psi' = U\left( \Lambda, a \right) \Psi$ as $  \Psi'(x') = \Psi\left( x \right)$ which means that \[
+  \Psi'\left( x' \right) = \Psi\left( \Lambda^{-1} \left( x' - a \right)  \right)  \forall x' \in \mathbb{R}^{4}
+\]  
+We now check that form a positive energy solution we again get a positive energy solution. By $p ^{\Lambda^{-1}\left( x - a \right) } = \left( \Lambda p \right) \cdot \left( x -a \right) $ and $d \mu \left( p \right) = d \mu \left( \Lambda^{-1} p \right) $ we get \[
+  \Psi'\left( x \right) = \left( 2 \pi \hbar \right) ^{-\frac{3}{2}} \int d \mu(p) \hat{\Psi}\left( p \right) e^{- \frac{i}{\hbar} \left( \Lambda p \right) \left( x-a \right) }
+\] \[
+\underbrace{=}_{\Lambda p \to p} \left( 2 \pi \hbar \right) ^{-\frac{3}{2}} \int d \mu\left( p \right) \hat{\Psi}\left( \Lambda^{-1} p \right)  e^{-\frac{i}{\hbar} px} e^{-\frac{i}{\hbar} p a} 
+\] which yields again a positive energy solution \[
+U\left( \Lambda, a \right) : \hat{\Psi}\left( p \right)  \to e^{\frac{i}{\hbar} p a} \hat{\Psi}\left( \Lambda^{-1} p \right) 
+\] 
+To find a hilbert space we need to defien an inner product (a Lorentz invariant one) we propose \[
+  \left( \psi, \phi \right) := \int d \mu\left( p \right) \overline{\hat{\psi}}\left( p \right) \hat{\phi}\left( p \right) = \int \frac{d^3p}{2 p^0} \overline{\hat{\psi}\left( \vec{p} \right) } \hat{\phi}\left( \vec{p} \right) 
+\] \[
+\left( U\left( \Lambda, a \right) \Psi, U\left( \Lambda, a \right) \phi \right) = \int d  \mu\left( p \right) \overline{e^{\frac{i}{\hbar } pa} \Psi\left( \Lambda^{-1} p \right) } e^{\frac{i}{\hbar} pa} \phi\left( \Lambda^-1 p \right) = \int d \mu \left( p \right) \overline{\Psi\left( \Lambda^{-1} p \right) } \phi\left( \Lambda^{-1} p \right) = \int \underbrace{d  \mu \left( \lambda p' \right)}_{=d  \mu\left( p' \right) } \overline{\Psi\left( p' \right) } \phi\left( p' \right) 
+\]  Which means \[
+\left( U\left( \Lambda, a \right) \Psi, U\left( \Lambda, a \right) \phi \right) = \left( \Psi, \phi \right) 
+\] which is what we wanted. \\
+We therefore find the Hilbert-space \[
+  \mathcal{H} = \{ \psi | \psi \text{ is a positive energy solution and } \left( \psi, \psi \right) \le +\infty \}
+\] 
+It's worth noting that this means that there's a different Hilbertspace for particles of different mass.\\
+Recall the generators of momentum $P_\mu$, and of angular momentum $M_{\mu \nu}$ of a representation. We now try to find their representations
+\begin{description}
+  \item[Momentum] \[
+      P_\mu = \frac{\hbar}{i} \frac{\partial }{\partial a^\mu } U\left( 1, a \right) 
+  \] Hence we find \[
+  P_\mu: \Psi\left( x \right) \to i \hbar \frac{\partial \Psi}{\partial x^\mu } 
+  \] and in momentum space \[
+  P_\mu: \hat{\Psi}\left( p \right) = p_\mu \hat{\Psi}\left( p \right) 
+\] In particular see $cP^0 = H$ and the eigenspace of joint eigenvalues $p^\mu$ $\mathcal{H}_P = \mathbb{C}$ if $p \in V^+_m$, otherwise the eigenspace is  $\mathcal{H}_P = \{0\}$.\\
+We therefore see that $U\left( \Lambda, a \right) $ is an irreducible representation of $\mathcal{P}$.\\
+Spin of the particle we're describing $s = 0$.
+\item[Angular Momentum]
+  For $\epsilon = \frac{d\Lambda}{d \lambda}|_{\lambda = 0}$ we get \[
+    \frac{1}{2} \psilon^{\mu \nu} M_{\mu\nu} = \frac{1}{2} \psilon_{\mu \nu} M^{\mu\nu} = \frac{\hbar}{i} \frac{d}{d\lambda} U\left( \Lambda,0 \right) |_{\lambda=0}
+  \] Letting this act on $\Psi$ we get \[
+  \frac{\hbar}{i} \frac{d}{d\lambda} \Psi\left( \Lambda^{-1} x \right) |_{\lambda = 0} = \frac{\hbar}{i} \frac{\partial \Psi  }{\partial x^\mu } \underbrace{\frac{d}{d \lambda} \left( \Lambda^{-1} x \right)^\mu |_{\lambda = 0}}_{= -\left( \epsilon x \right) ^\mu}
+  \] \[
+  = -\frac{\hbar}{i} \epsilon^{\mu \nu} x_\nu \frac{\partial \Psi }{\partial x^\mu }
+  \] We conclude \[
+  M_{\mu \nu}: \Psi\left( x \right) \to \frac{\hbar}{i} \left( x_\mu \frac{\partial \Psi }{\partial x^\nu } - x_{\nu} \frac{\partial \Psi }{\partial x^\mu } \right) 
+  \] \[
+  M_{\mu \nu}: \hat{\Psi}\left( p \right) \to \frac{\hbar}{i} \left( p_\mu \frac{\partial \hat{\Psi} }{\partial p^\nu } - p_\nu \frac{\partial \hat{\Psi} }{\partial p^\mu } \right) 
+\] This means that if $\mu, \nu = i,j = \{1,2,3\}$ these are angular monenta, if $\mu = 0, \nu = i$ these are boosts.\\
+For $p = \left( m, \vec{0} \right) $ : $M_{ij}\hat{\Psi}\left( 0 \right) = 0 $ which means that intrinsic angular momentum $s = 0$.
+\end{description}
+More over 
+\begin{itemize}
+  \item $[H, P_\mu] = 0 \forall \mu$
+  \item $[H, M_{i,j}] = 0 \forall i,j \in \{1,2,3\}$\\
+    These two points correspond to conservation laws for $P_\mu$ and $M_{ij}$.
+  \item $P_\mu$ $M_{\mu \nu}$ transform under LT like classical quatities (including expectation values).
+\end{itemize}
+How can we represent the inner product given above in the position space \[
+  \left( \psi, \phi \right) = \int_{x^0 = ct} d^3x i\hbar \left( \overline{\Psi} \frac{\partial \phi }{\partial x^0 } - \frac{\partial \overline{\psi} }{\partial x^0 } \phi \right) 
+\] Which is invariant of $t$. Wich can be seen when we choose $t = 0 $ we get $\Psi\left( 0, \vec{x} \right) \to \frac{\hat{\Psi}\left( \vec{p} \right) }{2 p^0}$ and $\frac{\partial \Psi }{\partial x^0 }\left( 0, \vec{x} \right) \to -\frac{i}{2 \hbar} \hat{\psi}\left( \vec{p} \right) $ under fourier transformation \[
+\int_{x^0 = 0} d^3x \overline{\Psi\left( 0, \vec{x} \right) } \frac{\partial \phi }{\partial x^0 }\left( 0, \vec{x} \right) = -\frac{i}{2\hbar} \int \frac{d^3p}{2p^0} \overline{\hat{\psi}\left( \vec{p} \right) } \phi\left( \vec{p} \right) = -\frac{i}{2\hbar} \left( \psi, \phi \right) 
+\] for the second term we we similarly we get $\frac{i}{2\hbar} \left( \psi, \phi \right) $ (the same just with opposite sign). This proof also generalizes to all time since introducing time just results in a phase factor which canceles out as we multiply with a complex conjugate.\\
+In particular we get \[
+  \abs{\abs{\Psi}}^2 = \left( \Psi, \Psi \right) = \int d^3x j_0(x) 
+\] With $j_0$ the 0-component of a 4-current \[
+j_\mu\left( x \right) = i \hbar\left( \overline{\Psi} \frac{\partial \Psi }{\partial x^\mu } - \frac{\partial \overline{\Psi} }{\partial x^\mu } \Psi \right) 
+\] Which is divergence free $\partial^\mu j_\mu\left( x \right)  = 0  $.\\
+Sofar we found the QM of a single relativistic particle, we now list a few simmilarities \& differences to the non-relativistic quantum mechanics (schroedinger)
+\begin{itemize}
+  \item We recovered the schroedinger equation but with an $H$ that is not a differential operator. i.e. the new Schroedinger-esqe equation we found is not a PDE.
+  \item Formal agreement with non-relativistic case: where we get a probability density and a probability current density. As \[
+      \rho\left( x \right) = \abs{\psi\left( x \right) }^2
+  \] \[
+  \vec{j}\left( x \right) = \frac{\hbar}{2im} \left( \overline{\psi} \vec{\nabla } \psi - \left( \vec{\nabla }\psi \right) \psi \right) 
+  \] which fullfill the continuity equation \[
+  \frac{\partial \rho}{\partial t} + \text{div} \vec{j} = 0
+  \] In the relativistic case we have the simmilar equations 
+\[
+  \left( \psi, \psi \right) = \int_{x^0=ct} d^3x j^0\left( x \right) 
+\] 
+  \[
+  j_\mu\left( x \right) = i\hbar \left( \overline{\psi} \frac{\partial \Psi}{\partial x^\mu} - \frac{\partial \overline{\psi}}{\partial x^\mu } \psi \right) 
+  \] which fullfills \[
+  \partial^\mu j_\mu = 0 
+  \]
+  However we have the problem that \[
+    j^0 = 2 \text{Re}\left( i\hbar \frac{\partial \psi}{\partial x^0} \overline{\psi} \right) 
+  \] is not neccesarily positive in $x$, which means that we cannot interpret $j^0\left( x \right) $ as probability density.\\
+  We now prove that $j^0$ is not neccesarily positive. We consider $x=0$ :
+  \begin{align*}
+    2i\hbar \frac{\partial \psi}{\partial x^0} &= \left( 2\pi \hbar \right) ^{-\frac{3}{2}} \int d^{3}p \hat{\psi}\left( p \right) \\
+    \psi(0) &= \left( 2 \pi \hbar \right) ^{-\frac{3}{2}} \int \frac{d^{3}p}{2 p^0} \hat{\psi}\left( \vec{p} \right)  \\
+  \end{align*} Two functions, one of them $\vec{p} \to  1$ the other $\vec{p} \to \left( 2 p^0 \right) ^{-1}$, one is constant, one isn't. These two functions are linearly independent. This means it's possible to choose the real $\hat{\psi}\left( \vec{p} \right) $ such that the two integrals have opposite sign. $\implies j^0\left( 0 \right) < 0$.\\
+  If we forego the notion of a point particle then the differences to the non-relativistic case are acceptable
+  \begin{itemize}
+    \item The non-locality in the schroedinger eq was at a lengthscale $\frac{\hbar}{mc} = \lambda_c$ 
+    \item On length scales much larger than that $\Delta x \gg \lambda_c = \frac{\hbar}{mc}$ we have copatability with $\Delta p \gg mc$ we have \[
+        \Delta \frac{1}{2 p^0} \le \frac{1}{2} \frac{1}{2} \left( \vec{p}^2 + m^2c^2 \right) ^{-\frac{3}{2}} 2 \abs{\vec{p}} \Delta p \le  \frac{1}{2 p^0} \abs{\Delta p} \ll 1
+      \] Hence $\frac{\left( 2p^0 \right) ^{-1}}{1} \approx const.$ and therefore the function is essentially linearly dependent. Meaning $j^0 > 0$. Meaning that the $j^0$ becomes positive as soon as we smear it over the compton wavelength.
+  \end{itemize}
+\end{itemize}
+Yet: the non-localities were still considered deficiencies which then lead to Dirac finding a truly local hamiltonian.\\
+Before we look at the Dirac-eq we now give another interpretation of the KG eq:\\
+\paragraph{(Anti-)particle interpretation of the KG Equation}
+We call the positive/negative energy solution to the KG equation $\psi_{\pm}\left( x \right) $. The interpretation is then that $\psi_-\left( x \right) $ describes an anti-particle with energy $+E$ (we swich the sign of the energy - which seem ad hoc).\\
+A general solution to the KG eq would then be given as  $\psi(x) = \psi_+\left( x \right) + \psi_-\left( x \right) $. In the interpretation up to now specifying $\psi\left( 0,\vec{x} \right) $ is not enough for a unique solution, we also have to specify $\frac{\partial \psi}{\partial x^0 }\left( 0, \vec{x} \right) $, in this interpretation however we can then uniquely identify a solution by spcifying $\psi_+\left( 0, \vec{x} \right) $ and $\psi_-\left( 0, \vec{x} \right) $. \\
+In this new Interpretation the evolution of $\psi$ is now given by a PDE (our first problem is solved). What about the problem of non-positive probability densities? We could take the inner product on $\psi$ as:
+\begin{enumerate}
+  \item $\left( \psi_+, \psi_+ \right) + \left( \psi_-, \psi_- \right) $\\
+    Which is positive definite, but it still has no pointwise positive density.
+  \item $\left<\psi, \psi\right> = i\hbar \int_{x^0=ct} d^3x \left( \overline{\psi} \frac{\partial \psi}{\partial x^0} - \frac{\partial \overline{\psi} }{\partial x^0} \psi \right) = \left( \psi_+, \psi_+ \right) - \left( \psi_-, \psi_- \right)  $\\
+    Which is even worse, as it's not even positive definite as a whole as $\psi, \frac{\partial \psi}{\partial x^0}$ can be chosen independently. 
+\end{enumerate}
+Conclusion: neither candiadte for an inner product has a strictly local quantum mechanical interpretation. The second one suggests $j^0$ is some sort of charge density, we'd then get $\left<\psi,\psi\right>$ a total charge, and we get that particles and anti-particles have opposite charge.\\
+To couple the theory to an external electromagnetic field $A^\mu\left( x \right) $ we use so called "minimal coupling": $i\hbar\partial_\mu \to i\hbar\partial_\mu - \frac{e}{c} A_\mu  $, with $A^\mu = \left( \phi, \vec{A} \right) $ the four-vector potential. The KG equation then is given by \[
+  \left( \left( i\hbar\partial_\mu -\frac{e}{c}A_\mu  \right) \left( i\hbar\partial^\mu - \frac{e}{c}A^\mu  \right) - m^2c^2 \right) \psi = 0
+\] And the current as \[
+j_\mu = e \left( \overline{\psi} \left( i\hbar \partial_\mu - \frac{e}{c}A_\mu  \right) \psi + \psi \left( -i\hbar\partial_\mu - \frac{e}{c} A_\mu  \right) \overline{\psi} \right) 
+\] \[
+\implies \partial_\mu j^\mu = 0 
+\] 
+\section{The Dirac Equation}
+By Dirac (1925): The Idea arose from the deficiencies of the KG equation, and was to replace the Klein-Gordan equation  \[
+  \left( \hat{p}^2 - m^2c^2 \right) \psi = 0
+\] $\hat{p} = i\hbar \partial_\mu $, by a new first order PDE in $t$ and $\vec{x}$, in analogy to how the wave equations arrise from the free Maxwell equations $\square \vec{E} = \square \vec{B} = 0$. For particles of $m>0$ we get \[
+\left( \gamma^\mu p_\mu - mc \right) \psi = 0
+\] With $\psi: \mathbb{R}^{4} \to \mathbb{C}^{n}$ and $x\to \psi\left( x \right) $ called a Dirac spinor. $\gamma^\mu$ are then complex $n \cross n$ matricies, which we find by \[
+\left( \gamma^\nu \hat{p}_\nu + mc \right) \left( \gamma^\mu \hat{p}_\mu - mc \right) = \gamma^\nu \gamma^\mu \hat{p}_\nu \hat{p}_\mu - m^2c^2
+\] 
+The Dirac equation implies the klein Gordan equation provided
+\[
+  \{\gamma^\mu, \gamma^\nu\} = \gamma^\mu\gamma^\nu + \gamma^\nu \gamma^\mu = 2 g^{\mu\nu} \text{   } \forall  \mu, \nu \in \{0,1,2,3\}
+\] 
+i.e. \[
+  \left( \gamma^0 \right) ^2 = 1
+\] \[
+\left( \gamma^k \right) ^2 = -1
+\] 
+\[
+  \{\gamma^\mu, \gamma^\nu\} = \gamma^\mu\gamma^\nu + \gamma^\nu \gamma^\mu = 0 \text{   } \forall  \mu \neq \nu 
+\] 
+Which is called a Dirac- or Clifford-Algebra.
+\paragraph{Theorem:} The Dirac-Algebra has exactly one irreducible representation of dimension $n = 4$. The proof of this theorem is in the exercises.\\
+In particular, any two representations $\gamma^\mu$, $\hat{\gamma}^\mu$ are equivalent, meaning  \[
+\hat{\gamma}^\mu = S \gamma^\mu S^{-1}
+\] for all $ \mu $ at once, with a complex matrix $S$.
+In any representation of the $\gamma$ matricies have $tr \gamma^\mu = 0$. One special representation is the so called standard representation: 
+\begin{align*}
+  \gamma^0 &= \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}  \\
+  \gamma^k &= \begin{bmatrix} 0 & \sigma_k \\ -\sigma_k & 0 \end{bmatrix}  \\
+\end{align*}
+With $\sigma_k$ the palul matricies.\\
+In this special representation we have that $\gamma^0^* = \gamma^0$ with $^*$ the hermitian conjugate, and $\gamma^k^* = - \gamma_k$. Later we'll see other representations (such as the Majorana or the chiral representation), where these relations also hold (despite them not strictly being a universal feature of all representations).\\
+We consider plain wave solutions to the dirac equation (i.e. with fixed 4-momentum $p^\mu$): \[
+  \psi\left( x \right) =  u e^{-i \frac{p \cdot x}{\hbar}} \text{  ,  } u \in \mathbb{R}^{4}
+\] is a solution if \[
+\left( p_\mu \gamma^\mu - mc \right) u = 0
+\] we summarize $p_\mu \gamma^\mu $ as $\slashed{p}$. 
+\begin{align*}
+  \left( \salsh{p} - mc \right) u &= 0\\
+  \implies \slashed{p} u = mcu
+\end{align*}
+Note: $\slashed{p}^2 = p^2 \mathbb{I}^{4}$ and $tr \slashed{p} = 0$. Meaning that the eigenvalues of $\slashed{p}$ are $\pm \sqrt{p^2} $, two for each sign (to fullfill the trace). This then implies
+\begin{align*}
+  \implies p  \in V_m^+ &\text{ or } p  \in V_m^- \\
+\end{align*}
+We find a two dimensional space of $u$. By applying Wiegners analysis we find that the dirac equation contains at least two irreducibles. Or two particles with two hilbertspaces $\mathcal{H} = \{ u \in \mathbb{C}^{4} | \slashed{p} u = mcu\}$. We find $2j + \frac{1}{2}$ and see that we describe a spin $\frac{1}{2}$ particle. To show this formally we'd need to consider in more detail how the lorenzgroup acts on these spaces.\\
+We can use the dirac equation to rediscover the schroedinger equation. This reformulation is optained by multiplying $\gamma^0$ to the dirac equation from the left: \[
+  \gamma^0 \left( \gamma^\mu p_\mu - mc \right) \psi =0
+\] \[
+\implies H = c \gamma^0 \left( -\gamma^k p_k + mc \right) = c \vec{\alpha}\cdot \vec{p} + \beta m c^2
+\] 
+with $\alpha_k = \gamma^0 \gamma^k$ and $\vec{p} = - i \hbar \vec{\nabla}$ and $\beta = \gamma^0$. For which we have
+\begin{itemize}
+  \item $\alpha_k^2 = 1$ 
+  \item $\beta^2 = 1$
+  \item $\alpha_k \alpha_l + \alpha_l \alpha_k = 0$
+  \item $\beta \alpha_k + \alpha_k \beta = 0$
+  \item are all Hermition: $\alpha_k^* = \left( \gamma^k \right) ^* \left( \gamma^0 \right) ^* = - \gamma^k \gamma^0 = \gamma^0 \gamma^k = \alpha_k$
+\end{itemize}
+Which leads us to $H = H^*$ is self-adjoint on $L^2\left( \mathbb{R}^{3}, \mathbb{C}^{4} \right) $ with the natural inner product \[
+  \left( \psi, \phi \right) = \int d^{3}x \psi^*\left( x \right) \phi\left( x \right) 
+\] 
+Which induces a norm which is conserved: \[
+  \abs{\abs{\psi}}^2 = \left( \psi, \psi \right) = const.
+\] 
+It's worth noting that, contrary to the KG case, there's no reason to prefer the forward mass shell in order to get a schroedinger type formulation.\\
+The inner density \[
+  j^0\left( x \right) = \psi^*\left( x \right) \psi\left( x \right) \ge 0
+\] Which is suitable for an interpretation of a probability density. This acctually comes as a 4-current \[
+j^ \mu\left( x \right) = \overline{\psi}\left( x \right) \gamma^ \mu \psi\left( x \right) 
+\] Where $\overline{\psi}$ is not just the complex conjugate, but instead the dirac conjugate $\overline{\psi}\left( x  \right) = \psi\left( x \right) ^* \gamma^0$.\\
+We now make several claims
+\begin{itemize}
+  \item Conjugate Dirac equation: $\overline{\psi}\left( x \right) \left( i \hbar \gamma^\mu \partial^{\leftarrow}_\mu + mc  \right) = 0$, with $\partial^{\leftarrow}_\mu $ a deriviative that acts to the left.
+  \item $\partial_\mu j^\mu = 0 $
+\end{itemize}
+The proofs to these claims are as follows:
+\begin{itemize}
+  \item We take the hermitian conjugate of the Dirac equation \[
+      \psi^*\left( x \right) \left( - i \hbar \gamma^\mu^* \partial_\mu^{\leftarrow} - mc   \right) =0
+  \] If we now multiply with $\gamma^0$ from the right we get \[
+  \gamma^{\mu*} \gamma^0 = \begin{cases}
+    \gamma^0 \gamma^0 & \forall \mu = 0 \\
+    -\gamma^k \gamma^0 & \forall \mu = 1,2,3
+  \end{cases} = \gamma^0 \gamma^k
+  \]  \[
+  \overline{\psi}\left( x \right) \left( -i\hbar \gamma^\mu^* \partial^\leftarrow_\mu + mc  \right) 
+  \] 
+\item \[
+\partial_\mu j^\mu = \overline{\psi} \gamma^\mu \partial^\leftarrow_\mu \psi + \overline{\psi} \gamma^\mu \partial_\mu \psi   
+\] \[
+i \hbar \partial_\mu j^\mu = i\hbar \left( \overline{\psi} \gamma^\mu \partial^\leftarrow_\mu \psi + \overline{\psi} \gamma^\mu \partial_\mu \pis + mc\left( 1-1 \right) \overline{\psi}\psi   \right)  
+\] \[
+= 0+ 0 = 0
+\] 
+\end{itemize}
+A few remarks
+\begin{itemize}
+  \item In the KG equations we discussed two deficiencies, one relating to the fact that it wasn't a PDE and the other one the problem of having no probabilistic interpretation. Both of these are fixed in the dirac equation.
+  \item However there is a price to that: The energy spectrum of $H$ is not bounded below \[
+      \sigma(H) = (-\infty, -mc^2], [mc^2, +\infty)
+  \] This can be seen from the EV equation we get \[
+  H\phi = E \phi \to \psi\left( t,\vec{x} \right) = \phi\left( \vec{x} \right) e^{- \frac{iEt}{\hbar}}
+  \] Which has the same form as \[
+  = u e^{-i \frac{px}{\hbar}}
+  \] Yielding \[
+  E = \pm c \sqrt{\vec{p}^2 + m^2 c^2} 
+  \] 
+\end{itemize}
+We now want to consider the physical interpretation of all this (Dirac only formulated this interpretation four years after the Dirac equation).
+\begin{itemize}
+  \item States of energy $-E < 0$ is interpreted as an antiparticle of energy $+E>0$, (as seen for the KG equation). However we have a new reason, as it's only corresponds to fermions, meaning we have the Pauli principle. In the vacuum all states of energy $-E<0$ are all filled (Pauli principle $\to $ filled exactly once), and all states $+E>0$ are empty - in such a interpretation we have $\epsilon = 0$. In the case where one state of energy $-E<0$ is not filled (a hole punched into the Dirac sea), such a whole is an anti-particle, for the total energy we get  \[
+      \epsilon = 0 \underbrace{- \left( -E \right) }_{\text{an anti particle is missing}} = +E
+  \] . States of positive Energy $+E>0$ are stable because all the states in the dirac sea are already full, it can't fall indefinitelly.\\
+  The creation of a particle-hole (anti-particle) then corresponds to the process of one state jumping from a negative to a positive state - the energy cost for such a process is then at least $\ge 2mc^2$.
+\item The Dirac Sea is stable by isotropy.
+\item just two years after this interpretation the anti-particle of the electron (the positron) was discovered.
+\item This is still not the final picture, QFT, will allow us to explain the positive energy of an antiparticle without going to an ad hoc explanation.
+\end{itemize}
+\paragraph{Lorenz Covariance}\\
+The full discussion of lorenz covariance will be delayed to a later chapter. We will now just give the generators of $\mathcal{P}$. \[
+P_\mu = i\hbar \partial_\mu 
+\] 
+\[
+  M_{\mu \nu} = -i\hbar \left( x_\mu \partial_\nu - x_\nu\partial_\mu   \right) - \hbar \sigma_{\mu \nu}
+\] with $\sigma_{\mu \nu} = \frac{1}{\hbar} [\gamma_\mu, \gamma_\nu]$.
+The generators of rotations are given \[
+  J^i = M_{i+1}^{i+2} = i\hbar \left( x_{i+1} \partial_{i+2} - x_{i+2} \partial_{i+1}   \right) + \hbar \sigma_{i+1, i+2}
+\] In the standard represesntation we have \[
+\vec{J} = \vec{x} \wedge \vec{p} + \frac{\hbar}{2} \begin{bmatrix} \vec{\sigma} & 0 \\ 0 & -\vec{\sigma} \end{bmatrix} 
+\] \[
+\vec{J} = \underbrace{\vec{L}}_{\text{orbital angular momentum}} + \underbrace{\vec{S}}_{\text{spin angular momentum}}
+\] We find \[
+\vec{S}^2 = \frac{\hbar^2}{4} \begin{bmatrix} 3 & 0 \\ 0 & 3 \end{bmatrix} = \frac{3}{4} \hbar^2 \mathbb{I}
+\] Which leads to $s = \frac{1}{2}$ as we would expect. \\
+We now consider the minimal coupling to an external magnetic field $A^\mu\left( x \right) $. We get \[
+  \left( \gamma^\mu \left( p_\mu - \frac{e}{c} A_\mu \right) - mc \right) \psi = 0
+\] 
+This is invariant under gauge transformation $A_\mu \to  A_\mu + \partial_\mu \chi $, $\psi -: e^{i \frac{e \chi}{\hbar c}} \psi$.
+The hamiltonian is then given as  \[
+  H = c \vec{\alpha} \cdot  \underbrace{\left( \vec{p} - \frac{e}{c} \vec{A} \right)}_{\vec{\pi}} + \beta mc^2 + e \phi
+\] Which is still hermitian.
+\section*{Lecture 14.10 Missing}
+\chapter{Non-Relativistic Quantum Electro Dynamics}
+We now take a step back and describe a non-relativistic theory, that non-the-less models a good deal of the world correctly. In addition it's a good "playground" to learn some of the relevant techniques and see some concepts that will later come up again in a relativistic theory.\\
+\section{Maxwell's Equations}
+Electromagnetic fields $\vec{E}\left( \vec{x}, t \right) $ and $\vec{B}\left( \vec{x}, t \right) $ that obey
+\begin{align*}
+  div \vec{B} &= 0 \\
+  rot \vec{E} + \frac{1}{c} \frac{\partial \vec{B} }{\partial t} &= 0 \\
+\end{align*}
+Which are equivalent to 
+\begin{align*}
+  \vec{B} &= rot \vec{A} \\
+  \vec{E} &=  - \vec{\nabla} \phi - \frac{1}{c} \frac{\partial \vec{A}}{\partial t} \\
+\end{align*}
+Where the potentials $\phi, \vec{A}$ are determined by $\vec{E}, \vec{B}$ up to gauge transformations \[
+\phi \to \phi + \frac{1}{c} \frac{\partial \chi}{\partial t}, \vec{A} \to \vec{A} + \vec{\nabla } \chi
+\] With $\chi\left( \vec{x}, t \right) $ an arbitrary generating function of the gauge transformation.\\
+$\phi, \vec{A}$ are almost unique given $\vec{E}, \vec{B}$ by imposing a gauge condition.\\
+The inhomogenious Maxwell's equations are given by 
+\begin{align*}
+  div \vec{E} &=  \rho \\
+  rot \vec{B} - \frac{1}{c} \frac{\partial \vec{E}}{\partial t} &=  \frac{\vec{j}}{c}  \\
+\end{align*}
+with $\rho$ the charge density and $\vec{j}$ the current density.\\
+This leads te the integrability condition of the continuity equation
+\[
+\frac{\partial \rho}{\partial t} + div \vec{j} = 0
+\] 
+Or in the converse we can ask: how many of the inhomogenious equations can we recover from the continuity equation? What we find is that we cannot retrieve the Gauss equation from the continuity eq and the ampere maxwell equation. \[
+  \frac{\partial }{\partial t}\left( div \vec{E} - \rho \right) = div \left( c \cdot rot \vec{B} - \vec{j} \right) - \frac{\partial \rho}{\partial t} = 0 
+\] 
+Using the homogenious maxwell equations we can write, using the dalambertian operator ($\square = \frac{1}{c^2} \frac{\partial^2 }{\partial t^2} - \Delta $)
+\begin{align*}
+  \square \phi - \frac{1}{c} \frac{\partial }{\partial t} \left( \frac{1}{c} \frac{\partial \phi}{\partial t} - div \vec{A} \right)  &=  0 \\
+  \square \vec{A} + \vec{\nabla } \left( \frac{1}{c} \frac{\partial \phi}{\partial t} + div \vec{A} \right) = \frac{\vec{j}}{c}
+\end{align*}
+A few remarks
+\begin{itemize}
+  \item The solution should be determined by $\phi$ and $\partial_t \phi|_{t=0} $ and $\vec{A}$ and $\partial_t \vec{A}|_{t=0} $. This however is not the case because of the gauge freedom. If we choose $\chi\left( t, \vec{x} \right) =0$ near $t=0$, we get two solutions that start identically but later diverge.
+  \item Looking at the second inhomogenious Maxwell Eq can be regarded as a eq. of motion of $\vec{A}$, but the first inhomogenious equation is not an eq. of motion for $\phi$, as $\frac{\partial^2 \phi }{\partial t^2}$ drops out! Recall: the gauss law is a propagating constraint, not itself a propagator.
+\end{itemize}
+To impose unique solutions we have to impose a particular gauge.
+\subsection{Coulomb gauge}
+The Coulomb gauge is given by \[
+div \vec{A} = 0
+\] 
+Which still allows a limited set of residual gauge transformations $\Delta \chi = 0$.
+The inhomogeneous Maxwell Eqs are now given
+\begin{align*}
+  - \Delta\phi &=  \rho \\
+  \square \vec{A} + \vec{\nabla }\left( \frac{1}{c} \frac{\partial \phi}{\partial t} \right) &= \frac{\vec{j}}{c}\\
+\end{align*}
+The general solution is then given as
+\begin{align*}
+  \varphi\left( \vec{x},t \right)  &= -\frac{1}{4 \pi} \int d^{3} y \frac{\rho\left( \vec{y},t \right) }{\abs{\vec{x} - \vec{y}}} + \hat{\phi}\left( \vec{x},t \right) \\
+\end{align*}
+with $\Delta \hat{\varphi} = 0$ which can be set to $0$ without loss of generality by choosing $\chi = - \int^t \hat{\varphi} dt' $. And we found a unique solution determined by $\vec{A}$ and $\partial_t \vec{A}|_{t=0} $
+\section{The free EM field as a Hamiltonian System}
+Let $\rho = 0$, $\vec{j} = 0$ $\implies \varphi = 0$. Such that we get \[
+\frac{1}{c^2} \frac{\partial^2 }{\partial t^2}\vec{A} = \Delta \vec{A}
+\] and  \[
+\frac{1}{c}\frac{\partial \vec{A} }{\partial t } = - \vec{E}
+\] 
+hence \[
+-\frac{1}{c} \frac{\partial \vec{E}}{\partial t} = \Delta \vec{A}
+\] 
+We now Claim that these two are the canonical equations of motion of a hamiltonian system.\\
+We recall \[
+  \dot{q}^{\alpha} = \frac{\partial H}{\partial p_\alpha} = \{H, q^\alpha\} 
+\] \[
+ \dot{p}_\alpha = - \frac{\partial H}{\partial q^\alpha} = \{H, p_\alpha\}
+\] 
+With $\{f,g\}$ the poisson bracket.\\
+We now need to find the phase space $\Gamma$ of infinite dimension given as \[
+  \Gamma = \{\left( \vec{A}\left( \vec{x} \right), - \vec{E}\left( \vec{x} \right)  \right)_{\vec{x} \in \mathbb{R}^{3}} | div \vec{A} = 0, div \vec{E} = 0 \}
+\] 
+Our phase space thus consists of pairs of functions in $\mathbb{R}^{3}$, the partial deriviatives in the poission bracket then gets replaced by functional deriviatives. We first consider the scalar function $\varphi\left( \vec{x} \right) $ and consider the functional $F = F[\varphi]$ then the functional deriviative is given as \[
+  \int d^{3}x \frac{\delta F}{\delta \varphi\left( \vec{x} \right) } \cdot \psi\left( \vec{x} \right) = \frac{d}{d\lambda}  F[\phi + \lambda\psi]_{\lambda = 0}
+\] \\
+How will the functional deriviative look for a vector field such as $\vec{E}$. If we just copy the definition for scalar functions and draw vector arrows we get the wrong result. We need some test function $\vec{v}$ that needs to be divergence free $div \vec{v} = 0$. This then imlpies $rot \vec{w} = \vec{v}$. The definition is then completed by requiring \[
+div \frac{\delta F}{\delta \vec{A}} = 0
+\]  
+If we consider a general vector field $ \vec{u}$, it is determined by $rot \vec{u}$ and $div \vec{u}$; since $\Delta \vec{u} = \vec{\nabla } div \vec{u} - rot rot \vec{u}$ and $\vec{u} = -\frac{1}{4 \pi} \int d^{3}y \frac{\left( \Delta \vec{u} \right) \left( \vec{y} \right) }{\abs{\vec{x} - \vec{y}}}$.\\
+  \paragraph{Example} for $div \vec{v} = 0$. \[
+    \int d^{3}x' \frac{\delta A_i\left( \vec{x} \right) }{\delta \vec{A}\left( \vec{x'} \right) } \vec{v}\left( \vec{x}' \right) = \frac{d}{d\lambda}\left( A_i\left( \vec{x} \right) + \lambda v_i\left( \vec{x} \right)  \right) |_{\lambda=0} = v_i\left( \vec{x} \right) 
+  \] 
+  \[
+    \frac{\delta A_i\left( \vec{x} \right) }{\delta A_j\left( \vec{x}' \right) } = \left( \delta_{ij}, -\partial_i \partial_j \Delta^{-1}   \right) 
+  \] 
+The poisson bracket betwen functions is then given as \[
+  \{F,G\} = c \int d^{3}x \left( \frac{\delta F}{\delta \vec{A}\left( \vec{x} \right) } \cdot \frac{\delta G}{\delta \vec{E}\left( \vec{x} \right) } - \frac{\delta F}{\delta \vec{E}\left( \vec{x} \right) } \frac{\delta G}{\delta \vec{A}\left( \vec{x} \right) } \right) 
+\] 
+In particulare we get \[
+  \{F, \vec{A}\left( \vec{x} \right) \} = -c \frac{\delta F}{\delta \vec{E}\left( \vec{x} \right) } 
+\] \[
+\{F, \vec{E}\left( \vec{x} \right) \} = c \frac{\delta F}{\delta \vec{A}\left( \vec{x} \right) }
+\] 
+Which then yields:
+\begin{itemize}
+  \item  \[
+-\{ 
+  \int \vec{E}\left( \vec{x} \right) \vec{u}\left( \vec{x} \right) d^{3}x ,
+\int \vec{A}\left( \vec{x} \right) \vec{v}\left( \vec{x} \right) d^{3}x \} = c \int \vec{u} \cdot \vec{v} d^{3}x
+\] 
+\item \[
+    -\{ E_i\left( \vec{x} \right) , A_j\left( \vec{y} \right) \} = c \left( \delta_ij - \partial_i \partial_j \Delta^{-1}   \right) \delta\left( \vec{x} - \vec{y} \right) 
+\] 
+\item \[
+    \{E_i\left( \vec{x} \right) , E_j\left( \vec{x} \right) \} = 0
+\] 
+\item \[
+    \{A_i\left( \vec{x} \right) , A_j\left( \vec{x} \right) \} = 0
+\] 
+\end{itemize}
+\subsection{Hamiltonian}
+With this we can define the hamiltonian functon on the phase space $\Gamma$, which is just the energy \[
+  H = \frac{1}{2} \int \left( \vec{E}^2\left( \vec{x} \right) + \vec{B}^2\left( \vec{x} \right)  \right) d^{3}x
+\] With $\vec{B} = rot \vec{A}$ which then yields: \[
+H = \frac{1}{2} \int \left( \vec{E}^2\left( \vec{x} \right) - \vec{A}\left( \vec{x} \right)  \cdot \Delta \vec{A}\left( \vec{x} \right)  \right) d^{3}x
+\] 
+We can now see that the canonical equations of motion are given by
+\begin{align*}
+  \frac{\partial \vec{A}}{\partial t} &= \{H, \vec{A}\left( \vec{x} \right) \} \\
+                                      &= -c \frac{\delta H}{\delta \vec{E}\left( \vec{x} \right) } \\
+                                      &= -c \vec{E}\left( \vec{x}, t \right)  \\
+  \frac{\partial \vec{E}}{\partial t} &= \{H, \vec{E}\left( \vec{x} \right) \} \\
+                                      &= +c \frac{\delta H}{\delta \vec{A}\left( \vec{x} \right) } \\
+                                      &= -c \Delta \vec{A}\left( \vec{x},t \right)  \\
+\end{align*}
+We now want to get rid of the constraints that $div \vec{A} = 0 = div \vec{E}$. To archieve this we apply a spacial fourier transformation \[
+  \vec{A}\left( \vec{x} \right) = c \int \frac{d^{3}k}{\left( 2 \pi \right) ^{\frac{3}{2}}} \vec{q}\left( k \right) e^{i\vec{k}\vec{x}}
+\] \[
+\vec{E}\left( \vec{x} \right) = \int \frac{d^{3}k}{\left( 2 \pi \right) ^{\frac{3}{2}}} \vec{p}\left( k \right) e^{i\vec{k}\vec{x}}
+\] 
+from which we get $\vec{q}\left( -\vec{k} \right) = \overline{\vec{q}\left( \vec{k} \right) }$.\\
+To sattisfy the conditions we have $\vec{k} \vec{q}\left( \vec{k} \right) = 0$, and $\vec{B}\left( \vec{x} \right) = rot \vec{A} = c \int \frac{d^{3}k}{\left( 2 \pi \right) ^{\frac{3}{2}}} \left( i \vec{k} \cross \vec{q}\left( \vec{k} \right)  \right) e^{u\vec{k}\vec{x}}$.\\
+The poission brackets are then \[
+  \{\int \vec{p} \overline{\vec{u}} d^{3}k, \int \vec{q} \vec{v} d^{3}k \} = \int \overline{\vec{u}}\left( k \right) \vec{v}\left( k \right) d^{3}k
+\] and all other poisson brackets are just $0$. \\
+The Hamiltonian in the momemtum representation is then given as \[
+  H = \frac{1}{2} \int d^{3}k \left( \abs{\vec{p}\left( \vec{k} \right) }^2 + \left( c\vec{k} \right) ^2\left( \vec{q} \vec{k} \right) ^2 \right) 
+\] 
+The energy of the EM field has then been described as a collection of harmonic oscilators each of the form \[
+  H_\alpha = \frac{1}{2} \left( p_\alpha^2 + \omega_\alpha^2\left( q^\alpha \right) ^2 \right) 
+\] 
+but the modes at $\vec{k}$ and $-\vec{k}$ are not independent (which reflects the fact that we've taken a real field but have represented in complex modes).
+\section{Canonical Quantization Missing}
+\section{Non-relativistic QED Missing}
+\section{Perturbation Theory and Thomson Scattering Missing}
+\section*{Lecture 28.10. Missing}
+\section{Lamb Shift}
+For a free particle and in the dipole approximation we found \[
+  \delta E\left( \vec{p} \right) = - \frac{1}{6 \pi^2} \left( \frac{e}{mc} \right) ^2 \vec{p}^2 \int_0^{\infty} dk
+\] 
+We can interpret that as the energy now being \[
+  E = \frac{\vec{p}^2}{2m} + \delta E\left( \vec{p} \right) = \frac{\vec{p}^2}{2 m_{\text{physical}}}
+\] with $m_{\text{physical}} > m_{\text{bare}}$.
+\subsection{Bound state}
+We now want to consider a bound state $\ket{\alpha}$ of the H-atom. We now have the Hamiltonian \[
+H = \frac{\vec{p}^2}{2m} - \frac{e^2}{4\pi r}
+\] With $\ket{\alpha} $ picked from the ONB $\ket{\beta}$ of the bound, or not, eigenstates.\\
+Then \[
+  \delta E\left( \alpha\right)  = -\left( 2\pi \right) ^{3} \left( \frac{e}{mc} \right) ^2 \hbar c \sum_{\beta}^{} \int \frac{d^{3}k}{2 \abs{\vec{k}}}  \frac{\sum_{\lambda}^{} \abs{ \vec{\epsilon}_{\lambda} \left( \vec{k} \right) \bra{\beta} e^{-i\vec{k}\vec{x}} \vec{p} \ket{\alpha}}^2}{E_{\beta} + \hbar c \abs{\vec{k}} - E_{\alpha}}
+\] 
+Remarks:
+\begin{itemize}
+  \item Dipole approximation: $e^{-i\vec{k}\vec{x}} \to 1$
+  \item Denominator is rotationally invariant in $\vec{k}$ \\
+    $\implies$ average on numerator \[
+      \delta E\left( \alpha \right) - \frac{1}{6 \pi^2} \left( \frac{e}{mc} \right) ^2 \sum_{\beta}^{}  \abs{\bra{\beta} \vec{p} \ket{\alpha} }^2 \int_0^{\infty} dk \frac{\hbar k}{E_{\beta} + \hbar k - E_{\alpha}}
+    \] 
+  \item $\ket{\alpha}$ has a wave function $\Psi_\alpha\left( \vec{x} \right) $ spreading ovec the bohrradius $a_0$. It's Fourier conjugation $\hat{\Psi}_\alpha\left( \vec{p} \right) $ then spreads over $\frac{\hbar}{a_0}$
+  \item The Continium states $\ket{\beta}$ go over into plane waves $\ket{\vec{q}}$ at high energies.
+  \item If we forego the dipole approximation: Both integrals ($\vec{p}, \ket{\beta}$ ) have the same log divergence at $k \ge \lambda_c^{-1}$
+\end{itemize}
+We now renormalize. The correct shift is neither $\delta E\left( \alpha \right) $ nor $\delta E\left( \vec{p} \right) $, instead it's the difference \[
+  \Delta E\left( \alpha \right) = \delta E\left( \alpha \right) - \bra{\alpha} \delta E\left( \vec{p} \right) \ket{\alpha}
+\] 
+Because:
+\begin{description}
+  \item[Informally] 
+    \begin{align*}
+      \frac{\vec{p}^2}{2m} &\to \delta E\left( \vec{p} \right) \\
+      \frac{\vec{p}^2}{2m} - \frac{e^2}{4\pi r} &\to \delta E\left( \alpha \right) 
+    \end{align*}
+    In the atomic case we already include the correction of the free particle! We therefore "over correct" and need to substract \[
+      \int d^{3}p \abs{\bra{\vec{p}}\ket{\alpha}}^2 \delta E\left( \vec{p} \right) = \bra{\alpha} \delta E\left( \vec{p} \right) \ket{\alpha}
+    \] 
+  \item[Formally] 
+    With the field hamiltonian $H_\text{f} = \int d^{3}k \sum_{\lambda}^{} \hbar c \abs{\vec{k}} a_\lambda^*\left( \vec{k} \right) a_\lambda(\vec{k})$ we have
+    \[
+  H_{\text{tot}} = H + H_\text{f} + H_{\text{I}}
+  \] \[
+  = \underbrace{\left( \frac{\vec{p}^2}{2 m_{\text{phys}}} - \frac{e^2}{4\pi r} + H_{\text{f}} \right) }_{H_0'} + \underbrace{H_\text{I} + \left( \frac{1}{2m} - \frac{1}{2 m_\text{phys}} \right) \vec{p} ^2}_{H_I'}
+  \] \[
+  = H_0' + H_\text{I}'
+  \] With \[
+  H_\text{I}' = H_\text{I}' - \delta E\left( \vec{p} \right) 
+  \] resulting in \[
+  \Delta E\left( \alpha \right) = \delta E\left( \alpha \right) - \bra{\alpha} E\left( \vec{p} \right) \ket{\alpha}
+  \] 
+\end{description}
+Then we get
+\begin{itemize}
+  \item The log divergencies cancel each other
+  \item The linear divergencies gets "demoted" to a log divergence, with a natural cutoff at $\lambda_c^{-1}$ (with an uncertainty factor of $\approx 2$).
+  \item Dipole aprroximation can be used
+\end{itemize}
+Using $\bra{\alpha} \vec{p}^2 \ket{\alpha} = \sum_{\beta}^{} \abs{\bra{\beta} \vec{p} \ket{\alpha}}^2$ we get \[
+  -\frac{E_\beta- E_\alpha}{E_\beta + \hbar k - E_\alpha}
+  \] 
+  \[
+    \implies  \Delta E\left( \alpha \right) = \frac{1}{6\pi^2} \left( \frac{e}{mc} \right) ^2 \sum_{\beta}^{} \abs{\bra{\beta} \vec{p} \ket{\alpha}}^2 \left( E_\beta \ E_\alpha \right) \int_0^{\lambda_c^{-1}} \frac{dk}{E_\beta + \hbar k - E_\alpha}
+  \] 
+Remarks
+\begin{itemize}
+  \item The matrix element $\bra{\beta} \vec{p} \ket{\alpha}$ mediates between state with differing energies $\abs{E_\beta - E_\alpha} \le R_y = \frac{1}{2} \alpha^2 mc^2 \ll mc^2$. We can estimate the order of magnitude as $\bra{\beta} [H, \vec{p}] \ket{\alpha} = \left( E_\beta - E_\alpha \right) \bra{\beta}\vec{p} \ket{\alpha} \approx \left( E_\beta - E_\alpha \right) \frac{\hbar}{a_0} \approx \frac{R_y}{a_0}$.\\
+    Therefore $\bra{\beta} \vec{p} \ket{\alpha} \approx \frac{\hbar}{a_0} \frac{R_y}{\abs{E_\beta - E\alpha}}$ 
+  \item The denominator in our $\Delta E\left( \alpha \right) $ can vanish if $\ket{\alpha}$ is not the ground state. $\implies$ compute the integral as a principal value which then yields $\frac{1}{\hbar c} \log \abs{\frac{E_\beta - E_\alpha + \hbar c \lambda_c^{-1}}{E_\beta - E_\alpha}} \approx \frac{1}{\hbar c} \log \frac{mc^2}{\abs{E_\beta - E_\alpha}}$.\\
+\end{itemize}
+Thus \[
+      \Delta E\left( \alpha \right) = \frac{1}{6\pi^2} \left( \frac{e}{mc} \right) ^2 \frac{1}{\hbar c} \sum_{\beta}^{} \abs{\bra{\beta}\vec{p}\ket{\alpha}}^2 \left( E_\beta -E_\alpha \right) \log \frac{mc^2}{\abs{E_\beta - E_\alpha}}
+    \] 
+\begin{itemize}
+  \item Any reference to the field has vanished and we are left with an expression that only depends on the atom.
+  \item Without the the log factor we can solve the sum with the sum rule:\\
+    for $\alpha = \left( n,l \right) $ we have
+    \begin{align*}
+      C_\alpha &= \sum_{n}^{}  \abs{\bra{\beta}\vec{p}\ket{\alpha}}^2 \left( E_\beta - E_\alpha \right) = \frac{e^2\hbar^2}{2\pi a_0^{3} m^2} \delta_{l,0} \\
+    \end{align*}
+    The delta function showing that only $s$ waves matter, it also shows that the sum is dominated by $C_\alpha$.
+  \item We can split the logarithm to $\log \frac{mc^2}{\abs{E_\beta - E_\alpha}} = \log \frac{mc^2}{R_y} - \log \frac{\abs{E_\beta - E_\alpha}}{R_y}$
+    This allows us to define the bette logarithm $\log \left<E- E_\alpha\right>$ as \[
+    \text{missing}
+    \] 
+\end{itemize}
+\[
+  \implies \Delta E\left( \alpha \right) = C_\alpha' \left( \log \frac{mc^2}{R_y} - \log \frac{\left<E- E_\alpha\right>}{R_y}  \right) 
+\] With $C_\alpha' = C_\alpha \frac{1}{6\pi^2} \left( \frac{e}{mc} \right) ^2 \frac{1}{\hbar c} = \frac{8}{3 \pi} \frac{\alpha ^{3}}{n^{3}} \delta_{l,0} R_y$
+\begin{itemize}
+  \item The larger of the two terms gives \[
+  \frac{mc^2}{R_y} = 2 \alpha ^{-2} \text{, } \log 2 \alpha ^{-2} \approx 10.53
+  \] 
+\item and the smaller term \[
+\frac{\left<E-E_\alpha\right>}{R_y} = 17.8 \text{, } \log \ldots = 2.88
+\] 
+\end{itemize}
+Which finally yields \[
+  \Delta E\left( \alpha \right) = \frac{8}{3\pi} \frac{\alpha ^{3}}{n^{3}} \delta_{l,0} R_y \log \frac{mc^2}{\left<E-E_\alpha\right>}
+\] 
+With it's application \[
+  E\left( 2S_{\frac{1}{2}} \right) - E\left( 2p_{\frac{1}{2}} \right) = 1040 \text{ MHz}
+\] Which compares really well with the experimental value of $1057$ MHz.
+
+
+\chapter{Classical Field Theory}
+\section{Remembering classical Mechanics}
+\begin{itemize}
+  \item Euler-Lagrange Equations \[
+      \frac{d}{dt} \frac{\partial L }{\partial \dot{q}^\alpha} - \frac{\partial L}{\partial q^\alpha} = 0
+  \] are equivalent to \[
+  \frac{d}{dt} \left<p, \delta q\right> = \delta L \text{  ,  } \left<p, \delta q\right> = \sum_{\alpha}^{} p_\alpha \delta q^\alpha
+  \] Proof
+  \begin{align*}
+    \text{LHS} &= \sum_{\alpha}^{} \dot{p}_\alpha \delta q^\alpha + p_\alpha \delta \dot{q}^\alpha \\
+    \text{RHS} &= \sum_{\alpha}^{} \frac{\partial L}{\partial q^\alpha} \delta q^\alpha + \frac{\partial L}{\partial \dot{q}_\alpha} \delta \dot{q}^\alpha \\
+  \end{align*} We only need to have $\dot{p}_\alpha = \frac{\partial L}{\partial q_\alpha}$ which is true iff $q(t)$ is a motion.
+\item Claim: The variation of the action $\delta S = \left( \left<p, \Delta q^i\right> - \left( \left<p, \dot{q}\right> - L \right) \Delta t^i \right)^{i = 1,2}$ 
+  Proof 
+  \begin{align*}
+    S[q_\lambda] &=\int_{t_1}^{t_2} L\left( q\left( t,\lambda \right) , \dot{q}\left( t, \lambda \right)  \right) dt \\
+    \frac{d}{d\lambda} S[q_\lambda] &= L \Delta t^i|_1^2 + \int_{t_1}^{t_2} \underbrace{\delta L}_{\frac{d}{dt} \left<p, \delta q\right>} dt \\
+                                    &= \left( \left<p, \delta q\right> + L \Delta t^i \right)_{1}^2 \\  
+                                    &= \left( \left<p, \Delta q^i - \dot{q} \Delta t^i\right> + L \Delta t^i \right)_{1}^2 \\  
+                                    &= \left( \left<p, \Delta q^i\right> - \left( \left<p, \dot{q}\right> - L \right) \Deltat^i \right) _1^2 \\
+  .\end{align*}
+\end{itemize}
+\paragraph{Extended Configuration Space}
+$\left( q,t \right) \in \mathbb{R}^f \times \mathbb{R}$.\\
+We can define a flow $\psi^\lambda$ \[
+  \left( q,t \right) \to \psi^\lambda\left( q,t \right) = \left( \phi^\lambda\left( q,t \right) , \tau^\lambda\left( q,t \right)  \right) 
+\] and we can look at the generating vector fields \[
+\frac{d\psi^\lambda}{d \lambda} |_{\lambda = 0} = \left( v\left( q,t \right) , s\left( q,t \right)  \right) 
+\] Which of course also works with curves $q\left( t \right) $, with start/end point $t^1 < t < t^2$, which is then mapped to $q^\lambda\left( t \right) $ as \[
+q^\lambda\left( \tau^\lambda\left( q,t \right)  \right) = \phi^\lambda\left( q\left( t \right) , t \right) 
+\] The end points are maped to \[
+\phi^\lambda\left( q\left( t^1 \right) , t^1 \right) \text{ , } \tau^\lambda\left( q\left( t^1 \right) , t^1 \right) 
+\] \[
+\phi^\lambda\left( q\left( t^2 \right) , t^2 \right) \text{ , } \tau^\lambda\left( q\left( t^2 \right) , t^2 \right) 
+\] 
+With variations \[
+  \Delta q^i = v\left( q\left( t^i \right) , t^i \right) \text{ , } \Delta t^i = s\left( q\left( t^i \right) , t^i \right) 
+\] 
+We define a continious \emph{symmetry} of the action $S$ as a flow $\psi^\lambda$ such that \[
+  S[q^\lambda] = S[q] + F(q^i, \lambda)|_1^2
+\] for some function $F\left( q^i, \lambda \right) $ and for all curves.
+
+This choice is motivated by \[
+  \delta S[q^\lambda] = \delta S [q] + \underbrace{\delta F\left( q^i, \lambda \right)|_1^2}_{=0}
+\] In particular if $q$ is a motion, meaning $\delta S[q]$, so is $q^\lambda$.\\
+We now want to consider $q\left( t, \lambda \right) := q^\lambda\left( t \right) $ (a variation of $q\left( t \right) $, but one without fixed endpoints). This can be done in two different ways
+\begin{enumerate}
+  \item by using the variation formula: \[
+      \delta S = \left( \left< p,v \right>  -\left( \left< p, \dot{q} \right>  - L \right) S \right)_1^2
+  \] 
+\item by the definition of  a symmetry: \[
+\delta S = \delta F|_1^2
+\] with $\delta F = \frac{\partial }{\partial \lambda} F\left( q\left( t \right) , \lambda \right) $.
+\end{enumerate}
+Therefor we get \[
+  \left< p,v \right>  - \left( \left< p, \dot{q} \right>  - L \right)S - \delta F = \text{const.}
+\] at every point of the curve. In other words $\left< p,v \right> - \left( \left< p, \dot{q} \right>  - L \right)S - \delta F$ is a conserved quantiy for a motion $q\left( t \right) $. This is called \emph{Noether Theorem}. \\
+We consider a few special cases
+\begin{itemize}
+  \item Symmetry of $\phi^\lambda\left( q \right) $ of the lagrangian \[
+      L\left( q^\lambda \right) = L\left( q, \dot{q} \right) 
+    \] with $q^\lambda = \phi^\lambda\left( q\left( t \right)  \right) $ leading to an $v\left( q,t \right) = v\left( q \right) $, and $\tau^\lambda\left( q,t \right) = t$ (meaning $s = 0$). Leading to $F = 0$.  \\
+  All that is left of Noethers theorem is then that \[
+  \left< p,v \right>  = \text{const.}
+  \] 
+\item Conservation of Energy:\\
+  For $\phi^\lambda\left( q \right) = q \implies v = 0$, $\tau^\lambda\left( q,t \right) = t - \lambda \implies s = -1$ and $F = 0$ the symmetry condition is met.
+  Leading to $<p, \dot{q}> - L = E$ is conserved.
+\end{itemize}
+\section{Classical Fields}
+A classical field associates to any space-time point $\left( t, \vec{x} \right) \in \mathbb{R}^{4} $ a value $\varphi = \left( \varphi^{\alpha}  \right)_{\alpha \in I} $ in field space $ F$ (eg. $F = \mathbb{R}, \mathbb{C}$ some scalar field, or $F = V$ some linear field (vector field), a manifold).\\
+A classical field theory is therefore just the classical mechanics of a system of $\infty$-many DOF. By analogy we got \[
+  q^{\alpha}( t ) \to \varphi^{\alpha} ( t, \vec{x} )
+\] 
+Where we have two different possibilities of reading this
+\begin{itemize}
+  \item $t \to \left( t, \vec{x} \right) $, $\alpha \to \alpha$ 
+  \item $t\to t$, $\alpha \to \left( \vec{x}, \alpha \right) $
+\end{itemize}
+It turns out that the first interpretation is particularly suited for a Lagrangian approach and makes Lornz covariance easy; while the second approach is suited for the Hamiltonian approach and canonical quantization.\\
+We now look at the Lagrangian 
+\begin{align*}
+  L\left[ \varphi, \partial \varphi  \right] &= \int_{}^{} d^3x \mathcal{L} \left( \varphi^{\alpha}( t, \vec{x} ), \partial \varphi^{\alpha} ( t, \vec{x} )  \right)   \\
+\end{align*} where $\partial \varphi^{\alpha} = \left( \partial_0 \varphi^{\alpha} , \ldots, \partial_3 \varphi^{\alpha }   \right)  $ and $\mathcal{L}$ the Lagrangian density. The Action is then is then given as 
+\begin{align*}
+  S\left[ \varphi \right] = \int_{}^{} dt L &= \int_{}^{} d^{4} x \mathcal{L}\left( \varphi^{\alpha} , \partial \varphi^{\alpha}   \right)   \\ 
+\end{align*}
+Where we have Lorentz invariance as $x \to x'$ with $d^{4} x = d^{4} x'$ and $\varphi( x ) \to  \varphi'( x' )$. Meaning Lorenz invariance means \[
+  \mathcal{L} \left( \varphi'( x' ), \partial' \varphi( x' )  \right) = \mathcal{L} \left( \varphi( x ), \partial \varphi( x )  \right) 
+\] For the principle of least action we get \[
+\delta S \left[ \varphi \right] = 0
+\] for any variation $S \varphi^{\alpha} ( x )$ on $G$ such that $\delta \varphi^{\alpha}|_{\partial G } = 0$ (ie. variation with fixed boundary values). The principle of least action is Lorentz invariant, if $\mathcal{L} $ is. From the principle of least action follow the Eurler-Lagrange equations, which are now given (in terms of the Lagrangian density)
+\begin{align*}
+  \partial_\mu \frac{\partial \mathcal{L} }{\partial ( \partial_\mu \varphi^{\alpha}   )} - \frac{\partial \mathcal{L} }{\partial \varphi^{\alpha} }  &=  0 \\
+\end{align*}
+We proof this:
+\begin{align*}
+  \delta S &= \int_{G}^{} d^{4} x \left( \frac{\partial \mathcal{L} }{\partial \varphi^{\alpha} } \delta \varphi^{\alpha} + \frac{\partial \mathcal{L} }{\partial ( \partial_\mu \varphi^{\alpha}   )} \underbrace{\delta( \partial_\mu \varphi^{\alpha}   )}_{\partial_\mu \left( \delta \varphi^{\alpha}  \right)  }  \right) \\ 
+  &= \int_{\partial G }^{} d\sigma_\mu \frac{\partial \mathcal{L} }{\partial \left( \partial_\mu \varphi^{\alpha}   \right) } \delta \varphi^{\alpha} - \int_{G}^{} d^{4} x \left( \partial_\mu \frac{\partial \mathcal{L} }{\partial \left( \partial_\mu \varphi^{\alpha}   \right)  }  - \frac{\partial \mathcal{L} }{\partial \varphi^{\alpha} }   \right) \delta \varphi^{\alpha}    \\
+\end{align*}
+
+We have the canonical momenta \[
+\Pi^{\mu}_\alpha = \frac{\partial \mathcal{L} }{\partial \left( \partial_\mu \varphi^{\alpha}   \right) } \left( \varphi, \partial \varphi  \right) 
+\] 
+The variation with varying domain $G$, not vanishing on $\partial G $ (but variation around a motion). A point  $x \in \partial G \to y = y( x, \lambda ) \in \partial G_\lambda  $, $\delta v^{\mu} = \frac{\partial y^{\mu} }{\partial \lambda} |_{\lambda=0} $, with a varied action $S\left[ \varphi_\lambda \right] = \int_{}^{} d^{4} x \mathcal{L} \left( \varphi_\lambda, \partial \varphi_\lambda  \right)  $. We claim \[
+\delta S = \int_{\partial G}^{} d \sigma_\mu \left( \mathcal{L}  \delta v^{\mu} + \Pi^{\mu}_{\alpha} \delta \varphi^{\alpha}  \right)  
+\] 
+\paragraph{Examples}
+\begin{itemize}
+  \item $\varphi$ real scalar field with 
+\begin{align*}
+  \mathcal{L} \left( \varphi, \partial \varphi  \right) &= \frac{1}{2} \partial_\mu \varphi \partial^{\mu} \varphi - V\left( \varphi \right)   \\
+  &= \frac{1}{2}  g^{\alpha \beta} \partial_\alpha \varphi \partial_\beta \varphi - V\left( \varphi \right)    \\
+\end{align*}
+  Leading to \[
+    \Pi^{\mu} = \frac{\partial \mathcal{L} }{\partial ( \partial_\mu \varphi  )} = \frac{1}{2}  2 \partial^{\mu} \varphi = \partial^{\mu} \varphi  
+  \] \[
+  \frac{\partial \mathcal{L} }{\partial \varphi} = V'\left( \varphi \right) 
+  \] The Euler-Lagrange equations are then given as \[
+  \underbrace{\partial_\mu \partial^{\mu}   }_{\square  } \varphi  + V'\left( \varphi \right) = 0
+  \] Which for $V = \frac{1}{2} m^2 \varphi^2$ yields \[
+  \square \varphi + m^2 \varphi = 0
+  \] which is the Klein-Gordan equation (but here it's for a classical, real field).
+  \item We now generalize to N components $\varphi = \left( \varphi_i \right)_{i=1}^{N} $ yielding \[
+  \mathcal{L} = \frac{1}{2} \left( \sum_{i=1}^{N} \partial_\mu \varphi_i \partial^{\mu} \varphi_i - m^2 \sum_{i}^{} \varphi_i^2 \right) 
+  \] which yields a KG equation for each component $\varphi_i$. 
+  \item for $N = 2$ we can read it as a complex field as \[
+  \varphi = \frac{\varphi_1 + i \varphi_2}{\sqrt{2} } \in \mathbb{C}
+  \] Then we get \[
+  \mathcal{L} = \partial^{\mu} \overline{\varphi} \partial_\mu \varphi - m^2 \overline{\varphi} \varphi  
+\] Using ($f=f\left( \varphi \right) $) \[
+df = \frac{\partial f}{\partial \varphi_1} d\varphi_1 + \frac{\partial f}{\partial \varphi_2} d\varphi_2 
+= \frac{1}{\sqrt{2} } \left( \frac{\partial f}{\partial \varphi_1}  - \frac{\partial f}{\partial \varphi_2}   \right) \frac{d\varphi_1 + i d\varphi_2}{\sqrt{2} } + \frac{1}{\sqrt{2} } \left( \frac{\partial f}{\partial \varphi_1} + i \frac{\partial f}{\partial \varphi_2}   \right) \frac{d\varphi_1 - i d\varphi_2}{\sqrt{2} } 
+\] Which we rewrite as \[
+df = \frac{\partial f}{\partial \varphi} d\varphi + \frac{\partial f}{\partial \overline{\varphi} } d \overline{\varphi} 
+\] Despite $\varphi$ and $\overline{\varphi} $ technically not being independet, we can treat them as such!We get \[
+\Pi^{\mu} = \frac{\partial \mathcal{L} }{\partial \left( d_\mu \varphi \right) } = \partial^{\mu} \overline{\varphi}  
+\] \[
+\frac{\partial \mathcal{L} }{\partial \varphi} = - m^2 \overline{\varphi} 
+\] and \[
+\overline{\Pi}^{\mu} = \frac{\partial \mathcal{L} }{\partial \left( \partial_\mu \overline{\varphi}  \right) }  = \partial^{\mu} \varphi 
+\] \[
+\frac{\partial \mathcal{L} }{\partial \overline{\varphi} } = -m^2 \varphi
+\] giving us the EL equations \[
+\partial_\mu \partial^{\mu} \varphi + m^2 \varphi = 0  
+\] \[
+\partial_\mu \partial^{\mu} \overline{\varphi} + m^2 \overline{\varphi} = 0  
+\] which are the KG equation and it's complex conjugate.
+\item Minimal coupling to external EM field \[
+\mathcal{L} \left( \varphi, \partial\varphi, x \right) = \left( -i \partial^{\mu} - e A^{\mu}   \right) \overline{\varphi} \left( i \partial_\mu - e A_\mu \right) \varphi - m^2 \overline{\varphi} \varphi
+\] Note: there's an explicit $x$ dependence in the term $A^{\mu} ( x )$. For the canonical momenta we find \[
+\frac{\partial \mathcal{L} }{\partial \left( \partial_\mu \varphi \right) } = \left( \partial^{\mu} - ieA^{\mu} \right) \overline{\varphi} 
+\] \[
+\overline{\pi}^{\mu} = \frac{\partial \mathcal{L} }{\partial \left( \partial_\mu \overline{\varphi}  \right) } = \left( \partial^{\mu} + ie A^{\mu} \right) \varphi
+\] and \[
+\frac{\partial \mathcal{L} }{\partial \overline{\varphi} } = -eA_\mu \left( i \partial_\mu - eA_\mu \right) \varphi - m^2\varphi
+\] which then leads to the EL eqs \[
+\left( -\partial^{\mu} - eA^{\mu} \right) \left( i\partial_\mu - eA_\mu \right) \varphi + m^2\varphi = 0
+\] and it's complex conjugate for $\overline{\varphi} $.\\
+Note: the miminmal coupling does not work for the real scalar field (as the Lagrangian would not be real).
+\item EM Field coupeled to external sources $j^{\mu} = j^{\mu}\left( x \right) $. \[
+\mathcal{L} \left( A, \partial A , x \right) = - \frac{1}{4}  F_{\alpha \beta} F^{\alpha \beta} - j_\alpha A^{\alpha} 
+\] with \[
+F_{\alpha \beta} = \partial_\alpha A_\beta - \partial_\beta A_\alpha
+\] \[
+\pi_{\mu \nu} = \frac{\partial \mathcal{L} }{\partial \left( \partial^{\mu} A^{\nu} \right) } = -\frac{1}{4} 4 F_{\mu \nu} = F_{\mu \nu} 
+\] \[
+\frac{\partial \mathcal{L} }{\partial A^{\nu} } = - j_\nu
+\] Leading to EL equ. \[
+\partial^{\mu} \pi_{\mu \nu} - \frac{\partial \mathcal{L} }{\partial A^{\nu} } =0 
+\] \[
+\implies -F_{\mu\nu}^{,\mu} + j_\nu = 0
+\] $\implies j^{\nu}_{,\nu} = 0$ or else $S$ has no stationary points.
+\end{itemize}
+\section{Symmetries and conservation laws}
+$\Psi^{\lambda} \left[ \varphi \right]$ is a flow on configuration $\varphi = \left( \varphi^{\alpha} \left( x \right)  \right)_{x \in \mathbb{R}^{4} } $, of the following (local) form:
+\begin{align*}
+  x &\to t_\lambda x \\
+  \varphi\left( x \right) &\to \Psi^{\lambda}\left[ \varphi \right]\left( t_\lambda x \right) = T_\lambda\left( \varphi( x ) \right) \\
+
+  \implies \Psi^{\lambda} \left[ \varphi \right] \left( x \right) &= T_\lambda\left( \varphi\left( t_{-\lambda} x \right)  \right)  \\
+\end{align*}
+With $t_\lambda$ a flow in $\mathbb{R}^{4} $, $T_\lambda$ a flow in field space $F$. We define \[
+v = \frac{dt_\lambda}{d \lambda} |_{\lambda=0} 
+\] \[
+V = \frac{d T_\lambda}{d \lambda} |_{\lambda= 0} 
+\] Then $\varphi_\lambda = \Psi^{\lambda} \left[ \varphi \right] $ has variation \[
+\left( \delta \varphi \right) ^{\alpha} ( x ) = \left( V \varphi( x ) \right) ^{\alpha} - v^{\nu} \partialS\nu \varphi^{\alpha} ( x )
+\] Which is a Lie-deriviative. \\
+We call $\Psi^{\lambda} $ a symmetry of the action if \[
+S_{t_\lambda \left[ G \right] } \left[ \Psi^{\lambda} \left[ \varphi \right]  \right] = S_G \left[ \varphi \right] + \int_{\partial G}^{} d\sigma_\mu F^{\mu} \left( \varphi\left( x \right) , \lambda \right) 
+\] for some field $F^{\mu} = F^{\mu} \left( \varphi, \lambda \right) $, if $\varphi$ is a motion, so is $\Psi^{\lambda}\left[ \varphi \right]  $. We now draw two conclusions
+\begin{enumerate}
+  \item $\delta S = \int_{\partial G}^{} d\sigma_\mu \delta F^{\mu} $, with $\delta F^{\mu} = \frac{\partial F^{\mu} }{\partial \lambda} |_{\lambda=0} $.
+  \item $\delta S = \int_{\partial G}^{} d\sigma_\mu \left( \mathcal{L} \underbrace{\delta v^{\mu} }_{= v^{\mu} }  + \pi^{\mu}_\alpha \delta \varphi^{\alpha}  \right)  $
+\end{enumerate}
+Hence we get \[
+\int_{\partial G}^{} \left( \mathcal{L} v^{\mu} + \pi^{\mu}_\alpha \delta \varphi^{\alpha} - \delta F^{\mu}  \right)  = 0
+\] Since $G$ is arbitrary we can instead say that \[
+\partial_\mu \left( \mathcal{L} v^{\mu} + \pi^{\mu}_\alpha d\varphi^{\alpha} - \delta F^{\mu}  \right)  = 0
+\] \[
+\partial_\mu J^{\mu} = 0 
+\] with $J^{\mu} $ the Noether current whitch leads to a conserved Noether charge \[
+Q = \int_{}^{} d^3x J^{0}\left( t, \vec{x} \right)  
+\] We can restate the Noether current as \[
+J^{\mu} = \pi^{\mu}_\alpha \left( V\varphi \right)^{\alpha} - \underbrace{ \left( \pi^{\mu}_\alpha \partial_\nu \varphi^{\alpha} - \mathcal{L} \delta^{\mu}_\nu  \right)}_{T^{\mu}_\nu \text{ the Energy momentum tensor}}  v^{\nu} - \delta F^{\mu} 
+\] 
+Remarks:
+\begin{itemize}
+  \item $J^{\mu} $ looks like a 4-vector, but this in not quite true as it might carry additional indices "hidden" in $v$.
+  \item We can do a replacement \[
+  J^{\mu} \to J^{\mu} + \partial_\lambda f^{\lambda \mu}  
+\] with $f^{\lambda \mu} = - f ^{\mu \lambda} $. Such a replacement does not effect $\partial_\mu J^{\mu} $ since $\partial_\mu \partial_\lambda f^{\lambda \mu} = 0$. The contribution to the Noether charge  $\int_{}^{} d^3x \partial_\lambda f^{\lambda 0 } = \sum_{i=1}^{3} \int_{}^{} d^3x \partial_i f^{i 0 } = 0 $ (if $f^{\lambda \mu} $ decays sufficiently fast).
+  \item Likewise we can rewrite the energy-momentum tensor $T^{\mu}_{\text{ } \alpha} $ for $v = v( x )$ constant as \[
+  T^{\mu\nu} \to T^{\mu\nu} + \partial_\lambda f^{\lambda \mu \nu} \text{ , } f^{\lambda \mu \nu} = - f^{\mu \lambda \nu} 
+\] Which changes $J^{\mu} $ by $\left( \partial_\lambda f^{\lambda \mu \nu}  \right) v_\nu = \partial_\lambda f^{\lambda \mu} $.
+  \item A symmetry of the lagrangian density means \[
+  \mathcal{L} \left( \Psi^{\lambda}\left[ \varphi \right] , \partial \Psi^{\lambda} \left[ \varphi \right]  \right) |_{t_\lambda x} = \mathcal{L} \left( \varphi, \partial \varphi \right) |_x + \partial_\mu F^{\mu} \left( \varphi, \lambda \right) |_x
+  \] with $t_\lambda$ volume preserving. \\
+  (just a special case of the above sometimes more usefull in applications).
+\end{itemize}
+A for the examlpes below we look at symmetries that fit the special case just introduced, sometimes even with $F = 0$ (we say the lagrangian $\mathcal{L} $ is invariant).
+\paragraph{Special cases}
+\begin{description}
+  \item[Internal Symmetries:] $t_\lambda = \mathbb{I}, \to v = 0$. Then \[
+  J^{\mu} = \pi^{\mu}_{\text{ }\alpha} \left( V\varphi \right) ^{\alpha} - \delta F^{\mu} 
+  \] Examples:
+  \begin{itemize}
+    \item Complex scalar field coupled to external EM field (see above), where $\mathcal{L} $ is invariant under \emph{global gauge transformations} $\varphi \to e^{-i \lambda e} \varphi$, $\overline{\varphi} \to \overline{\varphi} e^{i\lambda e} $ $\implies V\varphi = -i e \varphi$; giving us the Noether current \[
+    J^{\mu} = e \left[ \overline{\varphi}\left( i\partial^{\mu} - eA^{\mu} \right) \varphi  + \varphi\left( -i\partial^{\mu} - eA^{\mu} \right) \overline{\varphi}  \right] 
+    \] \[
+    \partial_\mu J^{\mu} = 0 
+    \] Yielding the KG equation.
+  \item EM field $A^{\mu} $ coupled to external source (likewise see above). As a symmetry we take \emph{local gauge transformations}: \[
+  A_\mu \to A_\mu + \lambda \partial_\mu \chi
+\] with $\chi( x )$  arbitriry but real. Under such a transformation the Lagrangian is not invariant, but with change in the $-j_\alpha A^{\alpha} $ term, by  \[
+- \lambda \left( \partial_\mu  \chi \right) j^{\mu}  = -\lambda \partial_\mu \left( \chi j^{\mu} \right) 
+\] i.e. $F^{\mu} = -\lambda \chi j^{\mu} $, $\delta F^{\mu} = - \chi j^{\mu} $. By \[
+\left( VA \right)_\alpha = \partial_\alpha \chi 
+\] \[
+\implies J^{\mu} = - F^{\mu \alpha} \partial_\alpha \chi + \chi j^{\mu} 
+\] \[
+\to \partial_\mu J^{\mu} = - \underbrace{ F^{\mu\alpha} \partial_\mu \partial_\alpha}_{=0}  \chi - \left( F^{\mu \alpha}_{\text{  ,}\mu} - j^{\alpha}  \right) \partial_\alpha \chi + \underbrace{\chi j^{\mu}_{\text{ ,}\mu} }_{0}  
+\] \[
+\implies \partial_\mu J^{\mu} = - \left( F^{\mu \alpha}_{\text{ ,}\mu} - j^{\alpha}  \right)\partial_\alpha \chi 
+\] Which is $0$ if and only if $F^{\mu\alpha}_{\text{ ,}\mu} = j^{\alpha}  $ which implies the maxwell equations.
+  \item The previous tow coupeled, no external fields or sourses: \[
+  \mathcal{L}  = \mathcal{L} \left( \varphi, \overline{\varphi} , A, \partial \varphi , \partial \overline{\varphi} , \partial A \right) = \frac{1}{4} F_{\alpha \beta}F^{\alpha \beta} + \left( i \partial^{\mu} - e A^{\mu} \right) \overline{\varphi} + \left( i \partial_\mu - e A_\mu \right) \varphi - m^2 \overline{\varphi} \varphi 
+  \] Which then yields the KG equations for $\varphi, \overline{\varphi} $ and the maxwell equations for $A$.\\
+  We consider the local gauge symmetry with:
+  \begin{align*}
+    \varphi( x ) &\to \varphi( x ) \exp\left( -i\lambda e \chi(x) \right) \\
+    A_\mu &\to  A_\mu + \lambda \partial_\mu \chi
+  \end{align*} leading to \[
+  \left( i \partial_\mu - e \left( A_\mu - \partial_\mu \chi \right)   \right) \exp\left( ie\chi \right) \varphi = 
+  \exp\left( -ie\chi \right) \left( i \partial_\mu - e A_\mu  \right) \varphi
+  \] which is indeed a symmetry. Let $j^{\mu} $ be \[
+    j^{\mu} = e \left[ \overline{\varphi}\left( i\partial^{\mu} - eA^{\mu} \right) \varphi  + \varphi\left( -i\partial^{\mu} - eA^{\mu} \right) \overline{\varphi}  \right] 
+  \] as before (but here it's not the Noether current). Yielding $V\varphi = -ie\chi \varphi$ and $\left( VA \right)_\alpha = \partial_\alpha \chi$. Giving us \[
+  J^{\mu} = - F^{\mu \alpha} \partial_\alpha \chi + \chi j^{\mu}  
+  \] \[
+  \implies \partial_\mu J^{\mu} = - \left( F^{\mu\alpha}_{\text{ ,}\alpha} - j^{\alpha} \right) \partial_\alpha \chi + j^{\mu}_{\text{ ,}\mu} \chi = 0 
+  \] Which is only true iff either 
+    \begin{itemize}
+      \item for global gauge transformation $\chi( x )= $ const. $\implies j^{\mu}_{\text{ ,}\alpha} =0$
+      \item for local gauge transformations $\implies F^{\mu\alpha}_{\text{ ,}\alpha} = j^{\mu} $.
+    \end{itemize}
+  \end{itemize}
+  \item[Spacetime Translations:] \[
+  \Psi^{\lambda} \left[ \varphi^{\alpha}  \right] \left( x \right) = \varphi^{\alpha} \left( x - \lambda a \right) \text{ , } a \in \mathbb{R}^{4} 
+  \] Hence we get $T_\lambda = \mathbb{I}$, $V = 0$, $v = a$, and $\mathcal{L} $ invariant, then \[
+  J^{\mu} = - T^{\mu \nu} a_\nu
+  \] Using the Noether Theorem we get \[
+  T^{\mu\nu}_{\text{  ,}\mu} = 0
+  \] The Noether charge comming with it is the total momentum \[
+  P^{\nu}  = \int_{}^{} d^3x T^{0\nu} \left( t,\vec{x} \right)  
+  \] 
+  We consider examples:
+  \begin{itemize}
+    \item Real scalar field with lagrangian $\mathcal{L} = \frac{1}{2} \left( \partial_\mu \varphi \right) \left( \partial^{\mu} \varphi  \right) - V\left( \varphi \right)  $, giving us \[
+    \pi^{\mu} =  \partial^{\mu} \varphi 
+    \] \[
+    T^{\mu} _{\text{ }\nu} = \partial^{\mu} \varphi \partial_\nu \varphi - \mathcal{L} \delta^{\mu}_{\text{ }\nu}   
+    \] we look at individual parts
+    \begin{align*}
+        T^{00} &= \frac{1}{2} \left( \left( \partial_0 \varphi \right) ^2 + \left( \vec{\nabla } \varphi \right) ^2 \right) + V\left( \varphi \right)   \\
+        T^{0i} &= - \partial_0\varphi \partial_i \varphi   \\
+    \end{align*}
+  \item EM Field with source $j = 0$. \[
+  T^{\mu}_{\text{ }\nu} = -F^{\mu}_{\text{ }\alpha} \partial_\nu A^{\alpha} - \mathcal{L} \delta^{\mu}_{\text{ }\nu}  
+  \] \[
+  T^{\mu \nu} = - F^{\mu \alpha} \partial^{\nu} A_\alpha - \frac{1}{4} \left( F_{\alpha \beta} F^{\beta \alpha}  \right) g^{\mu\nu}  
+  \] Which is not symmetric under exchanging $\mu \leftrightarrow \nu$ and also not gauge invariant. We compare with the result from electro dynamics \[
+  \hat{T}^{\mu\nu} = F^{\mu}_{\text{ }\alpha} F^{\alpha \nu} - \frac{1}{4} \left( F_{\alpha \beta} F^{\beta \alpha}  \right) g^{\mu\nu} 
+  \] We compare the ED and the canonical energy momentum tensor \[
+  \hat{T}^{\mu\nu} - T^{\mu\nu} = F^{\mu\nu} \partial_\alpha A^{\nu} = \partial_\alpha \left( F^{\mu \alpha} A^{\nu}  \right) - \underbrace{F^{\mu \alpha}_{\text{  ,}\alpha}}_{=0 \text{ for motions}}  A^{\nu}  
+  \] Therefore the difference between $\hat{T}$ and $T$ is only a divergence and thus admissible since it's antisymmetric in $\mu, \alpha$, and $P^{\mu} $ is the same as in ED.
+  \end{itemize}
+\item[Lorentz Transformations:] \[
+    t_\lambda( x )^{\mu} = \Lambda^{\mu}_{\text{ }\nu} x^{\nu} \text{  ,  } \epsilon = \frac{d\Lambda}{d\lambda}|_{\lambda = 0} 
+\] \[
+v^{\mu}\left( x \right) = \epsilon^{\mu}_{\text{ }\nu} x^{\nu}  \text{  ,  } \epsilon_{\mu\nu} + \epsilon_{\nu \mu} = 0
+\] Transformation for the field is then \[
+\varphi'\left( x' \right) = \left( T_\Lambda \varphi \right) \left( \Lambda^{-1} x' \right) 
+\] With $T_\Lambda$ a representation of $L_+$ on the field space $F$, therefore $T_\Lambda$ scohuld be linear in $\varphi$.
+\[
+\to V = \frac{dT_\Lambda}{d\lambda}|_{\lambda = 0} \text{ linear in } \varphi, \epsilon 
+\] \[
+\implies V = \frac{1}{2} \epsilon_{\lambda \rho} S^{\lambda \rho} 
+\] Where $S^{\lambda \rho} $ is an antisymmetric linear map.\\
+Examples
+\begin{itemize}
+  \item Scalar Field: $T_{\Lambda} = \mathbb{I}$, $\implies V = 0, S^{\rho \lambda} = 0$. 
+  \item EM Field: $A'\left( x' \right) = \left( \Lambda A \right)  A\left( \Lambda^{-1} x' \right) $ \[
+  \implies V = \epsilon = \frac{1}{2}  \epsilon_{\lambda \rho} S^{\lambda \rho} 
+  \] \[
+  \left( S^{\lambda \rho}  \right)_{\mu \nu}  = \delta^{\lambda}_{\text{ }\mu} \delta^{\rho}_{\text{ }\nu} - \delta^{\rho}_{\text{ }\mu} \delta^{\lambda}_{\text{ }\nu} 
+  \] 
+\end{itemize}
+  A back to the general setting we find
+  \begin{align*}
+    J^{\mu} &= \pi^{\mu}_{\text{ }\alpha} \frac{1}{2} \epsilon_{\lambda\rho} \left( S^{\lambda \rho} \varphi \right)^{\alpha}  - T^{\mu}_{\text{ }\nu} \epsilon^{\nu}_{\lambda} x^{\lambda} \\
+            &= \frac{1}{2} \left( \pi^{\mu}_{\text{ }\alpha} \left( S^{\lambda \nu} \varphi \right) ^{\alpha} + x^{\lambda} T^{\mu\nu} - x^{\nu} T^{\mu \lambda}   \right) \epsilon_{\lambda \nu}  \\
+            &= \frac{1}{2} \Theta^{\mu\lambda \nu} \epsilon_{\lambda \nu}  \\
+  \end{align*}
+  With $\Theta^{\mu \lambda \nu} $ the Angular momentum tensor.\[
+  \Theta^{\mu \lambda \nu} = \underbrace{\pi^{\mu}_{\text{ }\alpha} \left( S^{} \ldots \right)  }_{\text{spin part}} + \underbrace{\ldots}_{\text{orbital part}} 
+  \] The conserved charge is then \[
+  L^{\lambda \nu} = \int_{ }^{} d^3 x \Theta^{0 \lambda \nu} ( t, \vec{x} ) 
+  \] For $\lambda, \nu = i$ spacial parts we get the ordinary angular momentum, however for $\lambda, \nu = 0$ we get \[
+  L^{0i}  = t P^{i} - X^{i} P^{0} 
+  \] Where $X^{i} $ is the center of the energy density. This is the law of constant inertia for $\vec{X}$.
+\end{description}
+\subsection{Hamiltonian Field Theory}
+\[
+L\left[ \varphi, \partial_0\varphi  \right] = \int_{}^{} d^3x \mathcal{L} \left( \varphi^{\alpha} , \partial\varphi^{\alpha}   \right)   
+\] \[
+\implies H\left( \varphi, \pi \right) = \int_{}^{} \int_{}^{} d^3x \mathcal{H}\left( \varphi^{\alpha} , \vec{\nabla } \varphi^{\alpha} , \pi_\alpha \right)   
+\] with \[
+\mathcal{H}\left( \varphi, \vec{\nabla } \varphi, \pi \right) = \pi_\alpha \dot{\varphi} ^{\alpha} - \mathcal{L} \left( \varphi, \vec{\nabla } \varphi, \partial_0 \varphi  \right)  
+\] and $\dot{\varphi}^{\alpha} = \partial_0 \varphi^{\alpha}  $ and $\pi_{0\alpha} = \frac{\partial \mathcal{L} }{\partial \varphi^{\alpha} \left( x \right) } \left( \varphi, \vec{\nabla } \varphi, \dot{\varphi} \right) $.\\
+The poisson brackets \[
+\left\{ F,G \right\} = \int_{}^{} d^3x \left( \frac{\delta F}{\delta \pi_\alpha} \frac{\delta G}{\delta \varphi^{\alpha} } - \frac{\delta F}{\delta \varphi^{\alpha} }  \frac{\delta G}{\delta \pi_\alpha}  \right) 
+\] \[
+\implies \left\{ \pi_\alpha\left( \vec{x} \right), \varphi_\beta\left( \vec{y} \right)   \right\} = \delta_\alpha^{\text{ }\beta} \delta\left( \vec{x} - \vec{y} \right) 
+\] The equation of motion are then given
+\begin{align*}
+  \dot{\pi}_\alpha\left( t, \vec{x} \right) &= \left\{ H, \pi_\alpha\left( t, \vec{x} \right)  \right\} \\
+   \dot{\varphi} \left( t,\vec{x} \right) &= \left\{ H, \varphi^{\alpha} \left( t, \vec{x} \right)  \right\}  \\
+\end{align*}
+Examples 
+\begin{itemize}
+  \item Real scalar field $\mathcal{L}  = \frac{1}{2} \left( \partial_\mu \varphi  \right) \left( \partial^{\mu} \varphi  \right) - V\left( \varphi \right) $ giving us \[
+  \mathcal{H} = \pi^2 - \mathcal{L} = \frac{1}{2} \left( \pi^2 + \left( \vec{\nabla } \varphi \right) ^2 \right) + V\left( \varphi \right) 
+  \] 
+\item EM field (with $j =0$ ) $\mathcal{L} = \frac{1}{4} F_{\alpha \beta} F^{\alpha \beta} $. \[
+F_{\alpha \beta} = 
+\] \[
+\mathcal{L} = \frac{1}{2} \left( \vec{E}^2 - \vec{B}^2 \right) 
+\] 
+\begin{align*}
+  \pi_\nu &= \pi_{0 \nu} = -F_{0\nu} = \partial_\nu A_0 - \partial_0 A_\nu \\
+\end{align*} Which we now have to solve for $\partial_0 A_\nu$ : which is impossible for $\nu = 0$, meaning $\pi_0$ cannot be used as a variable. To fix this problem we have to impose a gauge condition.
+\begin{itemize}
+  \item Coulemb gauge: \[
+  div \vec{A} = 0 , A^{0} = 0
+  \] from this we still have $A^{k} \left( k=1,2,3 \right) $ romain as field degrees of freedom and we get \[
+  \pi_k = - \dot{A}_k = \dot{A}^{k} = -E_k
+  \] with the constraint that $div \vec{\pi} = 0$. The Hamiltonian is then \[
+  \mathcal{H} = - \vec{E} \cdot \dot{\vec{A}} - \mathcal{L} = \frac{1}{2} \left( \vec{E}^2 + \vec{B}^2 \right)  
+  \]  
+\end{itemize}
+\end{itemize}
+\chapter{Dirac Equation}
+\section{The Quantum Mechanical Lorentz Group}
+\section*{Lecture of 11.11 Missing}
+Basis of $V_0 \otimes V_{\dot{ } } $ as \[
+\left\{ \sigma_\mu \right\} = \left( \sigma_0 = \mathbb{I}, \sigma_i \right) , \sigma_\mu^\dagger=\sigma_\mu
+\] giving \[
+\tilde{x} = x^{\mu} \sigma_\mu = 
+\begin{bmatrix}
+  x^{0} + x^{3} & x^{1} -i x^{2} \\
+  x^{1} + i x^2 & x^{0} - x^3
+\end{bmatrix}
+\] 
+ie $\tilde{x}_{\alpha \dot{\beta} } = x^{\mu} \sigma_{\mu, \alpha \dot{\beta} } $. with $\tilde{x} = \tilde{x}^\dagger$ iff $x^{\mu} \in \mathbb{R}$.\\
+We consider the basis for the other representation $V^{\dot{ } } \otimes V^{0} : \left\{ \hat{\sigma} _\mu \right\}   $ \[
+\hat{\sigma}_\mu = \left( \hat{\sigma}_\mu ^{\dot{\alpha} \beta}  \right) = \epsilon \sigma_\mu^\dagger \epsilon^\dagger = \left( \text{det} \sigma_\mu \right) \underbrace{\sigma_\mu^{-1} }_{=\sigma_\mu}
+= \begin{cases}
+  +1 \sigma_\mu & \mu = 0 \\
+  -1 \sigma_\mu & \mu = 1,2,3  \\
+\end{cases} = \left( P\sigma \right) _\mu
+\] 
+With $P: \mathbb{R}^{4} \to \mathbb{R}^{4} , \chi \to P\chi$ parity.
+The previously given map between the $\hat{x}$ and $\tilde{x}$ says that they have the same $x_\mu$ iff $\hat{x} = \epsilon \tilde{x}^{T} \epsilon^{T} $. Further we get $\sigma_\nu \hat{\sigma}_\mu + \sigma_\mu \hat{\sigma}_\nu = 2 g_{\mu \nu} \mathbb{I}$, and the trace as $\text{Tr}\left( \hat{\sigma}_\mu \sigma_\nu \right) = 2 g_{\mu\nu} $. This leads to $\implies x_\mu = \frac{1}{2} \text{Tr}\left( \hat{\sigma}_\mu \tilde{x} \right) $. The last remark is that $\text{det} \tilde{x} = \left( x^{0}  \right) ^2 - \vec{x}^2 = x_\mu x^{\mu} $ which is obviously lorentz invariant.\\
+We return to the first representation and conclude that $\text{det} \tilde{x}' = \text{det} \tilde{x}$, which induces a linear map $x = x^{\mu} \to x' = x'^{\mu} $, with the nice property that $x'_\mu x'^{\mu} = x_\mu x^{\mu} $. Which means that this map is a Lorenz transformation $\Lambda\left( A \right) \in L_+^{\uparrow} $ giving us $A \tilde{x} A^{*} = \tilde{\Lambda\left( A \right) x}$. Giving us \[
+\implies \Lambda\left( A \right) ^{\mu}_\nu = \frac{1}{2} \text{Tr}\left( \hat{\sigma}^{\mu} A \sigma_\nu A^{*} \right)  
+\] We can write anp $\Lambda \in L_+^{\uparrow} $ is of the form $\Lambda\left( A \right) $ (in more than one way in fact), $\Lambda\left( A \right) = \mathbb{I}$ iff $A = \pm 1$. Hence \[
+L_+^{\uparrow} \tilde{=} SL\left( 2, \mathbb{C} \right) / \left\{ \pm 1 \right\} 
+\] 
+We now look at the second representation where we have $\hat{x} \to \left( A^{*} \right) ^{-1} \hat{x} A^{-1} = \hat{\Lambda\left( A \right) x} $ but by $\hat{x} = \epsilon \tilde{x}^{T} \epsilon^{T} $ this defines the same $\Lambda\left( A \right) $ as in the other representation.
+By $\hat{x}  = \tilde{Px}$ we therefore get $  \left( A^{*}  \right) ^{-1}  \tilde{Px} A^{-1} = \tilde{P \Lambda\left( A \right) x}$ leading to \[
+\implies \Lambda\left( A^{*-1}  \right) P = P \Lambda \left( A \right) 
+\] 
+Remarks
+\begin{itemize}
+  \item For $U \in SU( 2 )$ we have \[
+  \Lambda\left( U \right)^{\mu} _{\text{ }0} = \frac{1}{2} \text{Tr}\left( \hat{\sigma}_\mu \underbrace{U \mathbb{I} U^{*} }_{\mathbb{I}}   \right) = \begin{cases}
+    1 & \mu = 0 \\
+    0 &  \mu \neq 0 \\
+  \end{cases}
+  \] \[
+  \implies \Lambda\left( U \right) = 
+  \begin{bmatrix}
+    1 & 0 \\
+    0 & R\left( U \right) 
+  \end{bmatrix}
+  \] 
+\item The infinitessimal version of $A \left( x^{\nu} \sigma_\nu \right) A^{*} = \Lambda^{\mu}_{\text{ }\nu} x^{\nu} \sigma_\mu$ is given as \[
+a = \frac{dA\left( \lambda \right) }{d \lambda}|_{\lambda = 0} 
+\] leading to infinitessimal lorentz transformations \[
+\epsilon = \frac{d \Lambda\left( \lambda \right) }{d \lambda} |_{\lambda = 0} 
+\] by  \[
+a = \frac{1}{2} \epsilon_{\mu\nu} \underbrace{S^{\mu\nu} }_{\in SL\left( 2, \mathbb{C} \right) }  , \epsilon_{\mu\nu} + \epsilon_{\nu\mu} =0
+\] We now claim that \[
+S^{0j}  = \frac{\sigma_j}{2} , S^{j+1, j+2} = - \frac{i\sigma_j}{2} 
+\] we prove
+\begin{align*}
+  \left( a\sigma_\nu + \sigma_\nu a^{*}  \right) x^{\nu} &= \left( \epsilon^{\mu} _{\text{ }\nu} x^{\nu} \sigma_\mu \right)  \\
+             &= \epsilon_{\mu\nu} x^{\nu} \sigma^\mu \\
+  \implies \left( a \sigma_\nu + \sigma_\nu a^{*}  \right) &=  \epsilon_{\mu\nu} \sigma^{\mu}   \\
+  &\implies \begin{cases}
+    a + a^{*} = \sigma^{j}  & \nu = 0 \\
+    a \sigma_j + \sigma_j a^{*} = - \sigma^{0}  & \nu = j \\
+    a \sigma_k + \sigma_j a^{*} = 0 & k \neq j \\
+  \end{cases}
+\end{align*}
+  Leading to the conclusion that \[
+  a = \frac{\sigma^{j} }{2} = - \frac{\sigma_j}{2} = S^{j 0} 
+  \] 
+\end{itemize}
+\section{The Weyl Equations}
+We consider the Lagrangian of a massless spin (or helicity since it's massless) $\frac{1}{2} $ field:
+\begin{equation*}
+  \mathcal{L}_L = \frac{i}{2}  \varphi^\dagger \hat{\sigma}_\mu \partial^{\leftrightarrow, \mu} \varphi = 
+  \frac{i}{2} \left( \overline{\varphi}_{\dot{\alpha}} \hat{\sigma}_\mu^{\dot{\alpha} \beta} \partial^{\mu} \varphi_\beta - \partial^{\mu} \overline{\varphi}_{\dot{\alpha}} \hat{\sigma}^{\dot{\alpha} \beta} _\mu \varphi_\beta  \right) 
+\end{equation*}
+The transformation law of the field $\varphi = \varphi\left( x \right) $ under $L_+^{\uparrow} $ is 
+\[
+\varphi'\left( x' \right) = \varphi'\left( \Lambda\left( A \right) x \right) = A \varphi\left( x \right) 
+\] ie. $\varphi = A^{-1} \varphi'$ or $\varphi_\beta\left( x \right) = \alpha ^{\gamma}_{\text{ }\beta} \varphi'_\gamma \left( x' \right) = \varphi'_\gamma\left( x' \right) A^{\gamma}_{\text{ }\beta} $.\\
+We now claim that $\mathcal{L}_L$ is invariont under these transformations and write
+\begin{align*}
+  \overline{\varphi}_{\dot{\alpha}} \left( x \right) \hat{\sigma}_\mu^{\dot{\alpha} \beta} \partial^{\mu} \varphi_\beta &= \varphi'_{\dot{\delta}} \left( x' \right) \overline{A}^{\dot{\delta}}_{\text{ }\dot{\alpha}} \left( \hat{\sigma}_\mu^{\dot{\alpha}\beta} \partial^{\mu}  \right) A^{\gamma}_{\text{ }\beta} \varphi'_\gamma \left( x' \right)   \\
+                                                                                                                      &= \overline{\varphi}'_{\dot{\delta}} \hat{\sigma}_\mu^{\dot{\delta} \gamma} \left( \Lambda\left( A \right) \partial  \right)^{\mu}  \varphi'_\gamma \left( x' \right)  \\
+  &= \overline{\varphi}'_{\dot{\delta}} \hat{\sigma}_\mu^{\dot{\delta} \gamma} \partial'^{\mu} \varphi'_\gamma \left( x' \right)
+\end{align*}
+We now compute the canonical momenta which are given as
+\begin{align*}
+  \overline{\pi}_{\mu}^{\text{ }\dot{\alpha}} &=  \frac{\partial \mathcal{L} }{\partial \left( \partial^{\mu} \overline{\varphi}_{\dot{\alpha}}   \right) } \\
+  &= -\frac{i}{2} \hat{\sigma}_\mu^{\dot{\alpha} \beta} \varphi_\beta \\
+  \frac{\partial \mathcal{L} }{\partial \overline{\varphi}_{\dot{\alpha}} } &= \frac{i}{2} \hat{\sigma}_\mu^{\dot{\alpha} \beta} \partial^{\mu} \varphi_\beta \\
+\end{align*}
+Giving us the Euler-Lagrange equations as  \[
+i \hat{\sigma}_\mu^{\dot{\alpha} \beta} \partial^{\mu} \varphi_\beta = 0 
+\] Which is the first Weyl equations, whose solutions satisfy the (massless!) Klein-Gordon equations. Which we can see by taking \[
+o_{\nu, \gamma \dot{\alpha}} \partial^{\nu} \hat{\sigma}_\mu^{\dot{\alpha} \beta} \partial^{\mu} = \varsigma_{\mu\nu} \delta_\gamma^{\beta} \partial^{\nu} \partial^{\mu} = \delta_\gamma^{\beta} \square     
+\] 
+A few remarks:
+\begin{itemize}
+  \item Gauge symmetry (global) 
+    \begin{align*}
+      \varphi_\beta &\to e^{-i\lambda} \varphi_\beta\\
+      \overline{\varphi}_{\dot{\alpha}} &\to e^{i\lambda} \overline{\varphi}_{\dot{\alpha}} 
+    \end{align*}
+    Giving us the Noether, with $\left( V\varphi_\beta = -i \varphi_\beta \right) $, as \[
+    J_\mu = \overline{\varphi}_{\dot{\alpha}} \sigma_\mu ^{\dot{\alpha} \beta} \varphi_\beta
+    \] 
+  \item Infinitessimal Lorentz transformations $\delta \varphi_\alpha = -\epsilon^{\mu}_{\text{ }\nu}  x^{\nu} \partial_\mu \varphi_\alpha + a_\alpha ^{\text{ }\beta} \varphi_\beta = \frac{1}{2} \epsilon^{\mu\nu} \left( \left( x_\mu \partial_\nu - \partial_\nu x_\mu \right) + S_{\mu\nu} \right) \varphi_\alpha $ \[
+  \implies M_{\mu\nu} = x_\mu \partial_\nu - \partial_\nu x_\mu + S_{\mu\nu}   
+  \] giving us the angular momentum, by multiplying with $-i$ we get the self-adjoint operator \[
+  M_{\mu\nu} = -i\left( x_\mu \partial_\nu - \partial_\nu x_\mu   \right) - i S_{\mu\nu} 
+  \] With the spin being $-i S_{i+1}^{\text{  }i+2} = \frac{\sigma_i}{2}  $.  Using the EL with a plane wave with $p^{\mu} = i \partial^{\mu} $ says that  \[
+  \vec{p} \cdot \vec{\sigma} \varphi = - p^{0} \varphi , p^{0} > 0
+\] Meaning that momentum $\vec{p}$ and spin $\vec{\sigma}$ are anti-parallel, meaning that the particle/field are left-handed. The (first) Weyl equation only describes these left handed fields and is not parity invariant. There is no transformation implementing parity $P$ ie. $\varphi'\left( x' \right) = S \varphi\left( x \right) $ with $x' = Px$ such that $\varphi'$ still satisfies the Weyl equation does not exist.
+\end{itemize}
+To treat right handed fields we can now write simmilarly 
+\begin{equation*}
+  \mathcal{L} _R = \frac{i}{2} \chi^\dagger \sigma_\mu \partial^{\leftrightarrow, \mu} \chi =
+  \frac{i}{2} \left( \overline{\chi}^{\alpha} \sigma_{\mu, \alpha \dot{\beta}} \partial^{\mu} \chi^{\dot{\beta}} - \partial^{\mu} \overline{\chi} ^{\alpha} \sigma_{\mu, \alpha \dot{\beta}} \chi^{\dot{\beta}}  \right) 
+\end{equation*} Which is the second Weyl equation, we won't go through the calculation again, but it turns out it describes right handed particles/fields.
+\section{The Dirac Equation}
+A field having parity symmetry can be be constructed by combining the two Weyl fields as \[
+\Psi = \begin{pmatrix} \varphi_\beta  \\ \chi^{\dot{\alpha}}   \end{pmatrix} 
+\] with the lagrangian \[
+\mathcal{L} = \mathcal{L} _L + \mathcal{L} _R = \frac{i}{2} \left( \varphi^\dagger \hat{\sigma}_\mu \partial^{\leftrightarrow, \mu} \varphi + \chi^\dagger \sigma_\mu \partial^{\leftrightarrow, \mu}  \chi  \right) 
+\] which we can rewrite as \[
+\mathcal{L} = \frac{i}{2} \overline{\Psi} \gamma^{\mu} \partial^{\leftrightarrow, \mu} \Psi 
+\] 
+with $\overline{\Psi} = \Psi^\dagger \gamma^{0} $, the Dirac conjugate. By comparison we get \[
+  \gamma^{0} \gamma^{\mu} = \begin{bmatrix} \hat{\sigma}^{\mu} & 0  \\ 0 & \sigma^{\mu} \end{bmatrix} 
+\] Which is solved by 
+\[
+  \gamma^{0} = \begin{pmatrix} 0 & 1  \\ 1 & 0 \end{pmatrix} \implies \overline{\Psi} = \left( \chi^{*,\beta} , \varphi^{*}_{\dot{\alpha}} \right) 
+\] \[
+  \gamma^{i} = \begin{pmatrix} 0 & \sigma^{i} \\ \hat{\sigma}^{i} & 0 \end{pmatrix} = \begin{pmatrix} 0 & -\sigma_i \\ \sigma_i & 0 \end{pmatrix} 
+\] 
+Which are the so called chiral, or Weyl, representation of the Dirac algebra.\\
+We look at the transformations of $\Psi$ under Lorenz-transformations $\Lambda \in L_+^{\uparrow} $ \[
+\Psi'\left( x' \right) = S\left( A \right) \Psi\left( x \right) , x' = \Lambda\left( A \right) x
+\] with \[
+S\left( A \right) = \begin{pmatrix} A & 0 \\ 0 & \left( A^\dagger \right)^{-1}  \end{pmatrix} 
+\] Which leaves $\mathcal{L}_{L / R} $ seperaterly invariant. \\
+We now look at the parity transformation \[
+\Psi'\left( x' \right) = \gamma^{0} \Psi\left( x \right) , x' = Px
+\] which just exchanges the Weyl spinors against each other $\varphi \leftrightarrow \chi$, $\mathcal{L}_L \leftrightarrow \mathcal{L}_R$. Giving us \[
+\gamma^{0} S\left( A \right) \gamma^{0} = \begin{pmatrix} \left( A^\dagger  \right)^{-1} & 0 \\ 0 & A \end{pmatrix} = S\left( \left( A^\dagger \right) ^{-1}  \right)  
+\] which matches our expectations. This extends the double valued reprsentation of $L_+^{\uparrow} $ on $V_0 \oplus V^{\dot{ } } $ to $L^{\uparrow} = L_+^{\uparrow} \cup P L_+^{\uparrow} $.\\
+A few remarks
+\begin{itemize}
+  \item We had
+    \begin{align*}
+      A\left( x^{\mu \sigma_\mu}  \right) A^\dagger &= \left( \Lambda\left( A \right) x \right) ^{\mu} \sigma \mu\\
+      \left( A^\dagger \right) ^{-1} \left( x^{\mu} \hat{\sigma}_\mu \right) A^{-1} &= \left( \Lambda\left( A \right) x \right) ^{\mu} \hat{\sigma}_\mu
+    .\end{align*}
+    joining them we get 
+    \begin{align*}
+      S\left( A \right)  x_\nu \gamma^{\nu} S\left( A \right) ^{-1} &= \left( \Lambda\left( A \right) x \right) _\nu \gamma^{\nu}  \\
+    \end{align*}
+  \item With a mass torm added to $\mathcal{L} $ we get \[
+  \mathcal{L} = \frac{i}{2} \overline{\Psi}\gamma^{\mu} \partial^{\leftrightarrow}_\mu \Psi - m \overline{\Psi} \Psi 
+  \] giving us the invariance of the mass term: \[
+  \overline{\Psi} \Psi = \chi^\dagger\varphi + \varphi^\dagger \chi = \overline{\chi}^{\alpha} \varphi_\alpha + \overline{\varphi}_{\dot{\alpha}} \chi^{\dot{\alpha}} 
+  \] Where both terms of the sum are invariant under Lorentz transformations and the whole sum is invariant under parity.
+\end{itemize}
+We now look at the canonical momenta of this theory (with $\overline{PSi} $ and $\Psi$ independent)
+\begin{align*}
+  \overline{\pi}^{\mu}  = \frac{\partial \mathcal{L} }{\partial \left( \partial_\mu \overline{\Psi} \right) } &= - \frac{i}{2} \gamma^{\mu} \Psi \\
+  \frac{\partial \mathcal{L} }{\partial \overline{\Psi} } &= \frac{i}{2} \gamma^{\mu} \partial_\mu \Psi - m\Psi 
+\end{align*}
+Giving us the Euler-Lagrange Equations: \[
+-i \gamma^{\mu} \partial_\mu \Psi + m\Psi = 0 
+\] ie. \[
+\left( i \gamma^{\mu} \partial_\mu - m \right) \Psi = 0
+\] 
+The EL equation with respect to $\overline{\Psi} $ gives \[
+\overline{\Psi} \left( i\gamma^{\mu} \partial_\mu^{\leftarrow} + m \right) = 0
+\] 
+In the bispinor notation we get: \[
+i \hat{\sigma}_\mu ^{\dot{\alpha} \beta} d^{\mu} \varphi = m \chi^{\dot{\alpha}} 
+\] \[
+i \sigma_{\mu, \alpha \dot{\beta}} \partial^{\mu} \chi^{\dot{\beta}} = m \varphi_\alpha 
+\] 
+Remark:
+\begin{itemize}
+  \item Global gauge symmetry 
+    \begin{align*}
+      \Psi &\to e^{i\lambda} \Psi \\
+      \overline{\Psi} &\to e^{-i\lambda} \overline{\Psi} 
+    \end{align*}
+    Giving us the Noether current \[
+    J^{\mu} = i \overline{\Psi} \gamma^{\mu} \Psi
+    \] 
+  \item Infinitessimal Lorentz transformations give us $A \to S\left( A \right) $, $a \to  S\left( a \right) $ \[
+  S\left( a \right) = \frac{1}{2} \frac{1}{2} \epsilon_{\mu\nu} \varsigmath\mu \nu
+  \] with \[
+  \varsigma^{\mu\nu} = \frac{1}{4} \left[ \gamma^{\mu} , \gamma^{\nu} \right] = \sigma^{\mu\nu} 
+  \] ie \[
+  \varsigma^{0 j} = \frac{1}{2}  \begin{pmatrix} \sigma^{j} & 0 \\ 0 & -\sigma^{j}  \end{pmatrix} , \varsigma^{j+1, j+2}  = - \frac{i}{2}  \begin{pmatrix} \sigma_j & 0 \\ 0 & \sigma_j \end{pmatrix} 
+  \] 
+\end{itemize}
+\subsection*{Lecture 18.11. missing}
+\chapter{Canonical Quantization}
+Corollary to Wicks' Lemma: (Vacuum expectation values) \[
+\bra{0} A_1 \ldots A_{2n + 1} \ket{0} = 0
+\] \[
+\bra{0} A_1 \ldots A_{2n} \ket{0} = \sum_{P: (i_1 < k_1) \ldots (i_n < k_n)}^{} \varsigma\left( \sigma_p \right) \prod_{l=1}^{n} \bra{0}  A_{i_l} A_{k_l} \ket{0}   
+\] 
+There are several variants of this result:
+\begin{itemize}
+  \item $: A_1 \ldots A_k : \cdot :A_{k+1} \ldots A_n : $\[
+  = \sum_{P: \left( i_1 < k_1 \right) \ldots \left( i_p < k_p \right) }^{}' \left( \prod_{l=1}^{n} \bra{0 } A_{i_l} A_{k_l} \ket{0}  \right) :A_1 \ldots \hat{A}_{i_1} \ldots \hat{A}_{k_p} \ldots A_n :
+  \] 
+  With $ \sum_{}^{}' $ the sum over pairings $P$ with no pair from a same normal ordered product. \[
+  \implies \bra{0} :A_1 \ldots A_k: \cdot :A_{k+1} \ldots A_{n} : \ket{0} =
+  \sum_{P}^{} \varsigma\left( \sigma_P \right) \left( \prod_{l=1}^{n} \bra{0} A_{i_l} A_{k_l} \ket{0}   \right)  
+  \] 
+\item Suppose some order (not neccesarily that of the labeling) is given among $A_1 ,\ldots, A_n$. E.g. each of the operators could come with a time $t_i$ and we order them according to their "time stamp". This is called a time ordered product: \[
+    T\left( A_1 ,\ldots, A_n \right) = \varsigma( \sigma_P ) A_{\sigma\left( 1 \right) } \ldots A_{\sigma\left( n \right) } 
+\] Then we can write such a time ordered product as a sum over normal ordered products  \[
+T\left( A_1, \ldots, A_n \right) = \sum_{P}^{} \varsigma \left( \sigma_P \right) \prod_{l=1}^{n} \bra{0} T\left( A_{i_l} , A_{k_l}  \right) \ket{0} :A_1, \ldots \hat{A}_{i_1} \ldots \hat{A}_{k_p} \ldots A_n : 
+\] \[
+\implies \bra{0} T\left( A_1, \ldots, A_n \right) \ket{0} = \sum_{P}^{}  \varsigma\left( \sigma_P \right) \prod_{l=1}^{n} \bra{0} T\left( A_{i_l} A_{k_l}  \right) \ket{0}  
+\] 
+\item The previous two combine to give us \[
+T\left( :A_1 \ldots A_k: \cdot :A_{k+1} \ldots A_n: \right) = 
+= \sum_{P: \left( i_1 < k_1 \right) \ldots \left( i_p < k_p \right) }^{}' \left( \prod_{l=1}^{n} \bra{0 } T\left(A_{i_l}, A_{k_l}\right) \ket{0}  \right) :A_1 \ldots \hat{A}_{i_1} \ldots \hat{A}_{k_p} \ldots A_n :
+\] With again the $ \sum_{}^{}' $. Analogous for the vacuum expectation.
+\end{itemize}
+\section{The Real Scalar Field}
+We use the cannonical quantisation with $\hbar = c = 1$. We replace $\varphi\left( \vec{x} \right) , \pi\left( \vec{x} \right) ,H$ by operators (at first they are objects on some algebra, later then operators on a concrete Hilbertspace) with \[
+\left[ \varphi\left( x \right) , \pi\left( \vec{y} \right)  \right] = i \delta\left( \vec{x} - \vec{y} \right) 
+\] With all other commutators vanishing. The dynamics are then given as \[
+\dot{\varphi}\left( t, \vec{x} \right) = i \left[ H, \varphi\left( t, \vec{x} \right)  \right] 
+\] \[
+\dot{\pi}\left( t, \vec{x} \right) = i \left[ H, \pi\left( t, \vec{x} \right)  \right] 
+\] The mode expansion is given as (Fourier in position)
+\begin{align*}
+  \varphi\left( \vec{x} \right) &= \left( 2\pi \right) ^{-\frac{3}{2} } \int_{}^{} \frac{d^3p}{2p^{0} } \left( e^{\vec{ip}\cdot \vec{x}} a\left( \vec{p} \right) + e^{-\vec{ip}\cdot \vec{x}} a^{*} \left( \vec{p} \right)  \right)  \\
+  &= \left( 2\pi \right) ^{-\frac{3}{2} } \int_{}^{} \frac{d^3p}{2p^{0} } e^{\vec{ip}\cdot \vec{x}} \left( a\left( \vec{p} \right) + a^{*} \left( -\vec{p} \right)  \right)   \\
+  \pi\left( \vec{x} \right) &= -i\left( 2\pi \right) ^{-\frac{3}{2} } \int_{}^{} \frac{d^3p}{2} \left( e^{\vec{ip}\cdot \vec{x}} a\left( \vec{p} \right) - e^{-\vec{ip}\cdot \vec{x}} a^{*} \left( \vec{p} \right)  \right)   \\
+  &= -i\left( 2\pi \right) ^{-\frac{3}{2} } \int_{}^{} \frac{d^3p}{2} e^{\vec{ip}\cdot \vec{x}} \left( a\left( \vec{p} \right) - a^{*} \left( -\vec{p} \right)  \right) 
+\end{align*}
+In analogy to ED, where we had two real fields $\varphi\left( \vec{x} \right) ,\pi\left( \vec{x} \right) $ which we then replaced by one single complex field $a\left( \vec{p} \right) $. For ED we had the pattern: $q_+ \to e^{\vec{ip}\cdot \vec{x}} , \omega = p^{0} \implies q_+ = \frac{1}{\sqrt{2\omega} } \left( a_{+} _ \overline{a}_- \right) , p_4 = i \sqrt{\frac{\omega}{2} } \left( a_+-\overline{a}_- \right) $.\\
+We now have $a\left( \vec{p} \right) \leftrightarrow \sqrt{2 \omega} a_+$. In the CCR case we have \[
+  \left[ a\left( \vec{p} \right) , a^\dagger\left( \vec{p}' \right) ,  \right] = 2p^{0} \delta\left( \vec{p}-\vec{p}' \right) 
+\] With all others vanishing.
+The Hamiltonian is given as 
+\begin{align*}
+H = \frac{1}{2} \int_{}^{} d^3x : \pi^2\left( \vec{x} \right) + \left( \vec{\nabla } \varphi\left( \vec{x} \right)  \right) ^2 + m^2\varphi^2\left( \vec{x} \right) : 
+ &\underbrace{=}_{\text{ccr}} \int_{}^{} \frac{d^3p}{2p^{0} } \times  p^{0} a^\dagger\left( \vec{p} \right) a\left( \vec{p} \right)
+\end{align*}
+See notes for the derivation of above identity.\\
+We can similarly look at the momentum 
+\begin{align*}
+  \vec{P} &= -\int_{}^{} d^3x : \pi\left( \vec{x} \right) \vec{\nabla } \varphi\left( \vec{x} \right) :  \\
+  &\underbrace{=}_{\text{ccr}} \int_{ }^{} \frac{d^3p}{2p^{0} } \times  \vec{p} a^\dagger\left( \vec{p} \right) a\left( \vec{p} \right)
+\end{align*}
+Giving us the Heisenberg equation of motion as
+\begin{align*}
+  \dot{a}\left( \vec{p} \right) &= i\left[ H, a\left( \vec{p} \right)  \right]  \\
+  &= -i p^{0} a\left( \vec{p} \right)   \\
+  \dot{a}^\dagger\left( \vec{p} \right) &= i \left[ H, a^\dagger\left( \vec{p} \right)  \right]  \\
+  &= i p^{0} a^\dagger\left( \vec{p} \right)
+\end{align*}
+Giving us 
+\begin{align*}
+  a\left( \vec{p}, t \right) &= e^{-ip^{0} t} a\left( \vec{p} \right)  \\
+  a^\dagger\left( \vec{p}, t \right) &= e^{ip^{0} t} a^\dagger\left( \vec{p} \right)
+\end{align*}
+Giving us for the field: 
+\begin{align*}
+  \partial_t \varphi\left( x \right) &= i\left[ H, \varphi\left( x \right)  \right]  \\ 
+  \implies \varphi\left( \vec{x},t \right) &= \left( 2\pi \right) ^{-\frac{3}{2} } \int_{}^{} \frac{d^3p}{2p^{0} } \left( e^{-ip\cdot x} a\left( \vec{p} \right) + e^{ip\cdot x} a^\dagger\left( \vec{p} \right)  \right)   \\
+\end{align*}
+With $p^{0 } = \sqrt{\vec{p}^2 + m^2} $ and $p\cdot x = p^{0} t - \vec{p}\cdot \vec{x}$.\\
+All operators are represented on a Fock space $\mathcal{F} $ , which is spanned by \[
+\ket{\vec{p}_1, \ldots, \vec{p}_n} = a^\dagger\left( \vec{p}_1 \right) \ldots a^\dagger\left( \vec{p}_n \right) \ket{0} 
+\] which we can interpret as follows
+\begin{itemize}
+  \item $n = 0 \implies \ket{0} $ the vacuum with $P^{\mu} \ket{0} = 0$, meaning it's invariant under space-time translation.
+  \item $n = 1 \implies a^\dagger\left( \vec{p} \right) \ket{0} $ giving us $P^{\mu} \ket{\vec{p}} = p^{\mu} \ket{p} $ which is the state of a single particle of mass m.
+  \item $n \ge 2$ is an $n$-particle state with $P^{\mu} \ket{\vec{p}_1,\ldots}  = \sum_{i=1}^{n} p^{\mu,i} \ket{\vec{p}_1,\ldots}    $
+\end{itemize}
+We can now get the spectrum of $P_\mu$, as they all commute. The joint EV are give as \[
+\sigma\left( P^{\mu}  \right) = \left\{ \sum_{i=1}^{n} p^{\left( i \right) \mu} | p^{\left( i \right)} \in V_m, n = 0,1,\ldots   \right\} 
+= \left\{ 0 \right\} \cup \left\{ p\in \mathbb{R}^{4} | p^{0} \ge 0 \text{ and } \left( p^2 = m^2 \text{ or } p^2 \ge 4m^2 \right)  \right\} 
+\] 
+We have $H = P^{0} \ge 0$ giving us stability all "by itself". In contrast to the problems with negative energy solutions we encountered in the Klein-Gordan equation, which we had to cross out "by hand", we now get stability (positive energy) simply by quantizing a field theory. \\
+\paragraph{Two point function} (aka Green's function) is given as
+\[
+\bra{0} \varphi\left( x \right) \varphi\left( y \right) \ket{0} 
+= \left( 2\pi \right) ^{-3} \int_{}^{} \int_{}^{} \frac{d^3p}{2p^{0} } \frac{d^3p'}{2p'^{0} } e^{-ipx} e^{ip'y} \underbrace{ \bra{0} a\left( \vec{p} \right) a^\dagger\left( \vec{p}' \right) \ket{0} }_{\left[ a\left( \vec{p} \right) , a^\dagger\left( \vec{p}' \right)  \right] } 
+\] 
+Giving us \[
+\bra{0} \varphi\left( x \right) \varphi\left( y \right) 
+= \left( 2\pi \right) ^{-3} \int_{}^{} \int_{}^{} \frac{d^3p}{2p^{0} } \frac{d^3p'}{2p'^{0} } 2 p^{0} \delta \left( \vec{p} - \vec{p}' \right)   
+= i \Delta_+\left( x-y \right) 
+\] with \[
+i \Delta_+\left( z \right) = \left( 2\pi \right) ^{-3} \int_{}^{} \frac{d^3p}{2p^{0} } e^{-ipz}  
+\] which is an $L^{\uparrew} $-invariant distirbution. To see this we write
+\begin{align*}
+  i\Delta_+\left( \Lambda z \right) &= \left( 2\pi \right) ^{-3} \int_{\mathbb{R}^{4} }^{} d \mu\left( p \right) e^{-i p \cdot \Lambda z}  \\
+  &= \left( 2\pi \right) ^{-3} \int_{}^{} d \mu\left( p \right) e^{-i \left( \Lambda^{-1} p \right) z}   \\
+  &= \left( 2\pi \right) ^{-3} \int_{}^{} d \mu\left( p' \right) e^{-i p' z}   \\
+  &= \left( 2\pi \right) ^{-3} \int_{}^{} d \mu\left( p \right) e^{-i p z}   \\
+  &=  i \Delta_+\left( z \right) 
+\end{align*}
+In particular for $z$ spacelike we get $z^2 = z_\mu z^{\mu} < 0$ there is a lorenztransformation $\Lambda \in L^{\uparrow}_+$ such that $\Lambda z = -z$, hence we get \[
+i\Delta_+\left( -z \right) = i \Delta_+\left( z \right)  \text{  for } \left( z^2 < 0 \right) 
+\] 
+The commutator between two space-time points in the fields $\left[ \varphi\left( x \right) , \varphi\left( y \right)  \right] $ is a multiple of $\mathbb{I}$, by CCR. They are given as
+\begin{align*}
+  \left[ \varphi\left( x \right) , \varphi\left( y \right)  \right] &= \bra{0} \left[ \varphi\left( x \right) , \varphi\left( y \right)  \right] \ket{0}  \\
+  &= i\left( \Delta_{+} \left( x-y \right) - \Delta_+\left( y-x \right)  \right)  \\
+  &:= i \Delta\left( x-y \right)
+\end{align*}
+In particular, if $\left( x-y \right) ^2 <0$, meaning $x,y$ are space-like separated \[
+\left[ \varphi\left( x \right) , \varphi\left( y \right)  \right] = 0 \text{  for  } x,y \text{ space-like seperated}
+\] 
+This implies locality, ie. there can be no influence between events that are space-like separated. Giving us the compatibility of the theory with special relativity.\\
+To be used in perturbation theory we introduce the \emph{Time-ordered Green's function} (also called the Feynman propagator).
+\begin{align*}
+  i \Delta_F\left( x-y \right) &= \bra{0} T\left( \varphi\left( x \right) , \varphi\left( y \right)  \right) \ket{0}  \\
+  &= \Theta\left( x^{0} - y^{0}  \right) \bra{0} \varphi\left( x \right) \varphi\left( y \right) \ket{0} + \Theta\left( y^{0} - x^{0}  \right) \bra{0} \varphi\left( y \right) \varphi\left( x \right) \ket{0}  \\
+  \implies \Delta_F &=  \Theta\left( z^{0}  \right) \Delta_+\left( z \right) + \Theta\left( -z^{0}  \right) \Delta_+\left( -z \right) \\
+\end{align*}
+It's important to remember;
+\begin{itemize}
+  \item $\Theta\left( z^{0}  \right) $ is not $L^{\uparrow} $ invariant, in contrast $\Delta_+\left( z \right) $ is iff $z^2 < 0$. But then we get $\Delta_F\left( z \right) = \Delta_+\left( z \right) $ anyways. So in the end the entire $\Delta_F$ is $L^{\uparrow} $-invariant (in fact it is $L$-invariant). 
+\end{itemize}
+The fourier representation of this Feynman propagator is given as
+\begin{align*}
+  \Delta_F\left( z \right) &= \int_{}^{} \frac{d^{4} p}{\left( 2\pi \right) ^{4} } \frac{1}{p^2 - m^2 + i 0} e^{-ipz} =: I
+\end{align*}
+We prove for $z^{0} >0$
+\begin{align*}
+  I &=  \frac{i}{\left( 2\pi \right) ^3} \int_{}^{} d^3p e^{i\vec{p} \vec{z} } \frac{1}{2\pi} \int_{}^{}   dp^{0}  \frac{e^{-ip^{0} z^{0} } }{\left( p^{0}  \right) ^2 - \left( p^2 + m^2 \right)^2 + i 0 }  \\
+  \text{The poles of this integral is given as: }  p^{0} &= \pm \sqrt{\vec{p}^2 + m^2 - i 0} = \pm \left( \sqrt{\vec{p}^2 + m^2} - i 0 \right) \\
+\implies I &=  \text{ Residue over the positive pole} \\
+&= - \frac{i}{\left( 2\pi \right) ^3} \int_{}^{} \frac{d^3p}{2p^{0} } e^{-i \left( p^{0} z^{0} - \vec{p}\vec{z} \right) } \\
+\implies i I&=  i \Delta_+\left( z \right) \\
+\end{align*}
+For $z^{0} <0$ the argument is simmilar.\\
+A remark that should have been made earlier is
+\begin{itemize}
+  \item $\partial_\mu \varphi\left( x \right) = i \left[ P_\mu, \varphi\left( x \right)  \right]  $. If CAR had been used on the classical expression for  $P_\mu$ then we would have gotten $P_\mu = 0$. However if $P_\mu = \int_{}^{} \frac{d^3p}{2p^{0} } p^{\mu} a^\dagger\left( \vec{p} \right) a\left( \vec{p} \right) $ is accepted as is then $\partial_\mu \varphi\left( x \right) $ still yields the same.
+\end{itemize}
+\subsection{Spin-Statistics}
+For all of the calculations above we relied heavily on the CCR (ie. the bosonic case) to quantize $\varphi\left( \vec{x} \right) $. We now explore what would happen when we use CAR instead, then we have: 
+\begin{enumerate}
+  \item either $\left[ \varphi\left( x \right) , \varphi\left( y \right)  \right] \not\propto \mathbb{I}$.
+  \item or $\left\{ \varphi\left( x \right) , \varphi\left( y \right)  \right\} \propto \mathbb{I}$.
+\end{enumerate}
+We explore case $1$. first and get
+\begin{align*}
+  \left[ \varphi\left( x \right) , \varphi\left( y \right)  \right] &= \varphi\left( x \right) \varphi\left( y \right) - \varphi\left( y \right) \varphi\left( x \right)  \\
+  &= : \varphi\left( x \right) \varphi\left( y \right) : + \bra{0} \varphi\left( x \right) \varphi\left( y \right) \ket{0} - :\varphi\left( y \right) \varphi\left( x \right) : - \bra{0} \varphi\left( y \right) \varphi\left( x \right) \ket{0}   \\
+  &= 2 :\varphi\left( x \right) \varphi\left( y \right) : + i \Delta\left( x-y \right)
+\end{align*}
+In this case, when $\left( x-y \right) ^2 < 0$, ie they are spacially seperated we have
+\begin{align*}
+  &= \underbrace{2 :\varphi\left( x \right) \varphi\left( y \right) :}_{\neq 0}  + \underbrace{ i \Delta\left( x-y \right)}_{=0} 
+\end{align*}
+We check that the first case indeed isn't $0$ 
+\begin{align*}
+  \bra{\vec{p}} :\varphi\left( x \right) \varphi\left( y \right) : \ket{\vec{p}} &= 2 i \left( 2 \pi \right) ^3 \sin\left( p\left( x-y \right)  \right)  \\
+  &= \bra{0} a\left( \vec{p} \right) :\varphi\left( x \right) \varphi\left( y \right) : a^\dagger\left( \vec{p} \right) \ket{0}  \\
+  &= \bra{0} a\left( \vec{p} \right) \varphi\left( x \right) \ket{0} \bra{0} \varphi\left( y \right) a^\dagger\left( \vec{p} \right) \ket{0} - \left( x \leftrightarrow y \right) 
+\end{align*}
+by 
+\begin{align*}
+  \bra{0} a\left( \vec{p} \right) \varphi\left( x \right) \ket{0} &= \left( 2\pi \right) ^{-\frac{3}{2} } e^{ipx}
+\end{align*}
+we get
+\begin{align*}
+  \bra{\vec{p}} :\varphi\left( x \right) \varphi\left( y \right) : \ket{\vec{p}} &= \left( 2\pi \right) ^3 \left( e^{ip \left( x-y \right) } - \left( x \leftrightarrow y \right)  \right)  \\
+  &\neq 0
+\end{align*}
+Meaning locality is violated for option one.\\
+We therefore take a look at the second option:
+\begin{align*}
+  \left\{ \varphi\left( x \right) , \varphi\left( y \right)  \right\} &= \bra{0} \left\{ \varphi\left( x \right) , \varphi\left( y \right)  \right\} \ket{0}  \\
+  &= i \Delta_+\left( x-y \right) + i \Delta_+\left( y-x \right)  \\
+  \text{for $\left( x-y \right) ^2 < 0$ we have   }&= 2i \Delta_+\left( x-y \right)  \\
+                                                   &\neq 0
+\end{align*}
+Again we found that locality is violated. Meaning that for free scalar field we have to use Bosonic quantization.
+\section{Complex Scalar Field}
+We consider two real scalar (quantum) fields $\varphi_i\left( x \right) = \varphi_i\left( x \right) ^{*} $ $\left( i = 1,2 \right) $ realized on $\mathcal{F} _+ \otimes  \mathcal{F} _+$, as $\varphi_1\left( x \right) = \varphi_1\left( x \right) \otimes \mathbb{I}$, $\varphi_2\left( x \right) = \mathbb{I} \otimes  \varphi_2\left( x \right) $. Giving us $\left[ \varphi_1\left( x \right) , \varphi_2 \left( y \right)  \right] = 0$ \\
+We combine the two fields as
+\[
+\varphi\left( x \right) = \frac{1}{\sqrt{2} } \left( \varphi_1\left( x \right) + i \varphi_2\left( x \right)  \right) 
+= \left( 2\pi \right) ^{-\frac{3}{2} }  \int_{}^{} \frac{d^3p}{2p^{0} } \left( e^{-ipx} a\left( \vec{p} \right) + e^{ipx} b^{*} \left( \vec{p} \right)  \right)  
+\] 
+With 
+\begin{align*}
+  a\left( \vec{p} \right) &= \frac{1}{2} \left( a_1\left( \vec{p} \right) + i a_2\left( \vec{p} \right)  \right)  \\
+  b^{*} \left( \vec{p} \right) &= \frac{1}{\sqrt{2} } \left( a_1^{*} \left( \vec{p} \right) + i a_2^{*} \left( \vec{p} \right)  \right) 
+\end{align*}
+The only non-zero commutators are:
+\begin{align*}
+  \left[ a\left( \vec{p} \right) , a^{*} \left( \vec{p}' \right)  \right] = \left[ b\left( \vec{p} \right) , b^{*} \left( \vec{p}' \right)  \right] &= 2 p^{0} \delta\left( \vec{p} - \vec{p}' \right) 
+\end{align*}
+\paragraph{4-Momentum} (generator of translations) 
+\begin{align*}
+p^{\mu} = \int_{}^{} \frac{d^3p}{2p^{0} } p^{\mu} \left( a_1^{*} \left( \vec{p} \right) a_1\left( \vec{p} + a_2^{*} \left( \vec{p} \right) a_2\left( \vec{p} \right)  \right)  \right)  
+&= \int_{}^{} \frac{d^3p}{2p^{0} } p^{\mu} \left( a^{*} \left( \vec{p} \right) a\left( \vec{p} \right) + b^{*} \left( \vec{p} \right) b\left( \vec{p} \right)  \right)  
+\end{align*}
+Which is only definitively positive because we have not used fermionic relations (stability would not be given).
+\paragraph{Global gauge symmetry}\\
+Clasically we have $\varphi\left( x \right) \to e^{-i\lambda} \varphi\left( x \right) $ giving us a Noether charge $Q = i \int_{x^{0} = t}^{} d^3x \left( \overline{\varphi}\left( x \right) \left( \partial_0 \varphi\left( x \right)   \right)  - \left( \partial_0 \overline{\varphi}\left( x \right)   \right) \varphi\left( x \right)  \right)   $ giving us the Hamiltonian as a generator of symmetry.\\
+In a quantum case we get \[
+  Q = \int_{}^{} \frac{d^3p}{2p^{0} } \left( a^{*} \left( \vec{p} \right) a\left( \vec{p} \right) - b^{*} \left( \vec{p} \right) b\left( \vec{p} \right)  \right)
+\] 
+This $Q$ also generates a symmetry as
+\[
+e^{i\lambda Q} \varphi\left( x \right) e^{-i\lambda Q} = e^{-i \lambda} \varphi\left( x \right) 
+\] this follows from it's infinitessimal version \[
+\left[ Q, \varphi\left( x \right)  \right] = - \varphi\left( x \right) 
+\] and from this in turn follows
+\begin{align*}
+  \left[ Q, a^{*} \left( \vec{p} \right) \right] &= a^{*} \left( \vec{p} \right)  \\
+\left[ Q, a\left( \vec{p} \right)  \right] &=  - a\left( \vec{p} \right)  \\
+\left[ Q, b^{*} \left( \vec{p} \right)  \right] &= - b^{*} \left( p \right)
+\end{align*}
+If we expand the first commutator we get
+\begin{align*}
+  Q a^{*} \left( \vec{p} \right) &= a^{*} \left( \vec{p} \right) \left( Q+1 \right)  \\
+  Q b^{*} \left( \vec{p} \right) &= b^{*} \left( \vec{p} \right) \left( Q - 1 \right) 
+\end{align*}
+We therefore have that $a^{*} \left( \vec{p} \right) $ raises the charge by $1$, while $b^{*} \left( \vec{p} \right) $ lowers it by $1$. Which lends itself to the interpretation that $a^{*} \left( \vec{p} \right) $ creates a particle, while $b^{*} \left( \vec{p} \right) $ creates an anti-particle.\\
+The Green's functions are given as
+\begin{align*}
+  \bra{0} \varphi\left( x \right) \varphi^{*} \left( y \right) \ket{0} &= i \Delta_+\left( x-y \right)  \\
+  \left[ \varphi\left( x \right) , \varphi^{*} \left( y \right)  \right] &= i \Delta\left( x-y \right)  \\
+  \bra{0} T\left( \varphi\left( x \right) \varphi\left( y \right)  \right) \ket{0} &= i \Delta_F \left( x-y \right)
+\end{align*}
+The same relations hold if the $^{*} $ is on the respective first factor. All others ($\varphi, \varphi$ and $\varphi^{*} , \varphi^{*} $) are $0$.
+\section{Dirac Field}
+We have \[
+\left( i \gamma^{\mu} - m \right) \psi = 0
+\] 
+with solutions (plane waves) \[
+\psi\left( x \right) = u e^{-ipx} 
+\] 
+with $\slashed{p} = p_\mu \gamma^{\mu} $ we get \[
+  \left( \slashed{p} - m \right) u = 0
+\] and $p \in \pm V_m$. When $p \in - V_m$ we write instead $ve^{ipx} $ with $p \in V_m$ but \[
+\psi\left( x \right) = v e^{ipx} 
+\] is then \[
+\left( \slashed{p} + m \right) v = 0
+\] 
+The solution space of the two equations is each two dimensional. We have to choose a basis in each solution space as
+\[
+u^{\left( \alpha \right) } \left( p \right) , v^{\left( \alpha \right) } \left( p \right)  \text{    } \left[ \alpha = 1,2 \text{and} p \in V_m \right] 
+\] We want to take the general solution of the classical dirac field 
+\begin{align*}
+  \psi\left( x \right) &= \left( 2\pi \right) ^{-\frac{3}{2} } \sum_{\alpha}^{} \int_{}^{}  \frac{d^3p}{2p^{0} } \left(  b_\alpha \left( p \right) u^{\left( \alpha \right) } \left( p \right) e^{-ipx} + \overline{d_\alpha\left( p \right) } v^{\left( \alpha \right) } \left( p \right) e^{ipx}  \right)    \\
+\end{align*}
+with $b_\alpha\left( p \right) , d_\alpha\left( p \right) \in P $ arbitrary.\\
+The choice of polarization is not unique, but such that $\left( \overline{u} = u^{*} \gamma^{0}  \right) $ 
+\begin{align*}
+  \overline{u}^{\left( \alpha \right) } \left( p \right) u^{\left( \beta \right) } \left( p \right) &= 2m \delta_{\alpha \beta}  \\
+  \overline{v}^{\left( \alpha \right) } \left( p \right) v^{\left( \beta \right) } \left( p \right) &= -2 m \delta_{\alpha \beta}  \\ 
+  \overline{u}^{\left( \alpha \right) } \left( p \right) v^{\left( \beta \right) } \left( p \right) = \overline{v}^{\left( \alpha \right) } \left( p \right) u^{\left( \beta \right) } \left( p \right) &= 0
+\end{align*}
+We justify this choice
+\begin{itemize}
+  \item for $p = \left( m, \vec{0} \right) $ the two dirac equations state that
+    \begin{align*}
+      \left( \gamma^{0} - 1 \right) u &= 0 \\
+      \left( \gamma^{0} +1 \right) v &= 0
+    \end{align*}
+    And since $\gamma^{0} = \gamma^{0*}  $ the eigenvectors can be chosen orthogonal (with respect to the standard innerproduct on $\mathbb{C}^{4} $ ). As given above.
+  \item for other $p$ we get, in the same sense that if it holds at $p \in V_m$ then it also holds at $p' = \Lambda\left( A \right) p$ sice \[
+  u^{\left( \alpha \right) } \left( p' \right) = S\left( A \right) u^{\left( \alpha \right) } \left( p \right) 
+  \] \[
+  \implies u^{\left( \alpha \right) *} \left( p' \right) = u^{\left( \alpha \right) *} \left( p \right) S^{*} \left( A \right) 
+  \] \[
+  \overline{u}^{\left( \alpha \right) } \left( p' \right) u^{\left( buta \right) } \left( p' \right) =
+  \overline{u}^{\left( \alpha \right) } \left( p \right) \underbrace{\gamma^{0} S\left( A \right) ^{*} \gamma^{0} }_{S\left( A^{-1}  \right) = S\left( A \right) ^{-1} } S\left( A \right) u^{\left( \beta \right) } \left( p \right) = \overline{u}^{\left( \alpha \right) } \left( p \right) u^{\left( \beta \right) } \left( p \right)  
+  \] 
+\end{itemize}
+We also have a completeness realation
+\begin{align*}
+  \sum_{\alpha=1,2}^{} u^{\left( \alpha \right) } \left( p \right) \otimes \overline{u}^{\left( \alpha \right) } \left( p \right) &= \slashed{p} + m \\
+  \sum_{\alpha=1,2}^{} v^{\left( \alpha \right) } \left( p \right) \otimes \overline{v}^{\left( \alpha \right) } \left( p \right) &= \slashed{p} - m 
+\end{align*}
+\subsection{Quantisation of the Dirac field}
+Quantizing the Lagrangian is not possible, as we can't do the Legendre transformations needed to find the Hamliltonian. We therefore choose a different approach.\\
+\paragraph{Toy Model}
+We start with a toy model with two degrees of freedom $\left( q, \overline{q} \right) $. Let \[
+L = \frac{1}{2} \left( \overline{q} \dot{q} - \overline{\dot{q}} q \right) - m \overline{q}q
+\] 
+We observe that the first term is homogenious of degree $1$ in $\dot{q}, \overline{\dot{q}} $. \[
+\implies p = \frac{\partial L}{\partial \dot{q}} = \frac{1}{2} \overline{q}
+\] \[
+\overline{p} = \frac{\partial L}{\partial \overline{\dot{q}} } = - \frac{1}{2} q
+\] 
+Since $ \sum_{i}^{k} x_i \frac{\partial f}{\partial x_i} = n f $ for $f\left( \lambda \vec{x} \right) = \lambda^{n} f\left( \vec{x} \right) $
+\begin{align*}
+  \implies H\left( q, \dot{q} \right) &= p \dot{q} + \overline{p} \overline{\dot{q}} - L\\
+  &=  m \overline{q} q 
+\end{align*}
+We now realize that the legendre transform is not possible as we cannot express $\dot{q} $ as $\dot{q}\left( q,p \right) $. However this is not needed because $H\left( q,\dot{q} \right) $ is independent of $\dot{q}$. To quantize such a theory  we can chose the $q, \overline{q}$ as the conjugate variables.
+\begin{align*}
+  \overline{q} &\to q^{*} \\
+  \left[ q, q^{*}  \right] _{\pm} &= 1 \\
+  \left[ q, q \right] _{\pm} &= 0
+\end{align*}
+Using 
+\begin{align*}
+  \left[ AB, C \right] &= A \left[ B, C \right] + \left[ A, C \right] B \\
+  \left[ AB, C \right] &= A \left\{ B, C \right\} - \left\{ A, C \right\} B
+\end{align*}
+we get
+\begin{align*}
+  \implies \left[ q^{*} q, q \right] &= -q \\
+  \implies \left\{ q^{*} q, q \right\} &= -q
+\end{align*}
+This then allows us to write the Heisenberg equation of motion
+\begin{align*}
+  \dot{q} &= i \left[ H, q \right]  \\
+  &= im \left[ q^{*} q, q \right]  \\
+  &= -imq \\
+  \implies q\left( t \right) &=  e^{-imt} q\left( 0 \right)   \\
+  q^{*} \left( t \right) &= e^{imt} q^{*} \left( 0 \right) 
+\end{align*}
+\paragraph{Back to the Dirac-Field}  
+We promote the $b_\alpha\left( p \right) $ and $d_\alpha\left( p \right) $ to operators and $\psi\left( x \right) $ likewise to $\Psi\left( x \right) $. We do the quantization at $t=0$ and worry about the time evolution later.
+\[
+  \Psi\left( 0, \vec{x} \right) = \left( 2\pi \right) ^{-\frac{3}{2} } \sum_{\alpha}^{} \int_{}^{}  \frac{d^3p}{2p^{0} } \left(  b_\alpha \left( p \right) u^{\left( \alpha \right) } \left( p \right) e^{-i \vec{p} \vec{x}} + \overline{a_\alpha\left( p \right) } v^{\left( \alpha \right) } \left( p \right) e^{i \vec{p} \vec{x}}  \right)
+\] 
+Giving us the Heisenberg equation of motion
+\begin{align*}
+  \partial_t \Psi\left( t,\vec{x} \right) &= i \left[ H, \Psi\left( t,\vec{x} \right)  \right] 
+\end{align*}
+ought to be a solution of the Dirac equation for the field $\Psi\left( x \right) $. This amounts to show:
+\begin{align*}
+  b_\alpha\left( p,t \right) &= b_\alpha\left( p \right) e^{-ip^{0} t}  \\
+  d_\alpha ^{*} \left( p,t \right) &= d_\alpha ^{*} \left( p \right) e^{ip^{0} t}  
+\end{align*}
+We show this by taking a more general approach of the one outlined in the toy model above:
+\begin{align*}
+  \partial_\mu \Psi\left( x \right) &= i\left[ P_\mu, \Psi\left( x \right)  \right] 
+\end{align*}
+With $H = P^{0} $. We take $P_\mu$ from Noether, and impose normal ordering. This then yields the result: (using a Parseval in the spacial FT, and the normalizations of $u^{\left( \alpha \right) } , v^{\left( \alpha \right) } $)
+\begin{align*}
+  P^{\nu} &= \sum_{\alpha = 1,2}^{} \int_{}^{} \frac{d^3p}{2p^{0} } p^{\nu} :b_\alpha ^{*} \left( p \right) b_\alpha \left( p \right) - d_\alpha \left( p \right) d_\alpha ^{*} \left( p \right) : 
+\end{align*}
+Here given without the calculation, the full derivation can be found in the lecture materials. This result then gives
+\begin{align*}
+  P^{\nu} &= \sum_{\alpha}^{} \int_{}^{} \frac{d^3 p}{2p^{0} } p^{\nu} \begin{cases}
+    b_\alpha ^{*} \left( p \right) b_\alpha \left( p \right) - d_\alpha \left( p \right) d_\alpha ^{*} \left( p \right)  & \text{Bosonic} \\
+    b_\alpha ^{*} \left( p \right) b_\alpha \left( p \right) + d_\alpha \left( p \right) d_\alpha ^{*} \left( p \right)  & \text{Fermionic} \\
+  \end{cases}
+\end{align*}
+For the fermionic case we find $H \ge 0$ (stability). But for the bosonic case $H$ is unbounded above and below.\\
+To give the Bosons a 2nd chance, we can fix the sign in the result to a $+$ "by hand". This appears to be dodgy at first but we do it and worry about it later. (this is actualy reminicient of the "hole theory" we had earlier on).\\
+In both cases we therefore get:
+\begin{align*}
+  \left[ b_\alpha ^{*} \left( p \right) \phi_\alpha \left( p \right) , b_\beta \left( p' \right)  \right] &= -2 p^{0} \delta\left( \vec{p} - \vec{p}' \right) \delta_{\alpha \beta} \phi_\beta \left( p \right)  \\
+  \left[ b_\alpha ^{*} \left( p \right) \phi_\alpha \left( p \right) , b_\beta ^{*} \left( p' \right)  \right] &= 2 p^{0} \delta\left( \vec{p} - \vec{p}' \right) \delta_{\alpha \beta} \phi_\beta \left( p \right) 
+\end{align*}
+Thus
+\begin{align*}
+  \left[ P^{\mu} , b_\beta \left( p \right)  \right] &= - p^{\mu} b_\beta \left( p \right)  \\
+  \left[ P^{\mu} , d_\alpha ^{*} \left( p \right)  \right] &= + p^{\mu} d_\alpha ^{*} \left( p \right) 
+\end{align*}
+For the special case  of the spacial cases we therefore get 
+\begin{align*}
+  i \left[ P_i, \Psi\left( 0, \vec{x} \right)  \right] &= \partial_i \Psi\left( 0, \vec{x} \right)    \\
+  \implies \dot{b}_\alpha &= i \left[ H, b_\alpha \left( p \right)  \right]  \\
+  &= -i p^{0} b_\alpha \left( p \right)  \\
+  \implies b_\alpha\left( p,t \right) &=  e^{-i p^{0} t} b_\alpha \left( p \right)  \\
+  \implies d_\beta ^{*} \left( p, t \right) &=  e^{+ip^{0} t} d_\beta ^{*} \left( p \right) 
+\end{align*}
+The quantum field $\Psi\left( x \right) $ satisfies the dirac equation \[
+\left( i \gamma^{\mu} \partial_\mu - m  \right) \Psi\left( x \right) = 0
+\] 
+Also we have \[
+\overline{\Psi}\left( x \right) \left( i \gamma^{\mu} \partial_\mu^{\leftarrow} + m \right) = 0
+\] 
+for 
+\begin{align*}
+  \overline{\Psi}\left( x \right) &= \Psi^{*} \left( x \right) \gamma^{0}  \\
+  &= \left( 2\pi \right) ^{-\frac{3}{2} } \sum_{\alpha}^{} \int_{}^{} \frac{d^3p}{2p^{0} } \left( b_\alpha ^{*} \left( p \right) \overline{u}^{\left( \alpha \right) } \left( p \right) e^{ipx} + d_\alpha \left( p \right) \overline{v}^{\left( \alpha \right) } \left( p \right) e^{-ipx}  \right)  
+\end{align*}
+\paragraph{Green's function} The two point function is given by
+\begin{align*}
+  \bra{0} \Psi_i \left( x \right) \overline{\Psi}_j\left( y \right) \ket{0} &= 
+  \left( 2\pi \right) ^{-3} \int_{}^{} \int_{}^{} \frac{d^3p}{2p^{0} } \frac{d^3p'}{2p'^{0} } e^{-ipx} e^{ip'y} \underbrace{\sum_{\alpha, \beta}^{} u_i^{\left( \alpha \right) } \left( p \right) \overline{u}_j^{\left( \beta \right) } \left( p' \right) }_{= \left( \slashed{p} + m \right)_{ij} }   \underbrace{ \bra{0} \left[ b_\alpha\left( p \right), b_\beta^{*} \left( p' \right) \right]  \ket{0}}_{= 2p^{0} \delta\left( \vec{p} - \vec{p}' \right) \delta_{\alpha \beta} }  \\
+   &=  \left( 2\pi \right) ^{-3} \int_{}^{} \frac{d^3 p}{2p^{0} } e^{-ip \left( x-y \right) } \left( \slashed{p} + m \right)_{ij}  \\
+   &= \left( i \slashed{\partial}_x + m  \right)_{ij} i \Delta_+\left( x-y \right)
+\end{align*}
+Where we have used the completeness relation of the $u^{\left( \alpha \right) } $ 's and $v^{\left( \alpha \right) } $ 's.\\
+Similarly we have 
+\begin{align*}
+  \bra{0} \overline{\Psi}_i \left( x \right) \Psi_j\left( y \right) \ket{0} &= 
+  \left( 2 \pi \right) ^{-3} \int_{}^{} \frac{d^3p}{2p^{0} } e^{-ip\left[ x-y \right] } \left( \slashed{p} - m \right)_{ji}  \\
+  &= \left( i \slashed{\partial}_x - m  \right)_{ji} i \Delta_+\left( x-y \right) 
+\end{align*}
+This holds for both Bosons and Fermions (no choice made yet!).\\
+We look at the time ordered product and get
+\begin{align*}
+  T\left( \Psi_i\left( x \right) , \overline{\Psi}_j\left( y \right)  \right) &= 
+  \Theta\left( x^{0 } - y^{0}  \right) \Psi_i \left( x \right) \overline{\Psi}_j\left( y \right) - \Theta\left( y^{0} - x^{0}  \right) \overline{\Psi}_j\left( y \right) \Psi_i\left( x \right)
+\end{align*}
+And we write the Feynman propagator as
+\begin{align*}
+  i S_F\left( x-y \right)_{ij}  &= \bra{0} T\left( \Psi_i\left( x \right) , \overline{\Psi}_j \left( y \right)  \right) \ket{0}  \\
+  i S_F\left( z \right) &= \Theta\left( z^{0}  \right) \left( i \slashed{\partial}_z + m  \right) i \Delta_+\left( z \right) - \Theta\left( -z^{0}  \right) \left( -i \slashed{\partial}_z + m  \right) i \Delta_+\left( -z \right)  \\
+  &= \left( i \slashed{\partial}_z + m  \right) i \Delta_F \left( z \right) 
+\end{align*}
+The Fourier representation of the Feynman propagator is often more usefull:
+\[
+  S_F\left( z \right) = \int_{}^{} \frac{d^{4} p}{\left( 2 \pi \right) ^{4} } \frac{\slashed{p} + m}{p^2 - m^2 + i 0} e^{-ipz}  
+\] 
+We now consider only the Fermionic case
+\begin{align*}
+  \mathbb{I} \propto \left\{ \Psi_i, \overline{\Psi}_j \left( y \right)  \right\} &=  \bra{0} \left\{ \Psi_i\left( x \right) , \overline{\Psi}_j\left( y \right)  \right\} \ket{0} \\
+ &=  \left( i \slashed{x} - m \right)_{ij} i \Delta_+ \left( x-y \right)  +
+ \underbrace{ \left( i \slashed{\partial}_y - m \right)_{ij} }_{=-\left( i\slashed{\partial}_x + m  \right)_{ij} }  i \Delta_+ \left( y - x \right) \\
+ &= \left( i \slashed{\partial}_x + m  \right)_{ij} \underbrace{\left( i \Delta_+\left( x-y \right) - i \Delta_+\left( y-x \right)  \right) }_{i \Delta\left( x-y \right) }  \\
+ \implies \left\{ \Psi_i\left( x \right) , \overline{\Psi}_j\left( y \right)  \right\} &= 0 \text{ for space like seperation } \left( x-y \right) ^2 < 0
+\end{align*}
+This is anonther form of locality. \[
+\implies \left[ \Psi_i\left( x \right) \overline{\Psi}_k\left( x \right)  , \Psi_j \left( y \right)  \right] = 0 \text{ for } \left( x-y \right) ^2<0
+\] 
+This form of locality is acceptable because the obselvables are bilinear in $\Psi\left( x \right) $. For example the current is given as \[
+J^{\mu} \left( x \right) = :\overline{\Psi}\left( x \right) \gamma^{\mu} \Psi\left( x \right) :
+\] 
+\paragraph{Remark on Spin and Statistics}
+\begin{itemize}
+  \item In the Bosonic case we have two options:
+    \begin{enumerate}
+      \item $\left\{ \Psi_i \left( x \right) , \overline{\Psi}_j \left( y \right)  \right\} \not\propto \mathbb{I} $ which is not good
+      \item $\left[ \Psi_i\left( x \right) , \overline{\Psi}_j \left( y \right)  \right] \propto \mathbb{I}$ in this case we can evaluate it as an expectation value of the vacuum, giving us \[
+      \left[ \Psi_i\left( x \right) , \overline{\Psi}_j\left( y \right)  \right] =
+      \left( i \slashed{\partial}_x + m  \right)_{ij} \left( i \Delta_+\left( x-y \right) + i \Delta_\left( y-x \right)  \right) 
+      \] Which is not $=0$ for $\left( x-y \right) ^2<0$. \\
+      We can therefore conclude that the locality of the free Dirac Field requires Fermionic quantization.
+    \end{enumerate}
+\end{itemize}
+\paragraph{Generalization} In general for arbitrary fields (arbitrary Spin $S$, not neccesarily free fields), with the following two assumptions
+\begin{enumerate}
+  \item Locality for $\left( x-y \right) ^2 < 0$ 
+    \begin{itemize}
+      \item Either $\left[ \varphi\left( x \right) , \varphi\left( y \right)  \right] = 0$ 
+      \item or $\left\{ \varphi\left( x \right) , \varphi\left( y \right)  \right\} = 0$
+    \end{itemize}
+  \item Stability $H \ge 0$
+\end{enumerate}
+Then
+\begin{itemize}
+  \item $S$ an integer, we have to pick the first variant of the first assumption
+  \item $S$ half-integer, we have to take the second variant of the first assumption
+\end{itemize}
+\paragraph{Gauge Transformations} (global) $\Psi \to  e^{-i\lambda} \Psi$ giving us
+\begin{align*}
+  j^{\mu} \left( x \right) &= :\overline{\Psi}\left( x \right) \gamma^{\nu} \Psi\left( x \right) : \\
+  Q &=  \int_{x^{0} = t}^{} d^3x : \Psi^{*} \left( x \right) \Psi\left( x \right) :  \\
+  &= \sum_{\alpha = 1,2}^{} \int_{}^{} \frac{d^3p}{2p^{0} } \left( b_\alpha ^{*} \left( p \right) b_\alpha \left( p \right) - d_\alpha ^{*} \left( p \right) d_\alpha \left( p \right)  \right)  
+\end{align*}
+This Noether Charge implements the gauge transformations \[
+e^{i\lambda Q} \Psi\left( x \right) e^{-i\lambda Q} = e^{-i\lambda} \Psi\left( x \right) 
+\] 
+\section{Electro Magnetic Field - Covariant Quantization}
+We consider plane wave solutions of $\square A_\mu = 0$ \[
+A_\mu\left( x \right) = \epsilon_\mu e^{\mp i k x} 
+\] with $k^2 = 0, k^{0} > 0$. With polarizations 
+\[
+\epsilon_\mu^{\left( \lambda \right) } = \epsilon_\mu^{\left( \lambda \right) } \left( k \right) \text{ real, } \lambda = 0,\ldots,3 
+\] such that \[
+\epsilon^{\left( \lambda \right) } \cdot \epsilon^{\left( \lambda' \right) } = g ^{\lambda \lambda'} 
+\] 
+A more specific choice can be made by first picking a time-like four vector $n \in \mathbb{R}^{4} , n \cdot  n = 1, n^{0} > 0$ (a frame of reference). We then pick 
+\begin{itemize}
+  \item $\lambda = 0$ : $\epsilon^{\left( 0 \right) } \left( k \right) = n $
+  \item $\lambda = 1,2$ : $\epsilon^{\left( i \right) } \left( k \right) ^2 = - 1$, $n \cdot \epsilon^{\left( i \right) } \left( k \right) = 0$, $k\cdot \epsilon^{\left( i \right) }\left( k \right)  = 0$
+  \item $\lambda = 3$ : $\epsilon^{\left( 3 \right) } \left( k \right) = \frac{k - \left( k\cdot n \right) n}{k\cdot n} $
+\end{itemize}
+\[
+\implies \epsilon^{\left( 0 \right) } \left( k \right) + \epsilon^{\left( 3 \right) } \left( k \right) = \frac{k}{k \cdot n} 
+\] \[
+k\cdot \left( \epsilon^{\left( 0 \right) } + \epsilon^{\left( 3 \right) }  \right) = 0
+\] 
+An example: 
+\begin{align*}
+  n &= \left( 1, \vec{0} \right) 
+  k\cdot n &=  k^{0} = \abs{\vec{k}}  \\
+  \epsilon^{\left( 0 \right) } &= \left( 1, \vec{0}  \right)  \\
+  \epsilon^{\left( 1,2 \right) } &= \left( 0, \vec{\epsilon}^{\left( 1,2 \right) }  \right)  \\
+  \vec{\epsilon}^{\left( i = 1,2 \right) } \cdot  \vec{\epsilon}^{\left( j = 1,2 \right) } &= \delta_{ij}  \\  
+  \vec{\epsilon}^{\left( 1,2 \right) }  \cdot  \vec{k} &=  0 \\
+  \epsilon^{\left( 3 \right) } &= \frac{\vec{k}}{\abs{\vec{k}} }
+\end{align*}
+Giving us the interpretation as
+\begin{itemize}
+  \item $\epsilon^{\left( 0 \right) } $ scalar polerisation
+  \item $\epsilon^{\left( 1,2 \right) } $ transverse polerisation
+  \item $\epsilon^{\left( 3 \right) } $ longitudinal polerisation
+\end{itemize}
+Where the first and third option are unphysical - the price we pay for a covariant quantization.\\
+We first write the classical general solution of the wave equation $\square A_\mu = 0$
+\begin{align*}
+  A_\mu\left( x \right) &= \left( 2 \pi \right) ^{-3} \sum_{\lambda = 0}^{3} \int_{}^{} \frac{d^3 k}{2 k^{0} } \epsilon_\mu^{\left( \lambda \right) } \left( k \right) \left( a_\lambda\left( k \right) e^{-ikx} + \overline{a_\lambda \left( k \right) } e^{ikx}  \right)    \\
+  &= A^{+}_\mu\left( x \right) + A^{-}_\mu\left( x \right)  \\
+  \pi_\mu\left( x \right) &= 
+  i \left( 2 \pi \right) ^{-3} \sum_{\lambda = 0}^{3} \int_{}^{} \frac{d^3 k}{2 k^{0} } k^{0}  \epsilon_\mu^{\left( \lambda \right) } \left( k \right) \left( a_\lambda\left( k \right) e^{-ikx} - \overline{a_\lambda \left( k \right) } e^{ikx}  \right)  
+\end{align*}
+With $a_\lambda$ arbitraty.
+\paragraph{Quantisazion} (Gupta, Bleuler, 1950)\\
+At first we procede like usual (ignoring the gauge constraint) and impose CCR at $t = 0$. 
+\begin{align*}
+\left[ A_\mu\left( \vec{x} \right) , \pi_\nu \left( \vec{y} \right)  \right] &= i g_{\mu\nu}  \delta\left( \vec{x} - \vec{y} \right)  \\
+\left[ A^{\mu} \left( \vec{x} \right) , \pi_\nu\left( \vec{y} \right)  \right] &= i \delta^{\mu} _{\text{ }\nu} \delta\left( \vec{x} - \vec{y} \right) 
+\end{align*}
+At variance with $\left[ q, p \right] = i$ for $\mu = \nu = 0$.
+Equivalent to that is
+\begin{align*}
+  \left[ a_\lambda\left( x \right) , a_{\lambda'} \left( k' \right)  \right] &= -2 k^{0} g_{\lambda \lambda'} \delta\left( \vec{k} - \vec{k}' \right) 
+\end{align*}
+At variance with $\left[ a, a^{*}  \right] = +1$ for $\lambda = \lambda' = 0$.\\
+Note: if $\left[ a, a^{*}  \right] = -1$ and $a \ket{0} = 0$ leads to $N = a^{*} a $ has spectrum $0,-1,-2,\ldots$.\\
+The Fieldmomentum (for bosonic statistics and normal ordered results) \[
+P^{\nu} = \int_{}^{} \frac{d^3 k}{2k^{0} } k^{\nu} \left( \sum_{i=1}^{3} a_i^{*} \left( k \right) a_i\left( k \right)  - a_0^{*} \left( k \right) a_0\left( k \right)  \right)  
+\] The negative spectrum of the $\lambda = 0$ case acctualy is correct since it appears after a minus.
+one finds
+\begin{itemize}
+  \item $H = P^{0} \ge 0$
+  \item $\partial_t A\left( x \right) = i \left[ H, A\left( x \right)  \right]  $ is $\square A^{\mu} =0$
+\end{itemize}
+
+\paragraph{Construction of Fock Space} $\mathcal{F} $\\
+We call $\ket{0} $ the vacuum ($\bra{0} \ket{0} = 1 $) and $a_\lambda \left( k \right) \ket{0} = 0$ for all $\lambda, k$. $\mathcal{F} $ generated by $a_\lambda^{*} \left( k \right) $ eg. for 1-particle states
+\begin{align*}
+  \ket{f} &=  \int_{}^{} \frac{d^3 k}{2 k^{0} } \sum_{\lambda = 0 }^{3} f_\lambda \left( k \right) a_\lambda^{*}\left( k \right) \ket{0}     \\
+  \bra{f} \ket{f} &= \sum_{\lambda, \lambda'}^{} \int_{}^{} \int_{}^{} \frac{d^3 k}{2 k^{0} } \frac{d^3 k'}{2 k'^{0} } \underbrace{\bra{0} \left[ a_\lambda\left( k \right) , a_\lambda^{*} \left( k' \right)  \right] \ket{0} }_{-2 k^{0} g_{\lambda \lambda'} \delta\left( \vec{k} - \vec{k}' \right) } \overline{f_\lambda\left( k \right) } f_{\lambda'} \left( k' \right)     \\
+  &= \int_{}^{} \frac{d^3k}{2k^{0} } \left( - \abs{f_0 \left( k \right) } ^2 + \sum_{i=1}^{3} \abs{f_i\left( k \right) } ^2  \right)
+\end{align*}
+There are states $\ket{f} $ with $\bra{f} \ket{f} \le 0$ (so called Ghost states).\\
+With the interpretation of quantum mechanics being probabilistic. Suppose we have a system prepared in state $\ket{\psi} $ and we measure whether it's in state $\ket{\varphi} $. The probability to find the system in state $\ket{\varphi} $ is $p = \frac{\abs{\bra{\varphi} \ket{\psi} } ^2}{\bra{\varphi} \ket{\varphi} \bra{\psi} \ket{\psi} }  $. This now obviously leads to a problem with the above result of ghost states where $\bra{f} \ket{f} \le 0$.\\
+It is no longer possible to give a interpretation if the denominator is smaller than $0$.\\
+But we still need to impose gauge constraints (Lorentz). We now look for a subspace (a physical subspace $\mathcal{F} _\text{Phys} $ ) such that
+\begin{itemize}
+  \item $\partial_\mu A^{\mu} = 0 $ is somehow realized
+  \item $\bra{ f} \ket{f} $ is positive in $\mathcal{F} _\text{Phys} $
+\end{itemize}
+We could first attemt to define $\psi \in \mathcal{F} _\text{Phys} $ as \[
+\partial_\mu A^{\mu} \left( x \right) \ket{\psi} =0 
+\] But this would fail as for $x = \left( 0, \vec{x} \right) $ we get
+\begin{align*}
+  0 &= \bra{\psi} \left[ \partial_\mu A^{\mu} \left( x \right)  , A_\nu \left( y \right)  \right]\ket{\psi}   \\
+  \text{by CCR only $\mu = 0$ contributes:  } &= - \bra{\psi} \left[ \psi^{0}\left( x \right) , A_\nu \left( y \right)  \right] \ket{\psi}   \\
+  &= i \delta^{0} _{\text{ }\nu} \delta\left( \vec{x} - \vec{y} \right) \bra{\psi} \ket{\psi}  \\
+  &= 0 \forall \psi 
+\end{align*}
+Which violates the second criterion.\\
+We make a second attempt by first defining a subspace of the Fockspace $\tilde{\mathcal{F} } $ as $\psi \in \tilde{\mathcal{F} }  $ \[
+\partial_\mu A^{+\mu} \left( x \right) \ket{\psi} =0 
+\] 
+Leading to \[
+\bra{\psi} \partial_\mu A^{\mu} \ket{\psi} = 0 
+\] 
+Using the mode expansion for $A$ we get
+\begin{align*}
+  \partial_\mu A^{+\mu} \left( x \right) &= -i \left( 2\pi \right) ^{-\frac{3}{2} }  \sum_{\lambda=0}^{3} \int_{}^{} \frac{d^3 k}{2 k^{0} } k_\mu \epsilon^{\lambda \mu} a_\lambda \left( x \right) e^{-ikx}   \\
+  &= -i \left( 2\pi \right) ^{-\frac{3}{2} } \int_{}^{} \frac{d^3k}{2 k^{0} } k \cdot  \epsilon^{(3)}\left(k \right)\left( a_3\left( k \right) - a_0\left( k \right)  \right) e^{-ikx}  \\
+  \implies \left( a_3\left( k \right) - a_0\left( k \right)  \right) \ket{\psi} &= 0 \forall k \in V_0
+\end{align*}
+We claim (proof in the lecture materials): For $\psi \in \tilde{\mathcal{F} } $ we have that $\bra{\psi} \ket{\psi} \ge 0$ ie. it is positive semi-definite. However this is enought for the couchy-schwarz inequality \[
+\abs{\bra{\psi} \ket{\varphi} } ^2 \le \bra{\psi} \ket{\psi} \bra{\varphi} \ket{\varphi} 
+\] 
+\subsection{Part of lecture 2.12. missing}
+
+\chapter{Interacting Fields}
+\section{Introduction (missing)}
+\section{The LZS asymptotic condition (partially missing, beginning missing)}
+One sheet of handwritten notes (both sides) is allowed at the exam.\\
+We consider the idea of scattering theory: For large times $t \to \pm \infty$ (some) states look like independent free particles. Such a situation should be describable by a free quantum free theory associated to asymtptotically free particles. \[
+\varphi\left( t, \vec{x} \right) \underbrace{\to }_{t \to -\infty} \varphi_{\text{in}}\left( t, \vec{x} \right)  \tilde{z}^{\frac{1}{2} } 
+\] \[
+\varphi\left( t, \vec{x} \right) \underbrace{\to }_{t \to  + \infty} \varphi_{\text{out}} \left( t, \vec{x} \right) z^{\frac{1}{2} } 
+\] 
+Where $\varphi_{as} \left( x \right) $ (as = in/out) are free fields having vacuum $\ket{\Omega} $ and 1-particle states $\ket{p} $.
+\begin{itemize}
+  \item Why is $\tilde{z} = z$?\\
+    Let $x = \left( x^{0} + t, \vec{x} \right) , y = \left( y^{0} +t, \vec{y} \right) $ let $t \to \pm \infty$ :
+    \begin{align*}
+      zi \underbrace{\Delta_+\left( x-y; m^2 \right)}_{\text{independent of } t}  &= \bra{\Omega} \varphi\left( x \right) P\left( M^2=m^2 \right) \varphi\left( y \right) \ket{\Omega}  \\
+      &= \int_{}^{} \frac{d^3p}{2p^{0} } \bra{\Omega} \varphi\left( x \right) \ket{p} \bra{p} \varphi\left( y \right) \ket{\Omega}  \\
+      &\underbrace{\to }_{\text{LSZ}} \tilde{z} \int_{}^{} \frac{d^3p}{2p^{0} } \bra{\Omega} \varphi_{\text{as}} \ket{p} \bra{p} \varphi_{\text{as}} \left( y \right) \ket{\Omega}  \\
+      &= \tilde{z} \cdot i \Delta_+\left( x-y; m^2 \right) 
+    \end{align*}
+    Note: $\left( \square + m^2 \right) \varphi_{\text{as}} \left( x \right) = 0$.
+  \item The interpretation of the LSZ condition given above: $\varphi_{\text{as}\left( x \right) } $ is a free field of mass $m$ 
+    \begin{align*}
+      \varphi_{\text{as}} \left( x \right) &= \left( 2\pi \right) ^{-\frac{3}{2} } \int_{}^{} \frac{d^3p}{2 \omega\left( p \right) } \left( a_{\text{as}} \left( p \right) e^{-ipx} + \text{h.c.} \right)   \\
+      \text{with:  } \omega\left( p \right) &= \sqrt{\vec{p}^2 + m^2}  
+    \end{align*}
+    By consruction we have \[
+    \ket{p} = a_{\text{as}} ^{*} \left( p \right) \ket{\Omega} 
+  \] is the free state. For a free field we therefore get the same asymptote for the past and the future (in/out). \\
+  We write \[
+  \ket{p_1, \ldots, p_n}_{\text{as}}  &:= a_{\text{as}} ^{*} \left( p_1 \right) \ldots a_{\text{as}} ^{*} \left( p_n \right) \ket{\Omega}  \\
+\] which describes states which for $t \to \pm\infty$ consist of $n$ outgoing/incomming free particles. We interpret $a_{\text{as}} ^{*} \left( p \right) $ as adding a particle (non-free!) of \emph{asymptotic} momentum $p \in V_m$.
+\end{itemize}
+A more precise form of LSZ is:\\
+Let  $f = f\left( t, \vec{x} \right) $ be a solution of the KG equation $\left( \square  + m^2 \right) f = 0$ with positive energy. Then
+\begin{align*}
+  i \int_{x^{0} = t}^{} d^3x \varphi\left( t, \vec{x} \right) \partial_0^{\leftrightarrow} f\left( t, \vec{x} \right) &\underbrace{\to }_{t \to \pm \infty} z^{\frac{1}{2} } i \int_{x^{0} = t}^{} \underbrace{d^3x \varphi_{\text{as}} \left( t, \vec{x} \right) \partial_0^{\leftrightarrow} f\left( t, \vec{x} \right)  }_{\text{independent of $t$}}  \\
+  &= z^{\frac{1}{2} } \int_{}^{} \frac{d^3p}{2 \omega\left( \vec{p} \right) } f\left( p \right) a_{\text{as}} ^{*} \left( p \right)   \\
+  &= z^{\frac{1}{2} } a_{\text{as}} ^{*} \left( f \right) 
+\end{align*}
+For plane waves $f\left( x \right) = \left( 2\pi \right) ^{-\frac{3}{2} } e^{-iqx} $ with $\left( q \in V_m \right) $, $f\left( p \right) = 2 \omega\left( p \right) \delta\left( \vec{p} - \vec{q} \right) $, therefore the limit above gives
+\begin{align*}
+  \implies \left( 2\pi \right) ^{-\frac{3}{2} } i \int_{x^{0} = t}^{} d^3x \varphi\left( x \right) \partial_0^{\leftrightarrow} e^{-iqx} &\underbrace{\to }_{t \to \pm\infty} z^{\frac{1}{2} } a_{\text{as}} ^{*} \left( q \right)   
+\end{align*}
+\section{The LSZ reduction formula}
+The goal of this section is to express scattering amplitudes $_\text{out}\bra{p_1, \ldots,p_k} \ket{q_1,\ldots,q_n}_{\text{in}} $ in terms of time ordered vacuum expectation values (VEVs), also called $n$-point functions (in the example above $n+k$-point function) or Green's functions.\\
+Let $p_i = \left( \omega\left( \vec{p}_i \right) , \vec{p}_i \right) $ , $q_i = \left( \omega\left( \vec{q}_i \right) , \vec{q}_i \right) $ with $p_i \neq q_j$ for all $i,j$. Then 
+\begin{align*}
+  _\text{out} \bra{p_1,\ldots,p_k} \ket{q_1,\ldots,q_n}_\text{in}  &= \left( \frac{i Z^{-\frac{1}{2} } }{\left( 2\pi \right) ^{\frac{3}{2} } }  \right) ^{k+n} \int \prod_{i=1}^{k} \left( d^{4} y_i e^{ip_i y_i} \left( \square_{y_i} + m^2 \right)  \right) \cdot \ldots \\
+                    & \ldots \int \prod_{j=1}^{n} \left( d^{4} x_j e^{-i q_j x_j} \left( \square_{x_j} + m^2 \right) \right) \bra{\Omega} T\left( \prod_{i}^{} \varphi\left( y_i \right) \prod_{j}^{} \varphi\left( x_j \right)    \right)    \ket{\Omega} 
+\end{align*}
+Remarks:
+\begin{itemize}
+  \item As a recipe: in $_\text{out} \bra{p_1,\ldots,p_k} \ket{q_1,\ldots,q_n} $ as
+    \begin{itemize}
+      \item replace 
+        $\ket{q_j} \to e^{-i q_j x_j} \left( \square_{x_j} + m^2  \right) \varphi\left( x_j \right) $
+        and 
+        $\ket{p_x} \to e^{-i p_i x_i} \left( \square_{x_i} + m^2  \right) \varphi\left( x_i \right) $
+      \item take $\bra{\Omega} T \left( \text{all fields} \right) \ket{\Omega} $
+      \item Inegrate over all $d^{4} y_j, d^{4} x_i$
+    \end{itemize}
+  \item If $p_i = q_j$, add terms $\propto \delta\left( \vec{p}_i - \vec{q}_j \right) \ket{p_1,\ldots, \hat{p}_i, \ldots,p_k } \ket{q_1,\ldots,\hat{q}_j, \ldots,q_n} $.
+  \item Let $G\left( p_1,\ldots, p_n \right) = \int_{}^{} d^{4} x_1 \ldots d^{4} x_n e^{-i \sum_{j=1}^{n} p_j x_j } \bra{\Omega} T\left( \text{fields} \right) \ket{\Omega}  $ the fourier transform of the VEVs. Then
+    \begin{align*}
+      _\text{out} \bra{p_1,\ldots,p_k} \ket{q_1,\ldots,q_n} &= \left( \frac{-i Z^{-\frac{1}{2} } }{\left( 2\pi \right) ^{\frac{3}{2} } }  \right) \prod_{i=1}^{k} \left( p_i^2 - m^2 \right) \prod_{j=1}^{n} \left( q_j^2 - m^2 \right) G\left( -p_1,\ldots,-p_k, q_1,\ldots,q_n  \right)  \\
+      &\neq 0 \text{  at } p_i^2 = m^2, q_j^2 = m^2 
+    \end{align*}
+    Example: free field
+    \begin{align*}
+      \bra{\Omega} T\left( \varphi\left( x \right) \varphi\left( y \right)  \right) \ket{\Omega} &= \int_{}^{} \frac{d^{4} p}{\left( 2\pi \right) ^{4} } \frac{e^{-ipx} }{p^2 - m^2 + i 0} \text{  Feynman propagator}   \\
+      \implies G\left( p,q \right) &= \frac{\delta\left( p+q \right) }{ p^2 - m^2 + i 0 }
+    \end{align*}
+  \item If we substitute $x_i \to x_i + a$, $y_j \to y_j + a$ in the big formula above, we get 
+    \begin{align*}
+      \left( 1- e^{i\left( \sum_{i}^{} p_i - \sum_{j}^{} q_j   \right) a} \right) _\text{out}\bra{p_1, \ldots, p_k} \ket{q_1,\ldots,q_n } &= 0 \\
+      \implies \delta^{\left( 4 \right) } \left( \sum_{i}^{} p_i - \sum_{j}^{} q_j   \right) & \text{ can be factored out from } _\text{out} \bra{\ldots} \ket{\ldots} _\text{in} 
+    \end{align*}
+  \item Idea of proof: from the fundamental theorem of calculus we have 
+    \begin{align*}
+      \lim_{t_2 \to \infty, t_1 \to -\infty} \int_{}^{} d^3x f\left( t,\vec{x} \right)|_{t=t_1}^{t=t_2} &= \int_{}^{} d^{4} x \frac{\partial }{\partial t} f\left( t,\vec{x} \right)   \\ 
+      \partial_0\left( f \partial_0^{\leftrightarrow} g  \right) &= f\left( \partial_0^2g  \right) - \left( \partial_0^2 f  \right) g
+    \end{align*}
+\end{itemize}
+The discussion here is valid for the real scalar field, the discussion for fermions and photons was done on the slides and is not copied here.\\
+\subsection{Application: Compton scattering}
+In the following we use the lable $i$ for initial and $f$ for final. For compton scattering we consider an electron and a photon scattering of each other. We therefore have $p_i, \alpha_i$ and $p_f, \alpha_f$ (momentum, polarization) of the electron and $k_i, \epsilon_i$ / $k_f, \epsilon_f$ of the photon.We therefore have $\ket{i} _\text{in} = \ket{\left( p_i, \alpha_i \right) , \left( k_i, \epsilon_i \right) } $ and $\bra{f}_\text{out} = \bra{\left( p_f, \alpha_f \right) , \left( k_f, \epsilon_f \right) } $. We calculate
+\begin{align*}
+  \bra{f} \ket{i} &= \frac{Z_2^{-1} Z_3^{-1} }{\left( 2\pi \right) ^{6} } \int dx_1dx_2dz_1dz_2 \exp\left( -i\left( p_ix_1 + k_i z_1 - p_f x_2 - k_f z_2 \right)  \right) \overline{u}^{\left( \alpha_f \right) } \left( p_f \right) \left( i \partial_{x_2} ^{\rightarrow} - m  \right)         \\
+                  &\bra{\Omega} T \ldots \Psi\left( x_2 \right)\epsilon^{\left( f \right) } \left( k_f \right) A\left( z_2 \right)   \overline{\Psi}\left( x_1 \right) \epsilon^{\left( i \right) } \left( k \right) A\left( z_1 \right) \ket{\Omega}   \\
+                  &\ldots \left( -i \partial_{x_1}^{\leftarrow} - m \right) u^{\left( \alpha_i \right) } \left( p_i \right) 
+\end{align*}
+\section{S-matrix and scattering cross section}
+The S-matrix is an operator (better S-operator) acts on in-states and is defined as
+\begin{align*}
+  _\text{out}\bra{p_1,\ldots,p_n} \ket{q_1,\ldots,q_k}_\text{in} &= _\text{in}\bra{p_1,\ldots,p_n} S \ket{q_1,\ldots,q_k} _\text{in}
+\end{align*}
+The idea is to connect the two states carrying label $\alpha$ which are $\ket{\alpha}_\text{in} $ and $\ket{\alpha}_\text{out} $.
+We want to understand the scattering as a map between labels $\alpha \to  \beta$ not between states. This is then $S \ket{\alpha} _\text{i} = \ket{\beta} $ but $\ket{\beta} _\text{in} = \ket{\alpha} _\text{in} $ meaning $S \ket{\beta} _\text{out} = \ket{\beta} _\text{in} $. Conversely $\bra{\beta} _\text{in} = \bra{\beta} _\text{out} S^{*} $. We now just use in states so we drop the lable  $i$ for in.\\
+Let's set 
+\begin{align*}
+  S &= \mathbb{I} + i T 
+\end{align*}
+We write
+\begin{align*}
+  \bra{p_1,\ldots,p_k} T \ket{q_1,\ldots,q_n} &= \left( 2\pi \right) ^{4} \delta\left( \sum_{i}^{} p_i - \sum_{j}^{} q_j \right) \cdot \left( 2\pi \right) ^{-\frac{3}{2} \left( k+n \right)  }  T\left( p_1,\ldots,p_k; q_1,\ldots,q_n \right) 
+\end{align*}
+We now consider $n=2$ and write the scattering cross section $d\sigma$, it is defined as the number of scattering events of $p_1,\ldots,p_k$ into $d^3p_1 \ldots d^3p_k$, per particle in the beam and per particle in the target.
+\[
+d\sigma = \frac{\left( 2\pi \right) ^{-3} }{4 \left(  \left( q_1q_2 \right) ^2 - m_1^2m_2^2 \right) ^{\frac{1}{2} } } \left( 2\pi \right) ^{4}  \delta\left( P_f - q_1 - q_2 \right) \cdot \abs{ T\left( p_1,\ldots,p_k, q_1,q_2 \right) } ^2 \frac{d^3p_1}{1p_1^{0} } \ldots \frac{d^3p_k}{2 p_k^{0} } 
+\] with $P_f = \sum_{i}^{k} p_i $.\\
+Remarks:
+\begin{itemize}
+  \item We have to integrate over unresolved momenta (or polerazation, or other unobserved quantities)
+  \item $d\sigma$ i Lorentz invariant.
+  \item In the frame of the target (typically the lab frame), $q_2 = \left( m_2, \vec{0} \right) $ giving us $q_1q_2 = q_1^{0}q_2^{0} \vec{q}_1 \vec{q}_2 = q_1^{0} m_2$ meaning $\left( q_1q_2 \right)^2 - m_1^2m_2^2 = \left( q_1^{0}^2 - m_1^2 \right) m_2^2 = \abs{\vec{q}_1} ^2 m^2$. The denominator in $d\sigma$ is then $4 \abs{\vec{q}_1} m_2$.
+  \item This then allows for the derivation of Fermi Golden Rule (see lecture materials).
+\end{itemize}
+\paragraph{Increasingly more special cases:}
+\begin{itemize}
+  \item $n = k = 2$:\\
+    The differential cross section of  $1 , 2 \to 1',2'$ $\left( q_1,q_2 \right) \to \left( p_1,p_2 \right) $ where we do not obsereve $2'$ and only observe the direction of $1'$ $\vec{p}_1 = \abs{\vec{p}_1} \vec{e}_1$. In the rest frame of particle 2 we then get \[
+    \frac{d\sigma}{d\Omega} = \frac{1}{64 \pi^2 \abs{\vec{q}_1} m_2 } \frac{\abs{\vec{p}_1} ^2}{\abs{\vec{p}_1} p_2^{0} - p_1^{0} \vec{p}_2 \cdot \vec{e}_1 } \abs{T\left( p_1,p_2;q_1,q_2 \right) } ^2
+    \] 
+  \item $m_1 = 0$ meaning $\vec{p}_1 = p_1^{0} \vec{e}_1$ giving us \[
+    \frac{d\sigma}{d\Omega} = \frac{1}{64 \pi^2 \abs{\vec{q}_1} m_2 } \frac{\abs{\vec{p}_1} ^2}{p_1p_2} \abs{T\left( p_1,p_2;q_1,q_2 \right) } ^2
+  \] 
+\item Elastic scattering (same species of particles before and after). This means $p_1p_2 = q_1q_2 = \abs{\vec{q}_1} m_2$ \[
+    \frac{d\sigma}{d\Omega} = \frac{1}{64 \pi^2 m_2^2 } \frac{\abs{\vec{p}_1} ^2}{\abs{\vec{q}_2} ^2} \abs{T\left( p_1,p_2;q_1,q_2 \right) } ^2
+
+\] 
+\end{itemize}
+
+\chapter{Perturbation Theory}
+\section{Missing}
+\section{$\varphi^{4} $ Feynman rules}
+Parts missing.\\
+No line can connect a vertex to itself (as per wicks lemma for products of normal ordered factors).
+\subsection{Feynmanrules for the Numerator}
+\begin{enumerate}
+  \item Draw all topologically disticnt diagrams wtih label $\begin{cases}
+    x_1,\ldots,x_n & \text{ for external} \\
+    y_1,\ldots,y_p & \text{ for internal} \\
+  \end{cases}$ verticies. \\
+  Then for each diagram you drew this way do steps 2 - 5.
+  \item For each internal vertex write a factor of $-i \lambda$ 
+  \item For each line between two verticies $z_i,z_j$ write a factor of $\bra{0} T\left( \varphi_0\left( z_i \right) \varphi_0\left( z_j \right)  \right) \ket{0} = i \Delta_F\left( z_i - z_j \right) $.
+  \item Integrate over internal vertecies: \[
+  \int_{}^{} d^{4} y_1\ldots d ^{4} y_p 
+  \] 
+  \paragraph{Remark:} we should lable the valences (half-line comming from a vertex), but we don't do so. Each diagram we draw contributes with a certain weight $w$ : \[
+  w = \left( \frac{1}{4!}  \right) ^{p} m 
+  \] with $m$ the number of diagrams that coincide upon forgeting the labeling of valences, $m$ is also the number of ways to connect the valences. Note: $m \neq \left( 4! \right) ^{p} $ since not all permutations of valences lead to new Wick-pairings.\\
+  We can also write \[
+  w = \frac{1}{S} 
+  \] Where $S$ is the order of the group of permutations of lines of the diagram that leave it invariant. $S$ is called the symmetry factor.
+  \item Divide by $S$ and by $p!$. (multiply by $\frac{1}{S p!} $)
+  \item Sum over all diagrams you got from rule 1.
+\end{enumerate}
+\paragraph{Remarks}
+\begin{itemize}
+  \item For $n$ odd external veticies no diagram exists. In particular $G\left( x_1,\ldots,x_{2l+1}  \right) = 0$ 
+  \item Diagrams differing in the labels of the internal verticies contribute the same. This leads to a version of the Feynman rules where we have to adjust the weight of each diagram. We'd get:\\
+    Rule 1': Only lable external veticies but leave internal internal vetricies unlabelled.\\
+    Rule 5': New weight given by \[
+    w' = \frac{1}{p!} \left( \frac{1}{4!} \right) ^{p} m_1m_2 = \frac{1}{S \cdot S'} 
+  \] where $m_1$ is the number of ways to connect external verticies and $m_2$ is the number of ways to connect internal verticies. And where $S'$ is the order of the group of the permutations of the internal verticies that leave the diagram invariant (invariant in the sense of rule 1, not of rule 1').
+  \item Disconnected components of a diagram contribute multiplicitavely (they factorize).
+\end{itemize}
+To get back to $G\left( x_1,\ldots,x_n \right) = \frac{N}{D} $ with huge numerator $N$ and denominator $D$. We now from before that $D = N$ for $n = 0$ ie. the denomitanor only contains vacuum diagrams or bubbles. This includes $p = 0$ the empty bubble which contributes $1$.\\
+On the other hand we hae $N$ with $n$ external verticies, in this case we can distinguish two types of diagrams:
+\begin{enumerate}
+  \item Contain a (non-empty) bubble among it's connected components
+  \item does not contain a non-empty bubble, this category we called linked diagrams.
+\end{enumerate}
+We then get (symbolically) \[
+  \implies \frac{N}{D} = \frac{(\text{linked diagrams}) ( 1+ ( \text{bubbles} ) )}{\underbrace{1}_{\text{empty bubbles}} + \left( \text{bubblus} \right) } = ( \text{linked diagrams} )
+\] 
+We therefore get: \[
+  \implies G\left( x_1,\ldots,x_n \right) = \sum_{n=0}^{\infty} \frac{\left( -i \right) ^{k} }{k!} \int_{}^{} d^{4} y_1\ldotsd^{4} y_k \bra{0} T\left[ \varphi_0\left( x_1 \right) \ldots\varphi_0\left( x_n \right) :\mathcal{H}_I\left( \varphi_0\left( y_1 \right)  \right):\ldots:\mathcal{H}_H\left( \varphi_0\left( y_k \right)  \right):  \right]  \ket{0}_{0} 
+\] 
+Where we noted that we only consider connected diagrams with the $\bra{0} \ldots \ket{0}_0$.\\
+\paragraph{Remarks}
+\begin{itemize}
+  \item The derivation is done more rigerously ni the notes
+  \item Integrand deas decay as any of the $y_i \to \infty$
+  \item No bubbles: no $\infty$-valume divergences
+\end{itemize}
+\subsection{Greens functions in Fourierspace}
+\[
+G\left( p_1, \ldots,p_n \right) = \int_{}^{} d^{4} x_1\ldotsd^{4} x_n e^{-i \sum_{i}^{n} p_i x_i }  G\left( x_1,\ldots,x_n \right)  
+\] 
+We'd now like to get Feynman rules for the fourier transformed grenes functions. We recall that previously we had factors of the form: \[
+i\Delta_F\left( z_i - z_j \right) = \int_{}^{} \frac{d^{4} k}{\left( 2\pi \right) ^{4} } \frac{i}{k^2 - m^2 + i 0} e^{-ik \left( z_i - z_j \right) }  
+\] 
+This then gives us the
+\paragraph{Feynman rules in momentum space} 
+\begin{enumerate}
+  \item Draw all topographically distinct linked diagrams with
+    \begin{itemize}
+      \item $n$ labelled external verticies with momenta $p_1,\ldots,p_n$ oriented inwards
+      \item any number of internal verticies
+      \item internal lines labelled for the application of further rules, not for topological distigtion, carrying momenta  $k_1,\ldots,k_m$.   
+    \end{itemize}
+  \item For the $i$-th external line we write a factor $i \left( p_i^2 - m^2 + i 0 \right) ^{-1} $ \\
+    (Exception: for a so called short-circuited line the factor is $i \left( p_i^2 - m^2 + i 0 \right)^{-1} \left( 2\pi \right) ^{4} \delta\left( p_i + p_j \right) $. A short circuited line is a line that directly connects two external verticies directly)
+  \item For the $\ell$-th internal line we write a factor $i\left( k_\ell^2 - m^2 + i 0 \right) ^{-1} $
+  \item For each internal vertex we write a factor $-i\lambda \left( 2\pi \right) ^{4}  \delta\left( \sum_{\ell}^{} \sigma_\ell k_{\ell} \right) $ (where $\sigma_\ell$ gives the sign of the momentum of line at vertex $\ell$, $\pm 1$ for incommeing/outgoing momenta)
+  \item Integrate over internal momenta $k_1,\ldots,k_m$.
+  \item Divide by $S \cdot  S'$ 
+  \item Sum over all diagrams.
+\end{enumerate}
+Note: the resulting integrals over the internal momenta are divergent for $k_\ell \to \infty$ requiring renormalization.
+\paragraph{Remark}
+\begin{itemize}
+  \item A factor of $\left( 2\pi \right) ^{4} \delta\left( \sum_{i}^{} p_i  \right)  $ can always be facored out.
+  \item Rules for $\bra{p_1,\ldots,p_k} \ket{q_1,\ldots,q_n} $ are given in terms of the greens functions in momentumspace just as we now calculated them. $G\left( -p_1,\ldots,-p_k, q_1,\ldots,q_n \right) $ we have to modify rule 2 silghtly to include the prefactors of the LSZ reduction formula: an external line yields: $\left( 2\pi \right) ^{-\frac{3}{2} } Z^{-\frac{1}{2} } $ (external propagator essentially dropped - truncated diagrams).
+  \item The reduced matrix elements $iT\left( p_1,\ldots,p_k, q_1,\ldots,q_n \right) $ also drop:
+    \begin{itemize}
+      \item $\left( 2\pi \right) ^{-\frac{3}{2} } $
+      \item $\left( 2\pi \right) ^{4} \delta\left( \sum_{i}^{k} p_i - \sum_{j}^{n} q_j \right) $
+    \end{itemize}
+\end{itemize}
+\section{Feynman rules for QED}
+The lagrangian of the QED field is given as \[
+\mathcal{L} = \frac{1}{2} \left( \partial_\mu A_\nu  \right) \left( \partial^{\mu} A^{\nu}  \right) + \overline{\Psi} \gamma^{\mu} \left( i \partial_\mu - e A_\mu  \right) \Psi - m\overline{\Psi}\Psi
+\] We write 
+\begin{align*}
+  \mathcal{L}_0 &= \mathcal{L} \left( e = 0 \right) \\
+  \mathcal{L}_I &= -e \overline{\Psi} \gamma^{\mu} A_\mu \Psi \\
+  \implies H_I &= e \int_{x^{0} =0}^{} d^{3}x  :\overline{\Psi}_b\left( x \right) A_\mu\left( x \right) \left( \gamma^{\mu}  \right)_{ab}  \Psi_a\left( x \right) : 
+\end{align*}
+The Greens fuction is give as
+\begin{align*}
+  G\left( x_1,\ldots,x_n; x_{n+1} ,\ldots,x_{2n} ; y_1,\ldots,y_p \right) &= 
+  \bra{\Omega} T\left[ \Psi_{a_1} \left( x_1 \right) \ldots \Psi_{a_n}\left( x_n \right) \overline{\Psi}_{b_1} \left( x_{n+'}  \right) \ldots \overline{\Psi}_{b_n} \left( x_{2n}  \right) A_{\mu_1} \left( y_1 \right) \ldots A_{\mu_p} \left( y_p \right)  \right] \ket{\Omega}  \\
+\end{align*}
+\paragraph{Remarks}
+\begin{itemize}
+  \item On the lhs inices $a_1, b_1, \mu$ are subsumed in $x_i, y_j$.
+  \item By global gauge invariance the number of $\Psi$ must equal the number of $\overline{\Psi}$, or else $G = 0$. Since $\ket{\Omega} \to \ket{\Omega} $ but $\Psi \to e^{-i\lambda} \Psi$ and $\overline{\Psi} \to  e^{i\lambda} \overline{\Psi}$, meaning $G \to E^{-i\lambda D} G$ for $D$ the difference in number between $PSi$ and $\overline{\Psi}$, giving us that either $G$ or $D$ must be $0$.
+  \item Diagarmatic expression for $G$ gives us the VEV of the free fields in a free vacuum.
+\end{itemize}
+The ingredients for our diagrams are
+\begin{itemize}
+  \item for $A\mu$ gives us an external vertex
+  \item for $\overline{\Psi}_b\left( x \right) $ gives out an external vertex with a second line type with outgoing orientation
+  \item for $\Psi_a\left( x \right) $ we get an extarnal vertex with a second line type and an incomming orinentation.
+  \item For $\overline{\Psi}_b\left( z \right) A_\mu\left( z \right) \Psi_a\left( z \right) $ we get an internal vertex with two type two lines and one type one line.
+\end{itemize}
+We then consider all possible contractions as per Wicks lemma, for example \[
+\bra{0} T A_\mu\left( z_i \right) A_\nu\left( z_j \right) \ket{0} = - i g_{\mu\nu} \Delta_F\left( z_i - z_j \right) 
+\] \[
+\bra{0} T \Psi_a\left( z_i \right) \overline{\Psi}_b\left( z_j \right) \ket{0} = i S_F\left( z_i - z_j \right) 
+\] \[
+\bra{0} T \Psi_a\left( z_i \right)\Psi_b\left( z_j \right) \ket{0} = 0
+\] \[
+\bra{0} T \overline{\Psi}_a\left( z_i \right)\Psi_b\left( z_j \right) \ket{0} = 0
+\] \[
+\bra{0} T \Psi_a\left( z_i \right) A_\mu\left( z_j \right) \ket{0} = 0
+\]
+We now draw diagrams with complete pairing sand with given external veticies. Note:
+\begin{itemize}
+  \item Ferimon lines will tie up to oriented chains
+  \item a chain of such fermion liens can either
+    \begin{itemize}
+      \item be a loop
+      \item be a open line connecting some external veticies $\overline{\Psi}_b\left( x_{n+i}  \right) $ to $\Psi\left( x_i \right) $. This then defines a map from $\sigma : i \to j$ which is a permutation.
+    \end{itemize}
+\end{itemize}
+\subsection{Feynman rules for QED in momentum space}
+The fourier transform of the greens function is \[
+G\left( p_1,\ldots,p_n; p_{n+1} ,\ldots,p_{2n} ; q_1,\ldots,q_p \right) 
+\] with the additional indicies $a,b,\mu$ subsumed.
+\paragraph{Feynman rules}
+\begin{enumerate}
+  \item Draw all topologically disticnt, linked diagrams with $n$ labelled incomming fermionic lines and $n$ labelled outgoing fermionic lines with momenta $p_1,\ldots,p_n$ respectively $p_{n+1} ,\ldots, p_{2n} $. and $p$ photon lines with momenta $q_1,\ldots,q_p$. Here again we orient all momenta inwards.
+  \item Factors 
+    \begin{itemize}
+      \item $-\frac{i}{k^2 + i 0} g_{\mu\nu} $ for any internal photon lines of momentum $k$
+      \item $\frac{i \left( \slashed{k} + m  \right)_{ab} }{k^2 - m^2 + i 0} $ for internal fermion lines of momentum $k$
+      \item $-ie \left( \gamma^{\mu} \right)_{ba} \left( 2\pi \right) ^{4} \delta\left( \sum   \text{"incomming momenta"} \right)  $ for verticies with two ferimon and one photon line
+    \end{itemize}
+    Sum over all the indicies $a, b, \mu$.
+  \item Integrate over all internal momenta $k_\ell$ : \[
+  \int_{}^{} \prod_{\ell}^{} \frac{dk_\ell}{\left( 2\pi \right) ^{4} }   
+  \] and sum over all indicies $a,b,\mu$.
+  \item Multiply by $-1$ for each loop in the diagram and by the sign of the permutation $\sigma$; ie add a factor of $\left( -1 \right) ^{\frac{n \left( n-1 \right) }{2} } \text{sgn}\left( \sigma \right) $
+  \item Sum over all diagrams with loops of even lenght.
+\end{enumerate}
+\paragraph{Remark}
+\begin{itemize}
+  \item In contrast to the $\varphi^{4} $ theory in QED we have no symmetry factors.
+  \item Furry's Lemma: Two topologically distinct loops with identicall external labels contribute oppositely. In rule 5 we therefore only need to consider loops of even length, as the odd ones cancel each other.
+\end{itemize}
+\section{Compton Scattering}
+We are going to compute Feynman diagrams for reduced $T$-matrix elements $c \to \frac{d\sigma}{d \Omega} $, given by the summ of all linked diagrams of the form of a electron and a photon scattering off each other. The incomming electron has momentum and polarisation $p_i, \eta^{i} $ and the incomming photon has momentum and polarisation $k_i, \epsilon^{i} $. The outgoing particles have corresponding momenta $k_f, \epsilon^{f} $, $p_f, \eta^{f} $. We consider this scenario to lowest order. The lowest possible order are diagrams with two internal verticies (order $O\left( e^2 \right) $); there are two such diagrams (see lecture materials), we'll call them the crossed version and the uncrossed version. Both of these diagrams are so called tree diagrams, ie. they have no loops.\\
+The two diagrams also have common factors $e^2 z_2^{-1} z_3^{-1} $. For the free theory these $z$ 's would just be $=1$, for the interacting theory these will be of the form $z_i = 1 + O\left( e^2 \right) $, since we decided to only consider up to first order can ignore the correction and write $z_i \to  1$.\\
+We now apply the feynman rules and get: The integration over $d^{4} p$ between the internal verticies and the delta function we can write that in the uncrossed diagram we have $p = p_i + k_i$, while in the crossed diagram we get $p = p_i - k_i$.\\
+We consider the left internal vertex of the uncrossed diagram and get
+\begin{align*}
+  -ie \overline{u}^{\left( f \right) }_b  \left( \gamma^{\mu} \right)_{ba} \epsilon^{f}_\mu &= 
+  -ie \left( \overline{u} \slashed{\epsilon}^{f} \right)_a \\
+  \text{Hence: } iT\left( p_f, k_f; p_i, k_i \right) &= \left( \text{crossed} \right) + \left( \text{uncrossed} \right)  \\
+  &= \left( -ie \right) ^2 \overline{u}^{f} \left( \slashed{\epsilon}^{f} \frac{\slashed{p}_i + \slashed{k}_i + m}{2 p_i k_i + i 0}   \slashed{\epsilon}^{i}  +  \slashed{\epsilon}^{i} \frac{\slashed{p}_i - \slashed{k}_f + m}{-2 p_i k_f + i 0} \slashed{\epsilon}^{f}  \right) u^{i}  \\
+\end{align*}
+Note:\\
+\begin{itemize}
+  \item The contribution of the two diagrams (first and second term) are related by $\left( \epsilon^{f} , k_i \right) \leftrightarrow \left( \epsilon^{i} , k_f \right) $. 
+\end{itemize}
+In a typical compton experiment the electron is not observed, only the outcomming photon (direction, polarisation) of the outgoing photon is observed. Simmilarly for the incomming particles, in particular the incomming electron is not polarized. This is now enough to compute $\abs{T} ^2$, but replace it by $\frac{1}{2} \sum_{\alpha,\beta =1}^{2} \abs{T} ^2 $, where we averaged over the incomming electron polarization and sum over the outgoing ones. \\
+We write $M = \slashed{\epsilon}^{f} \frac{\slashed{p}_i + \slashed{k}_i + m}{2 p_i k_i} \slashed{\epsilon}^{i} + \slashed{\epsilon}^{i} \ldots$ :
+\begin{align*}
+  \frac{1}{2} \sum_{\alpha, \beta}^{} \abs{T} ^2 &= 
+  \frac{1}{2} e^{4} \sum_{\alpha,\beta=1}^{2} \abs{ \underbrace{ u^{\beta} \left( p_f \right) M u^{\alpha} \left( p_i \right)}_{= c \in \mathbb{C}} }^2 
+\end{align*}
+We can now ask about $\overline{c} $ and get \[
+  \overline{c} = u^{\alpha} \left( p_i \right) ^{*} \underbrace{}_{\gamma^{0} \gamma^{0} }  M^{*} \underbrace{}_{\gamma^{0} \gamma^{0} }  \overline{u}\left( \beta \right) \left( p_f \right) ^{*} 
+\] \[
+\overline{c} = \overline{u}^{\alpha} \left( p_i \right) \overline{M} u^{\beta} \left( p^{f}  \right) `
+\] 
+\[
+\overline{M} := \gamma^{0} M^{*} \gamma^{0}  = 
+\slashed{\epsilon}^{i} \frac{\slashed{p}_i + \slashed{k}_i + m}{2 p_i k_i} \slashed{\epsilon}^{f} +
+\slashed{\epsilon}^{f} \frac{\slashed{p}_i + \slashed{k}_f + m}{-2 p_i k_f} \slashed{\epsilon}^{i}
+\] 
+With this we can rewrite:
+\begin{align*}
+  \frac{1}{2} e^{4} \sum_{\alpha,\beta=1}^{2} \abs{ \underbrace{ u^{\beta} \left( p_f \right) M u^{\alpha} \left( p_i \right)}_{= c \in \mathbb{C}} }^2 
+  &= \frac{1}{2} e^{4} \sum_{\alpha, \beta}^{} \overline{u}^{\beta} \left( p_f \right) M u^{\alpha} \left( p_i \right) \overline{u}^{\alpha} \left( p_i \right) \overline{M} u^{\beta} \left( p_f \right)    \\
+  &= \frac{1}{2} e^{4} \text{tr}\left(\left( \slashed{p} + m \right)    M \left( \slashed{p} + m \right) \overline{M} \right)  \\
+  &= \underbrace{\ldots}_{\text{tedious calculation}}  \\
+  &=  e^{4} \left( \frac{p_i k_f}{p_i k_i} + \frac{p_i k_i}{p_i k_f} + 4 \underbrace{ \left( \epsilon^{f} \epsilon^{i}  \right)}_{= 0\cdot 0 - \vec{\epsilon}^{f} \cdot \vec{\epsilon}^{i} } ^2 - 2 \right) 
+\end{align*}
+Where we've used that $\left\{ \slashed{a}, \slashed{b} \right\} = 2ab$. \\
+We can now compute $\frac{d\sigma}{d\Omega} $ in the rest frame of the incomming electron (ie. the lab frame). 
+\begin{align*}
+  p_i &= \left( m, \vec{0} \right) \\
+  \implies p_i k_x &= m \abs{\vec{k}_x}  \\
+  \implies \frac{d\sigma}{d\Omega} &= \underbrace{\frac{1}{64 \pi^2 m^2}}_{\frac{r_0^2}{4} }  \frac{\abs{\vec{k}^{f} } ^2}{\abs{\vec{k}^{i} }^2}  \left( \frac{\abs{\vec{k}^{f} } }{\abs{\vec{k}^{i} } } + \frac{\abs{\vec{k}^{i} } }{\abs{\vec{k}^{f} } } + 4 \left( \vec{\epsilon}^{f} \cdot \vec{\epsilon}^{i}  \right) ^2 - 2 \right) 
+\end{align*}
+With $r_0 = \frac{e^2}{4\pi m} $ the classical electron radius. Which is the so called klein-Nishina formula, which was already found before field theory in 1929 (validation of field theory).\\
+Remarks:\\
+\begin{itemize}
+  \item In the low energy limit one regains the formula from Thomson-Scattering
+  \item 
+\end{itemize}
+\chapter{Renormalization}
+\section{Two point function of a scalar $\varphi^3$ theory}
+We start with the Kaellen-Lehmann representation of the 2 pt function which then carries over to the time ordered 2 point function \[
+G\left( x \right) = \bra{\Omega} T\left( \varphi\left( x \right) \varphi\left( 0 \right)  \right) \ket{\Omega} 
+\] as \[
+G\left( x \right) = z i \Delta_\text{F} \left( x; m^2 \right) + \int_{0}^{\infty} d\rho^2\left( m'^2 \right) i \Delta_\text{F} \left( x; m'^2 \right)  
+\] We consider it's fourier transform: 
+\begin{align*}
+  G\left( p \right) &= \int_{}^{} d^{4}x e^{-ipx} G\left( x \right)   \\
+  \implies G\left( p \right) &= z \frac{i}{p^2 - m^2 + i 0} + \int_{0}^{\infty} d\rho^2\left( m'^2 \right) \frac{i}{p^2 - m'^2 + i 0} = g\left( p^2 \right)   \\
+.\end{align*}
+We expect the spectrum of $M^2 = P^{\mu} P_\mu$ qualitatively stable under perturbation of free theory, in particular the free theory has mass $m_0$, therefore we expect that the perturbed theory still has an isolated, maybe different, eigenvalue $m \neq m_0$.\\
+In particular we expect $g\left( p^2 \right) $ is analytic in $p^2$ in a domain given by the picture in the lecture material (the complement of $\left\{ m^2 \right\} \cup \left[ \left( 2m \right) ^2, \infty \right)$ ). \\
+We do have that we have a cut singularity for $p^2 > \left( 2m \right) ^2$ since
+\begin{align*}
+  g\left( p^2 + i \epsilon \right) - g\left( p^2 - i \epsilon \right) &\underbrace{=}_{\epsilon \to  0} i \int_{}^{} d\tilde{\rho}\left( m'^2 \right) \underbrace{ \left( \frac{i}{p^2 - m'^2 + i\epsilon} - \frac{i}{p^2 - m'^2 -  i\epsilon}  \right)}_{\to -2\pi i \delta\left( p^2 - m'^2 \right) } \\
+  &= 2\pi \tilde{p}'\left( p^2 \right) 
+\end{align*}
+where we found a discontinuity at the cut. \\
+We'd now like to ask the question: Can perturbation theory confirm this picture? And what are $m^2$ and $z$?\\
+These two quantities can be computed in perturbation theory by finding the pole $m^2$ and it's residual $z$ of $g\left( p^2 \right) $.\\
+\paragraph{$\varphi^3$ Theory} \[
+\mathcal{L} = \frac{1}{2} \left( \partial_\mu \varphi  \right) \left( \partial^{\mu} \varphi  \right) - \frac{m_0^2}{2} \varphi^2 - \frac{\lambda}{3!} \varphi^3
+\] \[
+\implies \mathcal{L} = \mathcal{L}_0 - \mathcal{L}_I
+\] With the bare mass $m_0$.\\
+We consider the time ordered two point function
+\begin{align*}
+  G\left( p,p' \right) &= \left( 2\pi \right)^{4} \delta\left( p + p' \right) g\left( p^2 \right) 
+\end{align*}
+The contributing diagrams are given in the lecture material (one with 0 internal verticies, one with two, three with four, etc.). Giving us:
+\begin{align*}
+  g\left( p^2 \right) &= \frac{i}{p^2 - m_0^2 + i 0} + \frac{i}{p^2 - m_0^2 + i 0} \left( -i \lambda^2 \Sigma_2\left( p^2, m_0^2 \right)  \right) \frac{i}{p^2 - m_0^2 + i 0} + O\left( \lambda^{4}  \right)  \\
+  -i \lambdar \Sigma_2\left( p^2, m_0^2 \right) &= \underbrace{\frac{1}{2} }_{\frac{1}{S S'} }  \left( -i \lambda \right)^2 \int_{}^{} \frac{dk}{\left( 2\pi \right) ^{4} } \frac{i}{k^2 - m_0^2 + i 0} \frac{i}{\left( p-k \right) ^2 - m_0^2 + i 0}   
+\end{align*}
+Which is now up to $O\left( \lambda^2 \right) $ we can rewrite $g\left( p^2 \right) $ as
+\begin{align*}
+  g\left( p^2 \right) &= \frac{i}{p^2 - m_0^2 + i 0} \left( 1 - \lambda^2 \frac{\Sigma_2\left( p^2, m_0^2 \right) }{p^2 - m_0^2 + i 0}  \right) ^{-1}  \\
+  \text{because:  } \left( 1-q \right) ^{-1} &= 1 + q + q^2 + q^3 + \ldots 
+\end{align*}
+Where we have "resummed" all diagrams of the form with individual blobs (see graphics in lecture material). We can then even rewrite this nicer as
+\begin{align*}
+  g\left( p^2 \right) &= \frac{i}{p^2 - m_0^2 - \lambda^2 \Sigma_2\left( p^2, m_0^2 \right) } 
+\end{align*}
+While the free theory had a pole at $m_0^2$, but this new $g\left( p^2 \right) $ now has a pole at a different $m$. $\Sigma$ is called the selfs-energy, and $\Sigma_2$ is the self-energy at order $O\left( \lambda^2 \right) $. \\
+This all looks nice but: $\Sigma_2$ is logarithmically divergent. We write
+\begin{align*}
+  \Sigma_2\left( p^2, m_0^2 \right) &= \frac{i}{32 \pi^{4}  } \left( \int_{}^{} d^{4}k \frac{1}{\left( k^2 - m_0^2 + i 0 \right) \left( \left( p-k \right) ^2 - m_0^2 + i 0 \right) } - \frac{1}{\left( k^2 - m_0^2 + i 0 \right)^2}   + \int_{}^{} d^{4}k \frac{1}{\left( k^2 - m_0^2 + i 0 \right) ^2} \right) \\
+       &= \underbrace{ \Sigma'\left( p^2, m_0^2 \right) }_{\text{convergent}}  + \underbrace{\Sigma''\left( m_0^2 \right)}_{\text{divergent, but independent of } p^2} 
+\end{align*}
+Feynman diagrams can be made finite by something called regularization, there are various methods of which we'll see two: Pauli-Villars where we replace the propagator $\frac{i}{k^2 - m_0^2 + i 0} \to \frac{i}{k^2 - m_0^2 + i 0} - \frac{i}{k^2 - M^2 + i 0} = \frac{-i \left( M^2 - m_0^2 \right) }{\left( k^2 - m_0^2 + i 0  \right) \left( k^2 - M^2 + i 0 \right) } $ where $M^2$ is called the cut-off as this is then \[
+= \begin{cases}
+  O\left( \left( k^2 \right)^{-2}  \right)  & \left( k^2 \to \infty \right) \text{ and $M^2$ fixed} \\
+  \frac{i}{k^2 - m_0^2 + i 0}  & \left( M^2 \to \infty \right) \text{ and $k^2$ fixed} \\
+\end{cases}
+\] 
+This substitution can now be applied in $\Sigma'$ which is irrelevant since $\Sigma'$ is already convergent, but it makes $\Sigma''$ convergent since \[
+\Sigma'' \to i \left( M^2 - m_0^2 \right) ^2 \cdot \int_{}^{} d^{4}k \frac{1}{\left( k^2 - m_0^2 + i 0 \right) \left( k^2 - M^2 + i 0 \right) }  
+\] is obviously convergent. But the divergence is back for $M^2 \to \infty$.\\
+Louper comutation:
+\begin{align*}
+  \begin{cases}
+    \Sigma'\left( p^2,m_0^2 \right) &= \frac{1}{32 \pi^2} \int_{0}^{1} dx \log\left( \frac{m_0^2 - p^2x\left( 1-x \right) }{m_0^2}  \right)   \\
+    \Sigma''\left( m_0^2; M^2 \right) &= -\frac{1}{16 \pi^2} \log\left( \frac{M}{m}  \right) + \text{convergent terms}  \\
+  \end{cases}
+  \implies \Sigma &= \Sigma\left( p^2, m_0^2; M^2 \right) \\
+\end{align*}
+Tools used for the computation:
+\begin{itemize}
+  \item $\Sigma'\left( p^2,m_0^2 \right) = \Sigma'\left( 0, m_0^2 \right) + \int_{0}^{p^2} d\left( p'^2 \right) \frac{\partial \Sigma'}{\partial \left( p' \right)^2}  $
+  \item $\frac{\partial \Sigma'}{\partial p^2} = -\frac{i}{32 \pi^{4} p^2} \int_{}^{} d^{4}k \frac{p\left( p-k \right) }{\underbrace{\left( \left( p-k \right)^2 - m_0^2 + i 0  \right)^2}_{A^2} \underbrace{\left( k^2 - m_0^2 + i 0 \right)}_{B}  }  $ and we use: $\frac{1}{A^2 B} = 2 \int_{0}^{1} \frac{x}{\left( Ax - B\left( 1-x \right)  \right) ^3}  $ (Feynman parametrization).
+\end{itemize}
+After which we end up with integrals of the type: \[
+I = \int_{}^{} d^{4}k \frac{1}{\left( K - k^2 - i 0 \right) ^3}  
+\] 
+with $k^2 = k_0^2 - \vec{k}^2 $ and $K > 0$. We integrate
+\begin{itemize}
+  \item over $dk_0$ and see where we have poles at $k_0^2 = K + \vec{k}^2 - i 0$ ie. $k_0 = \pm \left( \sqrt{K+\vec{k}^2} - i 0 \right)  $. Integrating over the path given in the lecture material gives $0$, we can then introduce a Wick-rotation with $k_0 = i k_4 \implies k^2 = -\left( k_4 \right)^2 - \vec{k}^2 = -\underline{k}^2$ with $\underline{k} = \left( \vec{k}, k_4 \right) $ \[
+      \implies I = \int_{}^{} d^{4} \underline{k}  \frac{1}{\left(K + \underline{k}^2\right) ^3}  
+  \] Which is a special case of \[
+  \int_{}^{} d^{d} \underline{k} \frac{1}{\left( K + \underline{k}^2 \right)^{\alpha} } = \pi^{\frac{d}{2} } \frac{\Gamma\left( \alpha - \frac{d}{2}  \right) }{\Gamma\left( \alpha \right) } K^{\frac{d}{2} - \alpha}  
+  \] 
+\end{itemize}
+We can now interpret this divergence:
+\begin{enumerate}
+  \item "Unrenormalized" perturbation theory: \\
+    The Particle without self-interaction is not observable in an interacting theory, likewise the bare mass $m_0$ is not observable. Meaning it is adjustable, even adjustable in a divergent way.\\
+    Conversely the physical mass $m \neq m_0$ is obselvable, it's the mass of the particle which can be measured. This physical mass $m$ includes all interaction and is experimentally given and theoretically fixed. It is this mass that corresponds to the pole of $g\left( p^2 \right) $. \\
+    The requirement now is that: 
+    \begin{align*}
+      p^2 - m_0^2 - \lambda^2 \Sigma_2\left( p^2, m_0^2 \right) &= 0 \text{ for } p^2 = m^2
+    \end{align*}
+    The bare mass $m_0^2$ can then be seen as a function (ie a powerseries in $\lambda^2$ )\[
+    m_0^2 = m_0^2\left( \lambda, m^2 \right) 
+    \] \[
+    m_0^2 = m_{0,0}^2\left( M^2 \right) + m_{0,2}^2\left( M^2 \right) \lambda^2 + \ldots
+    \] We now choose all coeficients $m_{0,n}^2\left( M^2 \right) $ such that the requirement above holds at each order in $\lambda$. In particular the LHS of the requirement will converge at $p^2 = m^2$ but since we already now that the $p^2$ part is already convergent, this means that it will converge at any $p^2$.\[
+    \implies m_0^2 + \lambda^2 \Sigma_2\left( p^2, m_0^2; M^2 \right) \to m^2 + \lambda^2 \Sigma_R\left( p^2 \right) 
+    \] we can now consider this at different orders of $\lambda$ for $M^2 \to \infty$ :
+    \begin{itemize}
+      \item $\lambda^{0} $ : $m_{0,0}^2\left( M^2 \right) \to m^2$ 
+      \item $\lambda^2$ : $m_{0,2}^2\left( M^2 \right) + \Sigma_2\left( p^2, m_{0,0}^2; M^2 \right) \to \Sigma_R\left( p^2 \right)  $ \\
+        This fixes the limit up to an additive constant. \[
+      m_0^2\left( \lambda, M^2 \right) = m^2 + \lambda^2 \left( \text{const. } + \frac{1}{16 \pi^2} \log\left( \frac{M}{m}  \right)  \right) + O\left( \lambda^{4}  \right) 
+      \] While this is ambigous, but it will be fixed by the requirement when $p^2 = m^2$ which gives \[
+      \Sigma_R\left( p^2 = m^2 \right) = 0
+      \] 
+    \end{itemize}
+    We therefore get the result: \[
+    \implies \Sigma_R\left( p^2 \right) =\frac{1}{32 \pi^2} \int_{0}^{1} dx \log\left( \frac{m^2 - p^2x\left( 1-x \right) }{m^2\left( 1 - x\left( 1-x \right)  \right) }  \right)  
+    \] 
+\end{enumerate}
+\section*{one lecture missing}
+\subsection{Dimensional regularization}
+THe second regularization scheme we look at is tthe dimensional regularization. We now consider the Sigma function not in 4 but in $d$ dimensions and u
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\chapter{Organisational Remarks}
+\begin{itemize}
+  \item There will be a list of exam topics on the moodle
+  \item The Exam will have two parts a theory part and a problem solving part
+  \item Rules for the exam will also be posted on the moodle 
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

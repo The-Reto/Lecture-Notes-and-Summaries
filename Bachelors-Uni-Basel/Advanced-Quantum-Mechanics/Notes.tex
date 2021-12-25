@@ -1,0 +1,886 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[ngerman]{babel}
+\usepackage{siunitx}
+\usepackage{amsmath}   
+\usepackage[version=3]{mhchem}
+\usepackage[
+    backend=biber,
+    style=numeric,
+  ]{biblatex}
+\usepackage{physics}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage[margin=2cm]{geometry}
+
+\addbibresource{sources.bib}
+\graphicspath{ {/} }
+\DeclareSIUnit \parsec {pc}
+\DeclareSIUnit \lightyear {ly}
+\DeclareSIUnit \year {yr}
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+\title{11287 Advanced Quantum Mechanics and Quantum Field Theory\\
+\large Summary}
+\author{The\_Reto}
+\date{FS 2021}
+
+\begin{document}
+
+\maketitle
+    
+\chapter*{Introduction}
+\section*{On this document}
+This document are my personal notes on the lecture \emph{11287 Advanced Quantum Mechanics and Quantum Field Theory} at Uni Basel in the spring semester 2021. 
+I type part of this document during the lectures (while the Professor speaks), and another part as a write up when I personally read the associated literature. All of this happens with minimal editing - there are A LOT of spelling mistakes, typos and errors of various severity.
+\section*{Information about this Course}
+To Pass participants need $50\%$ of points from the exercises as well as  $50\%$ of the points in the final exam. Exercise sheets need to be handed in to ADAM by the times specified on the sheets.\\
+The lecture is based on the book "Quantum Field Theory for the Gifted Amateur" by Lancaster and Blundell.
+The wirtten test
+\tableofcontents
+\newpage
+\chapter{Introduction \& Repetition of important concepts}
+\section{Special Relativity}
+In special relativity two inertial reference frames are realted by the Lorentz transformation. For two inertial frames $S$ and $\overline{S}$ moving along the $x$-axis with velocity $v$.
+\begin{align*}
+	\overline{t} &= \gamma \left( t - \frac{vx}{c^2} \right) \\ 
+	\overline{x} &= \gamma \left( x - vt \right) \\
+	\overline{y} &= y \\
+	\overline{z} &= z
+\end{align*}
+with $\gamma = \sqrt{1- \beta^2}$ and $\beta = \frac{v}{c}$.\\
+In special relativity points in space time are given by four-vectors, with one "Time-like" and three "space-like" components. \[
+a = \begin{pmatrix} a_0\\ a_1 \\ a_2\\ a_3 \end{pmatrix} = \begin{pmatrix} t\\ x \\ y \\ z \end{pmatrix}
+\] 
+\section{Lagrange Formalism in Classical Mechanics}
+\subsection{Transition to fields - Lagrange Densities}
+\subsection{Generalisation to special relativity}
+We consider a field $\phi(x)$ where $x = x^\mu$ is a point in space time. The lagrangian is then given by \[
+	L = L\left( \phi, \partial_\mu \phi   \right) 
+\] The action is then \[
+\text{todo}
+\] and the Euler-Lagrange equation becomes 
+\[
+\text{todo}
+\] .\\
+Let's consider an example: \[
+	L\left( \phi, \partial_\mu \phi   \right) = \frac{1}{2} \partial_\mu \phi \partial^\mu \phi - \frac{1}{2} m^2 \phi^2  
+\] 
+We now consider the Euler-Lagrange Equation: 
+\begin{align*}
+	\frac{\partial L}{\partial \phi } &= -m^2\phi  \\
+	\frac{\partial L}{\partial \left( \partial_\mu \phi   \right) } &= \frac{\partial }{\partial \left( \partial_\mu \phi  \right) } \frac{1}{2} \partial_\mu \phi \partial^\mu \phi \\ 
+		&= \frac{\partial }{\partial \left( \partial_\mu \phi \right) } \partial_\mu \phi g^{\mu \nu} \partial_\mu \phi = \ldots \\ 
+		&= \partial^\mu \phi   \\ 
+\end{align*}
+In the end we find: \[
+	\implies 0 = -m^2\phi - \partial_\mu \partial^\mu \phi = \left( \partial_\mu \partial^\mu + m^2 \right) \phi  
+\] 
+\chapter{Recapitulation: Simple harmonic oscillators}
+The harmonic oscillator hamiltonian (in one dimension) is given by \[
+H = \frac{p^2}{2m} +\frac{1}{2}m \omega^2 x^2
+\] We introduce operators $a$ and $a^\dagger$ which give us:
+ \begin{align*}
+	 x &= x_0\left( a^\dagger + a \right) \\
+	 p &=  -i \sqrt{\frac{\hbar m \omega}{2}} \left( a - a^\dagger \right)  \\
+\end{align*}
+or equivalent
+\begin{align*}
+	a &= \sqrt{\frac{m \omega}{2 \hbar }}  \left( x + \frac{i}{m \omega} p \right) \\
+	a^\dagger &= \text{''} \left( x^\dagger - \frac{i}{m \omega} p^\dagger \right)  \\
+.\end{align*}
+With $x_0 = \sqrt{\frac{\hbar}{2m \omega}} $. \[
+\implies H = \hbar \omega \left( a^\dagger a + \frac{1}{2} \right) 
+\] In OFT $\hbar$ is often assumed to be 1 and left out. For the creation and anhilation operators $a$, $a^\dagger$ we have
+\begin{align*}
+	[a,a^\dagger] &= 1 \\
+	a^\dagger \ket{n} &= \sqrt{n+1} \ket{n+1} \\
+	a \ket{n} &= \sqrt{n} \ket{n-1} \\
+\end{align*} For $N$ uncopeled oscillators, $\omega_k$, $k = 1, \ldots N$ we get \[
+H = \sum_{k=1}^{N} \hbar \omega_k\left( a_k^\dagger a_k + \frac{1}{2} \right) 
+\] For each oscillator we have eigenstates $\ket{n}$ so our combined eigenstates are given by $\ket{n_1,n_2,\ldots,n_N}$.
+\subsection{Linear Chain of harmonic oscillators}
+We imagine a linar chain of coupled harmonic oscillators (masses connected by springs).\\
+The rest position of mass $j$ is given by $R_j = ja$, the deviation from it's rest position is called $x_j$. The hamiltonian of this system is given by \[
+	H = \sum_{j} \frac{1}{2m} p_j^2 + \frac{1}{2}K \left( x_{j+1} - x_j \right)^2
+\] We assume periodic boundary conditions (we assume the last mass is coupeled to the first mass); $x_{N+1} = x_1$\\
+We solve this problem by fourier transform: \[
+	x_j = \frac{1}{\sqrt{N} } \sum_{k} x_k \exp(ikja)
+\] With $k = \frac{2 \pi n}{Na}$, $-\frac{N}{2} < n \le  \frac{N}{2}$. What you find when doing the transformation is
+\begin{align*}
+	\sum_{j} p_j^2 &= \sum_{k} p_k p_{-k} \\
+	\sum_{j} \left( x_{j+1} - x_j \right)^2 &= \sum_{k} x_k x_{-k} \left( 4 \sin^2( \frac{ka}{2} \right) \\
+\end{align*}
+With $\omega_k^2 = \frac{4K}{m} \sin^2\left( \frac{ka}{2} \right) $ the hamiltonian thus becomes \[
+	\implies H = \sum_{k} \left( \frac{1}{2m}  p_k p_{-k} + \frac{1}{2} m  \omega_k^2  x_k x_{-k} \right) 
+\] All of this was classical, to now go into the "quantum case", we quantize this model. We "promote" the $x_k$ and $p_k$ to operators $\hat{x}_k$ and $\hat{p}_k$ and then define $a_k^\dagger$, $a_k$ as before.
+We get a slight complication as $x_k$ and $p_k$ are not hermitian. We find $x_k^\dagger = x_{-k}$ and $p_k^\dagger = p_{-k}$. The hamiltonian now takes the form  \[
+	H = \sum_{k=1}^{N} \hbar \omega_k \frac{1}{2} \left( a_k a_k^\dagger + \underbrace{a_{-k}^\dagger a_{-k}}{a_k^\dagger a_k} \right) 
+\]\[
+\implies H = \sum_{k=1}^{N} \hbar \omega_k \left( a_k^\dagger a_k + \frac{1}{2} \right) 
+\] This is an interesting result. We started with a chain of coupeled, interactiong oscillators, but end up with a sum over non-interacting harmonic oscillators! In Solid State physics the modes, labeled by $k$, are called phonons. For each of these phonon-modes we can add/substract integer multiples of $\omega_k$, this gives rise to the interpretation of phonons as discrete particles.
+\chapter{Occupation Number Representation}
+We consider a particle in a one dimensional "box" of length $L$ and periodic boundary conditions (a bit of a strange box). The states of this particle will be plane waves of the form \[
+	e^{ipx} = e^{ip(x+L)} \text{, } \implies p_m = \frac{2 \pi m}{L} \text{, } m = 0, \pm 1, \pm 2 ,\ldots
+\]  The eigenstates can be labeled by this $p_m$.\\
+We now suppose that instead of just one, we want to put $n$ particles in this Box. The idea of the occupation number representation is to characterise the $N$-particle state by specifying how many particles are in each state. \[
+\ket{\psi} = \ket{n_1, n_2, \ldots}
+\]  where $n_2$ is the number of particles in state $\ket{p_2}$, etc. \\
+Example: $\ket{\psi} = \ket{2,1,0,0,\ldots} = \ket{2,1}$ means that we have two particles in state $\ket{p_1}$ and one particles in $\ket{p_2}$, in this case $N = 3$.\\
+We now assume that these states are constructed by applying creation operators $a_{p_i}^\dagger$ to the vacum state $\ket{0}$. \\
+Example: \[
+	a_{p_1}^\dagger \ket{0} = \ket{1,0}
+\]\[
+	a_{p_2}^\dagger \ket{0} = \ket{0, 1}
+\] \[
+a_{p_1}^\dagger a_{p_2}^\dagger = \ket{1,1}
+\]  The order in which we apply these operators may matter, but in both cases the resulting state will be $\ket{1,1}$ - it could only differ by phase. We therefore require \[
+a_{p_1}^\dagger a_{p_2}^\dagger = \lambda a_{p_2}^\dagger a_{p_1}^\dagger
+\] With $\lambda $ a constant phase factor. There are two cases
+\begin{enumerate}
+	\item For Bosons $\lambda = 1$. \\
+		$[a_{p_1}^\dagger, a_{p_2}^\dagger] = 0$\\
+		$[a_{p_i}, a_{p_i}^\dagger] = 1$ \\
+		We therefore get:  \[
+			\ket{\psi} = \ket{n_1,n_2,\ldots} =\ldots \frac{\left( a_2^\dagger \right)^{n_2} }{\sqrt{n_2!} } \frac{\left( a_1^\dagger \right)^{n_1} }{\sqrt{n_1!} } \ket{0}
+		\] \\
+	\item For Fermions $\lambda = -1$. \\
+		$\{c_i^\dagger, c_j^\dagger\} = 0$ \\
+		$i = j \implies (c_i^\dagger)^2 = 0$ the occupation of a state cannot be $> 1$. This is called the Pauli-Exclusion principle (two Fermions cannot occupy the same state). \\
+		$\{c_i, c_j^\dagger\} = \delta_{ij}$ \\
+		We therefor get: \[
+			\ket{\psi } = \ket{n_1, n_2, \ldots} = (c_1^\dagger)^{n_1} (c_2^\dagger)^{n_2} \ldots \ket{0}
+		\] We consider a an example: $c_i^\dagger \ket{n_1,\ldots, n_i, \ldots 0}$ with $n_i = 0$ or $= 1$. If $n_i = 0$: \[
+		c_i^\dagger \ket{n_1, \ldots, n_i, \ldots} = \left( -1 \right)^{\sum_{j=1}^{i-1} n_j} \ket{n_1, \ldots, n_i + 1, \ldots}
+		\] In the opposite case we get \[
+		c_i \ket{n_1, \ldots, ni,\ldots} = \left( -1 \right)^{\sum_{j}^{i-1} n_j} \ket{n_1,\ldots n_i-1, \ldots}
+		\] 
+\end{enumerate}
+For both, bosons and fermions, the symmetry requirement is taken care of by the algebraic (commutation/anticommutation) properties of the operators ($a_i$ for bosons, $c_i$ for fermions). We will see that all the observables can be expressed in terms of the $a_i$'s or $c_i$'s - this reformulation of quantum mechanics goes under the name of \emph{Second Quantisation}. \\
+\chapter{Making second quantisation work}
+Consider a system in a closed box of volume $V$. We can then define so called field-operators, which are the analogues of the $a_i$'s $c_i$'s in the position representation.\\
+The position representation of the creation/anhilation operators is given by
+\begin{align*}
+	\Psi(x) &= \frac{1}{\sqrt{V} } \sum_{\vec{p}} a_{\vec{p}} e^{i \vec{p} \vec{x}} \\
+.\end{align*}
+The properties of these $\Psi(x)$ can be looked up in Lancaster, we will only give the commutation relations. 
+\begin{align*}
+	[\Psi(x), \Psi^\dagger(x')] &= \delta(x - x') & \text{for bosons} \\
+	\{\Psi_{\sigma}(x), \Psi_{\sigma'}^\dagger(x')\} &= \delta(x - x') \delta_{\sigma \sigma'} & \text{for fermions} \\
+.\end{align*}
+For one particle operators we can write \[
+	A_i = \sum_{\alpha \beta} \ket{\alpha }_i\bra{\alpha }_i A \ket{\beta }_i\bra{\beta }_i = \sum_{\alpha \beta } A_{\alpha \beta } \ket{\alpha }_i \bra{\beta }_i
+\] In the second quantized form we can write: \[
+A = \sum_{\alpha \beta } A_{\alpha \beta} a_{\alpha}^\dagger a_{\beta}
+\] This acts on the whole group of particles.
+As an example let's look at an single particle momentum operator:
+\begin{align*}
+	\hat{p}_i &= \sum_{\vec{p}} \vec{p} \ket{p}_i \bra{p}_i \\
+	\implies \hat{P} &= \sum_{\vec{p}} \vec{p} a_p^\dagger a_p \\
+.\end{align*}
+It's important to notice that $a_p^\dagger a_p$ counts the number of particles in state $\ket{p}$, second quantisation thus gives us an extremly natural way of writing the total momentum - it's just the sum of the individual momenta.\\
+A second example is the free hamiltonian of non-interacting particles \[
+H = \sum_{p} \frac{p^2}{2m} a_p^\dagger a_p
+\] In the position representation we get for a single particle operator $A_i(x)$ \[
+A = \int d^3x \Psi^\dagger(x) A(x) \Psi(x)
+\] 
+Example: free hamiltonian 
+\begin{align*}
+	A_i(x) &= \frac{\hbar^2}{2m} \nabla_i^2 \\
+	\implies A &= \int d^3x \Psi(x) \left[ \frac{\hbar^2}{2m} \nabla^2  \right] \Psi(x)
+\end{align*}
+For two particle operators (eg. coulomb interaction) the procedere is simmilar \[
+	\hat{U} = \frac{1}{2} \int d^3x d^3y \Psi^\dagger(x) \Psi^\dagger(y) U(x, y) \Psi(x) \Psi(y)
+\] It's important to note that the order of $\Psi(x)$ and $\Psi(y)$ matters (in the fermionic case, with bosons it doesn't matter). \\
+To switch to momentum representation we just insert the definition of the field operators: \[
+	\Psi(x)^\dagger = \frac{1}{\sqrt{V} } \sum_{p} a_p^\dagger e^{-i p x}
+\] and insert this definition into the operator. By using that $\frac{1}{V} \int d^3y e^{ipy} = \delta_{p,0}$ we get \[
+U = \frac{1}{2} \sum_{p_1,p_2,q} U_q a_{p_1+q}^\dagger a_{p_2-q}^\dagger a_{p_2} a_{p_1}
+\] If we assume that $U(x,y) = U(x - y)$ we have  \[
+U_q = \frac{1}{V} \int d^3z U(z) e^{-iqz}
+\]
+Examlpe of a famous model in condensed matter is the Hubbard model, it has the hamiltonian \[
+	H = -t \sum_{i, \tau, \sigma} c_{i, \sigma}^\dagger c_{i+\tau, \sigma} + U \sum_{i} n_{i,\uparrow}n_{i, \downarrow}
+\] The first term describes the kinetic energy, like in the thightbinding model. The second term describes a potential resulting from electrons sitting on the same site. On exercise sheet 1 there is an exercise on the so called two site hubbard model. \\
+\chapter{Continuos Systems}
+How are the Lagrangian and Hamiltonian related to each other? We know that in classical mechanics \[
+	L(\vec{q}, \dot{\vec{q}}, t)
+\] \[
+H(\vec{q}, \vec{p}, t) = \vec{p} \dot{\vec{q}} - L\left( \vec{q}, \dot{\vec{q}}, t \right) 
+\] We need to express $\dot{\vec{q}}$ in terms of $\vec{q}$, $\vec{p}$ and $t$, using $\vec{p} = \frac{\partial L}{\partial \dot{q}} $. \\
+We also remember Hamiltons equation and poisson bracket from classical mechanics.\\
+The relativistic lagrangian of a free  particle is given by: with $dt = \gamma d\tau$, $\tau$ the eigenzeit \[
+	\text{action: } S = \int_{t_1}^{t_2} L dt = \int_{\tau_1}^{\tau_2} L \gamma d\tau
+\] \[
+L \gamma = \text{const.} = - \alpha
+\] To get a Lorentz-invariant action. To determine $\alpha $ we set it to $mc^2$ to optain the correct low energy limit. \[
+L(x, \dot{x}, t) = -mc^2 \sqrt{1 - \frac{\dot{x}^2}{c^2}} 
+\] Which for $\dot{x} \to 0$ goes to $-mc^2 + \frac{1}{2} m \dot{x}^2 + \ldots$ which is the correct low energy limit.\\
+We now look at the case where we add an electromagnetic field \[
+	A^{\mu} = \begin{bmatrix} \frac{V\vec{x}}{c} \\ \vec{A}(\vec{x}) \end{bmatrix} 
+\] The action then becommes \[
+S = \int_{t_i}^{t_f} dt \left( mc^2 \sqrt{1 - \frac{\dot{x}^2}{c^2}} + q \vec{A}(\vec{x}) \dot{\vec{x}} - q V(\vec{x} \right) 
+\] We read of our Lagrangian as $L = \left( -mc^2 \sqrt{\ldots} + q \vec{A} \dot{x} - q V \right) $. The fields are given by:
+\begin{align*}
+	\vec{B} &= \vec{\nabla } \times \vec{A} \\
+	\vec{E} &= - \vec{\nabla } V - \frac{\partial \vec{A}}{\partial t}
+\end{align*} The relativistic field tensor is given by \[
+	F_{\mu \nu} = \partial_\mu A_\nu - \partial_\nu A_\mu = \begin{bmatrix} 0 & & & \\ -E_1 & 0 & -B_3 & B_2 \\ -E_2 & & 0 & -B_1 \\ -E_3 & & & 0 \end{bmatrix}   
+\] \[
+	F^{\mu \nu} = g^{\mu \eta} g^{\nu \alpha} F_{\eta \alpha} = \begin{bmatrix} 0 & & & \\ E_1 & 0 & -B_3 & B_2 \\ E_2 & & 0 & -B_1 \\ E_3 & & & 0 \end{bmatrix} 
+\] 
+\section{Lagrangian and Hamiltonian Densities}
+In many cases the Lagrangian and Hamiltonian can be written as:
+\begin{align*}
+	H &=  \int d^3x \mathcal{H}  \\
+	L &= \int d^3x \mathcal{L}  \\
+\end{align*} With the densities $\mathcal{H}$ and $\mathcal{L}$ that are functions of $\phi $, $\dot{\phi}$, $\phi'$ and $x$. We remember that the conjugate momemtum was given by $\vec{p} = \frac{\partial L}{\partial \dot{\vec{x}}}  $, we now define a simmilar quantity as \[
+\pi(\vec{x}) = \frac{\partial \mathcal{L}}{\partial \dot{\phi}} =  \frac{\delta L}{\delta \dot{\phi}}
+\] We call this $\pi(x)$ the conjugate momentum to $\phi$. If there are several field components $\phi_i$ there will also be several components of the conjugate momentum $\pi^i(\vec{x}) = \frac{\partial \mathcal{L}}{\partial \dot{\phi_i}}  $.\\
+We now look at the hamiltonian density, from the definition of the Hamiltonian we can read of that \[
+	\mathcal{H} = \pi \dot{\phi} - \mathcal{L}
+\] As an example we now look at the electromagnetic field:\\
+The field is given by the $A^\mu $, we find \[
+	\mathcal{L}(A) = -\frac{1}{4} F_{\mu \nu} F^{\mu \nu} = \frac{1}{2} (\vec{E}^2 - \vec{B}^2)
+\] \[
+A^\mu = \begin{bmatrix} \frac{V}{c} \\ \vec{A} \end{bmatrix} \text{ , } A_\mu = \begin{bmatrix} \frac{V}{c} \\ -\vec{A} \end{bmatrix} 
+\] We assume we're using a gauge in which $V = 0$. We now calculate the conjugate momentum \[
+\pi^i = \frac{\partial \mathcal{L}}{\partial \dot{\phi_i}} = \frac{\partial \mathcal{L}}{\partial \left( \partial_0 A_i  \right) } \text{ for $i = 1,2,3$ } \to \vec{\pi} = - \dot{\vec{A}} = \vec{E}
+\] The hamiltonian density is then \[
+\mathcal{H} = \pi^i \dot{A}_i - \mathcal{L} = \frac{1}{2} \left( \vec{E}^2 + \vec{B}^2 \right) 
+\] which is what we would expect for the energy density of the electro magnetic field (note: we use Heaviside units to not have to write all of the prefactors $\epsilon_0$ and $\mu_0$, in SI units we'd have $\frac{1}{2} \left( \epsilon_0 E^2 + \frac{1}{\mu_0} B^2 \right) $).\\
+We know the Euler-Lagrange equation is given by \[
+	\frac{\partial \mathcal{L}}{\partial \phi } - \partial_\mu \frac{\partial \mathcal{L}}{\partial \left( \partial\phi_\mu  \right) } =0
+\] \[
+\frac{\partial \mathcal{L}}{\partial A_\mu} - \partial_\lambda \left( \frac{\partial \mathcal{L}}{\partial \left( \partial_\lambda A_\mu  \right) }   \right)   =0
+\] Since $F_{\mu \nu} = \partial_\mu A_\nu - \partial_\nu A_\mu$, and $\mathcal{L} = -\frac{1}{4} F_{\mu \nu} F^{\mu \nu}$ the first term is $0$. For the second term we look at \[
+\mathcal{L} = -\frac{1}{4} F_{\mu \nu} F^{\mu \nu} = -\frac{1}{4} \left( \partial_\mu A_\nu - \partial_\nu A_\mu   \right) \left( \partial^\mu A^\nu - \partial^\nu A^\mu    \right) 
+\] \[
+\frac{\partial \mathcal{L}}{\partial \left( \partial_\lambda A_\eta  \right) }  = -\frac{1}{4} 4 \left( \partial^\lambda A^\eta - \partial^\eta A^\lambda  \right)
+\] \[
+= - F^{\lambda \eta}
+\] Our Euler-Lagrange equation therefore yields \[
+\partial_\lambda F^{\lambda \eta} = 0 
+\] Which is just the source free maxwell equations! \\
+To write $\mathcal{L}$ in the presence of sources we get \[
+	\mathcal{L} = -\frac{1}{4} F_{\mu \nu} F^{\mu \nu} - J^\mu A_\mu
+\] The Euler-Lagrange equation then yields \[
+\partial_\lambda F^{\lambda \eta} = J^\eta 
+\] Again we find the maxwell's equations.
+Closing remarks on this chapter: We have seen a contiuous classical system that we described by $\mathcal{L}$, we saw thtat the Euler-Lagrange Equations led to the correct equations of motions.
+\chapter{A first stab at relativistic Quantum Mechanics}
+One optains the froo Schrödinger-Equation by replacing the classical energy $E$ by an 'energy operator' $\hat{E} = i \hbar \frac{\partial }{\partial t}  $, etc. 
+\begin{align*}
+	E &\to \hat{E} = i\hbar \frac{\partial }{\partial t} \\
+	p &\to \hat{p} = -i\hbar \frac{\partial }{\partial x}    
+\end{align*}
+\[
+\implies i\hbar \frac{\partial }{\partial t} \phi\left( \vec{x}, t \right) = -\frac{\hbar^2}{2m} \vec{\nabla }^2 \phi\left( \vec{x}, t \right)  
+\] The solution is is known as \[
+\phi(\vec{x}, t) = N e^{-i\left( \omega t - \vec{k}\vec{x} \right) }
+\] With $N$ being a normalisation constant.\\
+We now try to write this solution using 4-vectors. \[
+	\phi = N e^{-i \vec{p} \vec{x}}
+\] 
+\[
+	p^\mu = \begin{bmatrix} \frac{E}{c} \\ \vec{p} \end{bmatrix} 
+\] \[
+p^\mu p_\mu = \frac{E^2}{c^2} - \vec{p}^2 = m^2 c^2
+\] \[
+p^\mu x_\mu = \frac{E}{c} ct - \vec{p} \vec{x} = \omega t - \vec{k} \vec{x}
+\] 
+How do we get a relativistic wave equation?\\
+The first attempt would be to use $E = \left( p^2c^2 + m^2c^4 \right)^{\frac{1}{2}} $.\\
+We now try to construct a wave equation in the same way as we did before \[
+\implies i \hbar \frac{\partial }{\partial t} \phi = \sqrt{-\hbar^2 c^2 \nabla^2 + m^2 c^4 } \phi 
+\] This naive approach has many problems:
+\begin{enumerate}
+	\item It's not Lorentz covariant, to solve the square-root of an operator on the right-hand side we expand it and get spacial deriviates of infinite order. The left hand side only contains time deriviative of the first order. Time and Space dimensions are therefore not on equal footing
+\end{enumerate}
+The second attempt was to use $E^2 = p^2 c^2 + m^2 c^4$ and plug it into the 'squared' equation. \[
+	\implies -\hbar^2 \frac{\partial^2}{\partial t^2} \phi = \left( - \hbar^2 c^2 \vec{\nabla }^2 + m^2 c^4 \right) \phi  
+\] We now have time and spacial deriviatives of the same order. We can write this equation as \[
+\left( \partial_\mu \partial^\mu + m^2   \right) \phi(x) = 0
+\] With $\phi(x)$ a function of the 4-vector $x$, and $\hbar = c = 1$. This equation is called the Klein-Gordon equation.
+This form is obviously Lorentz-covariant.
+The solutions are given as \[
+	\Phi(x) = N e^{-ipx}
+\] which leads to $E^2 = \vec{p}^2 + m^2$. Taking the squareroot now yields $E = \pm \sqrt{\vec{p}^2 + m^2} $, which leads to two problems.
+\begin{enumerate}
+	\item Problem: What is the meaning of the negative energy solution?!\\
+	\item Problem: probability density should fullfill a continuity equation. Does such an equation exist?
+\end{enumerate}
+Let's deal with the second problem. We derive such a continuity equation in a simmilar way as we did in the introductionary quantum mechanics class.\\
+We first multiply the Klein-Gordan equation from the left with $\Phi^\dagger$ and substract the hermitian conjugate. \[
+\Phi^\dagger \partial_\mu \partial^\mu \Phi - \Phi \partial_\mu \partial^\mu \Phi^\dagger = 0    
+\] \[
+\implies \partial_\mu \left( \phi^\dagger \partial^\mu \phi - \phi \partial^\mu \phi^\dagger \right)  =0
+\] \[
+\partial_\mu j^\mu = 0 
+\] with $j^\mu = \phi^\dagger \partial^\mu \phi - \phi \partial^\mu \phi^\dagger $. One can think of the density $j$ as \[
+j^\mu = \begin{bmatrix} \rho \\ \vec{j} \end{bmatrix} 
+\] for some $\rho$ and $\vec{j}$. In our case we find that  $\rho = \frac{\hbar i}{2m} \left( \phi^* \frac{\partial \phi}{\partial t} - \phi \frac{\partial \phi^*}{\partial t}    \right) $ and $\vec{j} = - \frac{i \hbar}{2m} \left( \phi^* \vec{\nabla} \phi - \phi \vec{\nabla} \phi^* \right) $. The factor $\frac{i \hbar}{2m}$ is only introduced to make the equation look like in non-relativistic quantum mechanics.\\
+The problem now arrises from comparison with the Schroedinger equation. In the Schroedinger case we found $\rho = \abs{\phi}^2 \ge 0$. But now in the Klein-Gordan case our $\rho$ is not neccesarily positive, $j^0 = \rho = 2 \abs{N} E$, but we saw that $E$ can be positive or negative.\\
+The interpretation of $j^\mu$ is unclear.\\
+In the 1920ties Stueckelbelg and Feynman tried to interpret the negative energy solution as anti-particles, more details can be found in Lancaster-Blundell. \\
+\chapter{Examples of Lagrangians}
+Is mainly reading material and will only briefly be covered in the lecture.\\
+\begin{itemize}
+	\item "Massless scaler field" \[
+			\mathcal{L} = \frac{1}{2} \partial^\mu \phi \partial_\mu \phi  
+	\]  
+	\item "massive scalor field" \[
+		\mathcal{L} = \frac{1}{2} \partial^\mu \phi \partial_\mu \phi - \frac{1}{2} m^2 \phi^2  
+\] \\
+We can think of the second term in terms of a potential energy, as "the cost of having a field". The Euler-Lagrange equation of this field is given as $\partial_\mu \partial^\mu \phi + m^2 \phi =0  $, which is the Klein-Gordan equation.\\
+       \item "External source" \[
+		       \mathcal{L} = \frac{1}{2} \partial^\mu \phi \partial_\mu \phi - \frac{1}{2} m^2 \phi^2 + J(x) \phi 
+	       \] With $J(x)$ an external current, a so called source current. For the E-L equation we now get $\partial_\mu \partial^\mu \phi + m^2 \phi = J(x)$.\\
+       \item "$\phi^4$- Theory.\\
+       \item more than one scalar fields. Eg. $\phi_1$, $\phi_2$ with the same mass and potential energy $U\left( \phi_1, \phi_2 \right) = g\left( \phi_1^2 + \phi_2^2 \right)^2$. \[
+		       \mathcal{L} = \frac{1}{2} \partial_\mu \phi_1 \partial^\mu \phi_1 - \frac{1}{2}m^2 \phi_1^2 + \frac{1}{2} \partial_\mu \phi_2 \partial^\mu \phi_2 - \frac{1}{2} m^2 \phi_2^2 - g \left( \phi_1^2 + \phi_2^2 \right)^2 
+       \] 
+       If we apply an rotation matrix to the $\phi_i$'s \[
+	       \begin{bmatrix} \phi_1' \\ \phi_2' \end{bmatrix} = \begin{bmatrix} \cos \theta & -\sin \theta \\ \sin \theta & \cos \theta \end{bmatrix} \begin{bmatrix} \phi_1 \\ \phi_2 \end{bmatrix} 
+       \] The lagrangian remains invariant. \[
+       \mathcal{L}\left( \phi_1', \phi_2' \right) = \mathcal{L}\left( \phi_1 , \phi_2 \right) 
+       \] In fancy language we can say that "$\mathcal{L}$ has an SO(2) symmetr" ie. remains unchanged under two dimensional rotations\\
+       \item "complex scalar field"\\
+	       It turns out that this is equivalent to the previous case. More details can be foun din Lancaster-Blundell. \[
+		       \mathcal{L} = \partial^\mu \psi^\dagger \partial_\mu \psi - m^2 \psi^\dagger \psi - g \left( \psi^\dagger \psi \right)^2  
+	       \] In this case the symmetry is that "$\mathcal{L}$ has a $U(1)$ symmetry" ie. remains invariant under multiplication with a phase factor.
+\end{itemize}
+\chapter{The passage of Time}
+This chapter too will only be covered briefly in the lecture, as the topics should already be known. The topics are as follows: 
+\begin{itemize}
+	\item time evolution operators
+	\item Heisenberg representation \[
+			\bra{\psi(t)} A \ket{\psi(t)} = \bra{\psi}U^\dagger(t) A U(t) \ket{\psi} = \bra{\psi }A(t)\ket{\psi}
+	\] We have the Heisenberg equation of motion \[
+	i\hbar \frac{d}{dt} H(t) = [A(t), H]
+	\] 
+\end{itemize}
+Lancaster-Blundell that "single-particle QM is inconsistant": \[
+	\bra{\vec{x}} e^{-i H t} \ket{0}
+\] \[
+H \ket{\vec{p}} = E_{\vec{p}} \ket{\vec{p}} = \sqrt{\vec{p}^2 + m^2} \ket{\vec{p}} 
+\] LB then show that there is a probability density at points different from $\vec{x} = 0$ at arbitrary small timesteps, which violates relativity.  $\bra{\vec{x}} e^{-iHt} \ket{0}$ is finite ie. $\ge 0$ outside the lightcone.
+\chapter{Quantum Mechanical Transformations}
+We write translations as $T(\vec{a})$ with $\vec{x}' = T(\vec{a}) \vec{x} = \vec{x} + \vec{a}$. We now want to study the situation quantum mehanically  \[
+	U(\vec{a}) \ket{\vec{x}} = \ket{\vec{x} + \vec{a}}
+\] We therefore have two different notations; $T$ which acts on geometric vectors and $U$ which acts on states in a hilbertspace. We now want to loo kat th properties of this unitary operator $U$.
+\begin{itemize}
+	\item $U^\dagger(\vec{a}) \hat{\vec{x}} U(\vec{a}) = \hat{\vec{x}} + \vec{a}$ \[
+			\hat{\vec{x}} U(\vec{a}) \ket{\vec{x}} = (\vec{x} + \vec{a} )\ket{\vec{x} + \vec{a}}
+			\] Now we multiply from the left with $\bra{\vec{x} + \vec{a}} = \bra{\vec{x}} U^\dagger(\vec{a})$ we get the desired result.
+		\item $U(\vec{a}) = e^{-i\vec{p}\vec{a}}$\\
+			Since for wavefunctions we know that: $\psi(\vec{x} + \vec{a}) = e^{i\vec{p}\vec{a}} \psi(\vec{x})$. We can say that the momentum generates the translations.
+\end{itemize}
+We will now do the same for rotations. \[
+	\vec{x}' = R\left( \vec{\theta} \right) \vec{x}
+\] for the goemetric operator and \[
+\ket{\vec{p}'} = U\left( \vec{\theta} \right) \ket{\vec{p}} = \ket{R\left( \vec{\theta} \right) \vec{p}}
+\] The properties of this operator are 
+\begin{itemize}
+	\item $U^\dagger(\vec{\theta}) \hat{\vec{p}} U(\vec{\theta})$
+	\item $U\left( \vec{\theta} \right) = e^{-i \hat{\vec{J}} \vec{\theta}}$, with $\hat{\vec{J}}$ the ANgular momentum operator.
+\end{itemize}
+The question now is how do quantum fields transform under these transformations?\\
+We look at a scalar field and a translation by $\vec{a}$ \[
+	\bra{\vec{y}} \hat{\phi }(\vec{x}) \ket{\vec{y}} = \bra{\vec{y} + \vec{a}} U \hat{\phi }(\vec{x}) U^\dagger \ket{\vec{y} + \vec{a}} =  \bra{ \vec{y} + \vec{a}} \hat{\phi }(\vec{x}) \ket{\vec{y} + \vec{a}}
+\] \[
+\implies U(\vec{a}) \hat{\phi }(\vec{x}) U^\dagger(\vec{a}) = \hat{\phi }(\vec{x} + \vec{a})
+\] Note the order of $U$ and $U^\dagger$ is reversed from what it was when we looked at a operator.\\
+Another example is to look at a creation operator in momentum space $a^\dagger_{\vec{k}}$. We find  \[
+	U^\dagger(\vec{a}) a^\dagger_{\vec{k}} U(\vec{a}) \ket{\vec{q}}
+\] With the momentum eigenstate $\hat{\vec{p}} \ket{\vec{q}} = \vec{q} \ket{\vec{q}}$. \[
+e^{i\vec{p}\vec{a}} a^\dagger_{\vec{k}} e^{-i \vec{p} \vec{a}} \ket{\vec{q}} = e^{i\vec{p}\vec{a}} a^\dagger_{\vec{k}} \ket{\vec{q}} e^{-i\vec{q}\vec{a}}
+\] \[
+e^{i\vec{p}\vec{a}} \ket{\vec{k}, \vec{q}} e^{-i \vec{q} \vec{a}} = e^{i\vec{k}\vec{a}} \ket{\vec{k}, \vec{q}}
+\] \[
+\implies U^\dagger (\vec{a}) a^\dagger_{\vec{k}} U(\vec{a}) = e^{i\vec{k}\vec{a}} a^\dagger_{\vec{k}}
+\] 
+For scalar fields we have \[
+	U^\dagger(\vec{a}) \hat{\phi }(\vec{x}) U(\vec{a}) = \hat{\phi }(\vec{x} - \vec{a})
+\] For vector fields we have something more complex \[
+U^\dagger (\theta) \hat{\vec{\phi}}(\vec{x}) U(\theta) = D(\theta) \hat{\vec{\phi }} (R^{-1}(\theta) \vec{x})
+\] With $U(\theta)$ the unatary that corresponds to the geometric transformation $R(\theta)$ and $D(\theta)$ the (matrix) representation of $R(\theta)$ in the appropriate vector space. This ofcourse also applies to the scalar case if we choose $D(\theta) = \mathbb{1}$.\\
+In the textbook there is a section (9.5) on Lorenz group transformations, we will not discuss it in class but there are exercises on it. (See problem 2 on sheet 3)\\
+The only thing we are discussing in the lecture from this section is the following: \[
+	\Lambda(\beta_1) = \begin{bmatrix} \gamma_1 & \beta_1 \gamma_1 & & \\ \beta_1 \gamma_1 & \gamma_1 & & \\ & & 1 & \\ & & & 1 \end{bmatrix} 
+\] If we want to combine such a boost in the $x$-direction with parameters $\beta_1$ and another boost in the same direction with parameter $\beta_2$, is equivalent to a third boost, but $\beta_3 \neq \beta_1 + \beta_2$. For ease of use we would like to have an additive law, we could write the lorenz transformations as $\Lambda(\phi) = e^{-i\vec{K}\vec{\phi}}$.\\
+To get an additive law, introduce the "rapidities" $\phi_i$ by $\cosh(\phi_i) = \gamma_i$ and $\sinh(\phi_i) = \gamma_i \beta_i$ ($\tanh(\phi_i) = \beta_i$).\\
+What we get in this notation is that a total boost consisting of aboost described by $\phi_1$ followed by a boost described by $\phi_2$ is described by a boost with $\phi_3 = \phi_1 + \phi_2$.
+\chapter{Symmetry}
+Noethers Theorem: "Symmetries lead to conservation laws". Eg. Translational symmetry $\to$ conservation of momentum, rotational symmetry $\to $ conservation of angular momentum.\\
+Asmue a field $\phi(x^\mu)$ changes under a transformation that is parametrized by $\lambda $. We define the change in the field $D\phi = \frac{\partial \phi}{\partial \lambda } $ at $\lambda = 0$, ie an infinitessimal change can be written as $\delta \phi = D \phi \delta\lambda $. We consider as an example a translation:
+\begin{align*}
+	\phi(x^\mu) &\to \phi\left( x^\mu + \lambda a^\mu \right) \\
+	D \phi &=  \frac{\partial \phi }{\partial y^\mu} \frac{\partial y^\mu }{\partial \lambda } = a^\mu \partial_\mu \phi \\
+\end{align*}
+We now look at the Lagrangian
+\begin{align*}
+	\phi(x) &\to \phi(x) + \delta \phi(x) \\
+	\delta \mathcal{L} &=  \frac{\partial \mathcal{L}}{\partial \phi } \delta \phi + \frac{\partial \mathcal{L}}{\partial \left( \partial_{\mu} \phi  \right) }  \delta\left( \partial_{\mu} \phi   \right)    \\
+\end{align*}
+with the momentum density \[
+	\Pi^\mu(x) = \frac{\partial \mathcal{L}}{\partial \left( \partial_\mu \phi   \right) }  
+\] 
+\begin{align*}
+	\delta \mathcal{L} &= \left( \frac{\partial \mathcal{L}}{\partial \phi } - \partial_\mu \Pi^\mu   \right) \delta \phi + \partial_\mu\left( \Pi^\mu \delta\phi  \right)   \\
+\end{align*}
+The first term is just the Euler-Lagrange expression. Iff $\phi $ fulfills the EL expression the first term is equal to $0$ and disappears.
+\begin{align*}
+	\delta \mathcal{L} &= \partial_\mu \left( \Pi^\mu D\phi  \right) \delta\lambda  \\
+\end{align*}
+If the transformation we talk about is a symmetry, it should leave $\mathcal{L}$ invariant. What we really need for a symmetry is that the action $S = \int d^4x \mathcal{L}$ remains invariant. We have a symmetry iff $\delta \mathcal{L} = 0$ up to a 4-divergence. ie. \[
+	\delta \mathcal{L} = \partial_\mu W^\mu 
+\] Hence $\partial_\mu\left( \Pi^\mu D\phi - W^\mu \right) = 0$. If the transformation is a symmetry, there exists a $W^\mu $ such that this equation is fullfilled, since the equation has the form of a conservation law we can say that symmetries generate conserved quantity.\\
+The conserved quantity is given by \[
+J^\mu_n = \Pi^\mu D \phi - W^\mu
+\] Remarks:
+\begin{itemize}
+	\item For internal symmetries we get $W = 0$
+	\item conserved current leads to a conserved charge.  $Q_n = \int d^3x J^0_n$
+	\item in the quantum case: symmetry $\to $ conserved 'charge' operator $\hat{Q}_n$
+\end{itemize}
+Example of Noethers Theorem:\\
+We consider a theory that is symmetric under spacetime translations $x^\mu \to x^\mu + \lambda a^\mu$. Under this transformation we get $\phi(x^\mu) \to \phi(x^\mu + \lambda a^\mu)$ \[
+D\phi = \frac{\partial \phi}{\partial \lambda } \text{ at } \lambda = 0 
+\] \[
+\implies D\phi = a_\mu \partial^\mu \phi 
+\] We now look at the lagrangian under this transformation \[
+\delta \mathcal{L} = D \mathcal{L} \delta\lambda = a^\mu d_\mu \mathcal{L} \delta\lambda
+\] \[
+D\mathcal{L} = \partial_\mu\left( a^\mu \mathcal{L} \right)   
+\] This last expression has the form of a four divergence and therefore leads to the Noether current
+\begin{align*}
+	J_N^\mu &= \Pi^\mu D\phi - W^\mu\\
+	      &= a_\nu \left( \Pi^\mu \partial^\nu \phi - g^{\mu \nu} \mathcal{L}  \right)  \\
+\end{align*}
+We call the quantity in the brackets as the Energy-momentum-Tensor or Stresstensor $T^{\mu \nu}$. \[
+	T^{\mu \nu} = \Pi^\mu \partial^\nu \phi - g^{\mu \nu}\mathcal{L} 
+\] The therefore get the result
+\begin{align*}
+	J_N^\mu &= a_\nu T^{\mu \nu} \\
+\end{align*}
+From Noethers-Theorem we know that $\partial_\mu J^\mu = 0$ we see thot \[
+	\partial_\mu T^{\mu \nu} = 0 
+\] Which expresses the conservation of energy and momentum. \\
+We now also look at the conserved charges. We define \[
+	P^\alpha = \int d^3x T^{0\alpha}
+\] we now look at the four componetns of $P^\alpha$
+\begin{align*}
+	P^0 &= \int d^3x T^{00} = \int d^3x \left( \Pi(x)\dot{\phi}(x) - \mathcal{L} \right)  \\
+	    &= \int d^3x \mathcal{H} \\
+	    &= E \implies \text{ We've found energy conservation!} \\
+	P^k &= \int d^3x T^{0k} = \int d^3x \Pi(x) \partial^k \phi(x) \text{, } \forall k = 1,2,3   \\
+\end{align*}
+From Lorenzinvariance tells us that this must be the physical momentum carried by the field (since $P^0$ is the energy, and we know that the energy-momentum-fourvector has the structure $P^\alpha = \begin{bmatrix} E \\ \vec{p} \end{bmatrix} $.\\
+Note: the physical momentum carried by the field $\vec{p}$ is different to the canonical momentum $\Pi^\mu$!\\
+In the definition above $T^{\mu \nu}$ is not symmetric, it can be made symmetric by adding a term of the form $\partial_\lambda X^{\lambda \mu \nu} $, where $X^{\lambda  \mu \nu} = - X^{\mu \lambda \nu}$. Such a term will not disturbe the conserved quantities, but will symmetrize the energy-momentum-Tensor (which will of course simplfy calculations).
+\chapter{Canonical quantization of fields}
+Cononical quantization is a method to turn a classical fiald theory to a quantum field theory (QFT). We will not derive it, but only describe it in 5 steps.\\
+\begin{enumerate}
+	\item Define a classical field theory by writing down it's Lagrangian-density $\mathcal{L}(x)$.
+	\item Calculate the conjugate momentum density $\Pi^\mu(x)$ and the Hamiltonian-density $\mathcal{H}(x)$.
+	\item Treat the field(s) and momentum as operators by imposing \emph{equal time} commutation relations. Meaning that the commutators will only be different from $0$ if considered at the same time (this is a generalization of $[x_j, p_k] = i \hbar \delta_{jk}$).
+	\item Expand the fields in terms of creation and anhilation operators. Then reintroduce this expansion to the Hamiltonian to get the quantum hamiltonian.
+	\item Introduce normal ordering (i.e. reorder all the operatorproducts such that anhilation operators act first, followed by creation operators).
+\end{enumerate}
+\section{Examples}
+\subsection{massive scalar field}
+We already saw the classical example of this case, this is the Lagrangian that leads to the Klein-Gordan equation. We now follow our five steps
+ \begin{enumerate}
+	 \item $\mathcal{L} = \frac{1}{2} \partial_\mu \phi \partial^\mu \phi - \frac{1}{2} m^2 \phi^2  $ 
+ \item $\Pi^\mu(x) = \frac{\partial \mathcal{L}}{\partial \left( \partial_\mu \phi   \right)} = \partial^\mu \phi $, the timelike component is then $\Pi^0(x) = \pi(x) = \partial^0 \phi = \dot{\phi} $.\\
+		 $\mathcal{H} = \pi(x) \dot{\phi} - \mathcal{L} = \frac{1}{2} \dot{\phi}^2(x) + \frac{1}{2} \left( \vec{\nabla }\phi \right)^2 + \frac{1}{2} m^2 \phi^2(x)$\\
+	 \item $\phi \to \hat{\phi }$, $\Pi^0(x) \to \hat{\Pi}^0(x)$.\\
+		 \begin{align*}
+			 [\hat{\phi }(t, \vec{x}), \hat{\Pi }^0(t, \vec{y})] &= i \delta^{(3)}\left( \vec{x} - \vec{y} \right) \\
+			 [\hat{\phi }(t_1, \vec{x}), \hat{\Pi }^0(t_2, \vec{y})] &= 0 \\
+		 \end{align*}
+		 The next question is: how does $\hat{\phi }(x)$ act on occupation number states $\ket{n_1,n_2,\ldots}$?
+	 \item Analoguos procedure to the coupeled oscillator problem, there we had operators $\hat{x}_j$ (possition operator for the $j$-th operator). And we wrote this as \[
+			 \hat{x}_j = \left( \frac{\hbar}{m} \right)^{\frac{1}{2}} \sum_{k} \frac{1}{\left( 2 \omega_k N \right)^{\frac{1}{2}}} \left( a_k e^{ijka} + a_k^\dagger e^{-ijka} \right) 
+		 \] We now just boldly proclaim that we expand the $\hat{\phi }(x)$ in a simmilar way (because we now have a continous system the sum turns into an integral): \[
+		 \hat{\phi}(\vec{x}) = \int \frac{d^3p}{\left( 2 \pi  \right)^{\frac{3}{2}}} \frac{1}{\sqrt{2 E_p} } \left( a_{\vec{p}} e^{i\vec{p}\vec{x}} + a_{\vec{p}}^\dagger e^{-i\vec{p}\vec{x}} \right)
+	 \] With $E_p$ the KG energy given by $E_{\vec{p}} = \sqrt{\vec{p}^2 + m^2} $ (we only consider the positive solution). However, we ignored the time dependence of $\hat{\phi }$ untill now, how do we get  time-dependend field operators? \[
+	 \hat{\phi }(x) = \hat{\phi }(t, \vec{x}) = e^{iHt} \hat{\phi }(\vec{x}) e^{-iHt}
+ \] When we do this, $a_{\vec{p}}$ picks up a phase factor $e^{-iE_p t}$ (and correspondingly for $a_{\vec{p}}^\dagger$). Our field operator is then given by \[
+ \hat{\phi }(x) = \int \frac{d^3 p}{\left( 2 \pi \right)^{\frac{3}{2}}} \left( a_{\vec{p}} e^{-ipx} + a_{\vec{p}}^\dagger e^{ipx} \right) 
+ \] Where $p$ and $x$ are now fourvectors.\\
+ \emph{Remark:} We see that the coefficients of the $a_{\vec{p}}$ and $a_{\vec{p}}^\dagger$ are the solutions of the Klein-Gordan equation ($e^{\pm i px}$), i.e. the equation of motion of the corresponding calssical field theory. We will see that this generalizes. 
+ We skip remarks on normalization factors (see Lancaster-Blundell for details).\\
+ The quantum hamiltonian operator $\hat{H}$ is given by: (replace $\phi $ by the expansion we just calculated) 
+\begin{align*}
+	H &=\int d^3x \mathcal{H} = \int d^3x \left( \frac{1}{2} \dot{\phi}^2 + \frac{1}{2} \left( \vec{\nabla } \phi  \right) ^2 + \frac{1}{2} m^2 \phi^2 \right) \\
+	  &= \frac{1}{2 } \int d^3p E_{\vec{p}} \left( a_{\vec{p}} a_{\vec{p}}^\dagger + a_{\vec{p}}^\dagger a_{\vec{p}} \right)  \\
+\end{align*} With $\dot{\hat{\phi}}$ and $\vec{\nabla } \hat{\phi }$ given by \[
+\Pi_\mu(x) = \frac{\partial \mathcal{L}}{\partial \left( \partial^\mu \phi   \right) } = \partial_\mu \phi = \begin{bmatrix} \dot{\phi} \\ \vec{\nabla } \phi  \end{bmatrix}   
+\] \[
+	  =  \int \frac{d^3p}{\left( 2 \pi \right)^{\frac{3}{2}} } \frac{1}{\sqrt{2 E_{\vec{p}}} } \left( -i p_\mu \right) \left( a_{\vec{p}} e^{-ipx} - a_{\vec{p}}^\dagger e^{ipx} \right)
+	\] With $p_\mu = \begin{bmatrix} E \vec{p} \\ -\vec{p} \end{bmatrix} $. Up to now we have not used any commutator relations etc.  
+ \item By using the commutation relations to impose normal ordering. \[
+		 [a_{\vec{q}}, a_{\vec{p}}^\dagger] = \delta(\vec{q} - \vec{p})
+ \] We now use this to impose normal ordering \[
+ N(\hat{H}) = \int d^3p E_{\vec{p}} a_{\vec{p}}^\dagger a_{\vec{p}} = \hat{H}
+ \] 
+\end{enumerate}
+Remarks:
+\begin{itemize}
+	\item The normal ordering we impose seems to be an ad hoc procedure without justification. The problems stem from the fact that the classical $\phi $ in the calssical hamiltonian commute, we therefore get an ambiguity in the quantum hamiltonian. To get a unique result we have to impose an ordering on the quantum hamiltonian.\\ \emph{The normal ordering removes the ambiguity of order in the classical Lagrangian/Hamiltonian.}\\
+		Eg. for a classical, complex field theory we'd have that $\Psi^\dagger \Psi = \Psi \Psi^\dagger$. For the quantum case we have \[
+			\hat{H} = \int d^3p E_{\vec{p}} \hat{n}_{\vec{p}} \text{ ,with } \hat{n}_{\vec{p}} = a^\dagger_{\vec{p}} a_{\vec{p}}
+		\] the particles we introduced here are bosons (because we used bosonic commutation relations) with spin $S= 0$.
+	\item This canonical quantisation procedure is a nice recipe that works for non-interacting theories (i.e. real and complex scalar theories, Dirac theory), but for more interesting, interacting situations we have to find different methods. (Spoiler: we will have to treat interactions in terms of pertubation theory).
+	\item A topic we will not persue further in this lecture is the Casimir-Effect, which stems from the vacuum energy (the infinite constant we discarded when we imposed normal ordering). The term we discarded therefore can have measurable effects.\\
+		The Casimir force leads to a force between uncharged metalic plates. It turns out that for two plates at distance d the force per area resulting from the Electro-Magnetic field is given by (instead of the EM field, Lancaster-Blundel uses a one component toy model, so the results don't match) \[
+		F = -\frac{\pi^2 \hbar c}{240 d^4}
+	\] The vacuume energy is infinite, but for any considered volume it's just a constant (but still infinite) term that can be discarded.
+\end{itemize}
+\chapter{Examples of canonical quantization}
+We will now consider a complex scalar field: $\psi $, $\psi^\dagger$
+\begin{enumerate}
+	\item $\mathcal{L} = \partial^\mu \psi^\dagger \partial_\mu \psi - m^2 \psi^\dagger \psi $.\\
+		It can be helpfull to think of $\psi(x) = \frac{1}{\sqrt{2} } \left( \phi_1(x) + i \phi_2(x) \right) $.
+	\item $\Pi^0_\Psi = \frac{\partial \mathcal{L}}{\partial (\partial_0 \psi ) } = \partial^0 \psi^\dagger  $ \\
+		$\Pi^0_{\psi^\dagger} = \ldots = \partial^0 \psi $ \\
+		We write both as $\Pi^0_\sigma$ with $\sigma = \psi, \psi^\dagger$. The hamiltonian density is given as \[
+			\mathcal{H} = \sum_{\sigma } \Pi^0_\sigma \partial_0 \sigma^\dagger - \mathcal{L} = \partial^0 \psi^\dagger \partial_0 \psi + \vec{\nabla } \psi^\dagger \vec{\nabla }\psi + m^2 \psi^\dagger \psi  
+		\] 
+	\item Wi switch to operators. $\psi, \psi^\dagger \to \hat{\psi}, \hat{\psi }^\dagger$.
+	\item mode expansion: since the classical field $\psi $ is complex, the quantum field operators $\hat{\psi }$ are not hermitian. The solution to this problem is \[
+			\hat{\psi }(x) = \int \frac{d^3p}{\left( 2 \pi \right)^{\frac{3}{2}}} \frac{1}{\sqrt{2 E_p} } \left( a_{\vec{p}} e^{-ipx} + b_{\vec{p}}^\dagger e^{ipx} \right) 
+		\] where $[a_{\vec{p}}, a_{\vec{q}}^\dagger] = \delta\left( \vec{p} - \vec{q} \right) = [b_{\vec{p}}, b_{\vec{q}}^\dagger] $ all the other commutators vanish. \\
+	\item We now plug this into the Hamlitonian and impose normal ordering, lengthy but straight forward calculation yields: \[
+			\hat{H} = \int d^3p E_p\left( a_{\vec{p}}^\dagger a_{\vec{p}} + b_{\vec{p}}^\dagger b_{\vec{p}} \right) = \int d^3p E_p \left( n_{\vec{p}}^{(a)} + n_{\vec{p}}^{(b)} \right) 
+	\]  The $a$ and $b$ particles have the same energy, but are still "somehow" different from each other. The interpretation of these $a$ and $b$ particles is that they are anti-particles of each other.\\
+	$a_{\vec{p}}^\dagger$ creates a particle with momentum $\vec{p}$\\
+	$b_{\vec{p}}^\dagger$ creates an anti-particle with momentum  $\vec{p}$.
+\end{enumerate}
+The complex scalar field theory considered here has an internal symmetry ($U(1)$):  $\psi \to e^{i\alpha} \psi$ leaves $\mathcal{L}$ invariant. We can therefore ask what the conserved Noether current is. Since $\mathcal{L} \to \mathcal{L} \implies W^\mu = 0$, and $D\psi = i \psi$. The Noether current is therefore \[
+	J_N^\mu = \sum_{\sigma} \Pi_\sigma^\mu D\sigma = i \left( (\partial^\mu \psi^\dagger) \psi - (\partial^\mu \psi)\psi^\dagger \right) 
+\] We quantize this current, by using the mode expansion and normal ordering \[
+J_N^\mu \to \hat{J}_N^\mu
+\] The Noether charge then is given by \[
+\hat{Q}_N = \int d^3x \hat{J}_N^0 = \int d^3x i \left( (\partial^0 \hat{\psi}^\dagger) \hat{\psi} - (\partial^0 \hat{\psi })\hat{\psi}^\dagger \right) = \int d^3p \left( b_{\vec{p}}^\dagger b_{\vec{p}} - a_{\vec{p}}^\dagger a_{\vec{p}} \right) 
+\] The antiparticles, and particles appear with opposite charge, as we'd expect for antiparticles.
+The lecture will skip the rest of the chapter. In particular section 12.3 is recommended, as the non-relativistic limit is discussed - it turns out that this leads to the Schrödinger equation. Nice! When starting from the Schrödinger theory lagrangian from Exercise 4 sheet 2 and go through this canonical quantization procedure, this will lead to the second quantized hamiltonian with field operators. \[
+	H = \int d^3x \hat{\psi }(x) \left( \frac{\hbar^2}{2m} \nabla^2 \right) \hat{\psi }(x)
+\] With $[\psi(x), \psi^\dagger(y)] = \delta(x-y)$, note the relation to the commutation in step 3 of our recipe.
+\chapter{Fields with many ($>2$) Components and massive Electro-Magnetism}
+As an example we consider a three componetn field \[
+	\vec{\phi} = \begin{bmatrix} \phi_1 \\ \phi_2\\\phi_3 \end{bmatrix} 
+	\] with $\phi_i \in \mathbb{R}$ and assume we have a rotation symmetry (3-dimensional rotation group $SO(3)$). \[
+\mathcal{L} = \frac{1}{2} \left( \partial^\mu \vec{\phi}  \right) \left( \partial_\mu \vec{\phi}  \right) - \frac{m^2}{2} \vec{\phi} \cdot \vec{\phi}
+\] Note: $\vec{\phi}$ does not 'live' in Minkowski Space, meaning $\phi^\mu = \phi_\mu $ and $\vec{\phi} \cdot \vec{\phi} = \sum_{i} \phi_i \phi_i$.\\
+We now walk through our quantisation procedure for steps 1 $\ldots$ 3. Only in step 4 we have some complications.  \[
+	\vec{\hat{\phi}}(x) = \int \frac{d^3p}{\left( 2 \pi \right)^{\frac{3}{2}}} \frac{1}{\sqrt{2 E_p} } \sum_{n=1}^{3} \vec{h}_n \left( a_{\vec{p}n} e^{-ipx} + a_{\vec{p}n}^\dagger e^{ipx} \right) 
+\] with $\vec{h}_a$ a polarisation vector. Any basis will work, for simplicities sake we take the example as $\vec{h}_1 = \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}, \vec{h}_2 = \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix} , \vec{h}_3 = \begin{bmatrix} 0\\0\\1 \end{bmatrix} $.\\
+\section{massive electromagnetism}
+\[
+	\mathcal{L} = -\frac{1}{4} F^{\mu \nu} F_{\mu \nu} + \frac{1}{2} m^2 A_\mu A^\nu
+\] We now consider the Euler-Lagrange equations for this Lagrangian:
+\begin{align*}
+	\frac{\partial \mathcal{L}}{\partial A_\nu} - \partial_\mu \frac{\partial \mathcal{L}}{\partial \left( \partial_\mu A_\nu   \right) } &= 0 \\
+	\implies m^2 A^\nu + \partial_\mu F^{\mu \nu} &= 0 \\ 
+\end{align*} We now want to take the divergence of this $\partial_\nu $ 
+\begin{align*}
+	m^2 \partial_\nu A^\nu + \partial_\nu \partial_\mu F^{\mu \nu} &= 0 \\ 
+\end{align*}
+The second term is zero (because $F^{\mu \nu}$ is antisymmetric and $\partial_\nu \partial_\mu $ is symmetric). We get:
+\begin{align*}
+	\implies \partial_\nu A^\nu &= 0 \\ 
+\end{align*}
+We are "forced" to choose a particular gauge. We now use this result to rewrite the euler-lagrenge equation from above. Using 
+\begin{align*}
+	\partial_\mu F^{\mu \nu} &= \partial_\mu \left( \partial^\mu A^\nu - \partial^\nu A^\mu   \right)  \\
+	&= \partial_\mu \partial^\mu A^\nu \\
+	\implies \left( \partial_\mu \partial^\mu + m^2   \right) A^\nu &= 0
+\end{align*}
+We find the form of the Klein-Gordand equation for every component. We find therefore $E_p = \sqrt{\vec{p}^2 + m^2} $.\\
+\subsection{Quantisation}
+\begin{enumerate}
+	\item Already complete (see above)\\
+	\item $\Pi^{\mu\nu} = \frac{\partial \mathcal{L}}{\partial \left( \partial_\mu A_\nu   \right) } = -F^{\mu\nu} $ \\
+		$\implies \Pi^{00} = 0$, $\Pi^{0i} = - F^{0i} = F{i 0} = E^i$ 
+		\begin{align*}
+			\mathcal{H} &= \sum_{\alpha } \Pi^{0 \alpha} \dot{A}_\alpha - \mathcal{L} \\
+				    &= -\vec{E} \cdot \dot{\vec{A}} - \frac{1}{2} \left( E^2 - B^2 \right) - \frac{1}{2} m^2 \left( \left( A^0 \right)^2 - \vec{A}^2 \right)  \\
+				    &=  \frac{1}{2} \left( E^2 + B^2 \right) + \frac{1}{2} m^2 \vec{A}^2 + \vec{E} \vec{\nabla } A^0 - \frac{1}{2} m^2 \left( A^0 \right)^2
+		\end{align*} Using that $A^0 = -\frac{1}{m^2} \vec{\nabla } \cdot \vec{E}$ we find 
+		\begin{align*}
+			\mathcal{H} &= \frac{1}{2} \left( \vec{E}^2 + \vec{B}^2 + m^2 \vec{A}^2 + \frac{1}{m^2}\left( \vec{\nabla}\cdot \vec{E} \right)^2 \right) 
+		\end{align*}
+	\item Equal time commutation relations: \[
+			[\hat{A}^k(t,\vec{x}), \hat{E}^j (t,\vec{y}) ] = i \delta(\vec{x} - \vec{y}) \delta_{kj} = -i \delta(\vec{x}-\vec{y}) g^{kj}
+	\] 
+\item Mode expansion: expect something like $A ~ \int d^3p \ldots \left( a_p e^{-ipx}\ldots \right)$. From before we know that $\partial_\mu A^\mu = 0 $, this means that there are only three polarization directions since $p_\mu A^\mu = 0$. \[
+		\hat{A}^\mu (x) = \int \frac{d^3p}{\left( 2 \pi \right) ^{\frac{3}{2}}} \frac{1}{\sqrt{2 E_{\vec{p}} }} \sum_{\lambda = 1}^{3} \left( \epsilon^\mu_\lambda(p) a_{\vec{p}\lambda} e^{-ipx} + \epsilon^{\mu*}_\nu a_{\vec{p}\lambda}^\dagger e^{ipx} \right) 
+	\] with the $\epsilon$'s being three distinct four-vectors. Ideraly they should be chosen to be orthogonal: $\epsilon^*_\lambda(p) \epsilon_{\lambda'}(p) = g_{\mu\nu} \epsilon_\lambda^{\mu*} \epsilon_{\lambda'}^\nu = -\delta_{\lambda \lambda'}$.\\
+	Example: (Proca-)particle in its rest frame: $p^\mu = \begin{bmatrix} m & 0 & 0 & 0 \end{bmatrix}^T $, we now require that $p^\mu \epsilon_{\lambda \mu}(p) = 0$. One possible choice of polarization vectors in the rest frome are now just the 3d unit vectors. In any other frame the polarization vectors are given by the lorenzboost into that different frame. $\epsilon_\lambda$ in an arbitrary frame is obtained by a lorenz boost.
+\item Plug everything into the hamiltonian, and impose normal ordering. We find: \[
+		\hat{H} = \int d^3p E_{\vec{p}} \sum_{\lambda =1}^{3} a_{\vec{p}\lambda}^\dagger a_{\vec{p}\lambda}
+\] 
+\end{enumerate}
+\chapter{Gauge Fields \& Gauge Theory}
+As we discussed, the complex scalar field theory $\mathcal{L} = \left( \partial^\mu \Psi^\dagger  \right) \left( \partial_m \Psi   \right) - m^2 \Psi^\dagger \Psi$ is $U(1)$-symmetric under global transformations $\Psi(X) \to e^{i\alpha} \Psi(X)$, $\Psi^\dagger(X) \to e^{-i\alpha} \Psi^\dagger(X)$ with $\alpha $ independent of $X$.\\
+\section{Local Transformations}
+What about \emph{local} transformations $\Psi \to e^{i\alpha(X)} \Psi$?\\
+Obviously this has no effect on the "mass term". But for the kinetic term we get $\partial_\mu \Psi \to  e^{i\alpha(x)} \partial_\mu \Psi + \Psi e^{i\alpha(x)} i \partial_\mu \alpha(x) = e^{i\alpha(x)} \left( \partial_\mu + i \partial_\mu \alpha(x)   \right) \Psi $. For $\Psi^\dagger$ we find the equivalent result. This transformation definatelly does not leave the kinetic term invariant in general. There is no local symmetry.\\
+Local symmetry can be obtained by introducing a \emph{new field} $A^\mu$ and defining a new, covariant deriviative:  \[
+	D_\mu := \partial_\mu + iq A_\mu(x) 
+\] with the \emph{gauge field} $A_\mu$. We can now claim that $(D^\mu \Psi)^\dagger \left( D_\mu \Psi \right) = (\partial^\mu \Psi^\dagger)\left( \partial_\mu \Psi  \right)$ iff we require that $A_\mu \to A_\mu - \frac{1}{q} \partial_\mu \alpha(x) $.\\
+Gauge theroy: a gauge field $A^\mu(x)$ is introduced to produce an invariance with respect to the local transformation. It looks like just a mathematical trick, but we will see later that it has physiclal consequences.
+\section{Electromagnetic Field}
+\[
+	A^\mu(x) = \begin{bmatrix} V(x) \\ \vec{A}(x) \end{bmatrix} 
+\] The Lagrangian is given by \[
+\mathcal{L} = -\frac{1}{4} F_{\mu \nu}F^{\mu \nu} - J_{\text{em}}^\mu A_\mu
+\] with a fourvector current $J_{\text{em}}^\mu = \begin{bmatrix} \rho & \vec{J} \end{bmatrix}^T $. (Attention typo in Lancaster Blundell). We find the equation of motion as
+\begin{align*}
+	\partial_\lambda F^{\lambda\nu} &= J_{\text{em}}^\nu \\
+	\partial^2 A^\nu - \partial^\nu \left( \partial_\mu A^\mu  \right) &= J_{\text{em}}^\nu  
+\end{align*}
+The Gauge invariance of this field is \[
+	A_\mu(x) \to A_\mu(x) - \partial_\mu \chi(x)
+\] For an arbitrary $chi(x)$. Under this transformation $F^{\mu \nu}$, $\mathcal{L}$ and the equations of motions are unchanged.\\
+We have two popular gauges:
+\begin{itemize}
+	\item Lorentz gauge: $\partial_wu A^\mu(x) = 0 $ \[
+	\implies \frac{\partial^2 V}{\partial t^2} - \nabla^2 V = \rho
+        \] \[
+	\frac{\partial^2 \vec{A}}{\partial t^2} - \nabla^2 \vec{A} = \vec{J}_{\text{em}} 
+\] The Lorentz gauge is not a thight gauge, as we still have some choice in how we choose $A^\mu$ (specifically we can set one of the parts to $0$ ) 
+\item Coulomb gauge: $\vec{\nabla } \cdot \vec{A} = 0$\\
+	In the Coulomb gauge a plane wave is given by \[
+		\vec{A} = \vec{\epsilon} e^{-i\vec{p} \vec{x}}
+	\] \[
+	\vec{\nabla } \vec{A} = 0 \implies \vec{p} \vec{A} = \vec{p} \vec{\epsilon} = 0
+	\] For $q^\mu = \begin{bmatrix} \abs{\vec{q}} & 0 & 0 & \abs{\vec{q}} \end{bmatrix}^T$ we can choose the polarisation vectors as a linear polarisation:
+	\begin{align*}
+		\vec{\epsilon}_1(q) &= \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix} \\
+		\vec{\epsilon}_2(q) &= \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix} 
+	\end{align*}, circular polarisation is also possible.
+\end{itemize}
+\section{Minimal Coupling}
+\[
+\partial_\mu \to  D_\mu = \partial_\mu + i q A_\mu 
+\] In our example we look at the lagrangian \[
+\mathcal{L}_0 = \left( \partial^\mu \Psi  \right)^\dagger \left( \partial_\mu \Psi   \right) - m \Psi^\dagger\Psi - \frac{1}{4} F_{\mu \nu} F^{\mu \nu}
+\] To couple the two fields we write \[
+\mathcal{L} = \left( D^\mu \Psi  \right)^\dagger \left( D_\mu \Psi  \right) - m^2 \Psi^\dagger \Psi - \frac{1}{4} F_{\mu \nu} F{\mu \nu} = \mathcal{L}_0 + \text{coupling term}
+\] 
+\subsection{Cannonical Quantisation of EM Field}
+We write our Lagrangian witheut the source field 
+\begin{enumerate}
+	\item \[
+	\mathcal{L} = -\frac{1}{4} F_{\mu\nu} F^{\mu\nu} = - \frac{1}{4} \left( \partial_\mu A_\nu - \partial_\nu A_\mu    \right) \left( \partial^\mu A^\nu - \partial^\nu A^\mu   \right) 
+\] 
+\item \[
+		\Pi^{\mu\nu} = -\left( \partial^\mu A^\nu - \partial^\nu  A^\mu   \right) 
+	\] $\Pi^{0i} = E^i$,  $H = \frac{1}{2} \left( \vec{E}^2 + \vec{B}^2 \right) $ 
+\item \[
+		[\hat{A}^i(\vec{x}), \hat{E}^j(\vec{y})] = -i \int \frac{d^3p}{(2 \pi)^3} e^{i \vec{p} (\vec{x} - \vec{y})} \left( \delta_{ij} - \frac{p^i p^j}{\vec{p}^2} \right) 
+\] 
+\item \[
+		\hat{A}^\mu(x) = \int \frac{d^3p}{(2 \pi)^{\frac{3}{2}}} \frac{1}{\sqrt{2 E_p} } \sum_{\lambda = 1}^{2} \left( \epsilon_\lambda^\mu(p) \hat{a}_{p \lambda} e^{-ipx} + \epsilon_\lambda^{\mu*}(p) \hat{a}_{p \lambda}^\dagger e^{ipx} \right) 
+\] 
+\item \[
+		\hat{H} = \int d^3p \sum_{\lambda = 1}^{2} E_p \hat{a}_{p \lambda}^\dagger \hat{a}_{p\lambda}
+	\] with $E_p = \abs{p}$. This is the photon field. It has no longitudinal polarization (thus the sum runs only from $\lambda = 1$ to $\lambda = 2$.
+\end{enumerate}
+\chapter{Discrete Transformation}
+\section{Charge conjugation}
+The charge conjugation allows us to transform from particle $\ket{p}$ to antiparticle $\ket{\overline{p}}$ and vise versa \[
+c \ket{p} = \ket{\overline{p}}
+\] The action on the charge operator $\hat{Q}$ is \[
+c^\dagger \hat{Q} c = - \hat{Q}
+\] \[
+\implies c\hat{Q} = - \hat{Q} c
+\] 
+\section{Partiy operator}
+\[
+	P^{-1} \hat{x} P = -\hat{x}
+\] \[
+P^{-1} \hat{p} P = - \hat{p}
+\] The parity operator acts in the following way:
+\begin{align*}
+	P(\text{scalar}) &= \text{scalar} \\
+	P(\text{vector}) &=  -\text{vector} \\
+	P(\text{pseudoscalar}) &= - \text{pseudoscalar} \\
+	P(\text{pseudovector}) &=  \text{pseudovector}
+\end{align*}
+A pseudo scalar is a scalar triple product $\left( \vec{a} \cross \vec{b} \right) \cdot \vec{c}$ \\
+A pseudo vector is a cross product of vectors $\vec{a} \cross \vec{b}$.\\
+\section{Time reversal}
+\[
+T: t \to -t
+\] \[
+T^{-1} \hat{x} T = \hat{x}
+\] \[
+T^{-1} \hat{p} T = -\hat{p}
+\] The time reversal operator does not change the position, but it does change the momentum. \[
+T^{-1} \left( i \hbar \right) T = T^{-1} [\hat{k}, \hat{p}] T = T^{-1} \left( \hat{x}\hat{p} - \hat{p} \hat{x} \right) T =  -[\hat{x}, \hat{p}] = -i \hbar
+\] The time reversal operator in general is proportional to the operator of complex conjugation. We now try to find $T$.
+\begin{align*}
+	T &=  UK\text{, with $U$ a unitary operator and $K$ the complex conjugate} \\
+	T^2 &= UKUK  \\
+	    &= U\left( KUK \right) =  U U^* \\
+	    &= U\left( UT \right)^{-1} = \Phi 
+\end{align*} Where $\Phi $ is a diagonal matrix of phase. The time reversal operator applied twice must get back to the original state.
+\begin{align*}
+	\implies U &=  \Phi U^T \text{ , } U^T = U\Phi \\
+	U &= \Phi U \Phi \\
+	\implies T^2 &= \pm 1
+\end{align*} We call $T$ antiunitary (operator with any phase).\\
+For spinless particles we have \[
+T = K
+\] For particles with spin we find \[
+T^i{-1} \hat{S} T = - \hat{S}
+\] A spin flips it's direction on time reversal. Looking at the componets of $\hat{S}$ we find
+\begin{align*}
+	K^{-1} \hat{S}_x K &= \hat{S}_x \\
+	K^{-1} \hat{S}_y K &=  - \hat{S}_y \\
+	K^{-1} \hat{S}_z K &= \hat{S}_z
+\end{align*} We therefore get \[
+\hat{T} = e^{-i \pi \hat{s}_y} \hat{K}
+\] In general (for systems with many particles) we find \[
+T = \Pi_i \exp{ -i \pi \hat{S}_{i,y}} \hat{K} \implies \begin{cases}
+	\text{for integer spin: } \hat{T} \hat{T} = 1 \text{ (even number of electrons)}\\
+	\text{for half integer spin: } \hat{T} \hat{T} = -1 \text{ (odd number of electrons)}
+\end{cases}
+\] 
+Kramer's theorom: the energy levels of a $T$ invariant system with an odd number of electrons are even-fold degenerate.\\
+Proof:\\
+Let's assume a Hamiltonian, which is invariant under  $T$ (ie. no magnetic field or spin-orbit coupling). $\implies \ket{\psi }$ and $T \ket{\psi }$ are degenerate. The question now is, are they different?\\
+Assume $T \ket{ \psi } = \alpha \ket{\psi }$ 
+\begin{align*}
+	T^2 \ket{\psi } = T(\alpha \ket{ \psi }) &= \alpha^* T \ket{\psi } = \abs{\alpha}^2 \ket{\psi }
+\end{align*}
+but, we know that for an odd number of spin $\frac{1}{2}$ particles $T^2 = 1$. \[
+\implies \ket{ \psi } \neq T \ket{\psi }
+\] Therefore each state is at least two-fold degenerate. \emph{QED}.\\
+Example:
+\begin{itemize}
+	\item The trivial example is one spin $\frac{1}{2}$ particle.
+	\item three spin $\frac{1}{2}$ particles \[
+			H = J\left( \vec{S}_1 \vec{S}_2 + \vec{S}_2 \vec{S}_3 + \vec{S}_3 \vec{S}_1 \right) 
+	\] Three particles on a ring, each one interacting with it's nearest neighbour. 
+\end{itemize}
+\chapter{Propagators and Green's functions}
+Motivation: Schroedinger Eq:\[
+	H \phi(x,t) = i \frac{\partial }{\partial t} \phi(x,t) 
+\] Wouldn't it be nice to have a function $G$ with \[
+\phi(x,t_x) = \int dy G^+(x, t_x; y, t_y) \phi(y,t_y)
+\] Such a function $G$ is called a propagator (the superscript $^+$ means, that we only allow $t_x > t_y$). How do we find this function? Using the time evolution operator $U(t)$
+\begin{align*}
+	G^+(x,t_x; y, t_y) &= \theta(t_x - t_y) \bra{x} U(t_x, t_y) \ket{y} \\
+        \text{Is this the correct function?}\\
+	\phi(y, t_y) &= \bra{y} \ket{\phi(t)}\\
+	\implies \phi(x, t_x) &= \int dy G^+(x,t_x;y,t_y) \phi(y, t_y) \\
+			      &= \int dy \theta(t_x - t_y) \bra{x} U(t_x, t_y) \ket{y}\bra{y}\ket{\phi(t)} \\
+			      &= \ldots \\
+\end{align*}
+For a time independent hamiltonian $H$, with eigenstates $\ket{\phi_n}$ we find \[
+	G^+ = \theta(t_x, t_y) \sum_{n} \phi_n(x) \phi^*_n(y) e^{-i E_n\left( t_x - t_y \right) }
+\] If we fourier transform this in the variable $t = t_x - t_y$ (ie. $\int dt e^{iEt} \ldots$) we get: \[
+G^+(x,y; E) = \lim_{\epsilon \to 0}  \sum_{n} \frac{i \phi_n(x) \phi^*_n(y)}{E-E_n + i \epsilon}
+\]  This form of the propagator is especially usefull, as it contains the Eigen-Energies (Poles at teh Eigen energies) and the eigenfunction (residues at the poles).\\
+It turns out that $G^+$ is a (mathematical) Green's function in the following sense: \[
+(H-i \frac{\partial }{\partial t_x} ) G^+(x,t_x;y,t_y) = -i \delta(x-y) \delta(t_x - t_y)
+\] The rest of chapter 16 will not be discussed in the lecture.
+\chapter{Propagators and Fields}
+We assume we have a hamiltonian \[
+	H_0 = \sum E_{\vec{p}} a^\dagger_{\vec{p}} a_{\vec{p}} \text{, with ground state: } \ket{0}
+\] \[
+H = \ldots \text{, with ground state: } \ket{\Omega}
+\] 
+We now ask: what is the amplitude $G^+(x,y)$ ( $x,y$ four vectors) for the following process:
+\begin{enumerate}
+	\item Start with ground state
+	\item create particle at $y = (y^0, \vec{y})$
+	\item anihilate it at a different time and position $x$
+	\item and end up in the groundstate again.
+\end{enumerate}
+\[
+	G^+(x,y) = \theta(x^0 - y^0) \bra{\Omega} \hat{\phi }(x) \hat{\phi }^\dagger(y) \ket{\Omega}
+\] With $\hat{\phi }(x)$ heisenberg operators $\hat{\phi}(x) = e^{iHx^0} \hat{\phi}(\vec{x}) e^{-iHx^0}$.\\
+From now on we use the short hand notation \[
+	\int_{\vec{p}} \to \int \frac{d^3p}{\left( 2 \pi \right)^{\frac{3}{2}} } \frac{1}{\sqrt{2 E_p} }
+\] Pluging in the complex scalar field $\Psi^\dagger(x) = \int_{\vec{p}} a^\dagger_{\vec{p}} e^{ipx} + b_{\vec{p}} e^{-ipx}$ the "antiparticle" contribution from $b_{\vec{p}}$ drops out. This is a problem, as we want to treat particlas and antiparticles on an equal footing.\\
+Feynman realized that to treat (anti-) particles the same way, we should generalize our $G^+$ to \[
+	G(x.y) = \bra{\Omega} T \hat{\phi }(x) \hat{\phi }^\dagger(y) \ket{\Omega}
+\] With the \emph{Time ordering symbol} $T$ (this is \emph{NOT} the time reversal operator). The time ordering symbol is defined as  \[
+T \hat{\phi}(x^0) \hat{\phi }(y^0) =  \begin{cases}
+	\hat{\phi}(x^0) \hat{\phi }(y^0) \text{ for } x^0 > y^0 \\
+	\hat{\phi}(y^0) \hat{\phi}(x^0) \text{ for } x^0 < y^0
+\end{cases} \\
+\] We can write this explicitly as \[
+G(x,y) = \theta(x^0 - y^0) \bra{\Omega}\phi(x) \phi^\dagger(y)\ket{\Omega} + \theta(y^0 - x^0) \bra{\Omega} \phi^\dagger(y) \phi(x) \ket{\Omega}
+\] 
+In the first term we create a particle at $y$ which then propagates to $x$ where it is anihilated. In the second term we create an antiparticle at $x$ which then propagates to $y$ where it is anihilated.\\
+The simplest examlpe of such a propagator is the so called \emph{free propagator} $G_0$, which is frequently called $\Delta$: \[
+	\Delta(x,y) = \bra{0} T \phi(x) \phi^\dagger(y) \ket{0}
+\] the explicit form is given by: \[
+\phi^\dagger(y) \ket{0} = \int_{\vec{p}} a_{\vec{p}}^\dagger \ket{0}e^{ipy} = \int_{\vec{p}} e^{ipy} \ket{\vec{p}}
+\] \[
+\bra{0} \phi(x) = \ldots = \int_{\vec{q}} \bra{\vec{q}} e^{-iqx}
+\] In total we get \[
+\bra{0} \phi(x) \phi^\dagger(y) \ket{0} = \int \frac{d^3p}{\left( 2 \pi \right)^3 2 E_{\vec{p}}} e^{-ip(x-y)} 
+\] \[
+\bra{0} \phi^\dagger(y) \phi(x) \ket{0} = \int \frac{d^3 p}{\left( 2 \pi \right)^3 2 E_{\vec{p}}} e^{ip(x-p)}
+\] To get the total propagator we need to add these two terms together (multiplied by the appropriate $\theta$ function). \[
+\Delta(x,y) = \int \frac{d^3p}{\left( 2 \pi \right)^3 2 E_{\vec{p}}} \theta(x^0 - y^0) e^{-ip(x-y)} + \int \frac{d^3p}{\left( 2 \pi \right)^3 2 E_{\vec{p}}} \theta(y^0 - x^0) e^{ip(x-y)} = \Delta_1 + \Delta_2
+\] It turns out that the free propagators $\Delta $, $\Delta_1$ and $\Delta_2$ are Green's functions (of the Klein Gordan equation) \[
+\left( \partial_\mu \partial^\mu + m^2   \right) \Delta(x-y) = -i \delta(x-y)
+\] 
+\chapter{ missing lecture - 13.04.21}
+\chapter{expanding the $S$-matrix - Feynman diagarms}
+Beginning of chapter missing - 13.04.21.\\
+\\
+Feynmans brilliance comes from the insight that we can draw a diargam for all of these terms. There is a 1:1 correspondence with the terms of the expansion for $\hat{S}$. The so called Feynman rules for translating a diagram (for the $\phi^4$-theory)
+\begin{itemize}
+  \item each vertex contributes a factor $-i\lambda$
+  \item each internal line gives a propagator $\Delta(x-y)$, where $x$ and $y$ are the start and endpoints.
+  \item external lines contribute $\begin{cases}
+      e^{ipx} \text{ if its an incomming line}\\
+      e^{iqx} \text{ if its an outgoing line}
+  \end{cases}$ 
+\item integratethe yosition of the verticies over spacetime
+\item divide by the symmetry factor $D \in \mathbb{N}$ (combinatorical factor)
+  \begin{itemize}
+    \item every loop gives a factor $D_i = 2$
+    \item every pair of verticies joined by  $n$ lines gives a  factor $D_i = n!$
+  \end{itemize}
+  The total $D$ is given by \[
+  D = \Pi D_i
+  \] 
+\end{itemize}
+In practise it's more convinient to work in momentum space. Feynman rules in momentum space
+\begin{itemize}
+  \item Each vertex gives a factor $-i \lambda$
+  \item each internal line has a directed momentum label $q_i$ and leads to a propagator $\frac{i}{q^2-m^2+i\epsilon}$ 
+  \item momentum is conserved in each vertex $\sum_{i \text{ at vertex}} q_i = 0$ 
+  \item integrate over unconstrained internal momenta
+  \item divide by the symmetry factor
+  \item include an overall 4-momentum conserving $\delta$-function ($\left( 2 \pi \right)^4 \delta(p-q$)
+\end{itemize}
+\chapter{Scattering theory}
+This chapter will not be discussed in detail in the lecture, it is mainly self reading material.\\
+We will look at an example "Yukana's" $\Psi^\dagger$ $\Psi$ $\phi$ theory (that resembles QED). \[
+  \mathcal{L} = \partial^\mu \Psi^\dagger \partial_\mu \Psi - m^2 \Psi^\dagger \Psi + \frac{1}{2} \partial_\mu \phi \partial^\mu \phi - \frac{1}{2} \mu \phi^2 - g \Psi^\dagger \Psi \phi
+\] We have "Psions" with mass $m$ and "Phions" with mass $\mu$.
+\[
+  \mathcal{H}_I = +g \Psi_I^\dagger \Psi_I \phi_I \text{ ; from now on we omit the index } I
+\] mode expansion \[
+\Psi(x) = \int_{\vec{p}} \frac{d^3p}{(2 \pi)^{\frac{3}{4}} \sqrt{2E_{\vec{p}}} } \left( a_{\vec{p}} e^{-ipx} + b_{\vec{p}}^\dagger e^{ipx} \right) 
+\] \[
+\phi(x) = \int_{\vec{q}} \frac{d^3q}{(2\pi)^{\frac{3}{2}} \sqrt{e E_{\vec{q}}} } \left( c_{\vec{q}} e^{-iqx} + c_{\vec{q}}^\dagger e^{iqx} \right) 
+\] 
+
+
+
+\end{document}
